@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
   entry: ['./app/index.js'],
   output: {
@@ -21,6 +23,13 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        API_URL: process.env.API_URL || 'http://localhost:3000/',
+      },
+    }),
+  ],
   devServer: {
     port: 3001,
     contentBase: './build',
