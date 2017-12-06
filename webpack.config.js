@@ -3,13 +3,17 @@ const webpack = require('webpack');
 module.exports = {
   entry: ['./src/index.js'],
   output: {
-    path: `${__dirname}/build`,
+    path: __dirname,
+    publicPath: '/',
     filename: 'bundle.js',
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.js|.jsx$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
@@ -32,7 +36,7 @@ module.exports = {
   ],
   devServer: {
     port: 3001,
-    contentBase: './build',
+    contentBase: './',
     inline: true,
   },
 };
