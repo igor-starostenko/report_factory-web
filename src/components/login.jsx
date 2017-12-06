@@ -1,20 +1,20 @@
-mport React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { createPost } from "../actions";
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login } from '../actions';
 
 class Login extends Component {
   renderField(field) {
     const { meta: { touched, error } } = field;
-    const className = `form-group ${touched && error ? "has-danger" : ""}`;
+    const className = `form-group ${touched && error ? 'has-danger' : ''}`;
 
     return (
       <div className={className}>
         <label>{field.label}</label>
-        <input className="form-control" type="text" {...field.input} />
-        <div className="text-help">
-          {touched ? error : ""}
+        <input className='form-control' type='text' {...field.input} />
+        <div className='text-help'>
+          {touched ? error : ''}
         </div>
       </div>
     );

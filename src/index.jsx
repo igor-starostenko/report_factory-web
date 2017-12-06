@@ -7,13 +7,12 @@ import promise from 'redux-promise';
 
 import reducers from './reducers';
 import Home from './components/home';
-// import Login from './components/login';
+import Login from './components/login';
 // import ProjectsIndex from './components/projects_index';
 // import ProjectsShow from './components/projects_show';
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
-// <Route path="/login" component={Login} />
 // <Route path="/projects/:name" component={ProjectsShow} />
 // <Route path="/projects" component={ProjectsIndex} />
 ReactDOM.render(
@@ -21,6 +20,7 @@ ReactDOM.render(
     <BrowserRouter>
       <div>
         <Switch>
+          <Route path="/login" component={Login} />
           <Route path="/" component={Home} />
         </Switch>
       </div>
