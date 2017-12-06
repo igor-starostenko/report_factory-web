@@ -1,4 +1,4 @@
-import { UsersClient } from './../api/users_client';
+import { UsersClient } from './api/users_client';
 
 const apiUrl = process.env.API_URL;
 const api = new UsersClient(apiUrl);
