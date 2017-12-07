@@ -1,4 +1,4 @@
-import { UsersClient } from '../api/users_client';
+import UsersClient from '../api/users_client';
 
 export const LOGIN = 'LOGIN';
 

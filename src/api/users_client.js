@@ -1,11 +1,10 @@
 import ApiClient from './api_client';
 
-export class UsersClient extends ApiClient {
+class UsersClient extends ApiClient {
   getAllUsers(xApiKey) {
     const url = `${this.baseUrl}api/v1/users`;
     const headers = ApiClient.formatHeaders(xApiKey);
-    const request = new Request(url, { method: 'GET', headers });
-    return ApiClient.processRequest(request);
+    return fetch(new Request(url, { method: 'GET', headers }));
   }
 
   loginUser(email, password) {
@@ -13,8 +12,7 @@ export class UsersClient extends ApiClient {
     const headers = ApiClient.formatHeaders();
     const attributes = { email, password };
     const body = ApiClient.formatPayload('user', attributes);
-    const request = new Request(url, { method: 'POST', body, headers });
-    return ApiClient.processRequest(request);
+    return fetch(new Request(url, { method: 'POST', body, headers }));
   }
 
   createUser(name, email, password, type = 'Tester', xApiKey) {
@@ -24,15 +22,13 @@ export class UsersClient extends ApiClient {
       name, email, password, type,
     };
     const body = ApiClient.formatPayload(type, attributes);
-    const request = new Request(url, { method: 'POST', body, headers });
-    return ApiClient.processRequest(request);
+    return fetch(new Request(url, { method: 'POST', body, headers }));
   }
 
   showUser(id, xApiKey) {
     const url = `${this.baseUrl}api/v1/users/${id}`;
     const headers = ApiClient.formatHeaders(xApiKey);
-    const request = new Request(url, { method: 'GET', headers });
-    return ApiClient.processRequest(request);
+    return fetch(new Request(url, { method: 'GET', headers }));
   }
 
   updateUser(id, name, email, password, type = 'Tester', xApiKey) {
@@ -42,22 +38,19 @@ export class UsersClient extends ApiClient {
       name, email, password, type,
     };
     const body = ApiClient.formatPayload(type, attributes);
-    const request = new Request(url, { method: 'PUT', body, headers });
-    return ApiClient.processRequest(request);
+    return fetch(new Request(url, { method: 'PUT', body, headers }));
   }
 
   deleteUser(id, xApiKey) {
     const url = `${this.baseUrl}api/v1/users/${id}`;
     const headers = ApiClient.formatHeaders(xApiKey);
-    const request = new Request(url, { method: 'DELETE', headers });
-    return ApiClient.processRequest(request);
+    return fetch(new Request(url, { method: 'DELETE', headers }));
   }
 
   getAllUserReports(id, xApiKey) {
     const url = `${this.baseUrl}api/v1/users/${id}/reports`;
     const headers = ApiClient.formatHeaders(xApiKey);
-    const request = new Request(url, { method: 'GET', headers });
-    return ApiClient.processRequest(request);
+    return fetch(new Request(url, { method: 'GET', headers }));
   }
 }
 

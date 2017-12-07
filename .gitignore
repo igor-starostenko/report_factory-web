@@ -1,6 +1,6 @@
 # Ignore system files
 .DS_Store
-*.swp
+*.sw*
 tags
 
 /node_modules

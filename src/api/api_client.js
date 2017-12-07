@@ -6,12 +6,6 @@ class ApiClient {
     this.baseUrl = ApiHelper.formatUrl(url);
   }
 
-  static processRequest(request) {
-    return fetch(request)
-      .then(response => response.json())
-      .catch(err => `Fetch API failed: ${err}`);
-  }
-
   static formatPayload(type, attributes) {
     return JSON.stringify({ data: { type, attributes } });
   }
