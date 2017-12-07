@@ -7,7 +7,7 @@ const api = new UsersClient(apiUrl);
 // const adminXApiKey = 'b6922679-446e-4e12-8d4f-26cface97a02';
 // const testerXApiKey = '9e04136f-c71d-4d16-924a-216e9af08903';
 
-export function login({ email, password }) {
+export function signIn({ email, password }) {
   const response = api.loginUser(email, password);
 
   return {

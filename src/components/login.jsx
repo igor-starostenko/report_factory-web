@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { login } from '../actions';
+import { signIn } from '../actions';
 
 class Login extends Component {
-  renderField(field) {
+  static renderField(field) {
     const { meta: { touched, error } } = field;
     const className = `form-group ${touched && error ? 'has-danger' : ''}`;
 
     return (
       <div className={className}>
         <label>{field.label}</label>
-        <input className='form-control' type='text' {...field.input} />
-        <div className='text-help'>
+        <input className="form-control" type="text" {...field.input} />
+        <div className="text-help">
           {touched ? error : ''}
         </div>
       </div>
@@ -21,9 +21,7 @@ class Login extends Component {
   }
 
   onSubmit(values) {
-    this.props.createPost(values, () => {
-      this.props.history.push("/");
-    });
+    this.props.signIn(values).then(this.props.history.push('/'));
   }
 
   render() {
@@ -32,19 +30,14 @@ class Login extends Component {
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <Field
-          label="Title For Post"
-          name="title"
-          component={this.renderField}
+          label="Email"
+          name="email"
+          component={Login.renderField}
         />
         <Field
-          label="Categories"
-          name="categories"
-          component={this.renderField}
-        />
-        <Field
-          label="Post Content"
-          name="content"
-          component={this.renderField}
+          label="Password"
+          name="password"
+          component={Login.renderField}
         />
         <button type="submit" className="btn btn-primary">Submit</button>
         <Link to="/" className="btn btn-danger">Cancel</Link>
@@ -54,18 +47,13 @@ class Login extends Component {
 }
 
 function validate(values) {
-  // console.log(values) -> { title: 'asdf', categories: 'asdf', content: 'asdf' }
   const errors = {};
 
-  // Validate the inputs from 'values'
-  if (!values.title) {
-    errors.title = "Enter a title";
+  if (!values.email) {
+    errors.email = 'Enter your email';
   }
-  if (!values.categories) {
-    errors.categories = "Enter some categories";
-  }
-  if (!values.content) {
-    errors.content = "Enter some content please";
+  if (!values.password) {
+    errors.categories = 'Enter your password';
   }
 
   // If errors is empty, the form is fine to submit
@@ -75,5 +63,5 @@ function validate(values) {
 
 export default reduxForm({
   validate,
-  form: "PostsNewForm"
-})(connect(null, { createPost })(Login));
+  form: 'LoginForm',
+})(connect(null, { signIn })(Login));
