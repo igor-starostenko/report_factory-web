@@ -21,7 +21,7 @@ class Login extends Component {
   }
 
   onSubmit(values) {
-    this.props.signIn(values).then(this.props.history.push('/'));
+    this.props.signIn(values).then(this.props.history.push('/projects'));
   }
 
   render() {
