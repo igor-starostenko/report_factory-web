@@ -3,9 +3,15 @@ import { GET_PROJECTS } from '../actions';
 
 export default function (state = {}, action) {
   switch (action.type) {
-    case GET_PROJECTS:
-      return _.mapKeys(action.payload.data, 'id');
-    default:
+    case GET_PROJECTS: {
+      const { data } = action.payload;
+      if (data) {
+        return _.mapKeys(data, 'id');
+      }
+      return action.payload;
+    }
+    default: {
       return state;
+    }
   }
 }

@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withCookies } from 'react-cookie';
 import { getProjects } from '../actions';
 
 class Projects extends Component {
   componentDidMount() {
-    const xApiKey = '9e04136f-c71d-4d16-924a-216e9af08903';
+    const { cookies } = this.props;
+    const xApiKey = cookies.get('X-API-KEY');
     this.props.getProjects(xApiKey);
   }
 
   render() {
-    if (!this.props.projects) {
-      return
-    }
-
     console.log(this.props.projects);
+    if (this.props.error) {
+      return this.props.history.push('/login');
+    }
 
     return (
       <div>
@@ -27,4 +28,4 @@ function mapStateToProps(state) {
   return { projects: state.projects };
 }
 
-export default connect(mapStateToProps, { getProjects })(Projects);
+export default connect(mapStateToProps, { getProjects })(withCookies(Projects));
