@@ -5,7 +5,10 @@
         "fetch": false,
         "window": false,
         "Request": false,
-        "Headers": false
+        "Headers": false,
+        "describe": false,
+        "it": false,
+        "cy": false
     },
     "rules": {
         "react/prop-types": "off",

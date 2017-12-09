@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "cypress-open": "cypress open"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "cypress": "^1.1.4",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.4"
   },
