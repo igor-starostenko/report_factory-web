@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
 import { getProjects } from '../actions';
 
 class Projects extends Component {
   componentDidMount() {
-    this.waitForProjects();
+    this.waitForApiKey(this.props.getProjects);
   }
 
-  getApiKey() {
-    return this.props.cookies.get('X-API-KEY');
-  }
-
-  waitForProjects(times = 10) {
-    const xApiKey = this.getApiKey();
+  waitForApiKey(callback, times = 10) {
+    const xApiKey = Cookies.get('X-API-KEY');
     if (!xApiKey) {
       const remaining = times - 1;
       if (times === 0) {
         throw new Error('X-API-KEY undefined');
       }
-      setTimeout(() => { this.waitForProjects(remaining); }, 100);
+      setTimeout(() => {
+        this.waitForApiKey(callback, remaining);
+      }, 150);
     } else {
-      this.props.getProjects(xApiKey);
+      callback(xApiKey);
     }
   }
 
@@ -42,4 +40,4 @@ function mapStateToProps(state) {
   return { projects: state.projects };
 }
 
-export default connect(mapStateToProps, { getProjects })(withCookies(Projects));
+export default connect(mapStateToProps, { getProjects })(Projects);

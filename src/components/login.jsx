@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withCookies } from 'react-cookie';
 import { signIn } from '../actions';
 
 class Login extends Component {
@@ -23,14 +22,7 @@ class Login extends Component {
 
   onSubmit(values) {
     this.props.signIn(values)
-      .then(response => this.saveSession(response))
       .then(this.props.history.push('/projects'));
-  }
-
-  saveSession(user) {
-    const { cookies } = this.props;
-    const xApiKey = user.payload.data.attributes.api_key;
-    cookies.set('X-API-KEY', xApiKey, { path: '/' });
   }
 
   render() {
@@ -80,4 +72,4 @@ function mapStateToProps(state) {
 export default reduxForm({
   validate,
   form: 'LoginForm',
-})(connect(mapStateToProps, { signIn })(withCookies(Login)));
+})(connect(mapStateToProps, { signIn })(Login));
