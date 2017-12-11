@@ -4,7 +4,7 @@ import UsersReducers from './users_reducers';
 import ProjectsReducers from './projects_reducers';
 
 const rootReducer = combineReducers({
-  users: UsersReducers,
+  currentUser: UsersReducers,
   projects: ProjectsReducers,
   form: formReducer,
 });
