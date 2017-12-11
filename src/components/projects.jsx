@@ -6,21 +6,30 @@ import _ from 'lodash';
 import { getProjects } from '../actions';
 
 class Projects extends Component {
-  // componentWillMount() {
-  //   if (!this.props.currentUser.type) {
-  //     this.props.history.push('/login');
-  //   }
-  // }
-
-  componentDidMount() {
-    this.waitForApiKey(this.props.getProjects);
+  componentWillMount() {
+    if (!this.props.currentUser.data.type) {
+      this.props.history.push('/login');
+    }
   }
 
-  // componentWillUpdate() {
-  //   if (!this.props.currentUser.type) {
-  //     this.props.history.push('/login');
-  //   }
-  // }
+  componentDidMount() {
+    const xApiKey = this.getApiKey();
+    this.props.getProjects(xApiKey);
+  }
+
+  componentWillUpdate() {
+    if (!this.props.currentUser.data.type) {
+      this.props.history.push('/login');
+    }
+  }
+
+  getApiKey() {
+    let xApiKey = Cookies.get('X-API-KEY');
+    if (!xApiKey) {
+      xApiKey = this.props.currentUser.data.attributes.api_key;
+    }
+    return xApiKey;
+  }
 
   waitForApiKey(callback, times = 10) {
     const xApiKey = Cookies.get('X-API-KEY');

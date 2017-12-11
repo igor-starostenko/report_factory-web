@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signIn } from '../actions';
@@ -22,7 +23,11 @@ class Login extends Component {
 
   onSubmit(values) {
     this.props.signIn(values)
-      .then(this.props.history.push('/projects'));
+      .then((res) => {
+        const xApiKey = res.payload.data.attributes.api_key;
+        Cookies.set('X-API-KEY', xApiKey, { expires: 7 });
+        this.props.history.push('/projects');
+      });
   }
 
   render() {
