@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
 
 import Home from './components/home';
@@ -10,13 +10,17 @@ import Login from './components/login';
 import NotFound from './components/not_found';
 import Project from './components/project';
 import Projects from './components/projects';
+import history from './history';
 import reducers from './reducers';
 
-const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+require('babel-core/register');
+require('babel-polyfill');
+
+const store = createStore(reducers, applyMiddleware(promise));
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
-    <BrowserRouter>
+  <Provider store={store}>
+    <Router history={history}>
       <div>
         <Switch>
           <Route path="/login" component={Login} />
@@ -26,8 +30,10 @@ ReactDOM.render(
           <Route path="*" component={NotFound} />
         </Switch>
       </div>
-    </BrowserRouter>
+    </Router>
   </Provider>,
   document.querySelector('.container'),
 );
+
+export default store;
 
