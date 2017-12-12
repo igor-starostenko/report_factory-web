@@ -26,7 +26,11 @@ class Projects extends Component {
   getApiKey() {
     let xApiKey = Cookies.get('X-API-KEY');
     if (!xApiKey) {
-      xApiKey = this.props.currentUser.data.attributes.api_key;
+      const { data } = this.props.currentUser;
+      if (!data) {
+        return this.props.history.push('/login');
+      }
+      xApiKey = data.attributes.api_key;
     }
     return xApiKey;
   }
