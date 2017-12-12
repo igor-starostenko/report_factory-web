@@ -7,7 +7,7 @@ import { getProjects } from '../actions';
 
 class Projects extends Component {
   componentWillMount() {
-    if (!this.props.currentUser.data.type) {
+    if (!this.getApiKey()) {
       this.props.history.push('/login');
     }
   }
@@ -18,7 +18,7 @@ class Projects extends Component {
   }
 
   componentWillUpdate() {
-    if (!this.props.currentUser.data.type) {
+    if (!this.getApiKey()) {
       this.props.history.push('/login');
     }
   }

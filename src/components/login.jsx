@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { signIn } from '../actions';
 
 class Login extends Component {
