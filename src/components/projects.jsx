@@ -14,8 +14,8 @@ class Projects extends Component {
 
   renderProjects() {
     return _.map(this.props.projects, (project) => {
-      const projectPath = `/projects/${project.id}`;
       const projectName = project.attributes.project_name;
+      const projectPath = `/projects/${projectName}`;
       return (
         <button className="list-group-item" key={project.id}>
           <Link to={projectPath}>{projectName}</Link>

@@ -6,7 +6,7 @@ export default (state = {}, action) => {
     case GET_PROJECTS: {
       const { data } = action.payload;
       if (data) {
-        return _.mapKeys(data, 'id');
+        return _.mapKeys(data, obj => obj.attributes.project_name);
       }
       return action.payload;
     }
