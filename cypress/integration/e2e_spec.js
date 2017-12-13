@@ -17,5 +17,7 @@ describe('e2e flow', () => {
     cy.get('.btn[type="submit"]').click();
 
     cy.get('h1').should('have.text', 'Projects');
+
+    cy.get('.list-group button:nth-child(1)>a').click();
   });
 });

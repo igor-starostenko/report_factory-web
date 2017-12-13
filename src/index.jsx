@@ -25,8 +25,8 @@ ReactDOM.render(
       <div>
         <Switch>
           <Route path="/login" component={Login} />
-          <Route path="/projects" component={RequireAuth(Projects)} />
           <Route path="/projects/:name" component={RequireAuth(Project)} />
+          <Route path="/projects" component={RequireAuth(Projects)} />
           <Route exact path="/" component={Home} />
           <Route path="*" component={NotFound} />
         </Switch>
