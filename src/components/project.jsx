@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import { getProject, getReports } from '../actions';
+import { getProject } from '../actions';
 
 class Project extends Component {
   componentDidMount() {
-    const { name } = this.props.match.params;
-    // this.props.fetchproject(id);
+    console.log(this.props.project);
+    if (!this.props.project) {
+      const { xApiKey } = this.props;
+      const { name } = this.props.match.params;
+      this.props.getProject(name, xApiKey);
+    }
   }
 
   render() {
@@ -16,26 +20,27 @@ class Project extends Component {
       return <div>Loading...</div>;
     }
 
-    const { date } = project.attributes;
+    const { date } = project.data.attributes;
     const createdAt = date.created_at;
     const updatedAt = date.updated_at;
 
     return (
       <div>
-        <h1>{project.attributes.project_name}</h1>
+        <h1>{project.data.attributes.project_name}</h1>
         <h6>Created: {createdAt}</h6>
         <h6>Updated: {updatedAt}</h6>
-        <Link to="/projects">Back To Projects</Link>
+        <Link to="/projects">Back</Link>
         <button className="btn btn-danger pull-xs-right">
-          Update project
+          Edit project
         </button>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ projects }, ownProps) => ({
-  project: projects[ownProps.match.params.name],
+const mapStateToProps = (state, ownProps) => ({
+  project: state.projects[ownProps.match.params.name],
+  xApiKey: state.xApiKey,
 });
 
-export default connect(mapStateToProps, { })(Project);
+export default connect(mapStateToProps, { getProject })(Project);

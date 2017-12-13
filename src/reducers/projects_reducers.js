@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET_PROJECTS } from '../actions';
+import { GET_PROJECT, GET_PROJECTS } from '../actions';
 
 export default (state = {}, action) => {
   switch (action.type) {
@@ -7,6 +7,16 @@ export default (state = {}, action) => {
       const { data } = action.payload;
       if (data) {
         return _.mapKeys(data, obj => obj.attributes.project_name);
+      }
+      return action.payload;
+    }
+    case GET_PROJECT: {
+      const { data } = action.payload;
+      if (data) {
+        const name = data.attributes.project_name;
+        console.log(state);
+        // console.log({ [name]: action.payload });
+        return { [name]: action.payload };
       }
       return action.payload;
     }

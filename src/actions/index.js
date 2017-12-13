@@ -6,6 +6,7 @@ import ProjectsClient from '../api/projects_client';
 
 export const AUTH = 'authenticate';
 export const LOGIN = 'login';
+export const GET_PROJECT = 'get_project';
 export const GET_PROJECTS = 'get_projects';
 
 const apiUrl = process.env.API_URL;
@@ -42,6 +43,15 @@ export const getProjects = (xApiKey) => {
 
   return {
     type: GET_PROJECTS,
+    payload: request.then(response => response.json()),
+  };
+};
+
+export const getProject = (name, xApiKey) => {
+  const request = projectsClient.showProject(name, xApiKey);
+
+  return {
+    type: GET_PROJECT,
     payload: request.then(response => response.json()),
   };
 };
