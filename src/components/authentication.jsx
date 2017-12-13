@@ -20,22 +20,6 @@ export default (ComposedComponent) => {
       }
     }
 
-    waitForApiKey(callback, times = 10) {
-      const xApiKey = Cookies.get('X-API-KEY');
-      if (!xApiKey) {
-        const remaining = times - 1;
-        if (times === 0) {
-          this.props.history.push('/login');
-          throw new Error('X-API-KEY undefined');
-        }
-        setTimeout(() => {
-          this.waitForApiKey(callback, remaining);
-        }, 150);
-      } else {
-        callback(xApiKey);
-      }
-    }
-
     render() {
       return <ComposedComponent {...this.props} />;
     }

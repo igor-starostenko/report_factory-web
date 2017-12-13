@@ -55,7 +55,7 @@ class Login extends Component {
   }
 }
 
-function validate(values) {
+const validate = (values) => {
   const errors = {};
 
   if (!values.email) {
@@ -68,11 +68,11 @@ function validate(values) {
   // If errors is empty, the form is fine to submit
   // If errors has *any* properties, redux form assumes form is invalid
   return errors;
-}
+};
 
-function mapStateToProps(state) {
-  return { users: state.users };
-}
+const mapStateToProps = state => ({
+  users: state.users,
+});
 
 export default reduxForm({
   validate,

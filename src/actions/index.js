@@ -23,11 +23,11 @@ export const getApiKey = (user) => {
   }
   return {
     type: AUTH,
-    xApiKey,
+    xApiKey: xApiKey || null,
   };
 };
 
-export function signIn({ email, password }) {
+export const signIn = ({ email, password }) => {
   const response = usersClient.loginUser(email, password)
     .then(res => res.json());
 
@@ -35,17 +35,16 @@ export function signIn({ email, password }) {
     type: LOGIN,
     payload: response,
   };
-}
+};
 
-export function getProjects(xApiKey) {
+export const getProjects = (xApiKey) => {
   const request = projectsClient.getAllProjects(xApiKey);
 
   return {
     type: GET_PROJECTS,
     payload: request.then(response => response.json()),
   };
-}
-
+};
 
 // api.getAllUsers(testerXApiKey);
 // api.loginUser('tester@mailinator.com', 'Qwerty12');

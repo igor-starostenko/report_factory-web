@@ -1,6 +1,6 @@
 import { AUTH } from '../actions';
 
-export default function (state = {}, action) {
+export default (state = {}, action) => {
   switch (action.type) {
     case AUTH: {
       return action.xApiKey;
@@ -9,4 +9,4 @@ export default function (state = {}, action) {
       return state;
     }
   }
-}
+};

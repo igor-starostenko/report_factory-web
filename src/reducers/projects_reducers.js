@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { GET_PROJECTS } from '../actions';
 
-export default function (state = {}, action) {
+export default (state = {}, action) => {
   switch (action.type) {
     case GET_PROJECTS: {
       const { data } = action.payload;
@@ -14,4 +14,4 @@ export default function (state = {}, action) {
       return state;
     }
   }
-}
+};

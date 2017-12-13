@@ -6,7 +6,10 @@ import { getProjects } from '../actions';
 
 class Projects extends Component {
   componentDidMount() {
-    this.props.getProjects(this.props.xApiKey);
+    const { xApiKey } = this.props;
+    if (xApiKey) {
+      this.props.getProjects(xApiKey);
+    }
   }
 
   renderProjects() {
@@ -35,9 +38,9 @@ class Projects extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { projects, xApiKey } = state;
-  return { projects, xApiKey };
-}
+const mapStateToProps = state => ({
+  projects: state.projects,
+  xApiKey: state.xApiKey,
+});
 
 export default connect(mapStateToProps, { getProjects })(Projects);
