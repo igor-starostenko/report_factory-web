@@ -1,8 +1,10 @@
-// import { store } from '../index';
+import Cookies from 'js-cookie';
+// import store from '../index';
 
 import UsersClient from '../api/users_client';
 import ProjectsClient from '../api/projects_client';
 
+export const AUTH = 'authenticate';
 export const LOGIN = 'login';
 export const GET_PROJECTS = 'get_projects';
 
@@ -11,6 +13,19 @@ const usersClient = new UsersClient(apiUrl);
 const projectsClient = new ProjectsClient(apiUrl);
 // const adminXApiKey = 'b6922679-446e-4e12-8d4f-26cface97a02';
 // const testerXApiKey = '9e04136f-c71d-4d16-924a-216e9af08903';
+
+export const getApiKey = (user) => {
+  let xApiKey = Cookies.get('X-API-KEY');
+  if (!xApiKey && user) {
+    if (user.data) {
+      xApiKey = user.data.attributes.api_key;
+    }
+  }
+  return {
+    type: AUTH,
+    xApiKey,
+  };
+};
 
 export function signIn({ email, password }) {
   const response = usersClient.loginUser(email, password)
