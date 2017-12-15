@@ -8,6 +8,7 @@
         "Headers": false,
         "describe": false,
         "it": false,
+        "expect": false,
         "cy": false
     },
     "rules": {
