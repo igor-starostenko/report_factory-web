@@ -14,9 +14,7 @@ export default (state = {}, action) => {
       const { data } = action.payload;
       if (data) {
         const name = data.attributes.project_name;
-        console.log(state);
-        // console.log({ [name]: action.payload });
-        return { [name]: action.payload };
+        return { ...state, [name]: action.payload.data };
       }
       return action.payload;
     }

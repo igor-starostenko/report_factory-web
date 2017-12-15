@@ -5,7 +5,6 @@ import { getProject } from '../actions';
 
 class Project extends Component {
   componentDidMount() {
-    console.log(this.props.project);
     if (!this.props.project) {
       const { xApiKey } = this.props;
       const { name } = this.props.match.params;
@@ -20,13 +19,13 @@ class Project extends Component {
       return <div>Loading...</div>;
     }
 
-    const { date } = project.data.attributes;
+    const { date } = project.attributes;
     const createdAt = date.created_at;
     const updatedAt = date.updated_at;
 
     return (
       <div>
-        <h1>{project.data.attributes.project_name}</h1>
+        <h1>{project.attributes.project_name}</h1>
         <h6>Created: {createdAt}</h6>
         <h6>Updated: {updatedAt}</h6>
         <Link to="/projects">Back</Link>
