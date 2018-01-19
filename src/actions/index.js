@@ -1,17 +1,22 @@
 import Cookies from 'js-cookie';
 // import store from '../index';
 
-import UsersClient from '../api/users_client';
 import ProjectsClient from '../api/projects_client';
+import ReportsClient from '../api/reports_client';
+import UsersClient from '../api/users_client';
 
 export const AUTH = 'authenticate';
 export const LOGIN = 'login';
-export const GET_PROJECT = 'get_project';
 export const GET_PROJECTS = 'get_projects';
+export const GET_PROJECT = 'get_project';
+export const GET_REPORTS = 'get_reports';
+export const GET_RSPEC_REPORTS = 'get_rspec_reports';
+export const GET_RSPEC_REPORT = 'get_rspec_report';
 
 const apiUrl = process.env.API_URL;
-const usersClient = new UsersClient(apiUrl);
 const projectsClient = new ProjectsClient(apiUrl);
+const reportsClient = new ReportsClient(apiUrl);
+const usersClient = new UsersClient(apiUrl);
 // const adminXApiKey = 'b6922679-446e-4e12-8d4f-26cface97a02';
 // const testerXApiKey = '9e04136f-c71d-4d16-924a-216e9af08903';
 
@@ -52,6 +57,33 @@ export const getProject = (name, xApiKey) => {
 
   return {
     type: GET_PROJECT,
+    payload: request.then(response => response.json()),
+  };
+};
+
+export const getReports = (projectName, xApiKey) => {
+  const request = reportsClient.getAllReports(projectName, xApiKey);
+
+  return {
+    type: GET_REPORTS,
+    payload: request.then(response => response.json()),
+  };
+};
+
+export const getRspecReports = (projectName, xApiKey) => {
+  const request = reportsClient.getAllRspecReports(projectName, xApiKey);
+
+  return {
+    type: GET_RSPEC_REPORTS,
+    payload: request.then(response => response.json()),
+  };
+};
+
+export const getRspecReport = (projectName, id, xApiKey) => {
+  const request = reportsClient.showRspecReport(projectName, id, xApiKey);
+
+  return {
+    type: GET_RSPEC_REPORT,
     payload: request.then(response => response.json()),
   };
 };
