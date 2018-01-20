@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import ReportsList from '../components/reports_list';
+import ReportsLineChart from './reports_line_chart';
+import ReportsList from './reports_list';
 import { getProject } from '../actions';
 
 class Project extends Component {
@@ -20,6 +21,7 @@ class Project extends Component {
       return <div>Loading...</div>;
     }
 
+    const projectName = project.attributes.project_name;
     const { date } = project.attributes;
     const createdAt = date.created_at;
     const updatedAt = date.updated_at;
@@ -27,7 +29,7 @@ class Project extends Component {
     return (
       <div>
         <div>
-          <h1>{project.attributes.project_name}</h1>
+          <h1>{projectName}</h1>
           <h6>Created: {createdAt}</h6>
           <h6>Updated: {updatedAt}</h6>
           <Link to="/projects">Back</Link>
@@ -36,7 +38,7 @@ class Project extends Component {
           </button>
         </div>
         <div>
-          <ReportsList projectName={this.props.match.params.name} />
+          <ReportsLineChart projectName={projectName} />
         </div>
       </div>
     );

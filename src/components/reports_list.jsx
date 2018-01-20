@@ -1,7 +1,7 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import { getReports } from '../actions';
 
 class ReportsList extends Component {
@@ -19,6 +19,8 @@ class ReportsList extends Component {
     if (!reports) {
       return <li>...</li>;
     }
+
+    console.log(this.props.projectName);
 
     return _.map(reports, report => (
       <li className="list-group-item" key={report.id}>
