@@ -17,9 +17,11 @@ class Projects extends Component {
       const projectName = project.attributes.project_name;
       const projectPath = `/projects/${projectName}`;
       return (
-        <button className="list-group-item" key={project.id}>
-          <Link to={projectPath}>{projectName}</Link>
-        </button>
+        <div className="row" key={project.id}>
+          <div className="well">
+            <Link to={projectPath}>{projectName}</Link>
+          </div>
+        </div>
       );
     });
   }
@@ -29,9 +31,7 @@ class Projects extends Component {
       <div>
         <h1>Projects</h1>
         <div>
-          <ul className="list-group">
-            {this.renderProjects()}
-          </ul>
+          {this.renderProjects()}
         </div>
       </div>
     );
