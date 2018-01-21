@@ -11,10 +11,6 @@ class RspecReports extends Component {
     const projectName = this.props.match.params.name;
     const projectUrl = `/projects/${projectName}`;
 
-    if (!projectName) {
-      return <div>Loading...</div>;
-    }
-
     return (
       <div>
         <div>

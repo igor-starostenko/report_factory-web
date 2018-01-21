@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
 
+import App from './components/app';
 import RequireAuth from './components/authentication';
 import Home from './components/home';
 import Login from './components/login';
@@ -24,14 +25,16 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <div>
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/projects/:name/rspec" component={RequireAuth(RspecReports)} />
-          <Route path="/projects/:name" component={RequireAuth(Project)} />
-          <Route path="/projects" component={RequireAuth(Projects)} />
-          <Route exact path="/" component={Home} />
-          <Route path="*" component={NotFound} />
-        </Switch>
+        <App path="/">
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/projects/:name/rspec" component={RequireAuth(RspecReports)} />
+            <Route path="/projects/:name" component={RequireAuth(Project)} />
+            <Route path="/projects" component={RequireAuth(Projects)} />
+            <Route exact path="/" component={Home} />
+            <Route path="*" component={NotFound} />
+          </Switch>
+        </App>
       </div>
     </Router>
   </Provider>,
