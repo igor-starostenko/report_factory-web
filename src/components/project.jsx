@@ -26,6 +26,8 @@ class Project extends Component {
     const createdAt = date.created_at;
     const updatedAt = date.updated_at;
 
+    const rspecUrl = `${this.props.match.url}/rspec`;
+
     return (
       <div>
         <div>
@@ -33,9 +35,9 @@ class Project extends Component {
           <h6>Created: {createdAt}</h6>
           <h6>Updated: {updatedAt}</h6>
           <Link to="/projects">Back</Link>
-          <button className="btn btn-danger pull-xs-right">
-            Edit project
-          </button>
+          <Link to={rspecUrl} className="btn btn-primary pull-xs-right">
+            View Reports
+          </Link>
         </div>
         <div>
           <ReportsLineChart projectName={projectName} />

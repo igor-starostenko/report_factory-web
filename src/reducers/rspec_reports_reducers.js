@@ -6,15 +6,14 @@ export default (state = {}, action) => {
     case GET_RSPEC_REPORTS: {
       const { data } = action.payload;
       if (data) {
-        return _.mapKeys(data, obj => obj.attributes.project_name);
+        return _.mapKeys(data, obj => obj.id);
       }
       return action.payload;
     }
     case GET_RSPEC_REPORT: {
       const { data } = action.payload;
       if (data) {
-        const name = data.attributes.project_name;
-        return { ...state, [name]: action.payload.data };
+        return { ...state, [data.id]: data };
       }
       return action.payload;
     }

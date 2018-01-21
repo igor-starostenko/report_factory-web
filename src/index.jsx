@@ -11,6 +11,7 @@ import Login from './components/login';
 import NotFound from './components/not_found';
 import Project from './components/project';
 import Projects from './components/projects';
+import RspecReports from './components/rspec_reports';
 import history from './history';
 import reducers from './reducers';
 
@@ -25,6 +26,7 @@ ReactDOM.render(
       <div>
         <Switch>
           <Route path="/login" component={Login} />
+          <Route path="/projects/:name/rspec" component={RequireAuth(RspecReports)} />
           <Route path="/projects/:name" component={RequireAuth(Project)} />
           <Route path="/projects" component={RequireAuth(Projects)} />
           <Route exact path="/" component={Home} />
@@ -37,4 +39,3 @@ ReactDOM.render(
 );
 
 export default store;
-
