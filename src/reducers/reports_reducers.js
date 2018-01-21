@@ -6,7 +6,8 @@ export default (state = {}, action) => {
     case GET_REPORTS: {
       const { data } = action.payload;
       if (data) {
-        return _.mapKeys(data, obj => obj.id);
+        const projectName = data[0].attributes.project_name;
+        return { ...state, [projectName]: _.mapKeys(data, obj => obj.id) };
       }
       return action.payload;
     }

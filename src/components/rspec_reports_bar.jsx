@@ -100,8 +100,8 @@ class RspecReportsBar extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  rspecReports: state.rspecReports,
+const mapStateToProps = (state, ownProps) => ({
+  rspecReports: state.rspecReports[ownProps.projectName],
   xApiKey: state.xApiKey,
 });
 

@@ -92,8 +92,8 @@ class ReportsLineChart extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  reports: state.reports,
+const mapStateToProps = (state, ownProps) => ({
+  reports: state.reports[ownProps.projectName],
   xApiKey: state.xApiKey,
 });
 

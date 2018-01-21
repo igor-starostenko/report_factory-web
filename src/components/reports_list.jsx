@@ -17,7 +17,7 @@ class ReportsList extends Component {
     const { reports } = this.props;
 
     if (!reports) {
-      return <li>...</li>;
+      return (<li>...</li>);
     }
 
     console.log(this.props.projectName);
@@ -41,8 +41,8 @@ class ReportsList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  reports: state.reports,
+const mapStateToProps = (state, ownProps) => ({
+  reports: state.reports[ownProps.projectName],
   xApiKey: state.xApiKey,
 });
 
