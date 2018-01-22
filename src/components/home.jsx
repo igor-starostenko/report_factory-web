@@ -1,7 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
+import { getApiKey } from '../actions';
 
-export default class Home extends Component {
+class Home extends Component {
+  renderLogin() {
+    const { currentUser, xApiKey, getApiKey } = this.props;
+    if (_.isEmpty(xApiKey)) {
+      if (getApiKey(currentUser).xApiKey) {
+        return (
+          <Link to="/login" className="btn btn-lg btn-info btn-fill">Login</Link>
+        )
+      }
+    }
+  }
+
   render() {
     return (
       <div className="text-center">
@@ -10,8 +24,15 @@ export default class Home extends Component {
         <p>
           See <a href="https://github.com/igor-starostenko/report_factory-web">github</a> for more info.
         </p>
-        <Link to="/login" className="btn btn-primary">Login</Link>
+        {this.renderLogin()}
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  currentUser: state.currentUser,
+  xApiKey: state.xApiKey,
+});
+
+export default connect(mapStateToProps, { getApiKey })(Home);

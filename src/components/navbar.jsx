@@ -2,8 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import { getApiKey } from '../actions';
 
 class Navbar extends Component {
+  renderAccount() {
+    const { currentUser, xApiKey, getApiKey } = this.props;
+    let linkUrl = "/account";
+    let linkText = "Account";
+    if (_.isEmpty(xApiKey)) {
+      if (!getApiKey(currentUser).xApiKey) {
+        linkUrl = "/login";
+        linkText = "Login";
+      }
+    }
+    return (
+      <li><Link to={linkUrl} className="btn btn-round btn-default">{linkText}</Link></li>
+    )
+  }
+
   render() {
     return(
       <div id="navbar-full">
@@ -18,7 +34,7 @@ class Navbar extends Component {
                   <li className="active"><Link to="/projects">Projects</Link></li>
                 </ul>
                 <ul className="nav navbar-nav navbar-right">
-                  <li><Link to="/account" className="btn btn-round btn-default">Account</Link></li>
+                  {this.renderAccount()}
                 </ul>
               </div>
             </div>
@@ -30,7 +46,8 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = state => ({
+  currentUser: state.currentUser,
   xApiKey: state.xApiKey,
 });
 
-export default connect(mapStateToProps, {})(Navbar);
+export default connect(mapStateToProps, { getApiKey })(Navbar);
