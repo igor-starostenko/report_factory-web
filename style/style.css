@@ -1,15 +1,14 @@
-// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
-@import "bootstrap-sprockets";
-@import "bootstrap";
-
-body {
-  overflow-x: hidden;
+#navbar {
+  margin-bottom: 100px;
 }
 
-.container {
-  width: 960px;
-  margin: 0 auto 40px;
-  overflow: hidden;
+.navbar-ct-yellow {
+  background-image:
+    linear-gradient(
+      to top right,
+      rgba(255, 165, 91, 0.9),
+      rgba(255, 212, 91, 0.9)
+  );
 }
 
 .well {

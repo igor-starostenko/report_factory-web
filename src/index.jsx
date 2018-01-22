@@ -38,7 +38,7 @@ ReactDOM.render(
       </div>
     </Router>
   </Provider>,
-  document.querySelector('.container'),
+  document.querySelector('.app'),
 );
 
 export default store;

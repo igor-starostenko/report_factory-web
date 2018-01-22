@@ -18,7 +18,7 @@ class Project extends Component {
     const { project } = this.props;
 
     if (!project) {
-      return <div>Loading...</div>;
+      return (<div>Loading...</div>);
     }
 
     const projectName = project.attributes.project_name;
