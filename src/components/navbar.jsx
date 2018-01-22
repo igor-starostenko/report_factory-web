@@ -17,7 +17,7 @@ class Navbar extends Component {
                 <ul className="nav navbar-nav">
                   <li className="active"><Link to="/projects">Projects</Link></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <ul className="nav navbar-nav navbar-right">
                   <li><Link to="/account" className="btn btn-round btn-default">Account</Link></li>
                 </ul>
               </div>
