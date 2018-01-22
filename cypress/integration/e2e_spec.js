@@ -30,12 +30,21 @@ describe('e2e flow', () => {
 
     cy.get('h1').should('have.text', 'Projects');
 
-    cy.get('.list-group button:nth-child(1)>a').click();
+    cy.get('.project').eq(0).click();
 
     // Project
     cy.get('h1').invoke('text').then((projectName) => {
       expect(projectName).to.be.a('String');
       cy.url().should('include', `projects/${projectName}`);
     });
+    cy.get('canvas').should('be.visible');
+
+    // Rspec Reports
+    cy.get('a.btn-primary').contains('View Reports').click();
+    cy.get('h1').invoke('text').then((projectName) => {
+      expect(projectName).to.be.a('String');
+      cy.url().should('include', `projects/${projectName}/rspec`);
+    });
+    cy.get('canvas').should('be.visible');
   });
 });
