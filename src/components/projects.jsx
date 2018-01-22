@@ -15,13 +15,15 @@ class Projects extends Component {
   renderProjects() {
     return _.map(this.props.projects, (project) => {
       const projectName = project.attributes.project_name;
+      const projectDescription = project.attributes.project_description;
       const projectPath = `/projects/${projectName}`;
       return (
-        <div className="row" key={project.id}>
-          <div className="well">
-            <Link to={projectPath}>{projectName}</Link>
+        <Link to={projectPath} className="project" key={project.id}>
+          <div className="project-body">
+            <div className="project-title">{projectName}</div>
+            <p className="project-text">{projectDescription}</p>
           </div>
-        </div>
+        </Link>
       );
     });
   }
@@ -30,8 +32,13 @@ class Projects extends Component {
     return (
       <div>
         <h1>Projects</h1>
-        <div>
+        <div className="project-container">
           {this.renderProjects()}
+          <Link to="/project/new" className="new-project project">
+            <div className="project-body">
+              <div className="project-title">Create Project</div>
+            </div>
+          </Link>
         </div>
       </div>
     );
