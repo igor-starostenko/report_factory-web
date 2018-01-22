@@ -20,36 +20,39 @@
 }
 
 .project-container > .project:nth-child(1n):not(.new-project) {
-  background-color: rgba(147, 211, 211, 0.1);
+  background-color: rgba(147, 211, 211, 0.2);
 }
 
 .project-container > .project:nth-child(2n):not(.new-project) {
-  background-color: rgba(211, 211, 147, 0.1);
+  background-color: rgba(211, 211, 147, 0.2);
 }
 
 .project-container > .project:nth-child(3n):not(.new-project) {
-  background-color: rgba(211, 147, 211, 0.1);
+  background-color: rgba(211, 147, 211, 0.2);
 }
 
 .project-container > .project:nth-child(4n):not(.new-project) {
-  background-color: rgba(198, 200, 243, 0.1);
+  background-color: rgba(198, 200, 243, 0.2);
 }
 
 .project {
-  color: rgba(100, 100, 100, 1);
+  color: rgba(100, 100, 100, 0.8);
   border: 1px solid rgba(0,0,0,.125);
   border-radius: 1.5rem;
   text-align: center;
   position: relative;
+  box-shadow: 2px 3px 8px 0px rgba(35, 41, 51, 0.2);
 }
 
 .new-project {
   background-color: rgba(200, 200, 200, 0.2);
+  color: rgba(100, 100, 100, 0.5);
+  font-style: italic;
 }
 
 .project-body {
   font-size: 2.5rem;
-  font-weight: 1000;
+  font-weight: 500;
   padding-bottom: 1.5em;
   position: absolute;
   top: 0;
@@ -60,7 +63,8 @@
   margin: auto;
 }
 
-.project-title {
+.new-project:hover {
+  color: rgba(100, 100, 100, 1);
 }
 
 .project:hover {
