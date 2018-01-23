@@ -1,4 +1,4 @@
-export class ApiHelper {
+class ApiHelper {
   static verifyUrl(url) {
     if (!url.includes('http')) {
       throw new Error(`Invalid API_URL: ${url}`);
@@ -12,3 +12,5 @@ export class ApiHelper {
     return `${url}/`;
   }
 }
+
+export default ApiHelper;

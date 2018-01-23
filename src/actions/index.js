@@ -7,6 +7,7 @@ import UsersClient from '../api/users_client';
 
 export const AUTH = 'authenticate';
 export const LOGIN = 'login';
+export const CREATE_PROJECT = 'create_project';
 export const GET_PROJECTS = 'get_projects';
 export const GET_PROJECT = 'get_project';
 export const GET_REPORTS = 'get_reports';
@@ -61,6 +62,15 @@ export const getProject = (name, xApiKey) => {
   };
 };
 
+export const createProject = (name, xApiKey) => {
+  const request = projectsClient.createProject(name, xApiKey);
+
+  return {
+    type: CREATE_PROJECT,
+    payload: request.then(response => response.json()),
+  }
+}
+
 export const getReports = (projectName, xApiKey) => {
   const request = reportsClient.getAllReports(projectName, xApiKey);
 
@@ -89,7 +99,6 @@ export const getRspecReport = (projectName, id, xApiKey) => {
 };
 
 // api.getAllUsers(testerXApiKey);
-// api.loginUser('tester@mailinator.com', 'Qwerty12');
 // api.createUser('New', 'testerNew@mailinator.com', 'Qwerty12', 'Tester', adminXApiKey);
 // api.showUser(1, testerXApiKey);
 // api.updateUser(5, 'Update', 'update_5@mailinator.com', 'Qwerty12', 'Tester', adminXApiKey);

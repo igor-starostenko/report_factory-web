@@ -1,4 +1,4 @@
-import { ApiHelper } from './api_helper';
+import ApiHelper from './api_helper';
 
 class ApiClient {
   constructor(url) {

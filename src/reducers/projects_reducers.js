@@ -1,8 +1,16 @@
 import _ from 'lodash';
-import { GET_PROJECT, GET_PROJECTS } from '../actions';
+import { CREATE_PROJECT, GET_PROJECT, GET_PROJECTS } from '../actions';
 
 export default (state = {}, action) => {
   switch (action.type) {
+    case CREATE_PROJECT: {
+      const { data } = action.payload;
+      if (data) {
+        const name = data.attributes.project_name;
+        return { ...state, [name]: action.payload.data };
+      }
+      return action.payload;
+    }
     case GET_PROJECTS: {
       const { data } = action.payload;
       if (data) {
