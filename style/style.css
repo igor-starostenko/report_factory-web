@@ -12,6 +12,15 @@
   box-shadow: 0 10px 30px -7px rgba(35, 41, 51, 0.2);
 }
 
+.navbar-link {
+  color: #FFFFFF;
+  opacity: 0.8;
+}
+
+.navbar-link:hover {
+  opacity: 1;
+}
+
 .project-container {
   display: grid;
   grid-gap: 1em;
