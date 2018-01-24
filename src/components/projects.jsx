@@ -13,7 +13,13 @@ class Projects extends Component {
   }
 
   renderProjects() {
-    return _.map(this.props.projects, (project) => {
+    const { projectsList } = this.props.projects;
+
+    if (!projectsList) {
+      return (<div>Loading</div>);
+    }
+
+    return _.map(projectsList.data, project => {
       const projectName = project.attributes.project_name;
       const projectDescription = project.attributes.project_description;
       const projectPath = `/projects/${projectName}`;
@@ -32,7 +38,7 @@ class Projects extends Component {
     return (
       <div>
         <h1>Projects</h1>
-        <div className="project-container">
+        <div className="projects-container">
           {this.renderProjects()}
           <Link to="/project/new" className="new-project project">
             <div className="project-body">
