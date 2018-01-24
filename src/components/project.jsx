@@ -14,33 +14,39 @@ class Project extends Component {
     }
   }
 
+  formatDate(date, options) {
+    const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
+    return date.toLocaleDateString('en-US', formatOptions);
+  }
+
   render() {
-    const { project } = this.props;
+    const { project, projectName } = this.props;
+
+    console.log(project);
 
     if (!project) {
       return (<div>Loading...</div>);
     }
 
-    const projectName = project.attributes.project_name;
-    const { date } = project.attributes;
-    const createdAt = date.created_at;
-    const updatedAt = date.updated_at;
+    const { date } = project.data.attributes;
+    const createdAt = new Date(date.created_at);
 
     const rspecUrl = `${this.props.match.url}/rspec`;
 
     return (
       <div>
-        <div>
-          <h1>{projectName}</h1>
-          <h6>Created: {createdAt}</h6>
-          <h6>Updated: {updatedAt}</h6>
-          <Link to="/projects">Back</Link>
-          <Link to={rspecUrl} className="btn btn-primary pull-xs-right">
-            View Reports
-          </Link>
-        </div>
-        <div>
-          <ReportsLineChart projectName={projectName} />
+        <Link to="/projects">Back to projects</Link>
+        <div className="project-container">
+          <div className="project-header">{projectName}</div>
+          <div className="project-since">since {this.formatDate(createdAt)}</div>
+          <div className="view-reports">
+            <Link to={rspecUrl} className="btn btn-primary">
+              View Reports
+            </Link>
+          </div>
+          <div className="chart">
+            <ReportsLineChart projectName={projectName} />
+          </div>
         </div>
       </div>
     );
@@ -48,7 +54,8 @@ class Project extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  project: state.projects[ownProps.match.params.name],
+  projectName: ownProps.match.params.name,
+  project: state.projects.activeProject,
   xApiKey: state.xApiKey,
 });
 

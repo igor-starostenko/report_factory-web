@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
+import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { createProject } from '../actions';
+import { createProject, createProjectSuccess, createProjectFailure,
+         resetNewProject } from '../actions';
 
 class NewProject extends Component {
   static renderField(field) {
@@ -21,12 +23,30 @@ class NewProject extends Component {
     );
   }
 
-  onSubmit(values) {
-    this.props.createProject(values.name, this.props.xApiKey)
-      .then((res) => {
-        this.props.history.push('/projects');
+  renderErrors() {
+    if (this.props.newProject) {
+      let i = 0;
+      return _.map(this.props.newProject.error, error => {
+        return (<li key={i++} className="error">{error.detail}</li>);
       });
+    }
   }
+
+  onSubmit(values, dispatch) {
+    return new Promise((resolve, reject) => {
+      dispatch(this.props.createProject(values.name, this.props.xApiKey))
+        .then(response => {
+          if(!response.payload.data) {
+            dispatch(createProjectFailure(response.payload));
+            reject(response.data); //this is for redux-form itself
+          } else {
+            dispatch(createProjectSuccess(response.payload));
+            resolve();//this is for redux-form itself
+            return this.props.history.push('/projects');
+          }
+      });
+     });
+    };
 
   render() {
     const { handleSubmit } = this.props;
@@ -40,6 +60,7 @@ class NewProject extends Component {
             name="name"
             component={NewProject.renderField}
           />
+          <ul>{this.renderErrors()}</ul>
           <button type="submit" className="btn btn-primary">Submit</button>
           <Link to="/projects" className="btn btn-danger">Cancel</Link>
         </form>
@@ -56,7 +77,7 @@ const validate = (values) => {
     errors.name = 'Enter Project Name.';
   }
 
-  if (!/\w{6,10}$/.test(name)) {
+  if (!/\w{3,11}$/.test(name)) {
     errors.name = 'Project Name has to be between 3 and 11 characters length.';
   }
 
@@ -69,12 +90,17 @@ const validate = (values) => {
   return errors;
 };
 
+const mapDispatchToProps = dispatch => ({
+  createProject: createProject,
+  resetMe: () => dispatch(resetNewProject()),
+});
+
 const mapStateToProps = state => ({
   xApiKey: state.xApiKey,
-  projects: state.projects,
+  newProject: state.projects.newProject,
 });
 
 export default reduxForm({
   validate,
   form: 'NewProjectForm',
-})(connect(mapStateToProps, { createProject })(NewProject));
+})(connect(mapStateToProps, mapDispatchToProps)(NewProject));

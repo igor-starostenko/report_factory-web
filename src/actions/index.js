@@ -7,7 +7,10 @@ import UsersClient from '../api/users_client';
 
 export const AUTH = 'authenticate';
 export const LOGIN = 'login';
+export const RESET_NEW_PROJECT = 'reset_new_project';
 export const CREATE_PROJECT = 'create_project';
+export const CREATE_PROJECT_SUCCESS = 'create_project_success';
+export const CREATE_PROJECT_FAILURE = 'create_project_failure';
 export const GET_PROJECTS = 'get_projects';
 export const GET_PROJECT = 'get_project';
 export const GET_REPORTS = 'get_reports';
@@ -62,6 +65,10 @@ export const getProject = (name, xApiKey) => {
   };
 };
 
+export const resetNewPost = () => ({
+  type: RESET_NEW_PROJECT,
+});
+
 export const createProject = (name, xApiKey) => {
   const request = projectsClient.createProject(name, xApiKey);
 
@@ -70,6 +77,16 @@ export const createProject = (name, xApiKey) => {
     payload: request.then(response => response.json()),
   }
 }
+
+export const createProjectSuccess = newProject => ({
+  type: CREATE_PROJECT_SUCCESS,
+  payload: newProject,
+});
+
+export const createProjectFailure = errors => ({
+  type: CREATE_PROJECT_FAILURE,
+  payload: errors,
+});
 
 export const getReports = (projectName, xApiKey) => {
   const request = reportsClient.getAllReports(projectName, xApiKey);
