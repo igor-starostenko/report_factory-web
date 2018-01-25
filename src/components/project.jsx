@@ -8,9 +8,8 @@ import { getProject } from '../actions';
 class Project extends Component {
   componentDidMount() {
     if (!this.props.project) {
-      const { xApiKey } = this.props;
-      const { name } = this.props.match.params;
-      this.props.getProject(name, xApiKey);
+      const { xApiKey, projectName } = this.props;
+      this.props.getProject(projectName, xApiKey);
     }
   }
 
@@ -30,6 +29,7 @@ class Project extends Component {
     const createdAt = new Date(date.created_at);
 
     const rspecUrl = `${this.props.match.url}/rspec`;
+    const editUrl = `${this.props.match.url}/edit`;
 
     return (
       <div>
@@ -40,8 +40,13 @@ class Project extends Component {
             <div className="project-since">since {this.formatDate(createdAt)}</div>
           </div>
           <div className="view-reports">
-            <Link to={rspecUrl} className="btn btn-primary btn-fill form-control">
+            <Link to={rspecUrl} className="btn btn-primary btn-fill">
               View Reports
+            </Link>
+          </div>
+          <div className="edit-project">
+            <Link to={editUrl} className="btn btn-warning btn-fill">
+              Edit Project
             </Link>
           </div>
           <div className="chart">

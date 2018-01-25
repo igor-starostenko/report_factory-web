@@ -48,6 +48,11 @@
 
 .view-reports {
   margin: auto;
+  grid-column: 9 / span 1;
+}
+
+.edit-project {
+  margin: auto;
   grid-column: 10 / -1;
 }
 
@@ -65,14 +70,15 @@ canvas {
   width: 100%;
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 767px) {
   .project-container {
     display: grid;
-    grid-template-rows: 70px auto 70px;
+    grid-template-rows: 70px auto 70px 70px;
     grid-template-areas:
         "h h h h h h h h h h h h"
         "c c c c c c c c c c c c"
-        "r r r r r r r r r r r r";
+        "r r r r r r r r r r r r"
+        "e e e e e e e e e e e e";
   }
 
   .project-header {
@@ -87,9 +93,12 @@ canvas {
     grid-area: r;
   }
 
-  .view-reports > a {
-    padding-right: 8em;
-    padding-left: 8em;
+  .edit-project {
+    grid-area: e;
+  }
+
+  .project-container a {
+    width: 30rem;
   }
 }
 
