@@ -90,11 +90,13 @@ class RspecReportsBar extends Component {
       scaleFontFamily: "'Helvetica Neue'",
       scaleFontSize: 15,
       scaleShowVerticalLines: false,
+      responsive: true,
+      maintainAspectRatio: false,
     }
 
     return (
       <div>
-        <BarChart data={chartData} options={options} width="600" height="500" />
+        <BarChart data={chartData} options={options} height="500" />
       </div>
     );
   }

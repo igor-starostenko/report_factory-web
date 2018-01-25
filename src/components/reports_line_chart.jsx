@@ -73,11 +73,11 @@ class ReportsLineChart extends Component {
     	datasets: [
     		{
     			label: this.props.projectName,
-    			fillColor: "rgba(220,220,220,0.2)",
-    			strokeColor: "rgba(220,220,220,1)",
-    			pointColor: "rgba(220,220,220,1)",
+    			fillColor: "rgba(255,212,91,0.4)",
+    			strokeColor: "rgba(255,165,91,0.9)",
+    			pointColor: "rgba(255,165,91,1)",
     			pointStrokeColor: "#fff",
-    			pointHighlightFill: "#fff",
+    			pointHighlightFill: "rgba(255,165,91,1)",
     			pointHighlightStroke: "rgba(220,220,220,1)",
     			data: data
     		}
