@@ -22,7 +22,7 @@ class Project extends Component {
     const { project, projectName } = this.props;
 
     if (!project) {
-      return (<div>Loading...</div>);
+      return (<div className="loading">Loading...</div>);
     }
 
     const { date } = project.data.attributes;

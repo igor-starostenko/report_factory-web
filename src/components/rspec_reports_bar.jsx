@@ -63,7 +63,7 @@ class RspecReportsBar extends Component {
     const displayedNumber = 10;
     const reports = this.lastReports(displayedNumber);
     if(_.isEmpty(reports)) {
-      return (<div>Loading...</div>);
+      return (<div className="loading">Loading...</div>);
     }
     const time = this.getReportTime(reports, displayedNumber);
     const data = this.getDuration(reports, displayedNumber);
