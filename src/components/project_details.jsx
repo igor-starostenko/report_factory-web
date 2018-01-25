@@ -5,7 +5,7 @@ import ReportsLineChart from './reports_line_chart';
 import ReportsList from './reports_list';
 import { getProject } from '../actions';
 
-class Project extends Component {
+class ProjectDetails extends Component {
   componentDidMount() {
     if (!this.props.project) {
       const { xApiKey } = this.props;
@@ -20,7 +20,7 @@ class Project extends Component {
   }
 
   render() {
-    const { project, projectName } = this.props;
+    const { project } = this.props;
 
     if (!project) {
       return (<div>Loading...</div>);
@@ -32,31 +32,20 @@ class Project extends Component {
     const rspecUrl = `${this.props.match.url}/rspec`;
 
     return (
-      <div>
-        <Link to="/projects">Back to projects</Link>
-        <div className="project-container">
-          <div className="project-header">
-            <div className="project-name">{projectName}</div>
-            <div className="project-since">since {this.formatDate(createdAt)}</div>
-          </div>
-          <div className="view-reports">
-            <Link to={rspecUrl} className="btn btn-primary btn-fill form-control">
-              View Reports
-            </Link>
-          </div>
-          <div className="chart">
-            <ReportsLineChart projectName={projectName} />
-          </div>
+      <div className="project-container">
+        <div className="project-header">
+          <div className="project-name">{this.props.match.params.name}</div>
+          <div className="project-since">since {this.formatDate(createdAt)}</div>
         </div>
+        {this.props.content}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  projectName: ownProps.match.params.name,
   project: state.projects.activeProject,
   xApiKey: state.xApiKey,
 });
 
-export default connect(mapStateToProps, { getProject })(Project);
+export default connect(mapStateToProps, { getProject })(ProjectDetails);

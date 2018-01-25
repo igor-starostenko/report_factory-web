@@ -13,12 +13,14 @@ class RspecReports extends Component {
 
     return (
       <div>
-        <div>
-          <h1>{projectName}</h1>
-          <Link to={projectUrl}>Back</Link>
-        </div>
-        <div>
-          <RspecReportsBar projectName={projectName} />
+        <Link to={projectUrl}>Back to project</Link>
+        <div className="project-container">
+          <div className="project-header">
+            <div className="project-name">{projectName}</div>
+          </div>
+          <div className="chart">
+            <RspecReportsBar projectName={projectName} />
+          </div>
         </div>
       </div>
     );
