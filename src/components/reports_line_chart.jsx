@@ -84,9 +84,14 @@ class ReportsLineChart extends Component {
     	]
     };
 
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+    }
+
     return (
       <div>
-        <LineChart data={chartData} options={null} width="600" height="250" />
+        <LineChart data={chartData} options={options} height="320" />
       </div>
     );
   }
