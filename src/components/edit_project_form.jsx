@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { updateProject, createProjectSuccess, createProjectFailure,
-         resetEditProject } from '../actions';
+import { editProjectSuccess, editProjectFailure, resetEditProject } from '../actions';
 
-class EditProject extends Component {
+class EditProjectForm extends Component {
   static renderField(field) {
     const { meta: { touched, error } } = field;
     const className = `form-group ${touched && error ? 'has-danger' : ''}`;
@@ -24,24 +22,31 @@ class EditProject extends Component {
   }
 
   renderErrors() {
-    if (this.props.newProject) {
+    if (this.props.editProject) {
       let i = 0;
-      return _.map(this.props.newProject.error, error => {
+      return _.map(this.props.editProject.error, error => {
         return (<li key={i++} className="error">{error.detail}</li>);
       });
     }
   }
 
+  create() {
+
+  }
+
+  update() {
+
+  }
+
   onSubmit(values, dispatch) {
     return new Promise((resolve, reject) => {
-      const { projectName, xApiKey } = this.props;
-      dispatch(this.props.updateProject(projectName, values.name, xApiKey))
+      dispatch(this.props.action(values.name))
         .then(response => {
           if(!response.payload.data) {
-            dispatch(createProjectFailure(response.payload));
+            dispatch(editProjectFailure(response.payload));
             reject(response.data); //this is for redux-form itself
           } else {
-            dispatch(createProjectSuccess(response.payload));
+            dispatch(editProjectSuccess(response.payload));
             resolve();//this is for redux-form itself
             return this.props.history.push('/projects');
           }
@@ -50,16 +55,16 @@ class EditProject extends Component {
     };
 
   render() {
-    const { handleSubmit, projectName } = this.props;
+    const { handleSubmit, title } = this.props;
 
     return (
       <div>
-        <h1>Edit {projectName} project</h1>
+        <h1>{title}</h1>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Field
             label="Project Name"
             name="name"
-            component={CreateProject.renderField}
+            component={EditProjectForm.renderField}
           />
           <ul>{this.renderErrors()}</ul>
           <button type="submit" className="btn btn-primary">Submit</button>
@@ -83,7 +88,7 @@ const validate = (values) => {
   }
 
   if (/[^a-zA-Z0-9]/.test(name)) {
-    errors.name = 'Project Name can only have letters \'a-z\' or \'A-Z\'.';
+    errors.name = 'Project Name can only have letters or numbers.';
   }
 
   // If errors is empty, the form is fine to submit
@@ -92,17 +97,14 @@ const validate = (values) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  updateProject: updateProject,
   resetMe: () => dispatch(resetEditProject()),
 });
 
-const mapStateToProps = (state, ownProps) => ({
-  projectName: ownProps.match.params.name,
-  xApiKey: state.xApiKey,
-  newProject: state.projects.newProject,
+const mapStateToProps = state => ({
+  editProject: state.projects.editProject,
 });
 
 export default reduxForm({
   validate,
   form: 'EditProjectForm',
-})(connect(mapStateToProps, mapDispatchToProps)(EditProject));
+})(connect(mapStateToProps, mapDispatchToProps)(EditProjectForm));
