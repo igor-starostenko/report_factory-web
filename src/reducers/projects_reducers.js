@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { CREATE_PROJECT, CREATE_PROJECT_SUCCESS, CREATE_PROJECT_FAILURE, RESET_NEW_PROJECT,
+import { EDIT_PROJECT, EDIT_PROJECT_SUCCESS, EDIT_PROJECT_FAILURE, RESET_EDIT_PROJECT,
          GET_PROJECT, GET_PROJECTS } from '../actions';
 
 export default (state = {}, action) => {
@@ -10,15 +10,15 @@ export default (state = {}, action) => {
       return { ...state, projectsList: { data: list, error: null, loading: false} };
     case GET_PROJECT:
       return { ...state, activeProject: { data: action.payload.data, error: null, loading: false } };
-    case CREATE_PROJECT:
-      return { ...state, newProject: { ...state.newProject, loading: true } };
-    case CREATE_PROJECT_SUCCESS:
-      return { ...state, newProject: { data: action.payload.data, error: null, loading: false } };
-    case CREATE_PROJECT_FAILURE:
+    case EDIT_PROJECT:
+      return { ...state, editProject: { ...state.newProject, loading: true } };
+    case EDIT_PROJECT_SUCCESS:
+      return { ...state, editProject: { data: action.payload.data, error: null, loading: false } };
+    case EDIT_PROJECT_FAILURE:
       error = action.payload.errors;
-      return { ...state, newProject: { data: null, error: error, loading: false} };
-    case RESET_NEW_PROJECT:
-    	return { ...state, newProject: { data: null, error: null, loading: false} };
+      return { ...state, editProject: { data: null, error: error, loading: false} };
+    case RESET_EDIT_PROJECT:
+    	return { ...state, editProject: { data: null, error: null, loading: false} };
     default: {
       return state;
     }

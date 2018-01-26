@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { createProject, createProjectSuccess, createProjectFailure,
-         resetNewProject } from '../actions';
+import { createProject, editProjectSuccess, editProjectFailure,
+         resetEditProject } from '../actions';
 
-class NewProject extends Component {
+class CreateProject extends Component {
   static renderField(field) {
     const { meta: { touched, error } } = field;
     const className = `form-group ${touched && error ? 'has-danger' : ''}`;
@@ -24,9 +23,9 @@ class NewProject extends Component {
   }
 
   renderErrors() {
-    if (this.props.newProject) {
+    if (this.props.editProject) {
       let i = 0;
-      return _.map(this.props.newProject.error, error => {
+      return _.map(this.props.editProject.error, error => {
         return (<li key={i++} className="error">{error.detail}</li>);
       });
     }
@@ -37,10 +36,10 @@ class NewProject extends Component {
       dispatch(this.props.createProject(values.name, this.props.xApiKey))
         .then(response => {
           if(!response.payload.data) {
-            dispatch(createProjectFailure(response.payload));
+            dispatch(editProjectFailure(response.payload));
             reject(response.data); //this is for redux-form itself
           } else {
-            dispatch(createProjectSuccess(response.payload));
+            dispatch(editProjectSuccess(response.payload));
             resolve();//this is for redux-form itself
             return this.props.history.push('/projects');
           }
@@ -58,7 +57,7 @@ class NewProject extends Component {
           <Field
             label="Project Name"
             name="name"
-            component={NewProject.renderField}
+            component={CreateProject.renderField}
           />
           <ul>{this.renderErrors()}</ul>
           <button type="submit" className="btn btn-primary">Submit</button>
@@ -92,15 +91,15 @@ const validate = (values) => {
 
 const mapDispatchToProps = dispatch => ({
   createProject: createProject,
-  resetMe: () => dispatch(resetNewProject()),
+  resetMe: () => dispatch(resetEditProject()),
 });
 
 const mapStateToProps = state => ({
   xApiKey: state.xApiKey,
-  newProject: state.projects.newProject,
+  editProject: state.projects.editProject,
 });
 
 export default reduxForm({
   validate,
   form: 'NewProjectForm',
-})(connect(mapStateToProps, mapDispatchToProps)(NewProject));
+})(connect(mapStateToProps, mapDispatchToProps)(CreateProject));

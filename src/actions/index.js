@@ -7,11 +7,10 @@ import UsersClient from '../api/users_client';
 
 export const AUTH = 'authenticate';
 export const LOGIN = 'login';
-export const RESET_NEW_PROJECT = 'reset_new_project';
-export const CREATE_PROJECT = 'create_project';
-export const CREATE_PROJECT_SUCCESS = 'create_project_success';
-export const CREATE_PROJECT_FAILURE = 'create_project_failure';
-export const UPDATE_PROJECT = 'update_project';
+export const EDIT_PROJECT = 'edit_project';
+export const EDIT_PROJECT_SUCCESS = 'create_project_success';
+export const EDIT_PROJECT_FAILURE = 'create_project_failure';
+export const RESET_EDIT_PROJECT = 'reset_new_project';
 export const GET_PROJECTS = 'get_projects';
 export const GET_PROJECT = 'get_project';
 export const GET_REPORTS = 'get_reports';
@@ -66,37 +65,38 @@ export const getProject = (name, xApiKey) => {
   };
 };
 
-export const resetNewPost = () => ({
-  type: RESET_NEW_PROJECT,
-});
-
 export const createProject = (name, xApiKey) => {
   const request = projectsClient.createProject(name, xApiKey);
 
   return {
-    type: CREATE_PROJECT,
+    type: EDIT_PROJECT,
     payload: request.then(response => response.json()),
   }
 }
 
-export const createProjectSuccess = newProject => ({
-  type: CREATE_PROJECT_SUCCESS,
-  payload: newProject,
+export const updateProject = (projectName, newName, xApiKey) => {
+  const request = projectsClient.updateProject(projectName, newName, xApiKey);
+
+  return {
+    type: EDIT_PROJECT,
+    payload: request.then(response => response.json()),
+  }
+}
+
+export const editProjectSuccess = editProject => ({
+  type: EDIT_PROJECT_SUCCESS,
+  payload: editProject,
 });
 
-export const createProjectFailure = errors => ({
-  type: CREATE_PROJECT_FAILURE,
+export const editProjectFailure = errors => ({
+  type: EDIT_PROJECT_FAILURE,
   payload: errors,
 });
 
-export const updateProject = (id, name, xApiKey) => {
-  const request = projectsClient.updateProject(id, name, xApiKey);
+export const resetEditProject = () => ({
+  type: RESET_EDIT_PROJECT,
+});
 
-  return {
-    type: UPDATE_PROJECT,
-    payload: request.then(response => response.json()),
-  }
-}
 export const getReports = (projectName, xApiKey) => {
   const request = reportsClient.getAllReports(projectName, xApiKey);
 
