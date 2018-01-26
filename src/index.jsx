@@ -8,6 +8,7 @@ import promise from 'redux-promise';
 import App from './components/app';
 import Home from './components/home';
 import Login from './components/login';
+import EditProject from './components/edit_project';
 import NewProject from './components/new_project';
 import NotFound from './components/not_found';
 import Project from './components/project';
@@ -29,6 +30,7 @@ ReactDOM.render(
         <App path="/">
           <Switch>
             <Route path="/login" component={Login} />
+            <Route path="/projects/:name/edit" component={RequireAuth(EditProject)} />
             <Route path="/projects/:name/rspec" component={RequireAuth(RspecReports)} />
             <Route path="/projects/:name" component={RequireAuth(Project)} />
             <Route path="/projects" component={RequireAuth(Projects)} />

@@ -16,17 +16,17 @@ class ProjectsClient extends ApiClient {
     return fetch(new Request(url, { method: 'POST', body, headers }));
   }
 
-  showProject(id, xApiKey) {
-    const url = `${this.baseUrl}api/v1/projects/${id}`;
+  showProject(projectName, xApiKey) {
+    const url = `${this.baseUrl}api/v1/projects/${projectName}`;
     const headers = ApiClient.formatHeaders(xApiKey);
     return fetch(new Request(url, { method: 'GET', headers }));
   }
 
-  updateProject(id, projectName, xApiKey) {
-    const url = `${this.baseUrl}api/v1/projects/${id}`;
+  updateProject(projectName, newName, xApiKey) {
+    const url = `${this.baseUrl}api/v1/projects/${projectName}`;
     const headers = ApiClient.formatHeaders(xApiKey);
     const type = { type: 'project' };
-    const attributes = { project_name: projectName };
+    const attributes = { project_name: newName };
     const body = ApiClient.formatPayload(type, attributes);
     return fetch(new Request(url, { method: 'PUT', body, headers }));
   }

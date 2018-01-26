@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { createProject, createProjectSuccess, createProjectFailure,
-         resetNewProject } from '../actions';
+import { updateProject, createProjectSuccess, createProjectFailure,
+         resetEditProject } from '../actions';
 
-class NewProject extends Component {
+class EditProject extends Component {
   static renderField(field) {
     const { meta: { touched, error } } = field;
     const className = `form-group ${touched && error ? 'has-danger' : ''}`;
@@ -34,7 +34,8 @@ class NewProject extends Component {
 
   onSubmit(values, dispatch) {
     return new Promise((resolve, reject) => {
-      dispatch(this.props.createProject(values.name, this.props.xApiKey))
+      const { projectName, xApiKey } = this.props;
+      dispatch(this.props.updateProject(projectName, values.name, xApiKey))
         .then(response => {
           if(!response.payload.data) {
             dispatch(createProjectFailure(response.payload));
@@ -49,16 +50,16 @@ class NewProject extends Component {
     };
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, projectName } = this.props;
 
     return (
       <div>
-        <h1>Create Project</h1>
+        <h1>Edit {projectName} project</h1>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Field
             label="Project Name"
             name="name"
-            component={NewProject.renderField}
+            component={EditProject.renderField}
           />
           <ul>{this.renderErrors()}</ul>
           <button type="submit" className="btn btn-primary">Submit</button>
@@ -91,16 +92,17 @@ const validate = (values) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  createProject: createProject,
+  updateProject: updateProject,
   resetMe: () => dispatch(resetNewProject()),
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
+  projectName: ownProps.match.params.name,
   xApiKey: state.xApiKey,
   newProject: state.projects.newProject,
 });
 
 export default reduxForm({
   validate,
-  form: 'NewProjectForm',
-})(connect(mapStateToProps, mapDispatchToProps)(NewProject));
+  form: 'EditProjectForm',
+})(connect(mapStateToProps, mapDispatchToProps)(EditProject));

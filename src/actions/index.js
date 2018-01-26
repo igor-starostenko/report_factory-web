@@ -11,6 +11,7 @@ export const RESET_NEW_PROJECT = 'reset_new_project';
 export const CREATE_PROJECT = 'create_project';
 export const CREATE_PROJECT_SUCCESS = 'create_project_success';
 export const CREATE_PROJECT_FAILURE = 'create_project_failure';
+export const UPDATE_PROJECT = 'update_project';
 export const GET_PROJECTS = 'get_projects';
 export const GET_PROJECT = 'get_project';
 export const GET_REPORTS = 'get_reports';
@@ -88,6 +89,14 @@ export const createProjectFailure = errors => ({
   payload: errors,
 });
 
+export const updateProject = (id, name, xApiKey) => {
+  const request = projectsClient.updateProject(id, name, xApiKey);
+
+  return {
+    type: UPDATE_PROJECT,
+    payload: request.then(response => response.json()),
+  }
+}
 export const getReports = (projectName, xApiKey) => {
   const request = reportsClient.getAllReports(projectName, xApiKey);
 
