@@ -93,6 +93,15 @@ export const editProjectFailure = errors => ({
   payload: errors,
 });
 
+export const deleteProject = (name, xApiKey) => {
+  const request = projectsClient.deleteProject(name, xApiKey);
+
+  return {
+    type: EDIT_PROJECT,
+    payload: request.then(response => response.json()),
+  }
+}
+
 export const resetEditProject = () => ({
   type: RESET_EDIT_PROJECT,
 });

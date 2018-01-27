@@ -30,6 +30,12 @@ class ProjectsClient extends ApiClient {
     const body = ApiClient.formatPayload(type, attributes);
     return fetch(new Request(url, { method: 'PUT', body, headers }));
   }
+
+  deleteProject(projectName, xApiKey) {
+    const url = `${this.baseUrl}api/v1/projects/${projectName}`;
+    const headers = ApiClient.formatHeaders(xApiKey);
+    return fetch(new Request(url, { method: 'DELETE', headers }));
+  }
 }
 
 export default ProjectsClient;
