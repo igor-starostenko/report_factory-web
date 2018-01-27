@@ -47,8 +47,10 @@ class Login extends Component {
             name="password"
             component={Login.renderField}
           />
-          <button type="submit" className="btn btn-primary">Submit</button>
-          <Link to="/" className="btn btn-danger">Cancel</Link>
+          <div className="formButtons">
+            <Link to="/" className="btn btn-danger">Cancel</Link>
+            <button type="submit" className="btn btn-primary">Submit</button>
+          </div>
         </form>
       </div>
     );

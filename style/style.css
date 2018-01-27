@@ -78,6 +78,13 @@ form + div > #delete {
   display: none;
 }
 
+.formButtons > * {
+  margin: 1.5rem;
+  margin-right: 3rem;
+  margin-left: 0;
+  min-width: 12rem;
+}
+
 @media only screen and (max-width: 767px) {
   .project-container {
     display: grid;
@@ -119,7 +126,8 @@ form + div > #delete {
     bottom: 3rem;
     left: 5%;
     right: 5%;
-    width: 90%;
+    margin: auto;
+    width: 30rem;
   }
 }
 

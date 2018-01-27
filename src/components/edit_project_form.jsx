@@ -68,8 +68,10 @@ class EditProjectForm extends Component {
             component={EditProjectForm.renderField}
           />
           <ul>{this.renderErrors()}</ul>
-          <button type="submit" className="btn btn-primary">Submit</button>
-          <Link to={backPath} className="btn btn-danger">Cancel</Link>
+          <div className="formButtons">
+            <Link to={backPath} className="btn btn-danger">Cancel</Link>
+            <button type="submit" className="btn btn-primary">Submit</button>
+          </div>
         </form>
         {this.renderSideButton()}
       </div>
