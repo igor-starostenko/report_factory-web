@@ -13,7 +13,8 @@ class CreateProject extends Component {
 
     return (
       <div>
-        <EditProjectForm title={title} action={this.create.bind(this)} {...this.props} />
+        <EditProjectForm title={title} action={this.create.bind(this)}
+          backPath="/projects" {...this.props} />
       </div>
     );
   }

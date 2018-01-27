@@ -30,12 +30,10 @@ class EditProjectForm extends Component {
     }
   }
 
-  create() {
-
-  }
-
-  update() {
-
+  renderSideButton() {
+    if(this.props.sideButton) {
+      return this.props.sideButton();
+    }
   }
 
   onSubmit(values, dispatch) {
@@ -55,11 +53,14 @@ class EditProjectForm extends Component {
     };
 
   render() {
-    const { handleSubmit, title } = this.props;
+    const { handleSubmit, title, backPath } = this.props;
 
     return (
       <div>
-        <h1>{title}</h1>
+        <div className="formHeader">
+          <h1>{title}</h1>
+          {this.renderSideButton()}
+        </div>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Field
             label="Project Name"
@@ -68,8 +69,9 @@ class EditProjectForm extends Component {
           />
           <ul>{this.renderErrors()}</ul>
           <button type="submit" className="btn btn-primary">Submit</button>
-          <Link to="/projects" className="btn btn-danger">Cancel</Link>
+          <Link to={backPath} className="btn btn-danger">Cancel</Link>
         </form>
+        {this.renderSideButton()}
       </div>
     );
   }

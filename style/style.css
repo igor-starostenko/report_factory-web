@@ -74,6 +74,10 @@ canvas {
   width: 100%;
 }
 
+form + div > #delete {
+  display: none;
+}
+
 @media only screen and (max-width: 767px) {
   .project-container {
     display: grid;
@@ -103,6 +107,19 @@ canvas {
 
   .project-container a {
     width: 30rem;
+  }
+
+  .formHeader > div > #delete {
+    display: none;
+  }
+
+  form + div > #delete {
+    display: block;
+    position: fixed;
+    bottom: 3rem;
+    left: 5%;
+    right: 5%;
+    width: 90%;
   }
 }
 
@@ -164,6 +181,20 @@ canvas {
 .project:hover {
   color: rgba(80, 80, 80, 1);
   border: 1px solid rgba(0,0,0,.35);
+}
+
+.formHeader {
+  position: relative;
+}
+
+.formHeader > h1 {
+  display: inline-block;
+}
+
+.formHeader > div > #delete {
+  position: absolute;
+  right: 5%;
+  bottom: 20%;
 }
 
 .loading {
