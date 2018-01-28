@@ -7,6 +7,12 @@ class UsersClient extends ApiClient {
     return fetch(new Request(url, { method: 'GET', headers }));
   }
 
+  authUser(xApiKey) {
+    const url = `${this.baseUrl}api/v1/user`;
+    const headers = ApiClient.formatHeaders(xApiKey);
+    return fetch(new Request(url, { method: 'GET', headers }));
+  }
+
   loginUser(email, password) {
     const url = `${this.baseUrl}api/v1/users/login`;
     const headers = ApiClient.formatHeaders();
