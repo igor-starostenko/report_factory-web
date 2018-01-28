@@ -14,7 +14,7 @@ class EditProjectForm extends Component {
       <div className={className}>
         <label>{field.label}</label>
         <input className="form-control" type="text" {...field.input} />
-        <div className="text-help">
+        <div className="text-help error">
           {touched ? error : ''}
         </div>
       </div>

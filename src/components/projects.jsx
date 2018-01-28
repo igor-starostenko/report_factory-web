@@ -42,7 +42,7 @@ class Projects extends Component {
           {this.renderProjects()}
           <Link to="/project/new" className="new-project project">
             <div className="project-body">
-              <div className="new-project-title">Create Project</div>
+              <div className="new-project-title">Create a project</div>
             </div>
           </Link>
         </div>

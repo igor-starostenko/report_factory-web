@@ -13,7 +13,6 @@ class UpdateProject extends Component {
         .then(response => {
           if(response.payload.errors) {
             dispatch(editProjectFailure(response.payload));
-            reject(response.data); //this is for redux-form itself
           } else {
             dispatch(editProjectSuccess(response.payload));
             resolve();//this is for redux-form itself
