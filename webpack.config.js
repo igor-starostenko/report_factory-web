@@ -36,6 +36,9 @@ module.exports = {
         API_URL: JSON.stringify(process.env.API_URL || 'http://localhost:3000/'),
       },
     }),
+    new webpack.SourceMapDevToolPlugin({
+      filename: 'report_factory.js.map',  
+    }),
   ],
   devServer: {
     port: 3001,
