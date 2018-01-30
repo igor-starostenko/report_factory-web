@@ -17,17 +17,9 @@ export default (ComposedComponent) => {
     ensureApiKeyAvailable() {
       if (!this.props.xApiKey) {
         const { currentUser, getApiKey } = this.props;
-        if (getApiKey(currentUser).xApiKey) {
+        if (!getApiKey(currentUser).xApiKey) {
           return this.props.history.push('/login');
         }
-
-      // if (!this.props.xApiKey) {
-      //   this.props.dispatch(getApiKey(xApiKey))
-      //     .then(response => {
-      //       if(!response.payload.data) {
-      //         return this.props.history.push('/login');
-      //       }
-      //     });
       }
     }
 

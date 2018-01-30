@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
+import GenericForm from './generic_form';
 import { editProjectSuccess, editProjectFailure,
          resetEditProject } from '../actions/projects_actions';
 
@@ -20,15 +21,6 @@ class EditProjectForm extends Component {
         </div>
       </div>
     );
-  }
-
-  renderErrors() {
-    if (this.props.editProject) {
-      let i = 0;
-      return _.map(this.props.editProject.error, error => {
-        return (<li key={i++} className="error">{error.detail}</li>);
-      });
-    }
   }
 
   renderSideButton() {
@@ -54,7 +46,8 @@ class EditProjectForm extends Component {
     };
 
   render() {
-    const { handleSubmit, title, backPath } = this.props;
+    const { handleSubmit, title, backPath, editProject } = this.props;
+    const errors = _.get(editProject, 'error');
 
     return (
       <div>
@@ -66,9 +59,9 @@ class EditProjectForm extends Component {
           <Field
             label="Project Name"
             name="name"
-            component={EditProjectForm.renderField}
+            component={GenericForm.renderField}
           />
-          <ul>{this.renderErrors()}</ul>
+          <ul>{GenericForm.renderErrors(errors)}</ul>
           <div className="formButtons">
             <Link to={backPath} className="btn btn-danger">Cancel</Link>
             <button type="submit" className="btn btn-primary">Submit</button>

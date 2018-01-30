@@ -2,24 +2,10 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import GenericForm from './generic_form';
 import { signIn, signInFailure, signInSuccess } from '../actions/users_actions';
 
 class Login extends Component {
-  static renderField(field) {
-    const { meta: { touched, error } } = field;
-    const className = `form-group ${touched && error ? 'has-danger' : ''}`;
-
-    return (
-      <div className={className}>
-        <label>{field.label}</label>
-        <input className="form-control" type="text" {...field.input} />
-        <div className="text-help error">
-          {touched ? error : ''}
-        </div>
-      </div>
-    );
-  }
-
   onSubmit(values, dispatch) {
     return new Promise((resolve, reject) => {
       dispatch(this.props.signIn(values))
@@ -37,7 +23,8 @@ class Login extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, currentUser } = this.props;
+    const errors = _.get(currentUser, 'error');
 
     return (
       <div>
@@ -46,13 +33,14 @@ class Login extends Component {
           <Field
             label="Email"
             name="email"
-            component={Login.renderField}
+            component={GenericForm.renderField}
           />
           <Field
             label="Password"
             name="password"
-            component={Login.renderField}
+            component={GenericForm.renderField}
           />
+          <ul>{GenericForm.renderErrors(errors)}</ul>
           <div className="formButtons">
             <Link to="/" className="btn btn-danger">Cancel</Link>
             <button type="submit" className="btn btn-primary">Submit</button>
@@ -79,7 +67,7 @@ const validate = (values) => {
 };
 
 const mapStateToProps = state => ({
-  users: state.users,
+  currentUser: state.users.currentUser,
 });
 
 export default reduxForm({
