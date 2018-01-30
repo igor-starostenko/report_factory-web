@@ -50,12 +50,12 @@
   display: inline-block;
 }
 
-.view-reports {
+.view-details {
   margin: auto;
   grid-column: 9 / span 1;
 }
 
-.edit-project {
+.action-button {
   margin: auto;
   grid-column: 10 / -1;
 }
@@ -104,15 +104,15 @@ form + div > #delete {
     grid-area: c;
   }
 
-  .view-reports {
+  .view-details {
     grid-area: r;
   }
 
-  .edit-project {
+  .action-button {
     grid-area: e;
   }
 
-  .project-container a {
+  .details-button > *:nth-child(1) {
     width: 30rem;
   }
 

@@ -39,12 +39,12 @@ class Project extends Component {
             <div className="project-name">{projectName}</div>
             <div className="project-since">since {this.formatDate(createdAt)}</div>
           </div>
-          <div className="view-reports">
+          <div className="details-button view-details">
             <Link to={rspecUrl} className="btn btn-primary btn-fill">
               View Reports
             </Link>
           </div>
-          <div className="edit-project">
+          <div className="details-button action-button">
             <Link to={editUrl} className="btn btn-warning btn-fill">
               Edit Project
             </Link>

@@ -11,6 +11,10 @@ class User extends Component {
     }
   }
 
+  logOut() {
+    return;
+  }
+
   formatDate(date, options) {
     const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
     return date.toLocaleDateString('en-US', formatOptions);
@@ -34,10 +38,15 @@ class User extends Component {
             <div className="project-name">{name}</div>
             <div className="project-since">since {this.formatDate(createdAt)}</div>
           </div>
-          <div className="view-reports">
+          <div className="details-button view-details">
             <Link to={userReportsUrl} className="btn btn-primary btn-fill">
               View Reports
             </Link>
+          </div>
+          <div className="details-button action-button">
+            <button onClick={this.logOut.bind(this)} className="btn btn-warning btn-fill">
+              Log Out
+            </button>
           </div>
         </div>
       </div>

@@ -37,7 +37,7 @@ export const authUser =  xApiKey => {
   const request = usersClient.authUser(xApiKey);
 
   return {
-    type: LOGIN,
+    type: LOGIN_SUCCESS,
     payload: request.then(response => response.json()),
   };
 };
