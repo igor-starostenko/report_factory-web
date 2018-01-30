@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { Bar as BarChart } from 'react-chartjs';
-import { getRspecReports } from '../actions';
+import { getRspecReports } from '../actions/reports_actions';
 
 const defaultTimeFormat = () => ({
   month: 'short', day: 'numeric', 'hour': 'numeric', 'minute': 'numeric',

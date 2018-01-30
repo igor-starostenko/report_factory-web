@@ -3,7 +3,8 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { editProjectSuccess, editProjectFailure, resetEditProject } from '../actions';
+import { editProjectSuccess, editProjectFailure,
+         resetEditProject } from '../actions/projects_actions';
 
 class EditProjectForm extends Component {
   static renderField(field) {

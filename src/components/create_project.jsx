@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EditProjectForm from './edit_project_form';
-import { createProject } from '../actions';
+import { createProject } from '../actions/projects_actions';
 
 class CreateProject extends Component {
   create(name) {

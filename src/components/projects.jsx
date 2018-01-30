@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { getProjects } from '../actions';
+import { getProjects } from '../actions/projects_actions';
 
 class Projects extends Component {
   componentDidMount() {

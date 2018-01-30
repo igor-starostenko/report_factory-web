@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ReportsLineChart from './reports_line_chart';
 import ReportsList from './reports_list';
-import { getProject } from '../actions';
+import { getProject } from '../actions/projects_actions';
 
 class Project extends Component {
   componentDidMount() {

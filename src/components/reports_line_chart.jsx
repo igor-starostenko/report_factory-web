@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { Line as LineChart } from 'react-chartjs';
-import { getReports } from '../actions';
+import { getReports } from '../actions/reports_actions';
 
 class ReportsLineChart extends Component {
   componentDidMount() {

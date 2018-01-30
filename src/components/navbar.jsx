@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import _ from 'lodash';
-import { getApiKey } from '../actions';
 
 class Navbar extends Component {
   renderAccount() {
@@ -10,9 +10,11 @@ class Navbar extends Component {
     let linkUrl = "/user";
     let linkText = "Profile";
     if (_.isEmpty(xApiKey)) {
-      if (!getApiKey(currentUser).xApiKey) {
-        linkUrl = "/login";
-        linkText = "Login";
+      if (_.isEmpty(Cookies.get('X-API-KEY'))) {
+        if (!_.get(currentUser, 'data.attributes.api_key')) {
+          linkUrl = "/login";
+          linkText = "Login";
+        }
       }
     }
     return (
@@ -52,8 +54,8 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.currentUser,
+  currentUser: state.users.currentUser,
   xApiKey: state.xApiKey,
 });
 
-export default connect(mapStateToProps, { getApiKey })(Navbar);
+export default connect(mapStateToProps, {})(Navbar);

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
-import { signIn } from '../actions';
+import { signIn, signInFailure, signInSuccess } from '../actions/users_actions';
 
 class Login extends Component {
   static renderField(field) {
@@ -21,13 +20,20 @@ class Login extends Component {
     );
   }
 
-  onSubmit(values) {
-    this.props.signIn(values)
-      .then((res) => {
-        const xApiKey = res.payload.data.attributes.api_key;
-        Cookies.set('X-API-KEY', xApiKey, { expires: 7 });
-        this.props.history.push('/projects');
-      });
+  onSubmit(values, dispatch) {
+    return new Promise((resolve, reject) => {
+      dispatch(this.props.signIn(values))
+        .then((response) => {
+          if (!response.payload.data) {
+            dispatch(signInFailure(response.payload));
+            reject(response.data); //this is for redux-form itself
+          } else {
+            dispatch(signInSuccess(response.payload));
+            resolve();//this is for redux-form itself
+            this.props.history.push('/projects');
+          }
+        });
+     });
   }
 
   render() {

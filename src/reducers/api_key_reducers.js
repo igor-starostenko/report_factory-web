@@ -1,6 +1,6 @@
-import { API_KEY } from '../actions';
+import { API_KEY } from '../actions/users_actions';
 
-export default (state = {}, action) => {
+export default (state = null, action) => {
   switch (action.type) {
     case API_KEY: {
       return action.xApiKey;

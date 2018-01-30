@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EditProjectForm from './edit_project_form';
-import { updateProject, deleteProject,
-         editProjectSuccess, editProjectFailure } from '../actions';
+import { updateProject, deleteProject, editProjectSuccess,
+         editProjectFailure } from '../actions/projects_actions';
 
 class UpdateProject extends Component {
   handeDelete() {

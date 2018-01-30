@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { getReports } from '../actions';
+import { getReports } from '../actions/reports_actions';
 
 class ReportsList extends Component {
   componentDidMount() {

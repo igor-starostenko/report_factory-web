@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET_REPORTS } from '../actions';
+import { GET_REPORTS } from '../actions/reports_actions';
 
 export default (state = {}, action) => {
   switch (action.type) {

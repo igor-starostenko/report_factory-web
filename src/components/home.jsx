@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { getApiKey } from '../actions';
+import { getApiKey } from '../actions/users_actions';
 
 class Home extends Component {
   renderLogin() {

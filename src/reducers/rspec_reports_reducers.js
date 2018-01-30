@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET_RSPEC_REPORTS, GET_RSPEC_REPORT } from '../actions';
+import { GET_RSPEC_REPORTS, GET_RSPEC_REPORT } from '../actions/reports_actions';
 
 export default (state = {}, action) => {
   switch (action.type) {
