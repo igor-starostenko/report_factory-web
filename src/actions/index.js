@@ -5,17 +5,26 @@ import ProjectsClient from '../api/projects_client';
 import ReportsClient from '../api/reports_client';
 import UsersClient from '../api/users_client';
 
-export const AUTH = 'authenticate';
+export const API_KEY = 'api_key';
 export const LOGIN = 'login';
+
 export const EDIT_PROJECT = 'edit_project';
 export const EDIT_PROJECT_SUCCESS = 'create_project_success';
 export const EDIT_PROJECT_FAILURE = 'create_project_failure';
 export const RESET_EDIT_PROJECT = 'reset_new_project';
 export const GET_PROJECTS = 'get_projects';
 export const GET_PROJECT = 'get_project';
+
 export const GET_REPORTS = 'get_reports';
 export const GET_RSPEC_REPORTS = 'get_rspec_reports';
 export const GET_RSPEC_REPORT = 'get_rspec_report';
+
+export const EDIT_USER = 'edit_user';
+export const EDIT_USER_SUCCESS = 'create_user_success';
+export const EDIT_USER_FAILURE = 'create_user_failure';
+export const RESET_EDIT_USER = 'reset_new_user';
+export const GET_USERS = 'get_users';
+export const GET_USER = 'get_user';
 
 const apiUrl = process.env.API_URL;
 const projectsClient = new ProjectsClient(apiUrl);
@@ -24,7 +33,7 @@ const usersClient = new UsersClient(apiUrl);
 // const adminXApiKey = 'b6922679-446e-4e12-8d4f-26cface97a02';
 // const testerXApiKey = '9e04136f-c71d-4d16-924a-216e9af08903';
 
-export const getApiKey = (user) => {
+export const getApiKey = user => {
   let xApiKey = Cookies.get('X-API-KEY');
   if (!xApiKey && user) {
     if (user.data) {
@@ -32,18 +41,26 @@ export const getApiKey = (user) => {
     }
   }
   return {
-    type: AUTH,
+    type: API_KEY,
     xApiKey: xApiKey || null,
   };
 };
 
-export const signIn = ({ email, password }) => {
-  const response = usersClient.loginUser(email, password)
-    .then(res => res.json());
+export const authUser =  xApiKey => {
+  const request = usersClient.authUser(xApiKey);
 
   return {
     type: LOGIN,
-    payload: response,
+    payload: request.then(response => response.json()),
+  };
+};
+
+export const signIn = ({ email, password }) => {
+  const request = usersClient.loginUser(email, password);
+
+  return {
+    type: LOGIN,
+    payload: request.then(response => response.json()),
   };
 };
 

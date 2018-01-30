@@ -1,9 +1,9 @@
-import { LOGIN } from '../actions';
+import { API_KEY } from '../actions';
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case LOGIN: {
-      return action.payload;
+    case API_KEY: {
+      return action.xApiKey;
     }
     default: {
       return state;

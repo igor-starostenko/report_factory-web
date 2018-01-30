@@ -25,7 +25,7 @@ export default (ComposedComponent) => {
   }
 
   const mapStateToProps = state => ({
-    currentUser: state.currentUser,
+    currentUser: state.users.currentUser,
     xApiKey: state.xApiKey,
   });
 

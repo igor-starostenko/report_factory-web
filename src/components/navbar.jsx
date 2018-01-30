@@ -7,8 +7,8 @@ import { getApiKey } from '../actions';
 class Navbar extends Component {
   renderAccount() {
     const { currentUser, xApiKey, getApiKey } = this.props;
-    let linkUrl = "/account";
-    let linkText = "Account";
+    let linkUrl = "/user";
+    let linkText = "Profile";
     if (_.isEmpty(xApiKey)) {
       if (!getApiKey(currentUser).xApiKey) {
         linkUrl = "/login";

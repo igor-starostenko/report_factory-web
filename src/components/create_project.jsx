@@ -9,7 +9,7 @@ class CreateProject extends Component {
   }
 
   render() {
-    const title = "Create Project";
+    const title = "Create a Project";
 
     return (
       <div>
