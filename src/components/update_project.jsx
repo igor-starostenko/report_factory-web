@@ -7,19 +7,20 @@ import { updateProject, deleteProject, editProjectSuccess,
 class UpdateProject extends Component {
   handeDelete() {
     const { dispatch, projectName, xApiKey } = this.props;
-    // alert(`Are you sure you want to delete ${this.props.projectName} project?`);
-    return new Promise((resolve, reject) => {
-      dispatch(this.props.deleteProject(projectName, xApiKey))
-        .then(response => {
-          if(response.payload.errors) {
-            dispatch(editProjectFailure(response.payload));
-          } else {
-            dispatch(editProjectSuccess(response.payload));
-            resolve();//this is for redux-form itself
-            return this.props.history.push('/projects');
-          }
-      });
+    if (confirm(`Are you sure you want to delete "${projectName}" project?`)) {
+      return new Promise((resolve, reject) => {
+        dispatch(this.props.deleteProject(projectName, xApiKey))
+          .then(response => {
+            if(response.payload.errors) {
+              dispatch(editProjectFailure(response.payload));
+            } else {
+              dispatch(editProjectSuccess(response.payload));
+              resolve();//this is for redux-form itself
+              return this.props.history.push('/projects');
+            }
+        });
      });
+    }
   }
 
   deleteButton() {
