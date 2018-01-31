@@ -7,7 +7,7 @@ import { getProject } from '../actions/projects_actions';
 
 class Project extends Component {
   componentDidMount() {
-    if (!this.props.project) {
+    if (!this.props.project.data) {
       const { xApiKey, projectName } = this.props;
       this.props.getProject(projectName, xApiKey);
     }
@@ -21,7 +21,7 @@ class Project extends Component {
   render() {
     const { project, projectName } = this.props;
 
-    if (!project) {
+    if (!project.data) {
       return (<div className="loading">Loading...</div>);
     }
 

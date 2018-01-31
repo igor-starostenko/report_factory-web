@@ -7,7 +7,7 @@ const INITIAL_STATE = { currentUser: { data: null, error: null, loading: false }
             						editUser: { data: null, error:null, loading: false },
             						usersList: { data: [], error:null, loading: false } };
 
-export default (state = {}, action) => {
+export default (state = INITIAL_STATE, action) => {
   let error;
   switch (action.type) {
     case LOGIN:

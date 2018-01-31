@@ -5,7 +5,7 @@ import { authUser } from '../actions/users_actions';
 
 class User extends Component {
   componentDidMount() {
-    if (!this.props.user) {
+    if (!this.props.user.data) {
       const { xApiKey } = this.props;
       this.props.authUser(xApiKey);
     }
@@ -21,7 +21,7 @@ class User extends Component {
   }
 
   render() {
-    if (!this.props.user) {
+    if (!this.props.user.data) {
       return (<div className="loading">Loading...</div>);
     }
 

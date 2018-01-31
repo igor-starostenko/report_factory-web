@@ -2,7 +2,11 @@ import _ from 'lodash';
 import { EDIT_PROJECT, EDIT_PROJECT_SUCCESS, EDIT_PROJECT_FAILURE, RESET_EDIT_PROJECT,
          GET_PROJECT, GET_PROJECTS } from '../actions/projects_actions';
 
-export default (state = {}, action) => {
+const INITIAL_STATE = { activeProject: { data: null, error: null, loading: false },
+            						editProject: { data: null, error:null, loading: false },
+            						projectsList: { data: [], error:null, loading: false } };
+
+export default (state = INITIAL_STATE, action) => {
   let error;
   switch (action.type) {
     case GET_PROJECTS:
