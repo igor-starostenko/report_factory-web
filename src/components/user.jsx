@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { authUser } from '../actions/users_actions';
+import { authUser, logOut } from '../actions/users_actions';
 
 class User extends Component {
   componentDidMount() {
@@ -12,7 +12,8 @@ class User extends Component {
   }
 
   logOut() {
-    return;
+    this.props.logOut(this.props.xApiKey);
+    return this.props.history.push('/');
   }
 
   formatDate(date, options) {
@@ -59,4 +60,4 @@ const mapStateToProps = state => ({
   xApiKey: state.xApiKey,
 });
 
-export default connect(mapStateToProps, { authUser })(User);
+export default connect(mapStateToProps, { authUser, logOut })(User);

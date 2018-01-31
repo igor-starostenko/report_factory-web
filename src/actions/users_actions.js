@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-// import store from '../index';
+import store from '../index';
 
 import UsersClient from '../api/users_client';
 
@@ -7,6 +7,7 @@ export const API_KEY = 'api_key';
 export const LOGIN = 'login';
 export const LOGIN_SUCCESS = 'login_success';
 export const LOGIN_FAILURE = 'login_failure';
+export const LOGOUT = 'logout';
 
 export const EDIT_USER = 'edit_user';
 export const EDIT_USER_SUCCESS = 'create_user_success';
@@ -33,7 +34,7 @@ export const getApiKey = user => {
   };
 };
 
-export const authUser =  xApiKey => {
+export const authUser = xApiKey => {
   const request = usersClient.authUser(xApiKey);
 
   return {
@@ -54,7 +55,7 @@ export const signIn = ({ email, password }) => {
 export const signInSuccess = signIn => {
   const xApiKey = signIn.data.attributes.api_key;
   Cookies.set('X-API-KEY', xApiKey, { expires: 7 });
-  getApiKey(signIn);
+  store.dispatch(getApiKey(signIn));
 
   return {
     type: LOGIN_SUCCESS,
@@ -66,6 +67,15 @@ export const signInFailure = errors => ({
   type: LOGIN_FAILURE,
   payload: errors,
 });
+
+export const logOut = () => {
+  Cookies.remove('X-API-KEY');
+  store.dispatch(resetApiKey());
+
+  return {
+    type: LOGOUT,
+  }
+}
 
 // api.getAllUsers(testerXApiKey);
 // api.createUser('New', 'testerNew@mailinator.com', 'Qwerty12', 'Tester', adminXApiKey);
