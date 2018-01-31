@@ -22,7 +22,8 @@ import reducers from './reducers';
 require('babel-core/register');
 require('babel-polyfill');
 
-const store = createStore(reducers, applyMiddleware(promise));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(promise)));
 
 ReactDOM.render(
   <Provider store={store}>
