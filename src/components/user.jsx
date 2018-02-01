@@ -30,7 +30,7 @@ class User extends Component {
     const userId = this.props.user.data.id;
     const { name, email, type, date } = this.props.user.data.attributes;
     const createdAt = new Date(date.created_at);
-    // const userReportsUrl = `user/${userId}/reports`;
+    const userReportsUrl = `user/${userId}/reports`;
 
     return (
       <div>
@@ -39,13 +39,18 @@ class User extends Component {
             <div className="project-name">{name}</div>
             <div className="project-since">since {this.formatDate(createdAt)}</div>
           </div>
-          <div className="chart">
-            <UserReportsLineChart userId={userId} />
+          <div className="details-button view-details">
+            <Link to={userReportsUrl} className="btn btn-primary btn-fill">
+              View Reports
+            </Link>
           </div>
           <div className="details-button action-button">
             <button onClick={this.logOut.bind(this)} className="btn btn-warning btn-fill">
               Log Out
             </button>
+          </div>
+          <div className="chart">
+            <UserReportsLineChart userId={userId} />
           </div>
         </div>
       </div>
