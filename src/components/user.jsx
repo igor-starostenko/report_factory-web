@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import UserReportsLineChart from './user_reports_line_chart';
 import { authUser, logOut } from '../actions/users_actions';
 
 class User extends Component {
@@ -26,11 +27,10 @@ class User extends Component {
       return (<div className="loading">Loading...</div>);
     }
 
-    const { userId } = this.props.user.data.id;
+    const userId = this.props.user.data.id;
     const { name, email, type, date } = this.props.user.data.attributes;
     const createdAt = new Date(date.created_at);
-
-    const userReportsUrl = `user/${userId}/reports`;
+    // const userReportsUrl = `user/${userId}/reports`;
 
     return (
       <div>
@@ -38,6 +38,9 @@ class User extends Component {
           <div className="project-header">
             <div className="project-name">{name}</div>
             <div className="project-since">since {this.formatDate(createdAt)}</div>
+          </div>
+          <div className="chart">
+            <UserReportsLineChart userId={userId} />
           </div>
           <div className="details-button action-button">
             <button onClick={this.logOut.bind(this)} className="btn btn-warning btn-fill">

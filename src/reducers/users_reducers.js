@@ -4,6 +4,7 @@ import { EDIT_USER, EDIT_USER_SUCCESS, EDIT_USER_FAILURE, RESET_EDIT_USER, GET_U
 
 const INITIAL_STATE = { currentUser: { data: null, error: null, loading: false },
             						activeUser: { data: null, error: null, loading: false },
+            						userReports: { data: null, error: null, loading: false },
             						editUser: { data: null, error:null, loading: false },
             						usersList: { data: [], error:null, loading: false } };
 

@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Line as LineChart } from 'react-chartjs';
-import { getReports } from '../actions/reports_actions';
+import { getUserReports } from '../actions/users_actions';
 
-class ReportsLineChart extends Component {
+class UserReportsLineChart extends Component {
   componentDidMount() {
     const { reports } = this.props;
     if (!reports || _.isEmpty(reports)) {
-      const { projectName, xApiKey } = this.props;
-      this.props.getReports(projectName, xApiKey);
+      const { userId, xApiKey } = this.props;
+      this.props.getUserReports(userId, xApiKey);
     }
   }
 
@@ -34,7 +34,7 @@ class ReportsLineChart extends Component {
   reportsCreatedDates() {
     const reportsArr = _.values(this.props.reports);
     return _.map(reportsArr, (report) => {
-      return new Date(report.attributes.date.created_at);
+      return new Date(report.attributes.report.date.created_at);
     });
   }
 
@@ -71,7 +71,7 @@ class ReportsLineChart extends Component {
     	labels: days,
     	datasets: [
     		{
-    			label: this.props.projectName,
+    			label: this.props.userId,
     			fillColor: "rgba(255,212,91,0.4)",
     			strokeColor: "rgba(255,165,91,0.9)",
     			pointColor: "rgba(255,165,91,1)",
@@ -96,9 +96,9 @@ class ReportsLineChart extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  reports: state.reports[ownProps.projectName],
+const mapStateToProps = state  => ({
+  reports: state.users.userReports.data,
   xApiKey: state.xApiKey,
 });
 
-export default connect(mapStateToProps, { getReports })(ReportsLineChart);
+export default connect(mapStateToProps, { getUserReports })(UserReportsLineChart);
