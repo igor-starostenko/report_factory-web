@@ -16,6 +16,8 @@ export const RESET_EDIT_USER = 'reset_new_user';
 export const GET_USERS = 'get_users';
 export const GET_USER = 'get_user';
 
+export const GET_USER_REPORTS = 'get_user_reports';
+
 const apiUrl = process.env.API_URL;
 const usersClient = new UsersClient(apiUrl);
 // const adminXApiKey = 'b6922679-446e-4e12-8d4f-26cface97a02';
@@ -77,9 +79,17 @@ export const logOut = () => {
   }
 }
 
+export const getUserReports = (userId, xApiKey) => {
+  const request = usersClient.getAllUserReports(userId, xApiKey);
+
+  return {
+    type: GET_USER_REPORTS,
+    payload: request.then(response => response.json()),
+  }
+}
+
 // api.getAllUsers(testerXApiKey);
 // api.createUser('New', 'testerNew@mailinator.com', 'Qwerty12', 'Tester', adminXApiKey);
 // api.showUser(1, testerXApiKey);
 // api.updateUser(5, 'Update', 'update_5@mailinator.com', 'Qwerty12', 'Tester', adminXApiKey);
 // api.deleteUser(8, adminXApiKey);
-// api.getAllUserReports(1, testerXApiKey);

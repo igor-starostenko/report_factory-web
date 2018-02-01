@@ -39,11 +39,6 @@ class User extends Component {
             <div className="project-name">{name}</div>
             <div className="project-since">since {this.formatDate(createdAt)}</div>
           </div>
-          <div className="details-button view-details">
-            <Link to={userReportsUrl} className="btn btn-primary btn-fill">
-              View Reports
-            </Link>
-          </div>
           <div className="details-button action-button">
             <button onClick={this.logOut.bind(this)} className="btn btn-warning btn-fill">
               Log Out
