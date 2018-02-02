@@ -79,19 +79,32 @@ class UserReportsLineChart extends Component {
     return projectReports;
   }
 
+  colorByIndex(index, opacity = '1') {
+    switch (index) {
+      case 0: return `rgba(52,114,247,${opacity})`;
+      case 1: return `rgba(247,52,114,${opacity})`;
+      case 2: return `rgba(52,247,114,${opacity})`;
+      case 3: return `rgba(255,212,91,${opacity})`;
+      default: return `rgba(220,220,220,${opacity})`;
+    }
+  }
+
   projectReportsDatasets(reports, dates) {
     let datasets = [];
+    let colorIndex = 0;
+    let color;
     _.forIn(reports, (projectReports, projectName) => {
   		datasets.push({
   			label: projectName,
-  			fillColor: "rgba(255,212,91,0.4)",
-  			strokeColor: "rgba(255,165,91,0.9)",
-  			pointColor: "rgba(255,165,91,1)",
+  			fillColor: this.colorByIndex(colorIndex, 0.4),
+  			strokeColor: this.colorByIndex(colorIndex, 0.8),
+  			pointColor: this.colorByIndex(colorIndex, 0.9),
   			pointStrokeColor: "#fff",
-  			pointHighlightFill: "rgba(255,165,91,1)",
+  			pointHighlightFill: this.colorByIndex(colorIndex, 1),
   			pointHighlightStroke: "rgba(220,220,220,1)",
   			data: this.reportsPerDay(projectReports, dates)
   		});
+      colorIndex === 3 ? colorIndex = 0 : colorIndex++;
     });
     return datasets;
   }
