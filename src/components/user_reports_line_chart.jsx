@@ -31,8 +31,8 @@ class UserReportsLineChart extends Component {
     });
   }
 
-  reportsCreatedDates() {
-    const reportsArr = _.values(this.props.reports);
+  reportsCreatedDates(reports) {
+    const reportsArr = _.values(reports);
     return _.map(reportsArr, (report) => {
       return new Date(report.attributes.report.date.created_at);
     });
@@ -43,8 +43,8 @@ class UserReportsLineChart extends Component {
       && dateOne.getDate() === dateTwo.getDate();
   }
 
-  reportsPerDay(dates) {
-    const reportsDates = this.reportsCreatedDates();
+  reportsPerDay(reports, dates) {
+    const reportsDates = this.reportsCreatedDates(reports);
     if(reportsDates.length === 0) {
       return _.map(dates, d => 0);
     }
@@ -62,25 +62,52 @@ class UserReportsLineChart extends Component {
     return numberOfReportsArr;
   }
 
+  groupReportsByProjects(reports) {
+    if (_.isEmpty(reports)) {
+      return [];
+    }
+    let projectReports = {};
+    let projectName;
+    for (let i = 0; i < reports.length ; i++) {
+        projectName = _.get(reports[i], 'attributes.report.project_name');
+        if (projectReports[projectName]) {
+          projectReports[projectName].push(reports[i]);
+        } else {
+          projectReports[projectName] = [reports[i]];
+        }
+    }
+    return projectReports;
+  }
+
+  projectReportsDatasets(reports, dates) {
+    let datasets = [];
+    _.forIn(reports, (projectReports, projectName) => {
+  		datasets.push({
+  			label: projectName,
+  			fillColor: "rgba(255,212,91,0.4)",
+  			strokeColor: "rgba(255,165,91,0.9)",
+  			pointColor: "rgba(255,165,91,1)",
+  			pointStrokeColor: "#fff",
+  			pointHighlightFill: "rgba(255,165,91,1)",
+  			pointHighlightStroke: "rgba(220,220,220,1)",
+  			data: this.reportsPerDay(projectReports, dates)
+  		});
+    });
+    return datasets;
+  }
+
   render() {
     const dates = this.lastDays(10);
     const days = this.formatDays(dates);
-    const data = this.reportsPerDay(dates);
+    const reports = this.groupReportsByProjects(this.props.reports);
+
+    if (_.isEmpty(reports)) {
+      return (<div className="loading">Loading</div>);
+    }
 
     const chartData = {
     	labels: days,
-    	datasets: [
-    		{
-    			label: this.props.userId,
-    			fillColor: "rgba(255,212,91,0.4)",
-    			strokeColor: "rgba(255,165,91,0.9)",
-    			pointColor: "rgba(255,165,91,1)",
-    			pointStrokeColor: "#fff",
-    			pointHighlightFill: "rgba(255,165,91,1)",
-    			pointHighlightStroke: "rgba(220,220,220,1)",
-    			data: data
-    		}
-    	]
+    	datasets: this.projectReportsDatasets(reports, dates),
     };
 
     const options = {
