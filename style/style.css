@@ -62,16 +62,28 @@
 
 .chart {
   grid-column: 1 / -1;
+  height: 100%;
+  position: relative;
 }
 
 .chart > div {
-  height: 100%;
+  height: 80%;
 }
 
 canvas {
   display: block;
   margin: auto;
   width: 100%;
+}
+
+.filters {
+  margin: 1.5rem;
+  min-height: 40px;
+}
+
+#chart-pills {
+  float: right;
+  margin: 0;
 }
 
 form + div > #delete {
@@ -128,6 +140,21 @@ form + div > #delete {
     right: 5%;
     margin: auto;
     width: 30rem;
+  }
+
+  .filters {
+    display: flex;
+  }
+
+  #chart-pills {
+    padding: 0;
+    width: 30rem;
+    margin: auto;
+  }
+
+  #chart-pills > li {
+    width: 33.3%;
+    text-align: center;
   }
 }
 
@@ -207,9 +234,9 @@ form + div > #delete {
 
 .loading {
   margin-top: 20%;
-  margin-left: 50%;
   font-size: 36px;
   font-weight: 300;
+  text-align: center;
 }
 
 .error {

@@ -9,7 +9,18 @@ const parseDate = report => {
   return _.get(report, 'attributes.date.created_at');
 }
 
+const filterUnits = {
+  Week: 7,
+  Month: 30,
+  Year: 365,
+}
+
 class ReportsLineChart extends Component {
+  constructor(state) {
+    super(state);
+    this.state = { activeFilter: 'Week' }
+  }
+
   componentDidMount() {
     const { reports } = this.props;
     if (!reports || _.isEmpty(reports)) {
@@ -18,8 +29,21 @@ class ReportsLineChart extends Component {
     }
   }
 
+  setFilter(name) {
+    this.setState({ activeFilter: name });
+  }
+
+  renderFilterItem(name) {
+    const className = this.state.activeFilter === name ? "active" : '';
+    return (
+      <li className={className} onClick={this.setFilter.bind(this, name)}>
+        <a>{name}</a>
+      </li>
+    );
+  }
+
   render() {
-    const dates = lastDays(10);
+    const dates = lastDays(filterUnits[this.state.activeFilter]);
     const days = formatDays(dates);
     const reportsDates = reportsCreatedDates(this.props.reports, parseDate);
     const data = reportsPerDay(dates, reportsDates);
@@ -48,6 +72,13 @@ class ReportsLineChart extends Component {
     return (
       <div>
         <LineChart data={chartData} options={options} height="320" />
+        <div className="filters">
+          <ul id="chart-pills" className="nav nav-pills ct-orange">
+            {this.renderFilterItem('Year')}
+            {this.renderFilterItem('Month')}
+            {this.renderFilterItem('Week')}
+          </ul>
+        </div>
       </div>
     );
   }
