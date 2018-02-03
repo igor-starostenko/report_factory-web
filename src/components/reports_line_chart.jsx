@@ -77,7 +77,6 @@ class ReportsLineChart extends Component {
     			pointColor: "rgba(255,165,91,0.9)",
     			pointStrokeColor: "#fff",
     			pointHighlightFill: "rgba(255,165,91,1)",
-    			pointHighlightStroke: "rgba(220,220,220,1)",
     			data: data
     		}
     	]
@@ -86,6 +85,8 @@ class ReportsLineChart extends Component {
     const options = {
       responsive: true,
       maintainAspectRatio: false,
+      tooltipFillColor: "rgba(255,165,91,0.8)",
+      tooltipTemplate: "<%= value %>",
     }
 
     return (
