@@ -3,16 +3,21 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Line as LineChart } from 'react-chartjs';
 import { getReports } from '../actions/reports_actions';
-import { lastDays, formatDays, reportsPerDay, reportsCreatedDates } from '../helpers/chart_helpers';
+import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth,
+         reportsCreatedDates } from '../helpers/chart_helpers';
 
 const parseDate = report => {
   return _.get(report, 'attributes.date.created_at');
 }
 
-const filterUnits = {
-  Week: 7,
-  Month: 30,
-  Year: 365,
+const dataForDays = (reports, dates) => {
+  const reportsDates = reportsCreatedDates(reports, parseDate);
+  return reportsPerDay(dates, reportsDates);
+}
+
+const dataForMonths = (reports, dates) => {
+  const reportsDates = reportsCreatedDates(reports, parseDate);
+  return reportsPerMonth(dates, reportsDates);
 }
 
 class ReportsLineChart extends Component {
@@ -43,13 +48,27 @@ class ReportsLineChart extends Component {
   }
 
   render() {
-    const dates = lastDays(filterUnits[this.state.activeFilter]);
-    const days = formatDays(dates);
-    const reportsDates = reportsCreatedDates(this.props.reports, parseDate);
-    const data = reportsPerDay(dates, reportsDates);
+    let units, data, dates;
+    switch (this.state.activeFilter) {
+      case 'Week':
+        units = lastDays(8);
+        dates = formatDates(units);
+        data = dataForDays(this.props.reports, units);
+        break;
+      case 'Month':
+        units = lastDays(32);
+        dates = formatDates(units);
+        data = dataForDays(this.props.reports, units);
+        break;
+      case 'Year':
+        units = lastMonths(12);
+        dates = formatDates(units, { month: 'short' });
+        data = dataForMonths(this.props.reports, units);
+        break;
+    }
 
     const chartData = {
-    	labels: days,
+    	labels: dates,
     	datasets: [
     		{
     			label: this.props.projectName,
