@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { Bar as BarChart } from 'react-chartjs';
 import { getRspecReports } from '../actions/reports_actions';
+import { getColors, setOpacity  } from '../helpers/chart_helpers';
 
-const defaultTimeFormat = () => ({
+const defaultTimeFormat = {
   month: 'short', day: 'numeric', 'hour': 'numeric', 'minute': 'numeric',
-});
+};
 
 class RspecReportsBar extends Component {
   componentDidMount() {
@@ -29,7 +29,7 @@ class RspecReportsBar extends Component {
       return _.times(number, _.constant(0));
     }
     return _.map(reports, report => {
-      const formatOptions = options || defaultTimeFormat();
+      const formatOptions = options || defaultTimeFormat;
       const date = new Date(report.attributes.date.created_at);
       return date.toLocaleDateString('en-US', formatOptions);
     });
@@ -43,20 +43,21 @@ class RspecReportsBar extends Component {
   }
 
   getStatus(reports, number = 10) {
+    const colors = getColors();
     if(_.isEmpty(reports)) {
-      return _.times(number, _.constant('rgba(220,220,220,0.8)'));
+      return _.times(number, _.constant(colors['grey']));
     }
     return _.map(reports, report => {
       const failureCount = report.attributes.summary.failure_count;
       if(failureCount > 0) {
-        return 'rgba(215,0,0,o)';
+        return colors['red'];
       }
-      return 'rgba(0,145,0,o)';
+      return colors['green'];
     });
   }
 
-  setOpacity(colors, opacity = '1') {
-    return _.map(colors, color => _.replace(color, 'o', opacity));
+  setAllOpacity(colors, opacity = 1) {
+    return _.map(colors, color => setOpacity(color, opacity));
   }
 
   render() {
@@ -74,10 +75,10 @@ class RspecReportsBar extends Component {
     	datasets: [
     		{
     			label: this.props.projectName,
-          fillColor: this.setOpacity(colors, 0.4),
-      		strokeColor: this.setOpacity(colors, 0.7),
-          highlightFill: this.setOpacity(colors, 0.6),
-    			highlightStroke: this.setOpacity(colors, 1),
+          fillColor: this.setAllOpacity(colors, 0.4),
+      		strokeColor: this.setAllOpacity(colors, 0.7),
+          highlightFill: this.setAllOpacity(colors, 0.6),
+    			highlightStroke: this.setAllOpacity(colors, 1),
     			data: data
     		}
     	]

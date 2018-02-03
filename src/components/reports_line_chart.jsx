@@ -3,6 +3,11 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Line as LineChart } from 'react-chartjs';
 import { getReports } from '../actions/reports_actions';
+import { lastDays, formatDays, reportsPerDay, reportsCreatedDates } from '../helpers/chart_helpers';
+
+const parseDate = report => {
+  return _.get(report, 'attributes.date.created_at');
+}
 
 class ReportsLineChart extends Component {
   componentDidMount() {
@@ -13,59 +18,11 @@ class ReportsLineChart extends Component {
     }
   }
 
-  lastDays(number) {
-    let result = [];
-    for (let i = number - 1; i >= 0; i--) {
-        const d = new Date();
-        let date = d.setDate(d.getDate() - i);
-        result.push(new Date(date));
-    }
-
-    return(result);
-  }
-
-  formatDays(dates, options) {
-    const formatOptions = options || { month: 'short', day: 'numeric' };
-    return _.map(dates, (date) => {
-      return date.toLocaleDateString('en-US', formatOptions);
-    });
-  }
-
-  reportsCreatedDates() {
-    const reportsArr = _.values(this.props.reports);
-    return _.map(reportsArr, (report) => {
-      return new Date(report.attributes.date.created_at);
-    });
-  }
-
-  isSameDay(dateOne, dateTwo) {
-    return dateOne.getFullYear() === dateTwo.getFullYear()
-      && dateOne.getDate() === dateTwo.getDate();
-  }
-
-  reportsPerDay(dates) {
-    const reportsDates = this.reportsCreatedDates();
-    if(reportsDates.length === 0) {
-      return _.map(dates, d => 0);
-    }
-
-    let numberOfReportsArr = new Array();
-    for(let i = 0; i < dates.length; i++) {
-      let numberOfReports = 0;
-      for(let y = 0; y < reportsDates.length; y++) {
-        if(this.isSameDay(reportsDates[y], dates[i])) {
-          numberOfReports++;
-        }
-      }
-      numberOfReportsArr.push(numberOfReports);
-    }
-    return numberOfReportsArr;
-  }
-
   render() {
-    const dates = this.lastDays(10);
-    const days = this.formatDays(dates);
-    const data = this.reportsPerDay(dates);
+    const dates = lastDays(10);
+    const days = formatDays(dates);
+    const reportsDates = reportsCreatedDates(this.props.reports, parseDate);
+    const data = reportsPerDay(dates, reportsDates);
 
     const chartData = {
     	labels: days,
@@ -73,8 +30,8 @@ class ReportsLineChart extends Component {
     		{
     			label: this.props.projectName,
     			fillColor: "rgba(255,212,91,0.4)",
-    			strokeColor: "rgba(255,165,91,0.9)",
-    			pointColor: "rgba(255,165,91,1)",
+    			strokeColor: "rgba(255,165,91,0.8)",
+    			pointColor: "rgba(255,165,91,0.9)",
     			pointStrokeColor: "#fff",
     			pointHighlightFill: "rgba(255,165,91,1)",
     			pointHighlightStroke: "rgba(220,220,220,1)",
