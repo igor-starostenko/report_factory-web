@@ -147,14 +147,14 @@ form + div > #delete {
   }
 
   #chart-pills {
-    padding: 0;
     width: 30rem;
     margin: auto;
+    display: inline-flex;
   }
 
   #chart-pills > li {
-    width: 33.3%;
     text-align: center;
+    flex-grow: 1;
   }
 }
 
