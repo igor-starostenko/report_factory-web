@@ -4,7 +4,17 @@ import { Link } from 'react-router-dom';
 import UserReportsLineChart from './user_reports_line_chart';
 import { authUser, logOut } from '../actions/users_actions';
 
+const formatDate = (date, options) => {
+  const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
+  return date.toLocaleDateString('en-US', formatOptions);
+};
+
 class User extends Component {
+  constructor() {
+    super();
+    this.logOut = this.logOut.bind(this);
+  }
+
   componentDidMount() {
     if (!this.props.user.data) {
       const { xApiKey } = this.props;
@@ -17,18 +27,13 @@ class User extends Component {
     return this.props.history.push('/');
   }
 
-  formatDate(date, options) {
-    const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
-    return date.toLocaleDateString('en-US', formatOptions);
-  }
-
   render() {
     if (!this.props.user.data) {
       return (<div className="loading">Loading...</div>);
     }
 
     const userId = this.props.user.data.id;
-    const { name, email, type, date } = this.props.user.data.attributes;
+    const { name, date } = this.props.user.data.attributes;
     const createdAt = new Date(date.created_at);
     const userReportsUrl = `user/${userId}/reports`;
 
@@ -37,7 +42,7 @@ class User extends Component {
         <div className="project-container">
           <div className="project-header">
             <div className="project-name">{name}</div>
-            <div className="project-since">since {this.formatDate(createdAt)}</div>
+            <div className="project-since">since {formatDate(createdAt)}</div>
           </div>
           <div className="details-button view-details">
             <Link to={userReportsUrl} className="btn btn-primary btn-fill">
@@ -45,7 +50,7 @@ class User extends Component {
             </Link>
           </div>
           <div className="details-button action-button">
-            <button onClick={this.logOut.bind(this)} className="btn btn-warning btn-fill">
+            <button onClick={this.logOut} className="btn btn-warning btn-fill">
               Log Out
             </button>
           </div>

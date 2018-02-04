@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ReportsLineChart from './reports_line_chart';
-import ReportsList from './reports_list';
 import { getProject } from '../actions/projects_actions';
+
+const formatDate = (date, options) => {
+  const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
+  return date.toLocaleDateString('en-US', formatOptions);
+};
 
 class Project extends Component {
   componentDidMount() {
@@ -11,11 +15,6 @@ class Project extends Component {
       const { xApiKey, projectName } = this.props;
       this.props.getProject(projectName, xApiKey);
     }
-  }
-
-  formatDate(date, options) {
-    const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
-    return date.toLocaleDateString('en-US', formatOptions);
   }
 
   render() {
@@ -37,7 +36,7 @@ class Project extends Component {
         <div className="project-container">
           <div className="project-header">
             <div className="project-name">{projectName}</div>
-            <div className="project-since">since {this.formatDate(createdAt)}</div>
+            <div className="project-since">since {formatDate(createdAt)}</div>
           </div>
           <div className="details-button view-details">
             <Link to={rspecUrl} className="btn btn-primary btn-fill">

@@ -13,13 +13,7 @@ class Projects extends Component {
   }
 
   renderProjects() {
-    const { projectsList } = this.props.projects;
-
-    if (!projectsList) {
-      return (<div>Loading</div>);
-    }
-
-    return _.map(projectsList.data, project => {
+    return _.map(this.props.projects, (project) => {
       const projectName = project.attributes.project_name;
       const projectDescription = project.attributes.project_description;
       const projectPath = `/projects/${projectName}`;
@@ -52,7 +46,7 @@ class Projects extends Component {
 }
 
 const mapStateToProps = state => ({
-  projects: state.projects,
+  projects: state.projects.projectsList.data,
   xApiKey: state.users.currentUser.xApiKey,
 });
 

@@ -20,10 +20,8 @@ export const GET_USER_REPORTS = 'get_user_reports';
 
 const apiUrl = process.env.API_URL;
 const usersClient = new UsersClient(apiUrl);
-// const adminXApiKey = 'b6922679-446e-4e12-8d4f-26cface97a02';
-// const testerXApiKey = '9e04136f-c71d-4d16-924a-216e9af08903';
 
-export const getApiKey = user => {
+export const getApiKey = (user) => {
   let xApiKey = Cookies.get('X-API-KEY');
   if (!xApiKey && user) {
     if (user.data) {
@@ -36,7 +34,7 @@ export const getApiKey = user => {
   };
 };
 
-export const authUser = xApiKey => {
+export const authUser = (xApiKey) => {
   const request = usersClient.authUser(xApiKey);
 
   return {
@@ -54,15 +52,15 @@ export const signIn = ({ email, password }) => {
   };
 };
 
-export const signInSuccess = signIn => {
-  const xApiKey = signIn.data.attributes.api_key;
+export const signInSuccess = (payload) => {
+  const xApiKey = payload.data.attributes.api_key;
   Cookies.set('X-API-KEY', xApiKey, { expires: 7 });
   store.dispatch(getApiKey(signIn));
 
   return {
     type: LOGIN_SUCCESS,
     payload: signIn,
-  }
+  };
 };
 
 export const signInFailure = errors => ({
@@ -75,8 +73,8 @@ export const logOut = () => {
 
   return {
     type: LOGOUT,
-  }
-}
+  };
+};
 
 export const getUserReports = (userId, xApiKey) => {
   const request = usersClient.getAllUserReports(userId, xApiKey);
@@ -84,8 +82,8 @@ export const getUserReports = (userId, xApiKey) => {
   return {
     type: GET_USER_REPORTS,
     payload: request.then(response => response.json()),
-  }
-}
+  };
+};
 
 // api.getAllUsers(testerXApiKey);
 // api.createUser('New', 'testerNew@mailinator.com', 'Qwerty12', 'Tester', adminXApiKey);

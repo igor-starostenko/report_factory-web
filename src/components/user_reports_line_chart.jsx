@@ -1,72 +1,69 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { LineChart } from './line_chart'
+import LineChart from './line_chart';
 import { getUserReports } from '../actions/users_actions';
 import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth, reportsCreatedDates,
-         groupReportsByProjects, getColors, setOpacity  } from '../helpers/chart_helpers';
+  groupReportsByProjects, getColors, setOpacity } from '../helpers/chart_helpers';
 
-const parseDate = report => {
-  return _.get(report, 'attributes.report.date.created_at');
-}
-
-const parseProjectName = report => {
-  return _.get(report, 'attributes.report.project_name');
-}
+const parseDate = report => _.get(report, 'attributes.report.date.created_at');
+const parseProjectName = report => _.get(report, 'attributes.report.project_name');
 
 const projectReportsDatasets = (reports, dates, reportsPerDate) => {
-  let datasets = [];
+  const datasets = [];
   let colorIndex = 0;
   const colors = getColors();
   const colorNames = Object.keys(colors);
   _.forIn(reports, (projectReports, projectName) => {
     const reportsDates = reportsCreatedDates(projectReports, parseDate);
     const color = _.get(colors, `${colorNames[colorIndex]}`);
-		datasets.push({
-			label: projectName,
-			fillColor: setOpacity(color, 0.4),
-			strokeColor: setOpacity(color, 0.8),
-			pointColor: setOpacity(color, 0.9),
-			pointStrokeColor: "#fff",
-			pointHighlightFill: setOpacity(color, 1),
-			pointHighlightStroke: "rgba(220,220,220,1)",
-			data: reportsPerDate(dates, reportsDates)
-		});
-    colorIndex === colorNames.length - 1 ? colorIndex = 0 : colorIndex++;
+    datasets.push({
+      label: projectName,
+      fillColor: setOpacity(color, 0.4),
+      strokeColor: setOpacity(color, 0.8),
+      pointColor: setOpacity(color, 0.9),
+      pointStrokeColor: '#fff',
+      pointHighlightFill: setOpacity(color, 1),
+      pointHighlightStroke: 'rgba(220,220,220,1)',
+      data: reportsPerDate(dates, reportsDates),
+    });
+    /* eslint-disable no-unused-expressions */
+    colorIndex === colorNames.length - 1 ? colorIndex = 0 : colorIndex += 1;
+    /* eslint-enable no-unused-expressions */
   });
   return datasets;
-}
+};
 
 const getChartData = (reports, activeFilter) => {
-  let units, dates, datasets;
+  let units;
+  let labels;
+  let datasets;
   switch (activeFilter) {
     case 'Week':
       units = lastDays(8);
-      dates = formatDates(units);
+      labels = formatDates(units);
       datasets = projectReportsDatasets(reports, units, reportsPerDay);
       break;
     case 'Month':
       units = lastDays(32);
-      dates = formatDates(units);
+      labels = formatDates(units);
       datasets = projectReportsDatasets(reports, units, reportsPerDay);
       break;
     case 'Year':
       units = lastMonths(12);
-      dates = formatDates(units, { month: 'short' });
+      labels = formatDates(units, { month: 'short' });
       datasets = projectReportsDatasets(reports, units, reportsPerMonth);
       break;
+    default: throw new Error(`Filter ${activeFilter} not supported`);
   }
 
-  return {
-  	labels: dates,
-  	datasets: datasets,
-  };
-}
+  return { labels, datasets };
+};
 
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
-}
+};
 
 class UserReportsLineChart extends Component {
   componentDidMount() {
@@ -86,14 +83,19 @@ class UserReportsLineChart extends Component {
     }
 
     let reports = this.props.userReports[this.props.userId];
-
     reports = groupReportsByProjects(reports, parseProjectName);
-    return (<LineChart getChartData={getChartData} options={chartOptions}
-                       reports={reports} />);
+
+    return (
+      <LineChart
+        getChartData={getChartData}
+        options={chartOptions}
+        reports={reports}
+      />
+    );
   }
 }
 
-const mapStateToProps = state  => ({
+const mapStateToProps = state => ({
   userReports: state.users.userReports.data,
   userId: _.get(state.users.currentUser, 'data.id'),
   error: state.users.userReports.error,
