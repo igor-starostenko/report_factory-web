@@ -60,7 +60,7 @@ const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
   tooltipFillColor: "rgba(255,165,91,0.8)",
-  tooltipTemplate: "<%= value %>",
+  tooltipTemplate: "<%= value %> report(s)",
 }
 
 class ReportsLineChart extends Component {

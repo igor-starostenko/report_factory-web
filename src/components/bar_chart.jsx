@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Line } from 'react-chartjs';
+import { Bar } from 'react-chartjs';
 
-export class LineChart extends Component {
+export class BarChart extends Component {
   constructor(state) {
     super(state)
-    this.state = { activeFilter: 'Week' }
+    this.state = { activeFilter: 'Last 10' }
   }
 
   setFilter(name) {
@@ -25,13 +25,12 @@ export class LineChart extends Component {
 
     return (
       <div>
-        <Line data={getChartData(reports, this.state.activeFilter)}
-              options={options} height="320" />
+        <Bar data={getChartData(reports, this.state.activeFilter)}
+             options={options} height="350" redraw />
         <div className="filters">
           <ul id="chart-pills" className="nav nav-pills ct-orange">
-            {this.renderFilterItem('Year')}
-            {this.renderFilterItem('Month')}
-            {this.renderFilterItem('Week')}
+            {this.renderFilterItem('Last 30')}
+            {this.renderFilterItem('Last 10')}
           </ul>
         </div>
       </div>
