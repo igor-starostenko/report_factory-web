@@ -17,7 +17,7 @@ export default (ComposedComponent) => {
     ensureApiKeyAvailable() {
       if (!this.props.xApiKey) {
         const { currentUser, getApiKey } = this.props;
-        if (!getApiKey(currentUser).xApiKey) {
+        if (!getApiKey(currentUser).payload) {
           return this.props.history.push('/login');
         }
       }
