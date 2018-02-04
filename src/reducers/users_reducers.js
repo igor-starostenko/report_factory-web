@@ -4,7 +4,7 @@ import { EDIT_USER, EDIT_USER_SUCCESS, EDIT_USER_FAILURE, RESET_EDIT_USER, GET_U
 
 const INITIAL_STATE = { currentUser: { data: null, error: null, loading: false, xApiKey: null },
             						activeUser: { data: null, error: null, loading: false },
-            						userReports: { data: {}, error: null, loading: false },
+            						userReports: { data: null, error: null, loading: false },
             						editUser: { data: null, error:null, loading: false },
             						usersList: { data: [], error:null, loading: false } };
 
@@ -26,10 +26,10 @@ export default (state = INITIAL_STATE, action) => {
     case GET_USER_REPORTS:
       const userId = _.get(_.last(action.payload.data), 'attributes.user_id');
       if (userId) {
-        const data = _.set(state.userReports.data, userId, action.payload.data);
+        const data = _.set(state.userReports.data || {}, userId, action.payload.data);
         return { ...state, userReports: { data: data, error: null, loading: false } };
       }
-      return { ...state };
+      return { ...state, userReports: { data: {}, error: true, loading: false } };
     case GET_USERS:
       const list = _.mapKeys(action.payload.data, obj => obj.id);
       return { ...state, usersList: { data: list, error: null, loading: false} };

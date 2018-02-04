@@ -70,26 +70,33 @@ const chartOptions = {
 
 class UserReportsLineChart extends Component {
   componentDidMount() {
-    const { reports } = this.props;
-    if (!reports || _.isEmpty(reports)) {
-      const { userId, xApiKey } = this.props;
-      this.props.getUserReports(userId, xApiKey);
+    const { userReports, userId } = this.props;
+    if (!_.get(userReports, userId)) {
+      this.props.getUserReports(userId, this.props.xApiKey);
     }
   }
 
   render() {
-    if (!this.props.reports) {
+    if (!this.props.userReports) {
       return (<div className="loading">Loading...</div>);
     }
 
-    const reports = groupReportsByProjects(this.props.reports, parseProjectName);
+    if (this.props.error) {
+      return (<div className="loading">No reports submitted by this user yet</div>);
+    }
+
+    let reports = this.props.userReports[this.props.userId];
+
+    reports = groupReportsByProjects(reports, parseProjectName);
     return (<LineChart getChartData={getChartData} options={chartOptions}
                        reports={reports} />);
   }
 }
 
 const mapStateToProps = state  => ({
-  reports: _.get(state.users.userReports.data, `[${state.users.currentUser.data.id}]`),
+  userReports: state.users.userReports.data,
+  userId: _.get(state.users.currentUser, 'data.id'),
+  error: state.users.userReports.error,
   xApiKey: state.users.currentUser.xApiKey,
 });
 
