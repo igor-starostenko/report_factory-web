@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 
 class GenericForm extends Component {
   static renderField(field) {
@@ -8,7 +9,7 @@ class GenericForm extends Component {
     return (
       <div className={className}>
         <label>{field.label}</label>
-        <input className="form-control" type="text" {...field.input} />
+        <input className="form-control" type={field.type} {...field.input} />
         <div className="text-help error">
           {touched ? error : ''}
         </div>
@@ -17,13 +18,9 @@ class GenericForm extends Component {
   }
 
   static renderErrors(errors) {
-    if (errors) {
-      let i = 0;
-      return _.map(errors, error => {
-        return (<li key={i++} className="error">{error.detail}</li>);
-      });
-    }
-  };
+    const i = 0;
+    return _.map(errors, error => (<li key={i + 1} className="error">{error.detail}</li>));
+  }
 }
 
 export default GenericForm;

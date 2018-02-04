@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import GenericForm from './generic_form';
 import { signIn, signInFailure, signInSuccess } from '../actions/users_actions';
 
@@ -12,14 +13,14 @@ class Login extends Component {
         .then((response) => {
           if (!response.payload.data) {
             dispatch(signInFailure(response.payload));
-            reject(response.data); //this is for redux-form itself
+            reject(response.data); // this is for redux-form itself
           } else {
             dispatch(signInSuccess(response.payload));
-            resolve();//this is for redux-form itself
+            resolve(); // this is for redux-form itself
             this.props.history.push('/projects');
           }
         });
-     });
+    });
   }
 
   render() {
@@ -33,11 +34,13 @@ class Login extends Component {
           <Field
             label="Email"
             name="email"
+            type="text"
             component={GenericForm.renderField}
           />
           <Field
             label="Password"
             name="password"
+            type="password"
             component={GenericForm.renderField}
           />
           <ul>{GenericForm.renderErrors(errors)}</ul>
