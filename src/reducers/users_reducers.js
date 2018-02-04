@@ -24,8 +24,13 @@ export default (state = INITIAL_STATE, action) => {
     case LOGOUT:
       return { ...state, currentUser: { data: null, error: null, loading: false, xApiKey: null }};
     case GET_USER_REPORTS:
-      const data = _.set(state.userReports.data, action.userId, action.payload.data);
-      return { ...state, userReports: { data: data, error: null, loading: false }};
+      const userId = _.get(_.last(action.payload.data), 'attributes.user_id');
+      if (userId) {
+        const data = _.set(state.userReports.data, userId, action.payload.data);
+        return { ...state, userReports: { data: data, error: null, loading: false }};
+      } else {
+        return { ...state };
+      }
     case GET_USERS:
       const list = _.mapKeys(action.payload.data, obj => obj.id);
       return { ...state, usersList: { data: list, error: null, loading: false} };
