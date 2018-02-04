@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-// import { Bar as BarChart } from 'react-chartjs';
 import { BarChart } from './bar_chart';
 import { getRspecReports } from '../actions/reports_actions';
 import { getColors, setOpacity  } from '../helpers/chart_helpers';
@@ -114,7 +113,7 @@ class RspecReportsBar extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   rspecReports: state.rspecReports[ownProps.projectName],
-  xApiKey: state.xApiKey,
+  xApiKey: state.users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, { getRspecReports })(RspecReportsBar);

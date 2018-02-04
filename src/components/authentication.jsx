@@ -30,7 +30,7 @@ export default (ComposedComponent) => {
 
   const mapStateToProps = state => ({
     currentUser: state.users.currentUser,
-    xApiKey: state.xApiKey,
+    xApiKey: state.users.currentUser.xApiKey,
   });
 
   return connect(mapStateToProps, { getApiKey })(Authentication);

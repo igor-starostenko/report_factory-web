@@ -60,7 +60,7 @@ class User extends Component {
 
 const mapStateToProps = state => ({
   user: state.users.currentUser,
-  xApiKey: state.xApiKey,
+  xApiKey: state.users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, { authUser, logOut })(User);

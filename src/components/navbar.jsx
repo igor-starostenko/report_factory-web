@@ -55,7 +55,7 @@ class Navbar extends Component {
 
 const mapStateToProps = state => ({
   currentUser: state.users.currentUser,
-  xApiKey: state.xApiKey,
+  xApiKey: state.users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, {})(Navbar);

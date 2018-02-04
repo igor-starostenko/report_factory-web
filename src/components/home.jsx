@@ -32,7 +32,7 @@ class Home extends Component {
 
 const mapStateToProps = state => ({
   currentUser: state.currentUser,
-  xApiKey: state.xApiKey,
+  xApiKey: state.users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, { getApiKey })(Home);

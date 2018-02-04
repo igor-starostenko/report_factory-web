@@ -59,7 +59,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state, ownProps) => ({
   projectName: ownProps.match.params.name,
-  xApiKey: state.xApiKey,
+  xApiKey: state.users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateProject);

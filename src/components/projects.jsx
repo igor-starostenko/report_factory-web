@@ -53,7 +53,7 @@ class Projects extends Component {
 
 const mapStateToProps = state => ({
   projects: state.projects,
-  xApiKey: state.xApiKey,
+  xApiKey: state.users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, { getProjects })(Projects);

@@ -91,7 +91,7 @@ class UserReportsLineChart extends Component {
 
 const mapStateToProps = state  => ({
   reports: state.users.userReports.data,
-  xApiKey: state.xApiKey,
+  xApiKey: state.users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, { getUserReports })(UserReportsLineChart);

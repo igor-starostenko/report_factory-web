@@ -43,7 +43,7 @@ class ReportsList extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   reports: state.reports[ownProps.projectName],
-  xApiKey: state.xApiKey,
+  xApiKey: state.users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, { getReports })(ReportsList);

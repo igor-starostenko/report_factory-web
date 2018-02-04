@@ -61,7 +61,7 @@ class Project extends Component {
 const mapStateToProps = (state, ownProps) => ({
   projectName: ownProps.match.params.name,
   project: state.projects.activeProject,
-  xApiKey: state.xApiKey,
+  xApiKey: state.users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, { getProject })(Project);

@@ -4,10 +4,9 @@ import users from './users_reducers';
 import projects from './projects_reducers';
 import reports from './reports_reducers';
 import rspecReports from './rspec_reports_reducers';
-import xApiKey from './api_key_reducers';
 
 const rootReducer = combineReducers({
-  form, users, projects, reports, rspecReports, xApiKey,
+  form, users, projects, reports, rspecReports,
 });
 
 export default rootReducer;

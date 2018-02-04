@@ -32,7 +32,7 @@ export const getApiKey = user => {
   }
   return {
     type: API_KEY,
-    xApiKey: xApiKey || null,
+    payload: xApiKey || null,
   };
 };
 
@@ -72,7 +72,6 @@ export const signInFailure = errors => ({
 
 export const logOut = () => {
   Cookies.remove('X-API-KEY');
-  store.dispatch(resetApiKey());
 
   return {
     type: LOGOUT,

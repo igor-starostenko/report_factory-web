@@ -21,7 +21,7 @@ class CreateProject extends Component {
 }
 
 const mapStateToProps = state => ({
-  xApiKey: state.xApiKey,
+  xApiKey: state.users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, { createProject })(CreateProject);
