@@ -9,7 +9,12 @@ class GenericForm extends Component {
     return (
       <div className={className}>
         <label>{field.label}</label>
-        <input className="form-control" type={field.type} {...field.input} />
+        <input
+          className="form-control"
+          type={field.type}
+          placeholder={field.placeholder}
+          {...field.input}
+        />
         <div className="text-help error">
           {touched ? error : ''}
         </div>
