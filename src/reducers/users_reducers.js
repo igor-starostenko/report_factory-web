@@ -16,7 +16,7 @@ export default (state = INITIAL_STATE, action) => {
     case LOGIN:
       return { ...state, currentUser: { data: state.currentUser.data, loading: true, xApiKey: null } };
     case LOGIN_SUCCESS:
-      const xApiKey = _.get(action.payload, 'data.attributes.api_key');
+      const xApiKey = _.get(action.payload, 'data.attributes.api_key') || state.currentUser.xApiKey;
       return { ...state, currentUser: { data: action.payload.data, error: null, loading: false, xApiKey: xApiKey } };
     case LOGIN_FAILURE:
       error = action.payload.errors;
