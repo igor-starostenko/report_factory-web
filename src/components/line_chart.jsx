@@ -3,8 +3,8 @@ import { Line } from 'react-chartjs';
 
 export class LineChart extends Component {
   constructor(state) {
-    super(state)
-    this.state = { activeFilter: 'Week' }
+    super(state);
+    this.state = { activeFilter: 'Week' };
   }
 
   setFilter(name) {

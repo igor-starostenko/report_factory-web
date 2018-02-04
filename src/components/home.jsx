@@ -5,14 +5,29 @@ import _ from 'lodash';
 import { getApiKey } from '../actions/users_actions';
 
 class Home extends Component {
-  renderLogin() {
+  constructor(state) {
+    super(state);
+    this.state = { loggedIn: false };
+  }
+
+  componentDidMount() {
     const { currentUser, xApiKey, getApiKey } = this.props;
     if (_.isEmpty(xApiKey)) {
-      if (getApiKey(currentUser).xApiKey) {
-        return (
-          <Link to="/login" className="btn btn-lg btn-info btn-fill">Login</Link>
-        )
+      if (!getApiKey(currentUser).payload) {
+        this.setState({ loggedIn: true });
       }
+    }
+  }
+
+  renderLogin() {
+    if (this.state.loggedIn) {
+      return(
+        <div>
+          <Link to="/login" className="btn btn-lg btn-info btn-fill">Login</Link>
+        </div>
+      );
+    } else {
+      return (<div></div>);
     }
   }
 
