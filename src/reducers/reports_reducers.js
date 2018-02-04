@@ -9,7 +9,7 @@ export default (state = {}, action) => {
         const projectName = data[0].attributes.project_name;
         return { ...state, [projectName]: _.mapKeys(data, obj => obj.id) };
       }
-      return action.payload;
+      return { ...state };
     }
     default: {
       return state;

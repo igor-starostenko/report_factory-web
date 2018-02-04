@@ -79,11 +79,10 @@ class UserReportsLineChart extends Component {
 
   render() {
     if (!this.props.reports) {
-      return (<div className="loading">Loading</div>);
+      return (<div className="loading">Loading...</div>);
     }
 
     const reports = groupReportsByProjects(this.props.reports, parseProjectName);
-
     return (<LineChart getChartData={getChartData} options={chartOptions}
                        reports={reports} />);
   }

@@ -9,7 +9,7 @@ export default (state = {}, action) => {
         const projectName = data[0].attributes.project_name;
         return { ...state, [projectName]: _.mapKeys(data, obj => obj.id) };
       }
-      return action.payload;
+      return { ...state };
     }
     case GET_RSPEC_REPORT: {
       const { data } = action.payload;
@@ -17,7 +17,7 @@ export default (state = {}, action) => {
         const projectName = data.attributes.project_name;
         return { ...state, [projectName]: { [data.id]: data } };
       }
-      return action.payload;
+      return { ...state };
     }
     default: {
       return state;

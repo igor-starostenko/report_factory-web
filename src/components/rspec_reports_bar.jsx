@@ -102,10 +102,6 @@ class RspecReportsBar extends Component {
   }
 
   render() {
-    if(_.isEmpty(this.props.rspecReports)) {
-      return (<div className="loading">Loading...</div>);
-    }
-
     return (<BarChart getChartData={getChartData} options={chartOptions}
                       reports={this.props.rspecReports} />);
   }

@@ -27,10 +27,9 @@ export default (state = INITIAL_STATE, action) => {
       const userId = _.get(_.last(action.payload.data), 'attributes.user_id');
       if (userId) {
         const data = _.set(state.userReports.data, userId, action.payload.data);
-        return { ...state, userReports: { data: data, error: null, loading: false }};
-      } else {
-        return { ...state };
+        return { ...state, userReports: { data: data, error: null, loading: false } };
       }
+      return { ...state };
     case GET_USERS:
       const list = _.mapKeys(action.payload.data, obj => obj.id);
       return { ...state, usersList: { data: list, error: null, loading: false} };
