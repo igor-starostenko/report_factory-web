@@ -83,6 +83,7 @@ export const getUserReports = (userId, xApiKey) => {
 
   return {
     type: GET_USER_REPORTS,
+    userId: userId,
     payload: request.then(response => response.json()),
   }
 }
