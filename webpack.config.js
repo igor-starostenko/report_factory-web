@@ -31,7 +31,20 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: ['style-loader', 'css-loader?modules=true&camelCase=true'],
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader?modules=true&camelCase=true',
+            options: {
+              modules: true,
+              /* eslint-disable no-unused-vars */
+              getLocalIdent: (context, localIdentName, localName, options) => localName,
+              /* eslint-enable no-unused-vars */
+            },
+          },
+        ],
       },
     ],
   },
