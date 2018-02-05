@@ -12,9 +12,16 @@ class UpdateProject extends Component {
     this.handleDelete = this.handleDelete.bind(this);
   }
 
+  /* eslint-disable consistent-return */
   handleDelete() {
     const { dispatch, projectName, xApiKey } = this.props;
+    /* eslint-disable no-restricted-globals */
+    /* eslint-disable no-alert */
+    /* eslint-disable no-undef */
     if (confirm(`Are you sure you want to delete "${projectName}" project?`)) {
+    /* eslint-enable no-restricted-globals */
+    /* eslint-enable no-alert */
+    /* eslint-enable no-undef */
       return new Promise((resolve, reject) => {
         dispatch(this.props.deleteProject(projectName, xApiKey))
           .then((response) => {
@@ -29,6 +36,7 @@ class UpdateProject extends Component {
       });
     }
   }
+  /* eslint-enable consistent-return */
 
   deleteButton() {
     return (

@@ -26,7 +26,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, editProject: { data, error: null, loading: false } };
     }
     case EDIT_PROJECT_FAILURE: {
-      const { error } = action.payload;
+      const error = action.payload.errors;
       return { ...state, editProject: { data: null, error, loading: false } };
     }
     case RESET_EDIT_PROJECT: {

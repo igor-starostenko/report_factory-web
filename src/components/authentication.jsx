@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
 import { getApiKey } from '../actions/users_actions';
-import _ from 'lodash';
 
 export default (ComposedComponent) => {
   class Authentication extends Component {
@@ -14,14 +12,16 @@ export default (ComposedComponent) => {
       this.ensureApiKeyAvailable();
     }
 
+    /* eslint-disable consistent-return */
     ensureApiKeyAvailable() {
       if (!this.props.xApiKey) {
-        const { currentUser, getApiKey } = this.props;
-        if (!getApiKey(currentUser).payload) {
+        const { currentUser } = this.props;
+        if (!this.props.getApiKey(currentUser).payload) {
           return this.props.history.push('/login');
         }
       }
     }
+    /* eslint-enable consistent-return */
 
     render() {
       return <ComposedComponent {...this.props} />;
