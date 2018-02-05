@@ -85,7 +85,15 @@ export const getUserReports = (userId, xApiKey) => {
   };
 };
 
-// api.getAllUsers(testerXApiKey);
+export const getUsers = (xApiKey) => {
+  const request = usersClient.getAllUsers(xApiKey);
+
+  return {
+    type: GET_USERS,
+    payload: request.then(response => response.json()),
+  };
+};
+
 // api.createUser('New', 'testerNew@mailinator.com', 'Qwerty12', 'Tester', adminXApiKey);
 // api.showUser(1, testerXApiKey);
 // api.updateUser(5, 'Update', 'update_5@mailinator.com', 'Qwerty12', 'Tester', adminXApiKey);

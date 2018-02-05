@@ -16,6 +16,7 @@ import Projects from './components/projects';
 import RequireAuth from './components/authentication';
 import RspecReports from './components/rspec_reports';
 import User from './components/user';
+import Users from './components/users';
 import history from './history';
 import reducers from './reducers';
 
@@ -34,6 +35,7 @@ ReactDOM.render(
         <App path="/">
           <Switch>
             <Route path="/login" component={Login} />
+            <Route path="/users" component={RequireAuth(Users)} />
             <Route path="/user" component={RequireAuth(User)} />
             <Route path="/projects/:name/edit" component={RequireAuth(UpdateProject)} />
             <Route path="/projects/:name/rspec" component={RequireAuth(RspecReports)} />
