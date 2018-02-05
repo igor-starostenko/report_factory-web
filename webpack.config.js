@@ -28,6 +28,11 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        loader: ['style-loader', 'css-loader?modules=true&camelCase=true'],
+      },
     ],
   },
   plugins: [
@@ -37,7 +42,7 @@ module.exports = {
       },
     }),
     new webpack.SourceMapDevToolPlugin({
-      filename: 'report_factory.js.map',  
+      filename: 'report_factory.js.map',
     }),
   ],
   devServer: {
