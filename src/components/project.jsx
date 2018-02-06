@@ -35,7 +35,7 @@ class Project extends Component {
       <div>
         <Link to="/projects">Back to projects</Link>
         <div className={styles.detailsContainer}>
-          <div className={styles.projectHeader}>
+          <div className={styles.detailsHeader}>
             <div className={styles.detailsName}>{projectName}</div>
             <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           </div>

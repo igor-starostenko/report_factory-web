@@ -35,7 +35,7 @@ class Projects extends Component {
         <h1>Projects</h1>
         <div className={styles.projectsContainer}>
           {this.renderProjects()}
-          <Link to="/project/new" className={`${styles.newProject} ${styles.project}`}>
+          <Link to="/project/new" className={`${styles.project} ${styles.newProject}`}>
             <div className={styles.projectBody}>
               <div className={styles.newProjectTitle}>Create a project</div>
             </div>
