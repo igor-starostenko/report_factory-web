@@ -94,7 +94,38 @@ export const getUsers = (xApiKey) => {
   };
 };
 
-// api.createUser('New', 'testerNew@mailinator.com', 'Qwerty12', 'Tester', adminXApiKey);
-// api.showUser(1, testerXApiKey);
-// api.updateUser(5, 'Update', 'update_5@mailinator.com', 'Qwerty12', 'Tester', adminXApiKey);
-// api.deleteUser(8, adminXApiKey);
+export const getUser = (userId, xApiKey) => {
+  const request = usersClient.showUser(userId, xApiKey);
+
+  return {
+    type: GET_USER,
+    payload: request.then(response => response.json()),
+  };
+};
+
+export const createUser = (name, email, password, type, xApiKey) => {
+  const request = usersClient.createUser(name, email, password, type, xApiKey);
+
+  return {
+    type: EDIT_USER,
+    payload: request.then(response => response.json()),
+  };
+};
+
+export const updateUser = (userId, newName, newEmail, newPassword, newType, xApiKey) => {
+  const request = usersClient.updateUser(userId, newName, newEmail, newPassword, newType, xApiKey);
+
+  return {
+    type: EDIT_USER,
+    payload: request.then(response => response.json()),
+  };
+};
+
+export const deleteUser = (userId, xApiKey) => {
+  const request = usersClient.deleteUser(userId, xApiKey);
+
+  return {
+    type: EDIT_USER,
+    payload: request.then(response => response.json()),
+  };
+};
