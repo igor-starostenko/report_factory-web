@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ReportsLineChart from './reports_line_chart';
 import { getProject } from '../actions/projects_actions';
+import styles from './styles/Details.css';
 
 const formatDate = (date, options) => {
   const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
@@ -33,22 +34,22 @@ class Project extends Component {
     return (
       <div>
         <Link to="/projects">Back to projects</Link>
-        <div className="project-container">
-          <div className="project-header">
-            <div className="project-name">{projectName}</div>
-            <div className="project-since">since {formatDate(createdAt)}</div>
+        <div className={styles.detailsContainer}>
+          <div className={styles.projectHeader}>
+            <div className={styles.detailsName}>{projectName}</div>
+            <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           </div>
-          <div className="details-button view-details">
+          <div className={`${styles.detailsButton} ${styles.viewDetails}`}>
             <Link to={rspecUrl} className="btn btn-primary btn-fill">
               View Reports
             </Link>
           </div>
-          <div className="details-button action-button">
+          <div className={`${styles.detailsButton} ${styles.actionButton}`}>
             <Link to={editUrl} className="btn btn-warning btn-fill">
               Edit Project
             </Link>
           </div>
-          <div className="chart">
+          <div className={styles.chart}>
             <ReportsLineChart projectName={projectName} />
           </div>
         </div>

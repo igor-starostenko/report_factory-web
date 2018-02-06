@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import UserReportsLineChart from './user_reports_line_chart';
 import { authUser, logOut } from '../actions/users_actions';
+import styles from './styles/Details.css';
 
 const formatDate = (date, options) => {
   const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
@@ -35,26 +36,26 @@ class User extends Component {
     const userId = this.props.user.data.id;
     const { name, date } = this.props.user.data.attributes;
     const createdAt = new Date(date.created_at);
-    const userReportsUrl = `user/${userId}/reports`;
+    const editUserUrl = `users/${userId}/edit`;
 
     return (
       <div>
-        <div className="project-container">
-          <div className="project-header">
-            <div className="project-name">{name}</div>
-            <div className="project-since">since {formatDate(createdAt)}</div>
+        <div className={styles.detailsContainer}>
+          <div className={styles.detailsHeader}>
+            <div className={styles.detailsName}>{name}</div>
+            <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           </div>
-          <div className="details-button view-details">
-            <Link to={userReportsUrl} className="btn btn-primary btn-fill">
-              View Reports
+          <div className={`${styles.detailsButton} ${styles.viewDetails}`}>
+            <Link to={editUserUrl} className="btn btn-primary btn-fill">
+              Edit User
             </Link>
           </div>
-          <div className="details-button action-button">
+          <div className={`${styles.detailsButton} ${styles.actionButton}`}>
             <button onClick={this.logOut} className="btn btn-warning btn-fill">
               Log Out
             </button>
           </div>
-          <div className="chart">
+          <div className={styles.chart}>
             <UserReportsLineChart userId={userId} />
           </div>
         </div>

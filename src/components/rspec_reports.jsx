@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
 import RspecReportsBar from './rspec_reports_bar';
-import ReportsList from './reports_list';
+// import ReportsList from './reports_list';
+import styles from './styles/Details.css';
 
 class RspecReports extends Component {
   render() {
@@ -13,11 +12,11 @@ class RspecReports extends Component {
     return (
       <div>
         <Link to={projectUrl}>Back to project</Link>
-        <div className="project-container">
-          <div className="project-header">
-            <div className="project-name">{projectName}</div>
+        <div className={styles.detailsContainer}>
+          <div className={styles.detailsHeader}>
+            <div className={styles.detailsName}>{projectName}</div>
           </div>
-          <div className="chart">
+          <div className={styles.chart}>
             <RspecReportsBar projectName={projectName} />
           </div>
         </div>

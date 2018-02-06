@@ -1,0 +1,86 @@
+.detailsContainer {
+  height: 100%;
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 70px 500px;
+}
+
+.detailsHeader {
+  white-space: nowrap;
+  grid-column: 1 / 7;
+}
+
+.detailsName {
+  font-size: 52px;
+  font-weight: 400;
+  display: inline-block;
+}
+
+.detailsSince {
+  font-style: italic;
+  margin-left: .5em;
+  display: inline-block;
+}
+
+.viewDetails {
+  margin: auto;
+  grid-column: 9 / span 1;
+}
+
+.actionButton {
+  margin: auto;
+  grid-column: 10 / -1;
+}
+
+.chart {
+  grid-column: 1 / -1;
+  height: 100%;
+  position: relative;
+}
+
+.chart > div {
+  height: 80%;
+}
+
+.filters {
+  margin: 1.5rem;
+  min-height: 40px;
+}
+
+#chart-pills {
+  float: right;
+  margin: 0;
+}
+
+@media only screen and (max-width: 767px) {
+  .detailsContainer {
+    display: grid;
+    grid-template-rows: 70px auto 70px 70px;
+    grid-template-areas:
+        "h h h h h h h h h h h h"
+        "c c c c c c c c c c c c"
+        "r r r r r r r r r r r r"
+        "e e e e e e e e e e e e";
+  }
+
+  .detailsHeader {
+    grid-area: h;
+  }
+
+  .chart {
+    grid-area: c;
+  }
+
+  .viewDetails {
+    grid-area: r;
+  }
+
+  .actionButton {
+    grid-area: e;
+  }
+
+  .detailsButton > *:nth-child(1) {
+    width: 30rem;
+  }
+}

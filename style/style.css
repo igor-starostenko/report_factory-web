@@ -25,65 +25,10 @@
   font-weight: 600;
 }
 
-.project-container {
-  height: 100%;
-  display: grid;
-  grid-gap: 0.5em;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 70px 500px;
-}
-
-.project-header {
-  white-space: nowrap;
-  grid-column: 1 / 7;
-}
-
-.project-name {
-  font-size: 52px;
-  font-weight: 400;
-  display: inline-block;
-}
-
-.project-since {
-  font-style: italic;
-  margin-left: .5em;
-  display: inline-block;
-}
-
-.view-details {
-  margin: auto;
-  grid-column: 9 / span 1;
-}
-
-.action-button {
-  margin: auto;
-  grid-column: 10 / -1;
-}
-
-.chart {
-  grid-column: 1 / -1;
-  height: 100%;
-  position: relative;
-}
-
-.chart > div {
-  height: 80%;
-}
-
 canvas {
   display: block;
   margin: auto;
   width: 100%;
-}
-
-.filters {
-  margin: 1.5rem;
-  min-height: 40px;
-}
-
-#chart-pills {
-  float: right;
-  margin: 0;
 }
 
 form + div > #delete {
@@ -98,36 +43,6 @@ form + div > #delete {
 }
 
 @media only screen and (max-width: 767px) {
-  .project-container {
-    display: grid;
-    grid-template-rows: 70px auto 70px 70px;
-    grid-template-areas:
-        "h h h h h h h h h h h h"
-        "c c c c c c c c c c c c"
-        "r r r r r r r r r r r r"
-        "e e e e e e e e e e e e";
-  }
-
-  .project-header {
-    grid-area: h;
-  }
-
-  .chart {
-    grid-area: c;
-  }
-
-  .view-details {
-    grid-area: r;
-  }
-
-  .action-button {
-    grid-area: e;
-  }
-
-  .details-button > *:nth-child(1) {
-    width: 30rem;
-  }
-
   .formHeader > div > #delete {
     display: none;
   }
