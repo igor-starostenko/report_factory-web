@@ -57,7 +57,7 @@ class Users extends Component {
           {this.renderUsers()}
           <Link to="/users/new" className={`${styles.newUser} ${styles.user}`}>
             <div className={styles.userBody}>
-              <div className={styles.newUserTitle}>Create user</div>
+              <div className={styles.newUserTitle}>Create a user</div>
             </div>
           </Link>
         </div>

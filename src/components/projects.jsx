@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { getProjects } from '../actions/projects_actions';
+import styles from './styles/Projects.css';
 
 class Projects extends Component {
   componentDidMount() {
@@ -18,10 +19,10 @@ class Projects extends Component {
       const projectDescription = project.attributes.project_description;
       const projectPath = `/projects/${projectName}`;
       return (
-        <Link to={projectPath} className="project" key={project.id}>
-          <div className="project-body">
-            <div className="project-title">{projectName}</div>
-            <p className="project-text">{projectDescription}</p>
+        <Link to={projectPath} className={styles.project} key={project.id}>
+          <div className={styles.projectBody}>
+            <div className={styles.projectTitle}>{projectName}</div>
+            <p className={styles.projectText}>{projectDescription}</p>
           </div>
         </Link>
       );
@@ -32,11 +33,11 @@ class Projects extends Component {
     return (
       <div>
         <h1>Projects</h1>
-        <div className="projects-container">
+        <div className={styles.projectsContainer}>
           {this.renderProjects()}
-          <Link to="/project/new" className="new-project project">
-            <div className="project-body">
-              <div className="new-project-title">Create a project</div>
+          <Link to="/project/new" className={`${styles.newProject} ${styles.project}`}>
+            <div className={styles.projectBody}>
+              <div className={styles.newProjectTitle}>Create a project</div>
             </div>
           </Link>
         </div>
