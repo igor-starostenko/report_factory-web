@@ -10,7 +10,9 @@ import Home from './components/home';
 import Login from './components/login';
 import CreateProject from './components/create_project';
 import UpdateProject from './components/update_project';
+import UpdateUser from './components/update_user';
 import NotFound from './components/not_found';
+import MyProfile from './components/my_profile';
 import Project from './components/project';
 import Projects from './components/projects';
 import RequireAuth from './components/authentication';
@@ -35,8 +37,10 @@ ReactDOM.render(
         <App path="/">
           <Switch>
             <Route path="/login" component={Login} />
+            <Route path="/users/:id/edit" component={RequireAuth(UpdateUser)} />
+            <Route path="/users/:id" component={RequireAuth(User)} />
             <Route path="/users" component={RequireAuth(Users)} />
-            <Route path="/user" component={RequireAuth(User)} />
+            <Route path="/user" component={RequireAuth(MyProfile)} />
             <Route path="/projects/:name/edit" component={RequireAuth(UpdateProject)} />
             <Route path="/projects/:name/rspec" component={RequireAuth(RspecReports)} />
             <Route path="/projects/:name" component={RequireAuth(Project)} />

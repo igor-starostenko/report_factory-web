@@ -97,7 +97,6 @@ class UserReportsLineChart extends Component {
 
 const mapStateToProps = state => ({
   userReports: state.users.userReports.data,
-  userId: _.get(state.users.currentUser, 'data.id'),
   error: state.users.userReports.error,
   xApiKey: state.users.currentUser.xApiKey,
 });
