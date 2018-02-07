@@ -233,7 +233,8 @@ input.ct-red + span + label + span.switch-right {
     color: #FFFFFF;
     background-color: #3472F7;
     opacity: 1;
-    filter: alpha(opacity=100); }
+    filter: alpha(opacity=100);
+    }
     .btn-primary.btn-fill:hover, .btn-primary.btn-fill:focus, .btn-primary.btn-fill:active, .btn-primary.btn-fill.active, .open > .btn-primary.btn-fill.dropdown-toggle {
       background-color: #1D62F0;
       color: #FFFFFF; }

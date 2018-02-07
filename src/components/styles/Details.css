@@ -83,4 +83,19 @@
   .detailsButton > *:nth-child(1) {
     width: 30rem;
   }
+
+  .filters {
+    display: flex;
+  }
+
+  #chart-pills {
+    width: 30rem;
+    margin: auto;
+    display: inline-flex;
+  }
+
+  #chart-pills > li {
+    text-align: center;
+    flex-grow: 1;
+  }
 }
