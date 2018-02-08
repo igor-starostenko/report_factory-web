@@ -12,7 +12,7 @@ const formatDate = (date, options) => {
 };
 
 class User extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { user, userId } = this.props;
     if (!user.data || _.get(user, 'data.id') !== userId) {
       this.props.getUser(userId, this.props.xApiKey);

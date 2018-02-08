@@ -6,6 +6,7 @@ export const EDIT_PROJECT_FAILURE = 'create_project_failure';
 export const RESET_EDIT_PROJECT = 'reset_new_project';
 export const GET_PROJECTS = 'get_projects';
 export const GET_PROJECT = 'get_project';
+export const RESET_ACTIVE_PROJECT = 'reset_active_project';
 
 const apiUrl = process.env.API_URL;
 const projectsClient = new ProjectsClient(apiUrl);
@@ -28,14 +29,16 @@ export const getProject = (name, xApiKey) => {
   };
 };
 
+export const resetProject = () => ({ type: RESET_ACTIVE_PROJECT });
+
 export const createProject = (name, xApiKey) => {
   const request = projectsClient.createProject(name, xApiKey);
 
   return {
     type: EDIT_PROJECT,
     payload: request.then(response => response.json()),
-  }
-}
+  };
+};
 
 export const updateProject = (projectName, newName, xApiKey) => {
   const request = projectsClient.updateProject(projectName, newName, xApiKey);
@@ -43,8 +46,8 @@ export const updateProject = (projectName, newName, xApiKey) => {
   return {
     type: EDIT_PROJECT,
     payload: request.then(response => response.json()),
-  }
-}
+  };
+};
 
 export const editProjectSuccess = editProject => ({
   type: EDIT_PROJECT_SUCCESS,
@@ -62,8 +65,8 @@ export const deleteProject = (name, xApiKey) => {
   return {
     type: EDIT_PROJECT,
     payload: request.then(response => response.json()),
-  }
-}
+  };
+};
 
 export const resetEditProject = () => ({
   type: RESET_EDIT_PROJECT,

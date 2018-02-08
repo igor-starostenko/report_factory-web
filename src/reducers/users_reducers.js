@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { EDIT_USER, EDIT_USER_SUCCESS, EDIT_USER_FAILURE, RESET_EDIT_USER, GET_USER_REPORTS,
-  GET_USER, GET_USERS, LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, API_KEY } from '../actions/users_actions';
+  GET_USER, GET_USERS, RESET_ACTIVE_USER, LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
+  API_KEY } from '../actions/users_actions';
 
 /* eslint-disable object-curly-newline */
 const INITIAL_STATE = {
@@ -47,6 +48,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case GET_USER: {
       return { ...state, activeUser: { data: action.payload.data, error: null, loading: false } };
+    }
+    case RESET_ACTIVE_USER: {
+      return { ...state, activeUser: { data: null, error: null, loading: false } };
     }
     case EDIT_USER: {
       return { ...state, editUser: { ...state.newUser, loading: true } };

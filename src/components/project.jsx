@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ReportsLineChart from './reports_line_chart';
-import { getProject } from '../actions/projects_actions';
+import { getProject, resetProject } from '../actions/projects_actions';
 import styles from './styles/Details.css';
 
 const formatDate = (date, options) => {
@@ -16,6 +16,10 @@ class Project extends Component {
       const { xApiKey, projectName } = this.props;
       this.props.getProject(projectName, xApiKey);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetProject();
   }
 
   render() {
@@ -64,4 +68,4 @@ const mapStateToProps = (state, ownProps) => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getProject })(Project);
+export default connect(mapStateToProps, { getProject, resetProject })(Project);

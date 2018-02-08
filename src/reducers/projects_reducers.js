@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { EDIT_PROJECT, EDIT_PROJECT_SUCCESS, EDIT_PROJECT_FAILURE, RESET_EDIT_PROJECT,
-  GET_PROJECT, GET_PROJECTS } from '../actions/projects_actions';
+  GET_PROJECT, GET_PROJECTS, RESET_ACTIVE_PROJECT } from '../actions/projects_actions';
 
 const INITIAL_STATE = {
   activeProject: { data: null, error: null, loading: false },
@@ -17,6 +17,9 @@ export default (state = INITIAL_STATE, action) => {
     case GET_PROJECT: {
       const { data } = action.payload;
       return { ...state, activeProject: { data, error: null, loading: false } };
+    }
+    case RESET_ACTIVE_PROJECT: {
+      return { ...state, activeProject: { data: null, error: null, loading: false } };
     }
     case EDIT_PROJECT: {
       return { ...state, editProject: { ...state.editProject, loading: true } };
