@@ -15,6 +15,7 @@ export const EDIT_USER_FAILURE = 'create_user_failure';
 export const RESET_EDIT_USER = 'reset_new_user';
 export const GET_USERS = 'get_users';
 export const GET_USER = 'get_user';
+export const RESET_ACTIVE_USER = 'reset_active_user';
 
 export const GET_USER_REPORTS = 'get_user_reports';
 
@@ -102,6 +103,8 @@ export const getUser = (userId, xApiKey) => {
     payload: request.then(response => response.json()),
   };
 };
+
+export const resetUser = () => ({ type: RESET_ACTIVE_USER });
 
 export const createUser = (name, email, password, type, xApiKey) => {
   const request = usersClient.createUser(name, email, password, type, xApiKey);

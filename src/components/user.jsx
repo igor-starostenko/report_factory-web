@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import UserReportsLineChart from './user_reports_line_chart';
-import { getUser } from '../actions/users_actions';
+import { getUser, resetUser } from '../actions/users_actions';
 import styles from './styles/Details.css';
 
 const formatDate = (date, options) => {
@@ -12,11 +12,15 @@ const formatDate = (date, options) => {
 };
 
 class User extends Component {
-  componentDidMount() {
+  componentWillMount() {
     const { user, userId } = this.props;
     if (!user.data || _.get(user, 'data.id') !== userId) {
       this.props.getUser(userId, this.props.xApiKey);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetUser();
   }
 
   render() {
@@ -50,4 +54,4 @@ const mapStateToProps = (state, ownProps) => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getUser })(User);
+export default connect(mapStateToProps, { getUser, resetUser })(User);
