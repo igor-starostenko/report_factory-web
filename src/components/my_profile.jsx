@@ -46,12 +46,10 @@ class MyProfile extends Component {
             <div className={styles.detailsName}>{name}</div>
             <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           </div>
-          <div className={`${styles.detailsButton} ${styles.viewDetails}`}>
+          <div className={styles.detailsButtons}>
             <Link to={editUserUrl} className="btn btn-primary btn-fill">
               Edit User
             </Link>
-          </div>
-          <div className={`${styles.detailsButton} ${styles.actionButton}`}>
             <button onClick={this.logOut} className="btn btn-warning btn-fill">
               Log Out
             </button>

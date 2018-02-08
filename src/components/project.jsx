@@ -43,12 +43,10 @@ class Project extends Component {
             <div className={styles.detailsName}>{projectName}</div>
             <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           </div>
-          <div className={`${styles.detailsButton} ${styles.viewDetails}`}>
+          <div className={styles.detailsButtons}>
             <Link to={rspecUrl} className="btn btn-primary btn-fill">
               View Reports
             </Link>
-          </div>
-          <div className={`${styles.detailsButton} ${styles.actionButton}`}>
             <Link to={editUrl} className="btn btn-warning btn-fill">
               Edit Project
             </Link>
