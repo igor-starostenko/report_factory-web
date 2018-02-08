@@ -19,7 +19,8 @@
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-simple, a, .td-name, td {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: "Helvetica Neue","Open Sans",Arial,sans-serif; }
+  font-family: "Helvetica Neue","Open Sans",Arial,sans-serif;
+  }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   font-weight: 400;
@@ -1201,7 +1202,8 @@ input.ct-red + span + label + span.switch-right {
   border: 0;
   font-size: 16px;
   transition: all 0.4s;
-  -webkit-transition: all 0.4s; }
+  -webkit-transition: all 0.4s;
+  }
   .navbar .navbar-brand {
     font-weight: 600;
     margin: 5px 0px;
@@ -1209,7 +1211,8 @@ input.ct-red + span + label + span.switch-right {
     font-size: 20px; }
   .navbar .navbar-nav > li > a {
     padding: 10px 15px;
-    margin: 15px 3px; }
+    margin: 15px 3px;
+    }
   .navbar .navbar-nav > li > a.btn {
     margin: 15px 3px;
     padding: 8px 16px; }
@@ -1244,7 +1247,8 @@ input.ct-red + span + label + span.switch-right {
   color: #FFFFFF;
   border-color: #FFFFFF;
   opacity: 0.8;
-  filter: alpha(opacity=80); }
+  filter: alpha(opacity=80);
+  }
 .navbar-transparent .navbar-nav > li > a.btn-default:hover,
 .navbar-transparent .navbar-nav > li > a.btn-default:focus, [class*="navbar-ct"] .navbar-nav > li > a.btn-default:hover,
 [class*="navbar-ct"] .navbar-nav > li > a.btn-default:focus {
@@ -1264,7 +1268,8 @@ input.ct-red + span + label + span.switch-right {
   border-radius: 3px;
   color: #FFFFFF;
   opacity: 1;
-  filter: alpha(opacity=100); }
+  filter: alpha(opacity=100);
+  }
 .navbar-transparent .navbar-nav .nav > li > a.btn:hover, [class*="navbar-ct"] .navbar-nav .nav > li > a.btn:hover {
   background-color: transparent; }
 .navbar-transparent .navbar-nav > .dropdown > a .caret,
@@ -2004,7 +2009,8 @@ input.ct-red + span + label + span.switch-right {
   [class*="navbar-"] .navbar-nav .open .dropdown-menu > li > a:hover,
   [class*="navbar-"] .navbar-nav .open .dropdown-menu > li > a:focus {
     opacity: .7;
-    background: transparent; }
+    background: transparent;
+    }
   [class*="navbar-"] .navbar-nav.navbar-nav .open .dropdown-menu > li > a:active {
     opacity: 1; }
   [class*="navbar-"] .navbar-nav .dropdown > a:hover .caret {

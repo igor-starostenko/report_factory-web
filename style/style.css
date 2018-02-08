@@ -42,6 +42,10 @@ form + div > #delete {
   min-width: 12rem;
 }
 
+.line-separator {
+  display: none;
+}
+
 @media only screen and (max-width: 767px) {
   .formHeader > div > #delete {
     display: none;
@@ -55,6 +59,13 @@ form + div > #delete {
     right: 5%;
     margin: auto;
     width: 30rem;
+  }
+
+  .line-separator {
+    display: block;
+    height: 1px;
+    background: #ffffff;
+    opacity: .4;
   }
 }
 

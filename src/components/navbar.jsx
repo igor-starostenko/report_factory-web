@@ -45,8 +45,15 @@ class Navbar extends Component {
               </div>
               <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul className="nav navbar-nav">
-                  <li className="active navbar-link"><Link to="/projects">Projects</Link></li>
-                  <li className="active navbar-link"><Link to="/users">Users</Link></li>
+                  <div className="line-separator" />
+                  <li className="active navbar-link">
+                    <Link to="/projects">Projects</Link>
+                  </li>
+                  <div className="line-separator" />
+                  <li className="active navbar-link">
+                    <Link to="/users">Users</Link>
+                  </li>
+                  <div className="line-separator" />
                 </ul>
                 <ul className="nav navbar-nav navbar-right">
                   {this.renderAccount()}
