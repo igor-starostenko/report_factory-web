@@ -54,14 +54,19 @@ class Login extends Component {
   }
 }
 
-const validate = (values) => {
+const validate = ({ email, password }) => {
   const errors = {};
 
-  if (!values.email) {
-    errors.email = 'Enter your email';
+  if (!email) {
+    errors.email = 'Enter your email address.';
   }
-  if (!values.password) {
-    errors.categories = 'Enter your password';
+
+  if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(email)) {
+    errors.email = 'Email is not valid.';
+  }
+
+  if (!password) {
+    errors.categories = 'Enter your password.';
   }
 
   // If errors is empty, the form is fine to submit

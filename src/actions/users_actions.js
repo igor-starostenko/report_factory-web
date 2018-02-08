@@ -107,6 +107,7 @@ export const getUser = (userId, xApiKey) => {
 export const resetUser = () => ({ type: RESET_ACTIVE_USER });
 
 export const createUser = (name, email, password, type, xApiKey) => {
+  console.log(name);
   const request = usersClient.createUser(name, email, password, type, xApiKey);
 
   return {
@@ -123,6 +124,16 @@ export const updateUser = (userId, newName, newEmail, newPassword, newType, xApi
     payload: request.then(response => response.json()),
   };
 };
+
+export const editUserSuccess = editUser => ({
+  type: EDIT_USER_SUCCESS,
+  payload: editUser,
+});
+
+export const editUserFailure = errors => ({
+  type: EDIT_USER_FAILURE,
+  payload: errors,
+});
 
 export const deleteUser = (userId, xApiKey) => {
   const request = usersClient.deleteUser(userId, xApiKey);

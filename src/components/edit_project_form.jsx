@@ -8,21 +8,6 @@ import { editProjectSuccess, editProjectFailure,
   resetEditProject } from '../actions/projects_actions';
 
 class EditProjectForm extends Component {
-  static renderField(field) {
-    const { meta: { touched, error } } = field;
-    const className = `form-group ${touched && error ? 'has-danger' : ''}`;
-
-    return (
-      <div className={className}>
-        <label>{field.label}</label>
-        <input className="form-control" type="text" {...field.input} />
-        <div className="text-help error">
-          {touched ? error : ''}
-        </div>
-      </div>
-    );
-  }
-
   onSubmit(values, dispatch) {
     return new Promise((resolve, reject) => {
       dispatch(this.props.action(values.name))
