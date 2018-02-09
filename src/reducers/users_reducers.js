@@ -56,7 +56,10 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, editUser: { ...state.newUser, loading: true } };
     }
     case EDIT_USER_SUCCESS: {
-      return { ...state, editUser: { data: action.payload.data, error: null, loading: false } };
+      const userId = action.payload.data.id;
+      const data = _.set(state.usersList.data, userId, action.payload.data);
+      const editUser = { data: action.payload.data, error: null, loading: false };
+      return { ...state, editUser, usersList: { data, error: null, loading: false } };
     }
     case EDIT_USER_FAILURE: {
       const error = action.payload.errors;
