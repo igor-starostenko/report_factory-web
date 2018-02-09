@@ -22,6 +22,26 @@ class GenericForm extends Component {
     );
   }
 
+  static renderRadio({ input, options }) {
+    return (
+      <div>
+        {
+           options.map(o => (
+             <label key={o.value} className="radioLabel">
+               <input
+                 className="radio"
+                 {...input}
+                 type="radio"
+                 value={o.value}
+               />
+               <i />{o.value}
+             </label>
+          ))
+      }
+      </div>
+    );
+  }
+
   static renderErrors(errors) {
     const i = 0;
     return _.map(errors, error => (<li key={i + 1} className="error">{error.detail}</li>));

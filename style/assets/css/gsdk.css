@@ -960,12 +960,14 @@ input.ct-red + span + label + span.switch-right {
   font-size: 14px;
   font-weight: normal;
   line-height: 1.5;
-  color: #333333; }
+  color: #333333;
+  }
 
 .checkbox input,
 .radio input {
   outline: none !important;
-  display: none; }
+  display: none;
+  }
 
 .checkbox .icons,
 .radio .icons {

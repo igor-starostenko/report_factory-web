@@ -46,6 +46,17 @@ form + div > #delete {
   display: none;
 }
 
+form .radioLabel {
+  position: relative;
+  min-height: 30px;
+  margin-left: 20px;
+}
+
+.radio {
+  position: absolute;
+  margin-left: -20px !important;
+}
+
 @media only screen and (max-width: 767px) {
   .formHeader > div > #delete {
     display: none;

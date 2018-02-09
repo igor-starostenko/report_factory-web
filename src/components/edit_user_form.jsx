@@ -36,6 +36,7 @@ class EditUserForm extends Component {
     /* eslint-enable object-curly-newline */
     const errors = _.get(editUser, 'error');
 
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div>
         <div className="formHeader">
@@ -56,12 +57,18 @@ class EditUserForm extends Component {
           <Field
             label="Password"
             name="password"
+            type="password"
             component={GenericForm.renderField}
           />
           <Field
-            label="Type"
             name="type"
-            component={GenericForm.renderField}
+            options={[{ value: 'Tester' }]}
+            component={GenericForm.renderRadio}
+          />
+          <Field
+            name="type"
+            options={[{ value: 'Admin' }]}
+            component={GenericForm.renderRadio}
           />
           <ul>{GenericForm.renderErrors(errors)}</ul>
           <div className="formButtons">
@@ -72,6 +79,7 @@ class EditUserForm extends Component {
         {this.renderSideButton()}
       </div>
     );
+    /* eslint-enable react/jsx-no-bind */
   }
 }
 
@@ -134,5 +142,5 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default reduxForm({
   validate,
-  form: 'EditUserForm',
+  form: 'editUserForm',
 })(connect(mapStateToProps, mapDispatchToProps)(EditUserForm));
