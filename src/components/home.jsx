@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
-import { getApiKey } from '../actions/users_actions';
 
 class Home extends Component {
   constructor(state) {
@@ -11,18 +10,16 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    const { currentUser, xApiKey } = this.props;
-    if (_.isEmpty(xApiKey)) {
-      if (!getApiKey(currentUser).payload) {
-        /* eslint-disable react/no-did-mount-set-state */
-        this.setState({ loggedIn: true });
-        /* eslint-enable react/no-did-mount-set-state */
-      }
+    const xApiKey = this.props.xApiKey || Cookies.get('X-API-KEY');
+    if (xApiKey) {
+      /* eslint-disable react/no-did-mount-set-state */
+      this.setState({ loggedIn: true });
+      /* eslint-enable react/no-did-mount-set-state */
     }
   }
 
   renderLogin() {
-    if (this.state.loggedIn) {
+    if (!this.state.loggedIn) {
       return (
         <div>
           <Link to="/login" className="btn btn-lg btn-info btn-fill">Login</Link>
@@ -48,8 +45,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.currentUser,
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getApiKey })(Home);
+export default connect(mapStateToProps, {})(Home);

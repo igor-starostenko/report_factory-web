@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getApiKey } from '../actions/users_actions';
+import Cookies from 'js-cookie';
+import { authUser, setApiKey } from '../actions/users_actions';
 
 export default (ComposedComponent) => {
   class Authentication extends Component {
@@ -15,10 +16,12 @@ export default (ComposedComponent) => {
     /* eslint-disable consistent-return */
     ensureApiKeyAvailable() {
       if (!this.props.xApiKey) {
-        const { currentUser } = this.props;
-        if (!this.props.getApiKey(currentUser).payload) {
+        const xApiKey = Cookies.get('X-API-KEY');
+        if (!xApiKey) {
           return this.props.history.push('/login');
         }
+        this.props.setApiKey(xApiKey);
+        return this.props.authUser(xApiKey);
       }
     }
     /* eslint-enable consistent-return */
@@ -29,9 +32,8 @@ export default (ComposedComponent) => {
   }
 
   const mapStateToProps = state => ({
-    currentUser: state.users.currentUser,
     xApiKey: state.users.currentUser.xApiKey,
   });
 
-  return connect(mapStateToProps, { getApiKey })(Authentication);
+  return connect(mapStateToProps, { authUser, setApiKey })(Authentication);
 };

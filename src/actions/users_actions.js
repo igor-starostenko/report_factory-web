@@ -22,18 +22,7 @@ export const GET_USER_REPORTS = 'get_user_reports';
 const apiUrl = process.env.API_URL;
 const usersClient = new UsersClient(apiUrl);
 
-export const getApiKey = (user) => {
-  let xApiKey = Cookies.get('X-API-KEY');
-  if (!xApiKey && user) {
-    if (user.data) {
-      xApiKey = user.data.attributes.api_key;
-    }
-  }
-  return {
-    type: API_KEY,
-    payload: xApiKey || null,
-  };
-};
+export const setApiKey = xApiKey => ({ type: API_KEY, payload: xApiKey });
 
 export const authUser = (xApiKey) => {
   const request = usersClient.authUser(xApiKey);
@@ -56,11 +45,11 @@ export const signIn = ({ email, password }) => {
 export const signInSuccess = (payload) => {
   const xApiKey = payload.data.attributes.api_key;
   Cookies.set('X-API-KEY', xApiKey, { expires: 7 });
-  store.dispatch(getApiKey(signIn));
+  store.dispatch(setApiKey(xApiKey));
 
   return {
     type: LOGIN_SUCCESS,
-    payload: signIn,
+    payload,
   };
 };
 
@@ -107,7 +96,6 @@ export const getUser = (userId, xApiKey) => {
 export const resetUser = () => ({ type: RESET_ACTIVE_USER });
 
 export const createUser = (name, email, password, type, xApiKey) => {
-  console.log(name);
   const request = usersClient.createUser(name, email, password, type, xApiKey);
 
   return {
