@@ -8,6 +8,10 @@ import { editUserSuccess, editUserFailure,
   resetEditUser } from '../actions/users_actions';
 
 class EditUserForm extends Component {
+  componentWillUnmount() {
+    this.props.resetMe();
+  }
+
   onSubmit(values, dispatch) {
     return new Promise((resolve, reject) => {
       dispatch(this.props.action(values))

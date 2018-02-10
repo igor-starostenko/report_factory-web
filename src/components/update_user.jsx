@@ -85,6 +85,9 @@ class UpdateUser extends Component {
     const title = `Edit ${this.props.userName}`;
     const backPath = `/users/${this.props.userId}`;
 
+    const initialValues = this.props.user.data.attributes;
+    delete initialValues.date;
+
     return (
       <div>
         <Link to={backPath}>Back to {this.props.userName}</Link>
@@ -94,6 +97,7 @@ class UpdateUser extends Component {
           sideButton={this.deleteButton}
           isAdmin={this.props.isAdmin}
           backPath={backPath}
+          initialValues={initialValues}
           {...this.props}
         />
       </div>

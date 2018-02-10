@@ -12,7 +12,7 @@ export const LOGOUT = 'logout';
 export const EDIT_USER = 'edit_user';
 export const EDIT_USER_SUCCESS = 'create_user_success';
 export const EDIT_USER_FAILURE = 'create_user_failure';
-export const RESET_EDIT_USER = 'reset_new_user';
+export const RESET_EDIT_USER = 'reset_edit_user';
 export const GET_USERS = 'get_users';
 export const GET_USER = 'get_user';
 export const RESET_ACTIVE_USER = 'reset_active_user';
@@ -103,6 +103,8 @@ export const createUser = (attributes, xApiKey) => {
     payload: request.then(response => response.json()),
   };
 };
+
+export const resetEditUser = () => ({ type: RESET_EDIT_USER });
 
 export const updateUser = (userId, attributes, xApiKey) => {
   const request = usersClient.updateUser(userId, attributes, xApiKey);
