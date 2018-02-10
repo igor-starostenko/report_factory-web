@@ -51,8 +51,8 @@ class EditProjectForm extends Component {
           />
           <ul>{GenericForm.renderErrors(errors)}</ul>
           <div className="formButtons">
-            <Link to={backPath} className="btn btn-danger">Cancel</Link>
             <button type="submit" className="btn btn-primary">Submit</button>
+            <Link to={backPath} className="btn btn-danger">Cancel</Link>
           </div>
         </form>
         {this.renderSideButton()}

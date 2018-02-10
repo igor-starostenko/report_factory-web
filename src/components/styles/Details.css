@@ -1,5 +1,6 @@
 .detailsContainer {
   height: 100%;
+  margin-top: 22px;
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);

@@ -30,6 +30,7 @@ class GenericForm extends Component {
              <label key={o.value} className="radioLabel">
                <input
                  className="radio"
+                 checked={input.checked}
                  {...input}
                  type="radio"
                  value={o.value}

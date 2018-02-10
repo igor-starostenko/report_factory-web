@@ -35,10 +35,14 @@ form + div > #delete {
   display: none;
 }
 
-.formButtons > * {
+.formButtons {
   margin: 1.5rem;
-  margin-right: 3rem;
   margin-left: 0;
+  min-height: 40px;
+}
+
+.formButtons > * {
+  margin-right: 3rem;
   min-width: 12rem;
 }
 
@@ -60,6 +64,16 @@ form .radioLabel {
 @media only screen and (max-width: 767px) {
   .formHeader > div > #delete {
     display: none;
+  }
+
+  .formButtons {
+    margin: 1.5rem;
+    display: flex;
+  }
+
+  .formButtons > * {
+    min-width: 45%;
+    margin: auto;
   }
 
   form + div > #delete {
@@ -96,6 +110,7 @@ form .radioLabel {
 
 .loading {
   margin-top: 20%;
+  margin-bottom: 20%;
   font-size: 36px;
   font-weight: 300;
   text-align: center;

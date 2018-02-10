@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import EditUserForm from './edit_user_form';
 import { createUser } from '../actions/users_actions';
 
@@ -21,9 +22,11 @@ class CreateUser extends Component {
 
     return (
       <div>
+        <Link to="/users">Back to users</Link>
         <EditUserForm
           title={title}
           action={this.create}
+          hasPassword="true"
           backPath="/users"
           {...this.props}
         />

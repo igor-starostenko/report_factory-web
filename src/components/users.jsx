@@ -52,6 +52,7 @@ class Users extends Component {
 
     return (
       <div>
+        <br />
         <h1>Users</h1>
         <div className={styles.usersContainer}>
           {this.renderUsers()}

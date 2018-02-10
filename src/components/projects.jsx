@@ -7,9 +7,8 @@ import styles from './styles/Projects.css';
 
 class Projects extends Component {
   componentDidMount() {
-    const { xApiKey } = this.props;
-    if (xApiKey) {
-      this.props.getProjects(xApiKey);
+    if (!this.props.projects) {
+      this.props.getProjects(this.props.xApiKey);
     }
   }
 
@@ -32,6 +31,7 @@ class Projects extends Component {
   render() {
     return (
       <div>
+        <br />
         <h1>Projects</h1>
         <div className={styles.projectsContainer}>
           {this.renderProjects()}

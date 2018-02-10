@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import UserReportsLineChart from './user_reports_line_chart';
-import { getUser, resetUser } from '../actions/users_actions';
+import { getUser } from '../actions/users_actions';
 import styles from './styles/Details.css';
 
 const formatDate = (date, options) => {
@@ -19,8 +19,18 @@ class User extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.props.resetUser();
+  renderEdit() {
+    if (this.props.isAdmin) {
+      const editUserUrl = `/users/${this.props.userId}/edit`;
+      return (
+        <div className={styles.detailsButtons}>
+          <Link to={editUserUrl} className="btn btn-warning btn-fill">
+            Edit User
+          </Link>
+        </div>
+      );
+    }
+    return (<div />);
   }
 
   render() {
@@ -28,7 +38,7 @@ class User extends Component {
       return (<div className="loading">Loading...</div>);
     }
 
-    const { name, date } = this.props.user.data.attributes;
+    const { attributes: { name, date } } = this.props.user.data;
     const createdAt = new Date(date.created_at);
 
     return (
@@ -39,6 +49,7 @@ class User extends Component {
             <div className={styles.detailsName}>{name}</div>
             <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           </div>
+          {this.renderEdit()}
           <div className={styles.chart}>
             <UserReportsLineChart userId={this.props.userId} />
           </div>
@@ -50,8 +61,9 @@ class User extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   userId: ownProps.match.params.id,
+  isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
   user: state.users.activeUser,
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getUser, resetUser })(User);
+export default connect(mapStateToProps, { getUser })(User);

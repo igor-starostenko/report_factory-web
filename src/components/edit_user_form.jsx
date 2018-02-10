@@ -30,6 +30,40 @@ class EditUserForm extends Component {
     return (<div />);
   }
 
+  renderPassword() {
+    if (this.props.hasPassword) {
+      return (
+        <Field
+          label="Password"
+          name="password"
+          type="password"
+          component={GenericForm.renderField}
+        />
+      );
+    }
+    return (<div />);
+  }
+
+  renderType() {
+    if (this.props.isAdmin) {
+      return (
+        <div>
+          <Field
+            name="type"
+            options={[{ value: 'Tester' }]}
+            component={GenericForm.renderRadio}
+          />
+          <Field
+            name="type"
+            options={[{ value: 'Admin' }]}
+            component={GenericForm.renderRadio}
+          />
+        </div>
+      );
+    }
+    return (<div />);
+  }
+
   render() {
     /* eslint-disable object-curly-newline */
     const { handleSubmit, title, backPath, editUser } = this.props;
@@ -54,26 +88,12 @@ class EditUserForm extends Component {
             name="email"
             component={GenericForm.renderField}
           />
-          <Field
-            label="Password"
-            name="password"
-            type="password"
-            component={GenericForm.renderField}
-          />
-          <Field
-            name="type"
-            options={[{ value: 'Tester' }]}
-            component={GenericForm.renderRadio}
-          />
-          <Field
-            name="type"
-            options={[{ value: 'Admin' }]}
-            component={GenericForm.renderRadio}
-          />
+          {this.renderPassword()}
+          {this.renderType()}
           <ul>{GenericForm.renderErrors(errors)}</ul>
           <div className="formButtons">
-            <Link to={backPath} className="btn btn-danger">Cancel</Link>
             <button type="submit" className="btn btn-primary">Submit</button>
+            <Link to={backPath} className="btn btn-danger">Cancel</Link>
           </div>
         </form>
         {this.renderSideButton()}
