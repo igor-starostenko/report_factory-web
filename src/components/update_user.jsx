@@ -72,9 +72,9 @@ class UpdateUser extends Component {
     return (<div />);
   }
 
-  update(newName) {
+  update(attributes) {
     const { userId, xApiKey } = this.props;
-    return this.props.updateUser(userId, newName, xApiKey);
+    return this.props.updateUser(userId, attributes, xApiKey);
   }
 
   render() {

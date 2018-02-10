@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import EditUserForm from './edit_user_form';
 import { createUser } from '../actions/users_actions';
 
@@ -10,11 +11,8 @@ class CreateUser extends Component {
     this.create = this.create.bind(this);
   }
 
-  /* eslint-disable object-curly-newline */
-  create({ name, email, password, type }) {
-  /* eslint-enable object-curly-newline */
-    const { xApiKey } = this.props;
-    return this.props.createUser(name, email, password, type, xApiKey);
+  create(attributes) {
+    return this.props.createUser(attributes, this.props.xApiKey);
   }
 
   render() {
@@ -27,6 +25,7 @@ class CreateUser extends Component {
           title={title}
           action={this.create}
           hasPassword="true"
+          isAdmin={this.props.isAdmin}
           backPath="/users"
           {...this.props}
         />
@@ -36,6 +35,7 @@ class CreateUser extends Component {
 }
 
 const mapStateToProps = state => ({
+  isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
   xApiKey: state.users.currentUser.xApiKey,
 });
 

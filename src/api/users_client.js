@@ -21,13 +21,12 @@ class UsersClient extends ApiClient {
     return fetch(new Request(url, { method: 'POST', body, headers }));
   }
 
-  createUser(name, email, password, type = 'Tester', xApiKey) {
+  createUser(attributes, xApiKey) {
     const url = `${this.baseUrl}api/v1/users/create`;
     const headers = ApiClient.formatHeaders(xApiKey);
-    const attributes = {
-      name, email, password, type,
-    };
-    const body = ApiClient.formatPayload(type, attributes);
+    /* eslint no-param-reassign: ["error", { "props": false }] */
+    attributes.type = attributes.type || 'Tester';
+    const body = ApiClient.formatPayload('user', attributes);
     return fetch(new Request(url, { method: 'POST', body, headers }));
   }
 
@@ -37,13 +36,12 @@ class UsersClient extends ApiClient {
     return fetch(new Request(url, { method: 'GET', headers }));
   }
 
-  updateUser(id, name, email, password, type = 'Tester', xApiKey) {
+  updateUser(id, attributes, xApiKey) {
     const url = `${this.baseUrl}api/v1/users/${id}`;
     const headers = ApiClient.formatHeaders(xApiKey);
-    const attributes = {
-      name, email, password, type,
-    };
-    const body = ApiClient.formatPayload(type, attributes);
+    /* eslint no-param-reassign: ["error", { "props": false }] */
+    attributes.type = attributes.type || 'Tester';
+    const body = ApiClient.formatPayload('user', attributes);
     return fetch(new Request(url, { method: 'PUT', body, headers }));
   }
 

@@ -95,8 +95,8 @@ export const getUser = (userId, xApiKey) => {
 
 export const resetUser = () => ({ type: RESET_ACTIVE_USER });
 
-export const createUser = (name, email, password, type, xApiKey) => {
-  const request = usersClient.createUser(name, email, password, type, xApiKey);
+export const createUser = (attributes, xApiKey) => {
+  const request = usersClient.createUser(attributes, xApiKey);
 
   return {
     type: EDIT_USER,
@@ -104,8 +104,8 @@ export const createUser = (name, email, password, type, xApiKey) => {
   };
 };
 
-export const updateUser = (userId, newName, newEmail, newPassword, newType, xApiKey) => {
-  const request = usersClient.updateUser(userId, newName, newEmail, newPassword, newType, xApiKey);
+export const updateUser = (userId, attributes, xApiKey) => {
+  const request = usersClient.updateUser(userId, attributes, xApiKey);
 
   return {
     type: EDIT_USER,
