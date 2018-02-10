@@ -12,10 +12,7 @@ import styles from './styles/Users.css';
 
 class Users extends Component {
   componentDidMount() {
-    if (!this.props.users.data) {
-      const { xApiKey } = this.props;
-      this.props.getUsers(xApiKey);
-    }
+    this.props.getUsers(this.props.xApiKey);
   }
 
   renderUsers() {

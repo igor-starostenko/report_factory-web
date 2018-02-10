@@ -7,9 +7,7 @@ import styles from './styles/Projects.css';
 
 class Projects extends Component {
   componentDidMount() {
-    if (!this.props.projects) {
-      this.props.getProjects(this.props.xApiKey);
-    }
+    this.props.getProjects(this.props.xApiKey);
   }
 
   renderProjects() {
