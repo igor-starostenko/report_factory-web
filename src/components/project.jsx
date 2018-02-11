@@ -18,10 +18,6 @@ class Project extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.props.resetProject();
-  }
-
   render() {
     const { project, projectName } = this.props;
 

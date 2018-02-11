@@ -13,18 +13,14 @@ class EditUserForm extends Component {
   }
 
   onSubmit(values, dispatch) {
-    return new Promise((resolve, reject) => {
-      dispatch(this.props.action(values))
-        .then((response) => {
-          if (!response.payload.data) {
-            dispatch(editUserFailure(response.payload));
-            return reject(response.data); // this is for redux-form itself
-          }
-          dispatch(editUserSuccess(response.payload));
-          resolve(); // this is for redux-form itself
-          return this.props.history.push('/users');
-        });
-    });
+    this.props.action(values)
+      .then((response) => {
+        if (!response.payload.data) {
+          dispatch(editUserFailure(response.payload));
+        }
+        dispatch(editUserSuccess(response.payload));
+        return this.props.history.push('/users');
+      });
   }
 
   renderSideButton() {

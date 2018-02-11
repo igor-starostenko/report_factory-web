@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import EditProjectForm from './edit_project_form';
-import { updateProject, deleteProject, editProjectSuccess,
+import { getProject, updateProject, deleteProject, editProjectSuccess,
   editProjectFailure } from '../actions/projects_actions';
 
+const hasProject = (project, projectName) => {
+  const actualProjectName = _.get(project, 'data.attributes.project_name');
+  return !!project.data || actualProjectName === projectName;
+};
 class UpdateProject extends Component {
   constructor(state) {
     super(state);
     this.update = this.update.bind(this);
     this.deleteButton = this.deleteButton.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  componentDidMount() {
+    const { project, projectName, xApiKey } = this.props;
+    if (!hasProject(project, projectName)) {
+      this.props.getProject(projectName, xApiKey);
+    }
   }
 
   /* eslint-disable consistent-return */
@@ -22,18 +34,14 @@ class UpdateProject extends Component {
     /* eslint-enable no-restricted-globals */
     /* eslint-enable no-alert */
     /* eslint-enable no-undef */
-      return new Promise((resolve, reject) => {
-        dispatch(this.props.deleteProject(projectName, xApiKey))
-          .then((response) => {
-            if (response.payload.errors) {
-              dispatch(editProjectFailure(response.payload));
-              return reject(); // this is for redux-form itself
-            }
-            dispatch(editProjectSuccess(response.payload));
-            resolve(); // this is for redux-form itself
-            return this.props.history.push('/projects');
-          });
-      });
+      this.props.deleteProject(projectName, xApiKey)
+        .then((response) => {
+          if (response.payload.errors) {
+            return dispatch(editProjectFailure(response.payload));
+          }
+          dispatch(editProjectSuccess(response.payload));
+          return this.props.history.push('/projects');
+        });
     }
   }
   /* eslint-enable consistent-return */
@@ -57,8 +65,14 @@ class UpdateProject extends Component {
   }
 
   render() {
-    const title = `Edit ${this.props.projectName} Project`;
-    const backPath = `/projects/${this.props.projectName}`;
+    const { project, projectName } = this.props;
+    if (!hasProject(project, projectName)) {
+      return (<div className="loading">Loading...</div>);
+    }
+
+    const initialValues = { name: projectName };
+    const title = `Edit ${projectName} Project`;
+    const backPath = `/projects/${projectName}`;
 
     return (
       <div>
@@ -67,6 +81,7 @@ class UpdateProject extends Component {
           action={this.update}
           sideButton={this.deleteButton}
           backPath={backPath}
+          initialValues={initialValues}
           {...this.props}
         />
       </div>
@@ -75,11 +90,15 @@ class UpdateProject extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateProject, deleteProject, dispatch,
+  getProject: (...args) => dispatch(getProject(...args)),
+  updateProject: (...args) => dispatch(updateProject(...args)),
+  deleteProject: (...args) => dispatch(deleteProject(...args)),
+  dispatch,
 });
 
 const mapStateToProps = (state, ownProps) => ({
   projectName: ownProps.match.params.name,
+  project: state.projects.activeProject,
   xApiKey: state.users.currentUser.xApiKey,
 });
 

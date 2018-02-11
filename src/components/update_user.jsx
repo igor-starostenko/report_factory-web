@@ -16,15 +16,8 @@ class UpdateUser extends Component {
   componentDidMount() {
     const { user, userId } = this.props;
     if (!user.data || _.get(user, 'data.id') !== userId) {
-      this.requestUser(userId);
+      this.props.getUser(userId, this.props.xApiKey);
     }
-  }
-
-  requestUser(userId) {
-    return new Promise((resolve) => {
-      this.props.dispatch(getUser(userId, this.props.xApiKey))
-        .then(response => resolve(response.data)); // this is for redux-form itself
-    });
   }
 
   /* eslint-disable consistent-return */
@@ -40,18 +33,14 @@ class UpdateUser extends Component {
     /* eslint-enable no-restricted-globals */
     /* eslint-enable no-alert */
     /* eslint-enable no-undef */
-      return new Promise((resolve, reject) => {
-        dispatch(this.props.deleteUser(userId, xApiKey))
-          .then((response) => {
-            if (response.payload.errors) {
-              dispatch(editUserFailure(response.payload));
-              return reject(); // this is for redux-form itself
-            }
-            dispatch(editUserSuccess(response.payload));
-            resolve(); // this is for redux-form itself
-            return this.props.history.push('/users');
-          });
-      });
+      this.props.deleteUser(userId, xApiKey)
+        .then((response) => {
+          if (response.payload.errors) {
+            return dispatch(editUserFailure(response.payload));
+          }
+          dispatch(editUserSuccess(response.payload));
+          return this.props.history.push('/users');
+        });
     }
   }
   /* eslint-enable consistent-return */
@@ -106,7 +95,10 @@ class UpdateUser extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateUser, deleteUser, dispatch,
+  getUser: (...args) => dispatch(updateUser(...args)),
+  updateUser: (...args) => dispatch(updateUser(...args)),
+  deleteUser: (...args) => dispatch(deleteUser(...args)),
+  dispatch,
 });
 
 const mapStateToProps = (state, ownProps) => ({

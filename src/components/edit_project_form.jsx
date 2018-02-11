@@ -9,18 +9,14 @@ import { editProjectSuccess, editProjectFailure,
 
 class EditProjectForm extends Component {
   onSubmit(values, dispatch) {
-    return new Promise((resolve, reject) => {
-      dispatch(this.props.action(values.name))
-        .then((response) => {
-          if (!response.payload.data) {
-            dispatch(editProjectFailure(response.payload));
-            return reject(response.data); // this is for redux-form itself
-          }
-          dispatch(editProjectSuccess(response.payload));
-          resolve(); // this is for redux-form itself
-          return this.props.history.push('/projects');
-        });
-    });
+    this.props.action(values.name)
+      .then((response) => {
+        if (!response.payload.data) {
+          return dispatch(editProjectFailure(response.payload));
+        }
+        dispatch(editProjectSuccess(response.payload));
+        return this.props.history.push('/projects');
+      });
   }
 
   renderSideButton() {
@@ -31,9 +27,9 @@ class EditProjectForm extends Component {
   }
 
   render() {
-    const {
-      handleSubmit, title, backPath, editProject,
-    } = this.props;
+    /* eslint-disable object-curly-newline */
+    const { handleSubmit, title, backPath, editProject } = this.props;
+    /* eslint-enable object-curly-newline */
     const errors = _.get(editProject, 'error');
 
     return (
