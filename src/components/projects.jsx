@@ -26,6 +26,19 @@ class Projects extends Component {
     });
   }
 
+  renderNewProject() {
+    if (this.props.isAdmin) {
+      return (
+        <Link to="/project/new" className={`${styles.project} ${styles.newProject}`}>
+          <div className={styles.projectBody}>
+            <div className={styles.newProjectTitle}>Create a project</div>
+          </div>
+        </Link>
+      );
+    }
+    return (<div />);
+  }
+
   render() {
     return (
       <div>
@@ -33,11 +46,7 @@ class Projects extends Component {
         <h1>Projects</h1>
         <div className={styles.projectsContainer}>
           {this.renderProjects()}
-          <Link to="/project/new" className={`${styles.project} ${styles.newProject}`}>
-            <div className={styles.projectBody}>
-              <div className={styles.newProjectTitle}>Create a project</div>
-            </div>
-          </Link>
+          {this.renderNewProject()}
         </div>
       </div>
     );
@@ -46,6 +55,7 @@ class Projects extends Component {
 
 const mapStateToProps = state => ({
   projects: state.projects.projectsList.data,
+  isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
   xApiKey: state.users.currentUser.xApiKey,
 });
 

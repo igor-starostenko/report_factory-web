@@ -42,6 +42,19 @@ class Users extends Component {
     });
   }
 
+  renderNewUser() {
+    if (this.props.isAdmin) {
+      return (
+        <Link to="/users/new" className={`${styles.newUser} ${styles.user}`}>
+          <div className={styles.userBody}>
+            <div className={styles.newUserTitle}>Create a user</div>
+          </div>
+        </Link>
+      );
+    }
+    return (<div />);
+  }
+
   render() {
     if (!this.props.users.data) {
       return (<div className="loading">Loading...</div>);
@@ -53,11 +66,7 @@ class Users extends Component {
         <h1>Users</h1>
         <div className={styles.usersContainer}>
           {this.renderUsers()}
-          <Link to="/users/new" className={`${styles.newUser} ${styles.user}`}>
-            <div className={styles.userBody}>
-              <div className={styles.newUserTitle}>Create a user</div>
-            </div>
-          </Link>
+          {this.renderNewUser()}
         </div>
       </div>
     );
@@ -66,6 +75,7 @@ class Users extends Component {
 
 const mapStateToProps = state => ({
   users: state.users.usersList,
+  isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
   xApiKey: state.users.currentUser.xApiKey,
 });
 

@@ -16,7 +16,7 @@ class EditUserForm extends Component {
     this.props.action(values)
       .then((response) => {
         if (!response.payload.data) {
-          dispatch(editUserFailure(response.payload));
+          return dispatch(editUserFailure(response.payload));
         }
         dispatch(editUserSuccess(response.payload));
         return this.props.history.push('/users');

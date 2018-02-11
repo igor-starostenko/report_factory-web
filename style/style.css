@@ -108,6 +108,10 @@ form .radioLabel {
   bottom: 20%;
 }
 
+[title="Report Factory Gears"]+p+div>a {
+  margin-top: 5em;
+}
+
 .loading {
   margin-top: 20%;
   margin-bottom: 20%;
