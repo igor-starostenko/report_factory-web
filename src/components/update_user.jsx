@@ -95,7 +95,7 @@ class UpdateUser extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getUser: (...args) => dispatch(updateUser(...args)),
+  getUser: (...args) => dispatch(getUser(...args)),
   updateUser: (...args) => dispatch(updateUser(...args)),
   deleteUser: (...args) => dispatch(deleteUser(...args)),
   dispatch,
