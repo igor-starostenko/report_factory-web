@@ -34,11 +34,12 @@ class User extends Component {
   }
 
   render() {
-    if (!this.props.user.data) {
+    const { user, userId } = this.props;
+    if (!user.data || _.get(user, 'data.id') !== userId) {
       return (<div className="loading">Loading...</div>);
     }
 
-    const { attributes: { name, date } } = this.props.user.data;
+    const { attributes: { name, date } } = user.data;
     const createdAt = new Date(date.created_at);
 
     return (

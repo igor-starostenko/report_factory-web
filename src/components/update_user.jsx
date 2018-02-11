@@ -78,19 +78,19 @@ class UpdateUser extends Component {
   }
 
   render() {
-    if (!this.props.user.data) {
+    const { user, userId, userName } = this.props;
+    if (!user.data || _.get(user, 'data.id') !== userId) {
       return (<div className="loading">Loading...</div>);
     }
 
-    const title = `Edit ${this.props.userName}`;
-    const backPath = `/users/${this.props.userId}`;
+    const title = `Edit ${userName}`;
+    const backPath = `/users/${userId}`;
 
-    const initialValues = this.props.user.data.attributes;
-    delete initialValues.date;
+    const initialValues = user.data.attributes;
 
     return (
       <div>
-        <Link to={backPath}>Back to {this.props.userName}</Link>
+        <Link to={backPath}>Back to {userName}</Link>
         <EditUserForm
           title={title}
           action={this.update}
