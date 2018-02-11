@@ -45,7 +45,7 @@ class EditUserForm extends Component {
   }
 
   renderType() {
-    if (this.props.isAdmin) {
+    if (this.props.isAdmin || !this.props.isCurrent) {
       return (
         <div>
           <Field

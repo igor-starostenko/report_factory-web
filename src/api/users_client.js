@@ -39,8 +39,6 @@ class UsersClient extends ApiClient {
   updateUser(id, attributes, xApiKey) {
     const url = `${this.baseUrl}api/v1/users/${id}`;
     const headers = ApiClient.formatHeaders(xApiKey);
-    /* eslint no-param-reassign: ["error", { "props": false }] */
-    attributes.type = attributes.type || 'Tester';
     const body = ApiClient.formatPayload('user', attributes);
     return fetch(new Request(url, { method: 'PUT', body, headers }));
   }

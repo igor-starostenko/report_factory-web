@@ -74,8 +74,7 @@ class UpdateUser extends Component {
 
     const title = `Edit ${userName}`;
     const backPath = `/users/${userId}`;
-
-    const initialValues = user.data.attributes;
+    const initialValues = _.pick(user.data.attributes, ['name', 'email', 'type']);
 
     return (
       <div>
@@ -84,6 +83,7 @@ class UpdateUser extends Component {
           title={title}
           action={this.update}
           sideButton={this.deleteButton}
+          isCurrent={this.props.isCurrent}
           isAdmin={this.props.isAdmin}
           backPath={backPath}
           initialValues={initialValues}
