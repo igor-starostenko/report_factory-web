@@ -1,0 +1,20 @@
+{
+    "extends": "airbnb",
+    "globals": {
+        "document": false,
+        "fetch": false,
+        "window": false,
+        "Request": false,
+        "Headers": false,
+        "describe": false,
+        "it": false,
+        "expect": false,
+        "cy": false
+    },
+    "rules": {
+        "react/prop-types": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "jsx-a11y/label-has-for": "off",
+        "react/prefer-stateless-function": "off"
+    }
+}

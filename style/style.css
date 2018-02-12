@@ -1,0 +1,125 @@
+#navbar {
+  padding-bottom: 100px;
+}
+
+.navbar-ct-yellow {
+  background-image:
+    linear-gradient(
+      to top right,
+      rgba(255, 165, 91, 1),
+      rgba(255, 212, 91, 1)
+  );
+  box-shadow: 0 10px 30px -7px rgba(35, 41, 51, 0.2);
+}
+
+.navbar-link {
+  color: #FFFFFF;
+  opacity: 0.8;
+}
+
+.navbar-link:hover {
+  opacity: 1;
+}
+
+.navbar a {
+  font-weight: 600;
+}
+
+canvas {
+  display: block;
+  margin: auto;
+  width: 100%;
+}
+
+form + div > #delete {
+  display: none;
+}
+
+.formButtons {
+  margin: 1.5rem;
+  margin-left: 0;
+  min-height: 40px;
+}
+
+.formButtons > * {
+  margin-right: 3rem;
+  min-width: 12rem;
+}
+
+.line-separator {
+  display: none;
+}
+
+form .radioLabel {
+  position: relative;
+  min-height: 30px;
+  margin-left: 20px;
+}
+
+.radio {
+  position: absolute;
+  margin-left: -20px !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .formHeader > div > #delete {
+    display: none;
+  }
+
+  .formButtons {
+    margin: 1.5rem;
+    display: flex;
+  }
+
+  .formButtons > * {
+    min-width: 45%;
+    margin: auto;
+  }
+
+  form + div > #delete {
+    display: block;
+    position: fixed;
+    bottom: 3rem;
+    left: 5%;
+    right: 5%;
+    margin: auto;
+    width: 30rem;
+  }
+
+  .line-separator {
+    display: block;
+    height: 1px;
+    background: #ffffff;
+    opacity: .4;
+  }
+}
+
+.formHeader {
+  position: relative;
+}
+
+.formHeader > h1 {
+  display: inline-block;
+}
+
+.formHeader > div > #delete {
+  position: absolute;
+  right: 5%;
+  bottom: 20%;
+}
+
+[title="Report Factory Gears"]+p+div>a {
+  margin-top: 5em;
+}
+
+.loading {
+  margin-top: 20%;
+  margin-bottom: 20%;
+  font-size: 36px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.error {
+  color: rgba(255, 35, 35, 1);
+}
