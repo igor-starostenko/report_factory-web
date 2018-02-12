@@ -47,7 +47,7 @@ class Project extends Component {
               Edit Project
             </Link>
           </div>
-          <div className={styles.chart}>
+          <div className={styles.detailsContent}>
             <ReportsLineChart projectName={projectName} />
           </div>
         </div>

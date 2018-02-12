@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import GenericForm from './generic_form';
 import { editUserSuccess, editUserFailure,
   resetEditUser } from '../actions/users_actions';
+import styles from './styles/Details.css';
 
 class EditUserForm extends Component {
   componentWillUnmount() {
@@ -72,12 +73,15 @@ class EditUserForm extends Component {
 
     /* eslint-disable react/jsx-no-bind */
     return (
-      <div>
-        <div className="formHeader">
-          <h1>{title}</h1>
-          {this.renderSideButton()}
+      <div className={styles.detailsContainer}>
+        <div className={styles.detailsHeader}>
+          <div className={styles.detailsName}>{title}</div>
         </div>
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        {this.renderSideButton()}
+        <form
+          className={styles.detailsContent}
+          onSubmit={handleSubmit(this.onSubmit.bind(this))}
+        >
           <Field
             label="User Name"
             name="name"
@@ -96,7 +100,6 @@ class EditUserForm extends Component {
             <Link to={backPath} className="btn btn-danger">Cancel</Link>
           </div>
         </form>
-        {this.renderSideButton()}
       </div>
     );
     /* eslint-enable react/jsx-no-bind */

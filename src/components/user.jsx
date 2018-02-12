@@ -51,7 +51,7 @@ class User extends Component {
             <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           </div>
           {this.renderEdit()}
-          <div className={styles.chart}>
+          <div className={styles.detailsContent}>
             <UserReportsLineChart userId={this.props.userId} />
           </div>
         </div>

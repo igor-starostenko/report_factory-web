@@ -16,7 +16,7 @@ class RspecReports extends Component {
           <div className={styles.detailsHeader}>
             <div className={styles.detailsName}>{projectName}</div>
           </div>
-          <div className={styles.chart}>
+          <div className={styles.detailsContent}>
             <RspecReportsBar projectName={projectName} />
           </div>
         </div>

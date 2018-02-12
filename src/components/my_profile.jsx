@@ -54,7 +54,7 @@ class MyProfile extends Component {
               Log Out
             </button>
           </div>
-          <div className={styles.chart}>
+          <div className={styles.detailsContent}>
             <UserReportsLineChart userId={userId} />
           </div>
         </div>

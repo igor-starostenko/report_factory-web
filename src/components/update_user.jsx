@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import EditUserForm from './edit_user_form';
 import { getUser, updateUser, deleteUser, editUserSuccess, editUserFailure } from '../actions/users_actions';
+import styles from './styles/Details.css';
 
 class UpdateUser extends Component {
   constructor(state) {
@@ -48,7 +49,7 @@ class UpdateUser extends Component {
   deleteButton() {
     if (this.props.isAdmin && !this.props.isCurrent) {
       return (
-        <div>
+        <div className={styles.detailsButtons}>
           <button
             onClick={this.handleDelete}
             id="delete"
