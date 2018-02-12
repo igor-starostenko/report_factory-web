@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import UserReportsLineChart from './user_reports_line_chart';
-import { getUser } from '../actions/users_actions';
+import { getUser, logOut } from '../actions/users_actions';
 import styles from './styles/Details.css';
 
 const formatDate = (date, options) => {
@@ -12,6 +12,11 @@ const formatDate = (date, options) => {
 };
 
 class User extends Component {
+  constructor() {
+    super();
+    this.logOut = this.logOut.bind(this);
+  }
+
   componentDidMount() {
     const { user, userId } = this.props;
     if (!user.data || _.get(user, 'data.id') !== userId) {
@@ -19,14 +24,31 @@ class User extends Component {
     }
   }
 
+  logOut() {
+    this.props.logOut(this.props.xApiKey);
+    return this.props.history.push('/');
+  }
+
+  renderLogout() {
+    if (this.props.isCurrent) {
+      return (
+        <button onClick={this.logOut} className="btn btn-warning btn-fill">
+          Log Out
+        </button>
+      );
+    }
+    return (<div />);
+  }
+
   renderEdit() {
-    if (this.props.isAdmin) {
+    if (this.props.isAdmin || this.props.isCurrent) {
       const editUserUrl = `/users/${this.props.userId}/edit`;
       return (
         <div className={styles.detailsButtons}>
-          <Link to={editUserUrl} className="btn btn-warning btn-fill">
+          <Link to={editUserUrl} className="btn btn-primary btn-fill">
             Edit User
           </Link>
+          {this.renderLogout()}
         </div>
       );
     }
@@ -63,8 +85,9 @@ class User extends Component {
 const mapStateToProps = (state, ownProps) => ({
   userId: ownProps.match.params.id,
   isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
+  isCurrent: _.get(state.users.currentUser, 'data.id') === ownProps.match.params.id,
   user: state.users.activeUser,
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getUser })(User);
+export default connect(mapStateToProps, { getUser, logOut })(User);

@@ -6,15 +6,13 @@ import _ from 'lodash';
 
 class Navbar extends Component {
   renderAccount() {
-    const { currentUser, xApiKey } = this.props;
-    let linkUrl = '/user';
+    const userId = _.get(this.props.currentUser, 'data.id');
+    let linkUrl = `/users/${userId}`;
     let linkText = 'Profile';
-    if (_.isEmpty(xApiKey)) {
+    if (_.isEmpty(this.props.xApiKey)) {
       if (_.isEmpty(Cookies.get('X-API-KEY'))) {
-        if (!_.get(currentUser, 'data.attributes.api_key')) {
-          linkUrl = '/login';
-          linkText = 'Login';
-        }
+        linkUrl = '/login';
+        linkText = 'Login';
       }
     }
     return (
