@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import EditProjectForm from './edit_project_form';
 import { getProject, updateProject, deleteProject, editProjectSuccess,
   editProjectFailure } from '../actions/projects_actions';
+import styles from './styles/Details.css';
 
 const hasProject = (project, projectName) => {
   const actualProjectName = _.get(project, 'data.attributes.project_name');
@@ -48,7 +50,7 @@ class UpdateProject extends Component {
 
   deleteButton() {
     return (
-      <div>
+      <div className={styles.detailsButtons}>
         <button
           onClick={this.handleDelete}
           id="delete"
@@ -76,6 +78,7 @@ class UpdateProject extends Component {
 
     return (
       <div>
+        <Link to={backPath}>Back to {projectName}</Link>
         <EditProjectForm
           title={title}
           action={this.update}

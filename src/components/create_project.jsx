@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import EditProjectForm from './edit_project_form';
 import { createProject } from '../actions/projects_actions';
 
@@ -18,6 +19,7 @@ class CreateProject extends Component {
 
     return (
       <div>
+        <Link to="/projects">Back to projects</Link>
         <EditProjectForm
           title={title}
           action={this.create}

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import GenericForm from './generic_form';
 import { editProjectSuccess, editProjectFailure,
   resetEditProject } from '../actions/projects_actions';
+import styles from './styles/Details.css';
 
 class EditProjectForm extends Component {
   onSubmit(values, dispatch) {
@@ -33,12 +34,15 @@ class EditProjectForm extends Component {
     const errors = _.get(editProject, 'error');
 
     return (
-      <div>
-        <div className="formHeader">
-          <h1>{title}</h1>
-          {this.renderSideButton()}
+      <div className={styles.detailsContainer}>
+        <div className={styles.detailsHeader}>
+          <div className={styles.detailsName}>{title}</div>
         </div>
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        {this.renderSideButton()}
+        <form
+          className={styles.detailsContent}
+          onSubmit={handleSubmit(this.onSubmit.bind(this))}
+        >
           <Field
             label="Project Name"
             name="name"
@@ -51,7 +55,6 @@ class EditProjectForm extends Component {
             <Link to={backPath} className="btn btn-danger">Cancel</Link>
           </div>
         </form>
-        {this.renderSideButton()}
       </div>
     );
   }
