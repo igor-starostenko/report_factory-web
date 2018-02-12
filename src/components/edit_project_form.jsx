@@ -68,11 +68,11 @@ const validate = (values) => {
     errors.name = 'Enter Project Name.';
   }
 
-  if (!/\w{3,11}$/.test(name)) {
-    errors.name = 'Project Name has to be between 3 and 11 characters length.';
+  if (name.length > 15 || name.length < 3) {
+    errors.name = 'Project Name has to be between 3 and 15 characters length.';
   }
 
-  if (/[^a-zA-Z0-9]/.test(name)) {
+  if (/[^\s\-a-zA-Z0-9]/.test(name)) {
     errors.name = 'Project Name can only have letters or numbers.';
   }
 
