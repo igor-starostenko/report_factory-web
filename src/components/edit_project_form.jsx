@@ -66,9 +66,7 @@ const validate = (values) => {
 
   if (!name) {
     errors.name = 'Enter Project Name.';
-  }
-
-  if (name.length > 15 || name.length < 3) {
+  } else if (name.length > 15 || name.length < 3) {
     errors.name = 'Project Name has to be between 3 and 15 characters length.';
   }
 
