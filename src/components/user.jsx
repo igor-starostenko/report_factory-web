@@ -18,6 +18,14 @@ class User extends Component {
   }
 
   componentDidMount() {
+    this.requestUser();
+  }
+
+  componentDidUpdate() {
+    this.requestUser();
+  }
+
+  requestUser() {
     const { user, userId } = this.props;
     if (!user.data || _.get(user, 'data.id') !== userId) {
       this.props.getUser(userId, this.props.xApiKey);
