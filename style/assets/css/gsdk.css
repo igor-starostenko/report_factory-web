@@ -1613,12 +1613,14 @@ input.ct-red + span + label + span.switch-right {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.1); }
 
 .modal-dialog {
-  padding-top: 60px; }
+  padding-top: 7em;
+  }
 
 .modal-footer {
   border-top: 0 none;
   padding: 5px 10px;
-  text-align: right; }
+  text-align: right;
+  }
   .modal-footer .btn {
     font-size: 16px; }
   .modal-footer .btn-default.btn-simple {

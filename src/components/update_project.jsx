@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import EditProjectForm from './edit_project_form';
+import ConfirmModal from './confirm_modal';
 import { getProject, updateProject, deleteProject, editProjectSuccess,
   editProjectFailure } from '../actions/projects_actions';
 import styles from './styles/Details.css';
@@ -26,39 +27,49 @@ class UpdateProject extends Component {
     }
   }
 
-  /* eslint-disable consistent-return */
   handleDelete() {
     const { dispatch, projectName, xApiKey } = this.props;
-    /* eslint-disable no-restricted-globals */
-    /* eslint-disable no-alert */
-    /* eslint-disable no-undef */
-    if (confirm(`Are you sure you want to delete "${projectName}" project?`)) {
-    /* eslint-enable no-restricted-globals */
-    /* eslint-enable no-alert */
-    /* eslint-enable no-undef */
-      this.props.deleteProject(projectName, xApiKey)
-        .then((response) => {
-          if (response.payload.errors) {
-            return dispatch(editProjectFailure(response.payload));
-          }
-          dispatch(editProjectSuccess(response.payload));
-          return this.props.history.push('/projects');
-        });
-    }
+    this.props.deleteProject(projectName, xApiKey)
+      .then((response) => {
+        if (response.payload.errors) {
+          return dispatch(editProjectFailure(response.payload));
+        }
+        dispatch(editProjectSuccess(response.payload));
+        return this.props.history.push('/projects');
+      });
   }
-  /* eslint-enable consistent-return */
 
   deleteButton() {
-    return (
-      <div className={styles.detailsButtons}>
-        <button
-          onClick={this.handleDelete}
-          id="delete"
-          className="btn btn-danger btn-fill"
-        >Delete Project
-        </button>
-      </div>
-    );
+    if (this.props.isAdmin) {
+      const title = `Delete ${this.props.projectName}?`;
+      const lineOne = {
+        key: 'question',
+        text: `Are you sure you want to delete ${this.props.projectName}?`,
+      };
+      const lineTwo = {
+        key: 'warning',
+        text: 'This action cannot be reverted!',
+      };
+      return (
+        <div className={styles.detailsButtons}>
+          <button
+            data-toggle="modal"
+            data-target="#deleteModal"
+            id="delete"
+            className="btn btn-danger btn-fill"
+          >Delete Project
+          </button>
+          <ConfirmModal
+            id="deleteModal"
+            title={title}
+            bodyLines={[lineOne, lineTwo]}
+            confirm="Delete"
+            action={this.handleDelete}
+          />
+        </div>
+      );
+    }
+    return (<div />);
   }
 
   update(newName) {
@@ -102,6 +113,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = (state, ownProps) => ({
   projectName: ownProps.match.params.name,
   project: state.projects.activeProject,
+  isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
   xApiKey: state.users.currentUser.xApiKey,
 });
 

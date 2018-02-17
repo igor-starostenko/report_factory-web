@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import EditUserForm from './edit_user_form';
+import ConfirmModal from './confirm_modal';
 import { getUser, updateUser, deleteUser, editUserSuccess, editUserFailure } from '../actions/users_actions';
 import styles from './styles/Details.css';
 
@@ -21,41 +22,45 @@ class UpdateUser extends Component {
     }
   }
 
-  /* eslint-disable consistent-return */
   handleDelete() {
-    /* eslint-disable object-curly-newline */
-    const { dispatch, userId, userName, xApiKey } = this.props;
-    /* eslint-enable object-curly-newline */
-
-    /* eslint-disable no-restricted-globals */
-    /* eslint-disable no-alert */
-    /* eslint-disable no-undef */
-    if (confirm(`Are you sure you want to delete "${userName}" user?`)) {
-    /* eslint-enable no-restricted-globals */
-    /* eslint-enable no-alert */
-    /* eslint-enable no-undef */
-      this.props.deleteUser(userId, xApiKey)
-        .then((response) => {
-          if (response.payload.errors) {
-            return dispatch(editUserFailure(response.payload));
-          }
-          dispatch(editUserSuccess(response.payload));
-          return this.props.history.push('/users');
-        });
-    }
+    const { dispatch, userId, xApiKey } = this.props;
+    this.props.deleteUser(userId, xApiKey)
+      .then((response) => {
+        if (response.payload.errors) {
+          return dispatch(editUserFailure(response.payload));
+        }
+        dispatch(editUserSuccess(response.payload));
+        return this.props.history.push('/users');
+      });
   }
-  /* eslint-enable consistent-return */
 
   deleteButton() {
     if (this.props.isAdmin && !this.props.isCurrent) {
+      const title = `Delete ${this.props.userName}?`;
+      const lineOne = {
+        key: 'question',
+        text: `Are you sure you want to delete ${this.props.userName}?`,
+      };
+      const lineTwo = {
+        key: 'warning',
+        text: 'This action cannot be reverted!',
+      };
       return (
         <div className={styles.detailsButtons}>
           <button
-            onClick={this.handleDelete}
+            data-toggle="modal"
+            data-target="#deleteModal"
             id="delete"
             className="btn btn-danger btn-fill"
           >Delete User
           </button>
+          <ConfirmModal
+            id="deleteModal"
+            title={title}
+            bodyLines={[lineOne, lineTwo]}
+            confirm="Delete"
+            action={this.handleDelete}
+          />
         </div>
       );
     }
