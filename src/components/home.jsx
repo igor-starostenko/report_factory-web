@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
+import styles from './styles/Home.css';
 
 class Home extends Component {
   constructor(state) {
@@ -21,7 +22,7 @@ class Home extends Component {
   renderLogin() {
     if (!this.state.loggedIn) {
       return (
-        <div>
+        <div className={styles.homeLogin}>
           <Link to="/login" className="btn btn-lg btn-info btn-fill">Login</Link>
         </div>
       );
@@ -32,13 +33,20 @@ class Home extends Component {
   render() {
     const imageSrc = '/style/assets/img/rf-apple-icon.png';
     return (
-      <div className="text-center">
-        <h1>Welcome to ReportFactory</h1>
-        <img src={imageSrc} alt="Report Factory Gears" title="Report Factory Gears" />
-        <p>
-          See <a href="https://github.com/igor-starostenko/report_factory-web">github</a> for more info.
-        </p>
-        {this.renderLogin()}
+      <div className={styles.homeContainer}>
+        <div className="jumbotron text-center">
+          <h1>Welcome to Report Factory</h1>
+          <img
+            className={styles.homeLogo}
+            src={imageSrc}
+            alt="Report Factory Gears"
+            title="Report Factory Gears"
+          />
+          <p>
+            See <a href="https://github.com/igor-starostenko/report_factory-web">github</a> for more info.
+          </p>
+          {this.renderLogin()}
+        </div>
       </div>
     );
   }
