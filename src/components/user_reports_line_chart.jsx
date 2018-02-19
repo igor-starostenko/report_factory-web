@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 import LineChart from '../components/line_chart';
-import { getUserReports } from '../actions/users_actions';
 import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth, reportsCreatedDates,
   groupReportsByProjects, getColors, setOpacity } from '../helpers/chart_helpers';
 
@@ -65,18 +63,9 @@ const chartOptions = {
   maintainAspectRatio: false,
 };
 
-class UserReportsLineChart extends Component {
-  componentDidMount() {
-    const { userReports, userId } = this.props;
-    if (!_.get(userReports, userId)) {
-      this.props.getUserReports(userId, this.props.xApiKey);
-    }
-  }
-
+export default class UserReportsLineChart extends Component {
   render() {
-    const { userReports, userId } = this.props;
-
-    if (!userReports) {
+    if (!this.props.userReports) {
       return (<div className="loading">Loading...</div>);
     }
 
@@ -84,7 +73,7 @@ class UserReportsLineChart extends Component {
       return (<div className="loading">No reports submitted by this user yet</div>);
     }
 
-    const reports = groupReportsByProjects(userReports[userId], parseProjectName);
+    const reports = groupReportsByProjects(this.props.userReports, parseProjectName);
 
     return (
       <LineChart
@@ -95,11 +84,3 @@ class UserReportsLineChart extends Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  userReports: state.users.userReports.data,
-  error: state.users.userReports.error,
-  xApiKey: state.users.currentUser.xApiKey,
-});
-
-export default connect(mapStateToProps, { getUserReports })(UserReportsLineChart);

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import UserReportsLineChart from './user_reports_line_chart';
+import UserReportsLineChart from '../components/user_reports_line_chart';
 import ConfirmModal from '../components/confirm_modal';
-import { getUser, logOut } from '../actions/users_actions';
+import { getUser, logOut, getUserReports } from '../actions/users_actions';
 import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';
 
@@ -21,6 +21,10 @@ class User extends Component {
 
   componentDidMount() {
     this.requestUser();
+    const { userReports, userId } = this.props;
+    if (!_.get(userReports, `data.${userId}`)) {
+      this.props.getUserReports(userId, this.props.xApiKey);
+    }
   }
 
   componentDidUpdate() {
@@ -102,13 +106,15 @@ class User extends Component {
   }
 
   render() {
-    const { user, userId } = this.props;
+    const { user, userId, userReports } = this.props;
     if (!user.data || _.get(user, 'data.id') !== userId) {
       return (<div className="loading">Loading...</div>);
     }
 
     const { attributes: { name, date } } = user.data;
     const createdAt = new Date(date.created_at);
+
+    const reports = _.get(userReports, `data.${userId}`);
 
     return (
       <div>
@@ -120,7 +126,10 @@ class User extends Component {
           {this.renderDetailsButtons()}
           <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           <div className={styles.detailsContent}>
-            <UserReportsLineChart userId={this.props.userId} />
+            <UserReportsLineChart
+              userReports={reports}
+              error={this.props.userReports.error}
+            />
           </div>
         </div>
         {this.renderApiKeyModal()}
@@ -134,7 +143,8 @@ const mapStateToProps = (state, ownProps) => ({
   isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
   isCurrent: _.get(state.users.currentUser, 'data.id') === ownProps.match.params.id,
   user: state.users.activeUser,
+  userReports: state.users.userReports,
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getUser, logOut })(User);
+export default connect(mapStateToProps, { getUser, logOut, getUserReports })(User);
