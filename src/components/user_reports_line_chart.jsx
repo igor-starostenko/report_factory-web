@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import LineChart from '../components/line_chart';
+import { LineChart } from '../components';
 import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth, reportsCreatedDates,
   groupReportsByProjects, getColors, setOpacity } from '../helpers/chart_helpers';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import BarChart from '../components/bar_chart';
+import { BarChart } from '../components';
 import { getRspecReports } from '../actions/reports_actions';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
 

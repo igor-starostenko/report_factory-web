@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import EditProjectForm from './edit_project_form';
-import ConfirmModal from '../components/confirm_modal';
+import { ConfirmModal } from '../components/confirm_modal';
 import { getProject, updateProject, deleteProject, editProjectSuccess,
   editProjectFailure } from '../actions/projects_actions';
 import styles from './styles/Details.css';

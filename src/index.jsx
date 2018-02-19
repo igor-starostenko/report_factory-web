@@ -5,13 +5,12 @@ import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
 
-import App from './components/app';
+import { App, NotFound } from './components';
 import Home from './containers/home';
 import Login from './containers/login';
 import CreateProject from './containers/create_project';
 import UpdateProject from './containers/update_project';
 import UpdateUser from './containers/update_user';
-import NotFound from './components/not_found';
 import Project from './containers/project';
 import Projects from './containers/projects';
 import RequireAuth from './containers/authentication';
@@ -19,6 +18,7 @@ import RspecReports from './containers/rspec_reports';
 import CreateUser from './containers/create_user';
 import User from './containers/user';
 import Users from './containers/users';
+
 import history from './history';
 import reducers from './reducers';
 
