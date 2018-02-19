@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import GenericForm from '../components/generic_form';
+import { FormField, FormErrors } from '../components';
 import { signIn, signInFailure, signInSuccess } from '../actions/users_actions';
 
 class Login extends Component {
@@ -35,15 +35,15 @@ class Login extends Component {
             label="Email"
             name="email"
             type="text"
-            component={GenericForm.renderField}
+            component={FormField}
           />
           <Field
             label="Password"
             name="password"
             type="password"
-            component={GenericForm.renderField}
+            component={FormField}
           />
-          <ul>{GenericForm.renderErrors(errors)}</ul>
+          <FormErrors errors={errors} />
           <div className="formButtons">
             <Link to="/" className="btn btn-danger">Cancel</Link>
             <button type="submit" className="btn btn-primary">Submit</button>

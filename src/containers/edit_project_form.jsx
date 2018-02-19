@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import GenericForm from '../components/generic_form';
+import { FormField, FormErrors } from '../components';
 import { editProjectSuccess, editProjectFailure,
   resetEditProject } from '../actions/projects_actions';
 import styles from './styles/Details.css';
@@ -47,9 +47,9 @@ class EditProjectForm extends Component {
             label="Project Name"
             name="name"
             placeholder={this.props.projectName}
-            component={GenericForm.renderField}
+            component={FormField}
           />
-          <ul>{GenericForm.renderErrors(errors)}</ul>
+          <FormErrors errors={errors} />
           <div className="formButtons">
             <button type="submit" className="btn btn-primary">Submit</button>
             <Link to={backPath} className="btn btn-danger">Cancel</Link>

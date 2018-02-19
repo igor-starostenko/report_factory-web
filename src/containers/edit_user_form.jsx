@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import GenericForm from '../components/generic_form';
+import { FormField, FormRadio, FormErrors } from '../components';
 import { editUserSuccess, editUserFailure,
   resetEditUser } from '../actions/users_actions';
 import styles from './styles/Details.css';
@@ -38,7 +38,7 @@ class EditUserForm extends Component {
           label="Password"
           name="password"
           type="password"
-          component={GenericForm.renderField}
+          component={FormField}
         />
       );
     }
@@ -52,12 +52,12 @@ class EditUserForm extends Component {
           <Field
             name="type"
             options={[{ value: 'Tester' }]}
-            component={GenericForm.renderRadio}
+            component={FormRadio}
           />
           <Field
             name="type"
             options={[{ value: 'Admin' }]}
-            component={GenericForm.renderRadio}
+            component={FormRadio}
           />
         </div>
       );
@@ -85,16 +85,16 @@ class EditUserForm extends Component {
           <Field
             label="User Name"
             name="name"
-            component={GenericForm.renderField}
+            component={FormField}
           />
           <Field
             label="Email"
             name="email"
-            component={GenericForm.renderField}
+            component={FormField}
           />
           {this.renderPassword()}
           {this.renderType()}
-          <ul>{GenericForm.renderErrors(errors)}</ul>
+          <FormErrors errors={errors} />
           <div className="formButtons">
             <button type="submit" className="btn btn-primary">Submit</button>
             <Link to={backPath} className="btn btn-danger">Cancel</Link>
