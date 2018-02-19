@@ -24,6 +24,7 @@ class CreateProject extends Component {
           title={title}
           action={this.create}
           backPath="/projects"
+          submitText="Create"
           {...this.props}
         />
       </div>

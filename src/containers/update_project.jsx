@@ -94,6 +94,7 @@ class UpdateProject extends Component {
           action={this.update}
           sideButton={this.deleteButton}
           backPath={backPath}
+          submitText="Update"
           initialValues={initialValues}
           {...this.props}
         />

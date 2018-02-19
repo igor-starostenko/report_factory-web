@@ -26,6 +26,7 @@ class CreateUser extends Component {
           action={this.create}
           hasPassword="true"
           isAdmin={this.props.isAdmin}
+          submitText="Create"
           backPath="/users"
           {...this.props}
         />

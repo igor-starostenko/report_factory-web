@@ -92,6 +92,7 @@ class UpdateUser extends Component {
           isCurrent={this.props.isCurrent}
           isAdmin={this.props.isAdmin}
           backPath={backPath}
+          submitText="Update"
           initialValues={initialValues}
           {...this.props}
         />
