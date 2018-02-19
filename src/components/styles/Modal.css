@@ -1,0 +1,12 @@
+.modalBody {
+  text-align: center;
+}
+
+.modalJumbo {
+  padding: 1em;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 6px;
+  color: #FDA831;
+  background-color: #eeeeee;
+}

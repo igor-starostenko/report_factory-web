@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import UserReportsLineChart from './user_reports_line_chart';
+import ConfirmModal from './confirm_modal';
 import { getUser, logOut } from '../actions/users_actions';
 import styles from './styles/Details.css';
+import modalStyles from './styles/Modal.css';
 
 const formatDate = (date, options) => {
   const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
@@ -48,7 +50,42 @@ class User extends Component {
     return (<div />);
   }
 
-  renderEdit() {
+  renderApiKeyModal() {
+    const modalContent = (
+      <div className={modalStyles.modalBody}>
+        <h5>Your X-API-KEY:</h5>
+        <h5 className={modalStyles.modalJumbo}>{this.props.xApiKey}</h5>
+      </div>
+    );
+    if (this.props.isCurrent) {
+      return (
+        <ConfirmModal
+          id="viewApiKey"
+          title="Api Key"
+          close="Ok"
+          content={modalContent}
+        />
+      );
+    }
+    return (<div />);
+  }
+
+  renderViewApiKey() {
+    if (this.props.isCurrent) {
+      return (
+        <button
+          data-toggle="modal"
+          data-target="#viewApiKey"
+          id="viewKey"
+          className="btn btn-info btn-fill"
+        >View Api Key
+        </button>
+      );
+    }
+    return (<div />);
+  }
+
+  renderDetailsButtons() {
     if (this.props.isAdmin || this.props.isCurrent) {
       const editUserUrl = `/users/${this.props.userId}/edit`;
       return (
@@ -56,6 +93,7 @@ class User extends Component {
           <Link to={editUserUrl} className="btn btn-primary btn-fill">
             Edit User
           </Link>
+          {this.renderViewApiKey()}
           {this.renderLogout()}
         </div>
       );
@@ -78,13 +116,14 @@ class User extends Component {
         <div className={styles.detailsContainer}>
           <div className={styles.detailsHeader}>
             <div className={styles.detailsName}>{name}</div>
-            <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           </div>
-          {this.renderEdit()}
+          {this.renderDetailsButtons()}
+          <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           <div className={styles.detailsContent}>
             <UserReportsLineChart userId={this.props.userId} />
           </div>
         </div>
+        {this.renderApiKeyModal()}
       </div>
     );
   }

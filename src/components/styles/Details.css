@@ -4,7 +4,7 @@
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 70px 500px;
+  grid-template-rows: 70px 20px 500px;
 }
 
 .detailsHeader {
@@ -15,23 +15,22 @@
 .detailsName {
   font-size: 52px;
   font-weight: 400;
-  display: inline-block;
-}
-
-.detailsSince {
-  font-style: italic;
-  margin-left: .5em;
-  display: inline-block;
 }
 
 .detailsButtons {
   margin: auto;
   margin-right: 1.5rem;
-  grid-column: 8 / -1;
+  grid-column: 7 / -1;
 }
 
 .detailsButtons > .btn {
   margin-left: 1em;
+}
+
+.detailsSince {
+  grid-column: 1 / 4;
+  font-style: italic;
+  margin-left: .5em;
 }
 
 .detailsContent {
@@ -57,9 +56,10 @@
 @media only screen and (max-width: 767px) {
   .detailsContainer {
     display: grid;
-    grid-template-rows: auto auto 140px;
+    grid-template-rows: auto 20px auto 140px;
     grid-template-areas:
         "h"
+        "s"
         "c"
         "d";
     grid-template-columns: auto;
@@ -88,6 +88,10 @@
     margin-top: 1rem;
     margin-bottom: 1.5rem;
     width: 30rem;
+  }
+
+  .detailsSince {
+    grid-area: s;
   }
 
   .filters {

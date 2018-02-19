@@ -69,7 +69,8 @@ h1 .subtitle {
   margin: 0 0 30px; }
 
 .text-primary, .text-primary:hover {
-  color: #3472F7 !important; }
+  color: #3472F7 !important;
+  }
 
 .text-info, .text-info:hover {
   color: #2CA8FF !important; }
@@ -85,7 +86,8 @@ h1 .subtitle {
 
 /*     General overwrite     */
 body {
-  font-family: "Helvetica Neue","Open Sans",Arial,sans-serif; }
+  font-family: "Helvetica Neue","Open Sans",Arial,sans-serif;
+  }
 
 .main {
   background-color: #FFFFFF;

@@ -42,14 +42,12 @@ class UpdateProject extends Component {
   deleteButton() {
     if (this.props.isAdmin) {
       const title = `Delete ${this.props.projectName}?`;
-      const lineOne = {
-        key: 'question',
-        text: `Are you sure you want to delete ${this.props.projectName}?`,
-      };
-      const lineTwo = {
-        key: 'warning',
-        text: 'This action cannot be reverted!',
-      };
+      const content = (
+        <div>
+          <p>Are you sure you want to delete {this.props.projectName}?</p>
+          <p>This action cannot be reverted!</p>
+        </div>
+      );
       return (
         <div className={styles.detailsButtons}>
           <button
@@ -62,7 +60,8 @@ class UpdateProject extends Component {
           <ConfirmModal
             id="deleteModal"
             title={title}
-            bodyLines={[lineOne, lineTwo]}
+            content={content}
+            close="Cancel"
             confirm="Delete"
             action={this.handleDelete}
           />

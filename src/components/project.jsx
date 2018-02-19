@@ -37,7 +37,6 @@ class Project extends Component {
         <div className={styles.detailsContainer}>
           <div className={styles.detailsHeader}>
             <div className={styles.detailsName}>{projectName}</div>
-            <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           </div>
           <div className={styles.detailsButtons}>
             <Link to={rspecUrl} className="btn btn-primary btn-fill">
@@ -47,6 +46,7 @@ class Project extends Component {
               Edit Project
             </Link>
           </div>
+          <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           <div className={styles.detailsContent}>
             <ReportsLineChart projectName={projectName} />
           </div>
