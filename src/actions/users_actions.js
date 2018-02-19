@@ -33,6 +33,8 @@ export const authUser = (xApiKey) => {
   };
 };
 
+export const authSuccess = user => ({ type: LOGIN_SUCCESS, payload: user });
+
 export const signIn = ({ email, password }) => {
   const request = usersClient.loginUser(email, password);
 
