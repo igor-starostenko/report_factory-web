@@ -56,7 +56,7 @@
 @media only screen and (max-width: 767px) {
   .detailsContainer {
     display: grid;
-    grid-template-rows: auto 20px auto 140px;
+    grid-template-rows: auto 20px auto auto;
     grid-template-areas:
         "h"
         "s"
@@ -80,13 +80,13 @@
     grid-area: d;
     margin: unset;
     grid-column: unset;
+    display: grid;
+    grid-template-rows: auto;
+    grid-gap: 1.5rem;
   }
 
   .detailsButtons > .btn {
-    margin-left: 2.5rem;
-    margin-right: 2.5rem;
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
+    margin: auto;
     width: 30rem;
   }
 
