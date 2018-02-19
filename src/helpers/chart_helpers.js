@@ -1,15 +1,15 @@
 import _ from 'lodash';
 
 const lastDate = (dateType, number) => {
-  let result = [];
-  for (let i = number - 1; i >= 0; i--) {
-      const d = new Date();
-      let date = d[`set${dateType}`](d[`get${dateType}`]() - i);
-      result.push(new Date(date));
+  const result = [];
+  for (let i = number - 1; i >= 0; i -= 1) {
+    const d = new Date();
+    const date = d[`set${dateType}`](d[`get${dateType}`]() - i);
+    result.push(new Date(date));
   }
 
-  return(result);
-}
+  return result;
+};
 
 export function lastDays(number) {
   return lastDate('Date', number);
@@ -21,44 +21,42 @@ export function lastMonths(number) {
 
 export function formatDates(dates, options) {
   const formatOptions = options || { month: 'short', day: 'numeric' };
-  return _.map(dates, (date) => {
-    return date.toLocaleDateString('en-US', formatOptions);
-  });
+  return _.map(dates, d => (d.toLocaleDateString('en-US', formatOptions)));
 }
 
 export function reportsCreatedDates(reports, parseDate) {
   const projectReports = _.values(reports);
-  return _.map(projectReports, report => {
-    return new Date(parseDate(report));
-  });
+  return _.map(projectReports, report => (new Date(parseDate(report))));
 }
 
+/* eslint-disable arrow-body-style */
 const isSameDay = (dateOne, dateTwo) => {
   return dateOne.getFullYear() === dateTwo.getFullYear()
     && dateOne.getDate() === dateTwo.getDate();
-}
+};
 
 const isSameMonth = (dateOne, dateTwo) => {
   return dateOne.getFullYear() === dateTwo.getFullYear()
     && dateOne.getMonth() === dateTwo.getMonth();
-}
+};
+/* eslint-enable arrow-body-style */
 
 const reportsPerDate = (dates, reportsDates, matchFun) => {
-  if(reportsDates.length === 0) {
-    return _.map(dates, d => 0);
+  if (reportsDates.length === 0) {
+    return _.map(dates, () => 0);
   }
-  let numberOfReportsArr = new Array();
-  for(let i = 0; i < dates.length; i++) {
+  const numberOfReportsArr = [];
+  for (let i = 0; i < dates.length; i += 1) {
     let numberOfReports = 0;
-    for(let y = 0; y < reportsDates.length; y++) {
-      if(matchFun(reportsDates[y], dates[i])) {
-        numberOfReports++;
+    for (let y = 0; y < reportsDates.length; y += 1) {
+      if (matchFun(reportsDates[y], dates[i])) {
+        numberOfReports += 1;
       }
     }
     numberOfReportsArr.push(numberOfReports);
   }
   return numberOfReportsArr;
-}
+};
 
 export function reportsPerDay(dates, reportsDates) {
   return reportsPerDate(dates, reportsDates, isSameDay);
@@ -76,22 +74,22 @@ export function getColors(opacity = 1) {
     red: `rgba(215,0,0,${opacity})`,
     orange: `rgba(255,212,91,${opacity})`,
     grey: `rgba(220,220,220,${opacity})`,
-  }
+  };
 }
 
 export function setOpacity(color, opacity = 1) {
   const startIndex = color.lastIndexOf(',');
   const endIndex = color.lastIndexOf(')') + 1;
   const toReplace = color.substring(startIndex, endIndex);
-  return color.replace(toReplace, `,${opacity})`)
+  return color.replace(toReplace, `,${opacity})`);
 }
 
 export function groupReportsByProjects(reports, parseProjectName) {
   if (_.isEmpty(reports)) {
     return [];
   }
-  let projectReports = {};
-  for (let i = 0; i < reports.length ; i++) {
+  const projectReports = {};
+  for (let i = 0; i < reports.length; i += 1) {
     const projectName = parseProjectName(reports[i]);
     if (projectReports[projectName]) {
       projectReports[projectName].push(reports[i]);
