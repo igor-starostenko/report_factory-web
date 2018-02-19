@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import GenericForm from './generic_form';
+import GenericForm from '../components/generic_form';
 import { signIn, signInFailure, signInSuccess } from '../actions/users_actions';
 
 class Login extends Component {

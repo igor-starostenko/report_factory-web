@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import UserReportsLineChart from './user_reports_line_chart';
-import ConfirmModal from './confirm_modal';
+import ConfirmModal from '../components/confirm_modal';
 import { getUser, logOut } from '../actions/users_actions';
 import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';

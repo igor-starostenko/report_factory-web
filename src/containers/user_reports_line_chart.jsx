@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import LineChart from './line_chart';
+import LineChart from '../components/line_chart';
 import { getUserReports } from '../actions/users_actions';
 import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth, reportsCreatedDates,
   groupReportsByProjects, getColors, setOpacity } from '../helpers/chart_helpers';
@@ -74,7 +74,9 @@ class UserReportsLineChart extends Component {
   }
 
   render() {
-    if (!this.props.userReports) {
+    const { userReports, userId } = this.props;
+
+    if (!userReports) {
       return (<div className="loading">Loading...</div>);
     }
 
@@ -82,8 +84,7 @@ class UserReportsLineChart extends Component {
       return (<div className="loading">No reports submitted by this user yet</div>);
     }
 
-    let reports = this.props.userReports[this.props.userId];
-    reports = groupReportsByProjects(reports, parseProjectName);
+    const reports = groupReportsByProjects(userReports[userId], parseProjectName);
 
     return (
       <LineChart

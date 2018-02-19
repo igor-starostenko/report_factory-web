@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import LineChart from './line_chart';
+import LineChart from '../components/line_chart';
 import { getReports } from '../actions/reports_actions';
 import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth,
   reportsCreatedDates } from '../helpers/chart_helpers';

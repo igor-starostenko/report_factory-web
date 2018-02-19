@@ -20,8 +20,6 @@ class ReportsList extends Component {
       return (<li>...</li>);
     }
 
-    console.log(this.props.projectName);
-
     return _.map(reports, report => (
       <li className="list-group-item" key={report.id}>
         {report.attributes.reportable_type}
@@ -32,7 +30,7 @@ class ReportsList extends Component {
   render() {
     return (
       <div>
-        <br></br>
+        <br />
         <ul className="list-group">
           {this.renderReports()}
         </ul>

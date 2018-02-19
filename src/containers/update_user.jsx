@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import EditUserForm from './edit_user_form';
-import ConfirmModal from './confirm_modal';
+import ConfirmModal from '../components/confirm_modal';
 import { getUser, updateUser, deleteUser, editUserSuccess, editUserFailure } from '../actions/users_actions';
 import styles from './styles/Details.css';
 

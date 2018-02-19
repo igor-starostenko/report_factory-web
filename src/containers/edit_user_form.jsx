@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import GenericForm from './generic_form';
+import GenericForm from '../components/generic_form';
 import { editUserSuccess, editUserFailure,
   resetEditUser } from '../actions/users_actions';
 import styles from './styles/Details.css';
