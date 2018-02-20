@@ -6,20 +6,19 @@ export default class ConfirmModal extends React.Component {
   }
 
   renderDivider() {
-    if (this.props.action) {
+    if (this.props.submit) {
       return (<div className="divider" />);
     }
     return (<div />);
   }
 
   renderSubmitButton() {
-    if (this.props.action) {
+    if (this.props.submit) {
       return (
         <button
-          type="button"
           className={`btn ${this.buttonColor()} btn-simple`}
           data-dismiss="modal"
-          onClick={this.props.action}
+          {...this.props.submit}
         >{this.props.confirm}
         </button>
       );

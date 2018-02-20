@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { submit } from 'redux-form';
 import _ from 'lodash';
 import EditUserForm from './edit_user_form';
+import UpdatePasswordForm from './update_password_form';
 import { Button, ConfirmModal } from '../components';
 import { getUser, updateUser, deleteUser, editUserSuccess, editUserFailure } from '../actions/users_actions';
 import styles from './styles/Details.css';
@@ -11,7 +13,7 @@ class UpdateUser extends Component {
   constructor(state) {
     super(state);
     this.update = this.update.bind(this);
-    this.deleteButton = this.deleteButton.bind(this);
+    this.sideButton = this.sideButton.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
@@ -34,38 +36,78 @@ class UpdateUser extends Component {
       });
   }
 
-  deleteButton() {
-    if (this.props.isAdmin && !this.props.isCurrent) {
-      const title = `Delete ${this.props.userName}?`;
-      const content = (
-        <div>
-          <p>Are you sure you want to delete {this.props.userName}?</p>
-          <p>This action cannot be reverted!</p>
-        </div>
-      );
-
-      return (
-        <div className={styles.detailsButtons}>
-          <Button
-            data-toggle="modal"
-            data-target="#deleteModal"
-            id="delete"
-            color="danger"
-            fill="true"
-            text="Delete User"
-          />
-          <ConfirmModal
-            id="deleteModal"
-            title={title}
-            content={content}
-            close="Cancel"
-            confirm="Delete"
-            action={this.handleDelete}
-          />
-        </div>
-      );
+  sideButton() {
+    if (this.props.isCurrent) {
+      return this.updatePasswordButton();
+    } else if (this.props.isAdmin) {
+      return this.deleteButton();
     }
     return (<div />);
+  }
+
+  updatePasswordButton() {
+    const title = 'Update Password';
+    const content = (
+      <UpdatePasswordForm
+        userId={this.props.userId}
+        xApiKey={this.props.xApiKey}
+      />);
+    const submitButton = {
+      onClick: () => this.props.dispatch(submit('editPasswordForm')),
+      type: 'submit',
+    };
+
+    return (
+      <div className={styles.detailsButtons}>
+        <Button
+          data-toggle="modal"
+          data-target="#updatePasswordModal"
+          id="update"
+          color="warning"
+          fill="true"
+          text="Update Password"
+        />
+        <ConfirmModal
+          id="updatePasswordModal"
+          title={title}
+          content={content}
+          close="Cancel"
+          confirm="Update"
+          submit={submitButton}
+        />
+      </div>
+    );
+  }
+
+  deleteButton() {
+    const title = `Delete ${this.props.userName}?`;
+    const content = (
+      <div>
+        <p>Are you sure you want to delete {this.props.userName}?</p>
+        <p>This action cannot be reverted!</p>
+      </div>
+    );
+
+    return (
+      <div className={styles.detailsButtons}>
+        <Button
+          data-toggle="modal"
+          data-target="#deleteModal"
+          id="delete"
+          color="danger"
+          fill="true"
+          text="Delete User"
+        />
+        <ConfirmModal
+          id="deleteModal"
+          title={title}
+          content={content}
+          close="Cancel"
+          confirm="Delete"
+          submit={{ onClick: this.handleDelete }}
+        />
+      </div>
+    );
   }
 
   update(attributes) {
@@ -89,7 +131,7 @@ class UpdateUser extends Component {
         <EditUserForm
           title={title}
           action={this.update}
-          sideButton={this.deleteButton}
+          sideButton={this.sideButton}
           isCurrent={this.props.isCurrent}
           isAdmin={this.props.isAdmin}
           backPath={backPath}

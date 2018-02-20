@@ -456,7 +456,8 @@ input.ct-red + span + label + span.switch-right {
   padding: 8px 16px;
   height: 40px;
   -webkit-box-shadow: none;
-  box-shadow: none; }
+  box-shadow: none;
+  }
   .form-control:focus {
     background-color: #FFFFFF;
     border: 1px solid #9A9A9A;

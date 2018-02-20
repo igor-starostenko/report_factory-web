@@ -64,7 +64,7 @@ class UpdateProject extends Component {
             content={content}
             close="Cancel"
             confirm="Delete"
-            action={this.handleDelete}
+            submit={{ onClick: this.handleDelete }}
           />
         </div>
       );
