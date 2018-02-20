@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { ConfirmModal, UserReportsLineChart } from '../components';
+import { Button, ConfirmModal, UserReportsLineChart } from '../components';
 import { getUser, logOut, getUserReports } from '../actions/users_actions';
 import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';
@@ -45,9 +45,12 @@ class User extends Component {
   renderLogout() {
     if (this.props.isCurrent) {
       return (
-        <button onClick={this.logOut} className="btn btn-warning btn-fill">
-          Log Out
-        </button>
+        <Button
+          onClick={this.logOut}
+          color="warning"
+          fill="true"
+          text="Log Out"
+        />
       );
     }
     return (<div />);
@@ -76,13 +79,14 @@ class User extends Component {
   renderViewApiKey() {
     if (this.props.isCurrent) {
       return (
-        <button
+        <Button
           data-toggle="modal"
           data-target="#viewApiKey"
           id="viewKey"
-          className="btn btn-info btn-fill"
-        >View Api Key
-        </button>
+          color="info"
+          fill="true"
+          text="View Api Key"
+        />
       );
     }
     return (<div />);
@@ -93,9 +97,12 @@ class User extends Component {
       const editUserUrl = `/users/${this.props.userId}/edit`;
       return (
         <div className={styles.detailsButtons}>
-          <Link to={editUserUrl} className="btn btn-primary btn-fill">
-            Edit User
-          </Link>
+          <Button
+            to={editUserUrl}
+            color="primary"
+            fill="true"
+            text="Edit User"
+          />
           {this.renderViewApiKey()}
           {this.renderLogout()}
         </div>

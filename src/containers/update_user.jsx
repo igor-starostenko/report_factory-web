@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import EditUserForm from './edit_user_form';
-import { ConfirmModal } from '../components';
+import { Button, ConfirmModal } from '../components';
 import { getUser, updateUser, deleteUser, editUserSuccess, editUserFailure } from '../actions/users_actions';
 import styles from './styles/Details.css';
 
@@ -46,13 +46,14 @@ class UpdateUser extends Component {
 
       return (
         <div className={styles.detailsButtons}>
-          <button
+          <Button
             data-toggle="modal"
             data-target="#deleteModal"
             id="delete"
-            className="btn btn-danger btn-fill"
-          >Delete User
-          </button>
+            color="danger"
+            fill="true"
+            text="Delete User"
+          />
           <ConfirmModal
             id="deleteModal"
             title={title}

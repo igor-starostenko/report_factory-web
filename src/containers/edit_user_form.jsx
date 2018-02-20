@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
 import { Button, FormField, FormRadio, FormErrors } from '../components';
 import { editUserSuccess, editUserFailure,
   resetEditUser } from '../actions/users_actions';
@@ -97,7 +96,7 @@ class EditUserForm extends Component {
           <FormErrors errors={errors} />
           <div className="formButtons">
             <Button type="submit" color="primary" text={this.props.submitText} />
-            <Link to={backPath} className="btn btn-danger">Cancel</Link>
+            <Button to={backPath} text="Cancel" />
           </div>
         </form>
       </div>

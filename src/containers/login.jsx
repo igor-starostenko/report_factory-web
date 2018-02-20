@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { FormField, FormErrors } from '../components';
+import { Button, FormField, FormErrors } from '../components';
 import { signIn, signInFailure, signInSuccess } from '../actions/users_actions';
 
 class Login extends Component {
@@ -45,8 +44,8 @@ class Login extends Component {
           />
           <FormErrors errors={errors} />
           <div className="formButtons">
-            <Link to="/" className="btn btn-danger">Cancel</Link>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <Button to="/" text="Cancel" />
+            <Button type="submit" color="primary" text="Login" />
           </div>
         </form>
       </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Button } from '../components';
 import ReportsLineChart from './reports_line_chart';
 import { getProject, resetProject } from '../actions/projects_actions';
 import styles from './styles/Details.css';
@@ -39,12 +40,8 @@ class Project extends Component {
             <div className={styles.detailsName}>{projectName}</div>
           </div>
           <div className={styles.detailsButtons}>
-            <Link to={rspecUrl} className="btn btn-primary btn-fill">
-              View Reports
-            </Link>
-            <Link to={editUrl} className="btn btn-warning btn-fill">
-              Edit Project
-            </Link>
+            <Button to={rspecUrl} color="primary" fill="true" text="View Reports" />
+            <Button to={editUrl} color="warning" fill="true" text="Edit Project" />
           </div>
           <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           <div className={styles.detailsContent}>
