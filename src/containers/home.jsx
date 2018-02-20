@@ -34,7 +34,7 @@ class Home extends Component {
     const imageSrc = '/style/assets/img/rf-apple-icon.png';
     return (
       <div className={styles.homeContainer}>
-        <div className="jumbotron text-center">
+        <div className="jumbotron fadeIn text-center">
           <h1>Welcome to Report Factory</h1>
           <img
             className={styles.homeLogo}

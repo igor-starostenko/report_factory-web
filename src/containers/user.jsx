@@ -114,7 +114,7 @@ class User extends Component {
   render() {
     const { user, userId, userReports } = this.props;
     if (!user.data || _.get(user, 'data.id') !== userId) {
-      return (<div className="loading">Loading...</div>);
+      return (<div />);
     }
 
     const { attributes: { name, date } } = user.data;

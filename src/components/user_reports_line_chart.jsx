@@ -65,12 +65,12 @@ const chartOptions = {
 
 export default class UserReportsLineChart extends Component {
   render() {
-    if (!this.props.userReports) {
-      return (<div className="loading">Loading...</div>);
-    }
-
     if (this.props.error) {
       return (<div className="loading">No reports submitted by this user yet</div>);
+    }
+
+    if (!this.props.userReports) {
+      return (<div className="loading">Loading...</div>);
     }
 
     const reports = groupReportsByProjects(this.props.userReports, parseProjectName);
