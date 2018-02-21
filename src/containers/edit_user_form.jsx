@@ -44,21 +44,14 @@ class EditUserForm extends Component {
     return (<div />);
   }
 
-  renderType() {
+  renderType(value) {
     if (this.props.isAdmin || !this.props.isCurrent) {
       return (
-        <div>
-          <Field
-            name="type"
-            options={[{ value: 'Tester' }]}
-            component={FormRadio}
-          />
-          <Field
-            name="type"
-            options={[{ value: 'Admin' }]}
-            component={FormRadio}
-          />
-        </div>
+        <Field
+          name="type"
+          options={[{ value }]}
+          component={FormRadio}
+        />
       );
     }
     return (<div />);
@@ -92,7 +85,8 @@ class EditUserForm extends Component {
             component={FormField}
           />
           {this.renderPassword()}
-          {this.renderType()}
+          {this.renderType('Tester')}
+          {this.renderType('Admin')}
           <FormErrors errors={errors} />
           <div className="formButtons">
             <Button type="submit" color="primary" text={this.props.submitText} />

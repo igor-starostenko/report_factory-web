@@ -9,7 +9,7 @@ export default class FormRadio extends Component {
              <label key={o.value} className="radioLabel">
                <input
                  className="radio"
-                 checked={this.props.input.checked}
+                 checked={this.props.input.value === o.value}
                  {...this.props.input}
                  type="radio"
                  value={o.value}
