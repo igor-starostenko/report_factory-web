@@ -68,7 +68,7 @@ class User extends Component {
         <ConfirmModal
           id="viewApiKey"
           title="Api Key"
-          close="Ok"
+          cancelText="Ok"
           content={modalContent}
         />
       );

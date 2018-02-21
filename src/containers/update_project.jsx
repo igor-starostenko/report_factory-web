@@ -62,8 +62,8 @@ class UpdateProject extends Component {
             id="deleteModal"
             title={title}
             content={content}
-            close="Cancel"
-            confirm="Delete"
+            cancelText="Cancel"
+            submitText="Delete"
             submit={{ onClick: this.handleDelete }}
           />
         </div>

@@ -5,11 +5,33 @@ export default class ConfirmModal extends React.Component {
     return this.props.confirm === 'Delete' ? 'btn-danger' : 'btn-info';
   }
 
+  renderCloseButton() {
+    return (
+      <button
+        className="close"
+        data-dismiss="modal"
+        {...this.props.close}
+      >×
+      </button>
+    );
+  }
+
   renderDivider() {
     if (this.props.submit) {
       return (<div className="divider" />);
     }
     return (<div />);
+  }
+
+  renderCancelButton() {
+    return (
+      <button
+        className="btn btn-default btn-simple"
+        data-dismiss="modal"
+        {...this.props.cancel}
+      >{this.props.cancelText}
+      </button>
+    );
   }
 
   renderSubmitButton() {
@@ -19,7 +41,7 @@ export default class ConfirmModal extends React.Component {
           className={`btn ${this.buttonColor()} btn-simple`}
           data-dismiss="modal"
           {...this.props.submit}
-        >{this.props.confirm}
+        >{this.props.submitText}
         </button>
       );
     }
@@ -37,24 +59,14 @@ export default class ConfirmModal extends React.Component {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-              >×
-              </button>
+              {this.renderCloseButton()}
               <h4 className="modal-title">{this.props.title}</h4>
             </div>
             <div className="modal-body">
               {this.props.content}
             </div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-default btn-simple"
-                data-dismiss="modal"
-              >{this.props.close}
-              </button>
+              {this.renderCancelButton()}
               {this.renderDivider()}
               {this.renderSubmitButton()}
             </div>

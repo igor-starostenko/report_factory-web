@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { submit } from 'redux-form';
+import { submit, reset } from 'redux-form';
 import _ from 'lodash';
 import EditUserForm from './edit_user_form';
 import UpdatePasswordForm from './update_password_form';
@@ -53,6 +53,7 @@ class UpdateUser extends Component {
         userId={this.props.userId}
         xApiKey={this.props.xApiKey}
       />);
+    const resetForm = () => this.props.dispatch(reset('editPasswordForm'));
     const submitButton = {
       onClick: () => this.props.dispatch(submit('editPasswordForm')),
       disabled: errors || false,
@@ -73,8 +74,10 @@ class UpdateUser extends Component {
           id="updatePasswordModal"
           title={title}
           content={content}
-          close="Cancel"
-          confirm="Update"
+          close={{ onClick: resetForm }}
+          cancelText="Cancel"
+          cancel={{ onClick: resetForm }}
+          submitText="Update"
           submit={submitButton}
         />
       </div>
@@ -104,8 +107,8 @@ class UpdateUser extends Component {
           id="deleteModal"
           title={title}
           content={content}
-          close="Cancel"
-          confirm="Delete"
+          cancelText="Cancel"
+          submitText="Delete"
           submit={{ onClick: this.handleDelete }}
         />
       </div>
