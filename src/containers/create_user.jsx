@@ -28,6 +28,7 @@ class CreateUser extends Component {
           isAdmin={this.props.isAdmin}
           submitText="Create"
           backPath="/users"
+          initialValues={{ type: 'Tester' }}
           {...this.props}
         />
       </div>
