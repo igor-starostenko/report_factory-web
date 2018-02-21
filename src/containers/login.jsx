@@ -44,8 +44,8 @@ class Login extends Component {
           />
           <FormErrors errors={errors} />
           <div className="formButtons">
-            <Button to="/" text="Cancel" />
             <Button type="submit" color="primary" text="Login" />
+            <Button to="/" text="Cancel" />
           </div>
         </form>
       </div>

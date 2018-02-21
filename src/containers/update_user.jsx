@@ -47,6 +47,7 @@ class UpdateUser extends Component {
 
   updatePasswordButton() {
     const title = 'Update Password';
+    const errors = _.get(this.props.passwordForm, 'syncErrors');
     const content = (
       <UpdatePasswordForm
         userId={this.props.userId}
@@ -54,6 +55,7 @@ class UpdateUser extends Component {
       />);
     const submitButton = {
       onClick: () => this.props.dispatch(submit('editPasswordForm')),
+      disabled: errors || false,
       type: 'submit',
     };
 
@@ -158,6 +160,7 @@ const mapStateToProps = (state, ownProps) => ({
   user: state.users.activeUser,
   userName: _.get(state.users.activeUser, 'data.attributes.name'),
   xApiKey: state.users.currentUser.xApiKey,
+  passwordForm: state.form.editPasswordForm,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateUser);

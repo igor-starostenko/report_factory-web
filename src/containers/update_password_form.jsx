@@ -6,9 +6,10 @@ import { FormField, FormErrors } from '../components';
 import { updateUser, editUserSuccess, editUserFailure,
   resetEditUser } from '../actions/users_actions';
 
-const update = (values, dispatch, { userId, xApiKey }) => {
+const update = (values, dispatch, { userId, xApiKey, reset }) => {
   dispatch(updateUser(userId, _.pick(values, 'password'), xApiKey))
     .then((response) => {
+      reset();
       if (!response.payload.data) {
         return dispatch(editUserFailure(response.payload));
       }
