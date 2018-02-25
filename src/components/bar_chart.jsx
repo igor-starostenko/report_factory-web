@@ -1,29 +1,10 @@
 import React, { Component } from 'react';
 import { Bar } from 'react-chartjs';
+import { FilterButton } from '../components';
 
 export default class BarChart extends Component {
-  constructor(state) {
-    super(state);
-    this.state = { activeFilter: 'Last 10' };
-  }
-
-  setFilter(name) {
-    this.setState({ activeFilter: name });
-  }
-
-  renderFilterItem(name) {
-    const className = this.state.activeFilter === name ? 'active' : '';
-    return (
-      /* eslint-disable jsx-a11y/click-events-have-key-events */
-      /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-      /* eslint-disable react/jsx-no-bind */
-      <li className={className} onClick={this.setFilter.bind(this, name)}>
-        <a>{name}</a>
-      </li>
-      /* eslint-enable react/jsx-no-bind */
-      /* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
-      /* eslint-enable jsx-a11y/click-events-have-key-events */
-    );
+  activeFilter(number) {
+    return this.props.reportsCount === number;
   }
 
   render() {
@@ -32,15 +13,25 @@ export default class BarChart extends Component {
     return (
       <div>
         <Bar
-          data={getChartData(reports, this.state.activeFilter)}
+          data={getChartData(reports, this.props.reportsCount)}
           options={options}
           height="350"
           redraw
         />
         <div className="filters">
           <ul id="chart-pills" className="nav nav-pills ct-orange">
-            {this.renderFilterItem('Last 30')}
-            {this.renderFilterItem('Last 10')}
+            <FilterButton
+              name="Last 30"
+              value={30}
+              active={this.activeFilter(30)}
+              action={this.props.setFilterCount}
+            />
+            <FilterButton
+              name="Last 10"
+              value={10}
+              active={this.activeFilter(10)}
+              action={this.props.setFilterCount}
+            />
           </ul>
         </div>
       </div>

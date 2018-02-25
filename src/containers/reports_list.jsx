@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { getReports } from '../actions/reports_actions';
+import { getProjectReports } from '../actions/reports_actions';
 
 class ReportsList extends Component {
   componentDidMount() {
     const { reports } = this.props;
     if (!reports || _.isEmpty(reports)) {
       const { projectName, xApiKey } = this.props;
-      this.props.getReports(projectName, xApiKey);
+      this.props.getProjectReports(projectName, xApiKey);
     }
   }
 
@@ -44,4 +44,4 @@ const mapStateToProps = (state, ownProps) => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getReports })(ReportsList);
+export default connect(mapStateToProps, { getProjectReports })(ReportsList);

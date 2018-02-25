@@ -6,6 +6,18 @@ class ApiClient {
     this.baseUrl = ApiHelper.formatUrl(url);
   }
 
+  static formatQuery(options) {
+    if (!options || Object.keys(options).length === 0) {
+      return '';
+    }
+    /* eslint-disable arrow-body-style */
+    const paramsArr = Object.keys(options).map((key) => {
+      return `${encodeURIComponent(key)}=${encodeURIComponent(options[key])}`;
+    });
+    /* eslint-enable arrow-body-style */
+    return `?${paramsArr.join('&')}`;
+  }
+
   static formatPayload(type, attributes) {
     return JSON.stringify({ data: { type, attributes } });
   }

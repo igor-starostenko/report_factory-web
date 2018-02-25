@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { BarChart } from '../components';
-import { getRspecReports } from '../actions/reports_actions';
+import { getProjectRspecReports, getProjectRspecReportsSuccess,
+  getProjectRspecReportsFailure, setProjectRspecReportsPage } from '../actions/reports_actions';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
 
 const lastReports = (reports, number) => {
@@ -33,16 +34,9 @@ const getStatus = (reports, number = 10) => {
 
 const setAllOpacity = (colors, opacity = 1) => _.map(colors, c => setOpacity(c, opacity));
 
-const getChartData = (reports, activeFilter) => {
-  let displayedNumber;
-  switch (activeFilter) {
-    case 'Last 10':
-      displayedNumber = 10;
-      break;
-    case 'Last 30':
-      displayedNumber = 30;
-      break;
-    default: throw new Error(`Filter ${activeFilter} is not supported`);
+const getChartData = (reports, displayedNumber) => {
+  if (typeof displayedNumber !== 'number') {
+    throw new Error(`Filter ${displayedNumber} is not supported`);
   }
   const last = lastReports(reports, displayedNumber);
   const data = getDuration(last, displayedNumber);
@@ -76,26 +70,56 @@ const chartOptions = {
 };
 
 class RspecReportsBar extends Component {
+  constructor(props) {
+    super(props);
+    this.fetchProjectRspecReports = this.fetchProjectRspecReports.bind(this);
+  }
+
   componentDidMount() {
-    const { rspecReports } = this.props;
-    if (!rspecReports || _.isEmpty(rspecReports)) {
-      const { projectName, xApiKey } = this.props;
-      this.props.getRspecReports(projectName, xApiKey);
+    const { reportsList } = this.props;
+    if (!reportsList || _.isEmpty(reportsList)) {
+      this.fetchProjectRspecReports(this.props.perPage);
     }
+  }
+
+  fetchProjectRspecReports(perPage) {
+    const { projectName, xApiKey, dispatch } = this.props;
+    const options = { page: this.props.page, per_page: perPage };
+    getProjectRspecReports(projectName, xApiKey, options)
+      .then((response) => {
+        if (response.status !== 200) {
+          return dispatch(getProjectRspecReportsFailure(response.payload));
+        }
+        dispatch(setProjectRspecReportsPage(response));
+        return dispatch(getProjectRspecReportsSuccess(response));
+      });
   }
 
   render() {
     return (<BarChart
+      reportsCount={this.props.perPage}
+      setFilterCount={this.fetchProjectRspecReports}
       getChartData={getChartData}
       options={chartOptions}
-      reports={this.props.rspecReports}
+      reports={this.props.reportsList}
     />);
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  getProjectRspecReports: (...args) => dispatch(getProjectRspecReports(...args)),
+  dispatch,
+});
+
+const getReportsList = (reports, name) => (_.get(reports, `reportsList.data.${name}`));
+
 const mapStateToProps = (state, ownProps) => ({
-  rspecReports: state.rspecReports[ownProps.projectName],
+  projectName: ownProps.projectName,
+  page: state.rspecReports.reportsList.page,
+  perPage: state.rspecReports.reportsList.perPage,
+  total: state.rspecReports.reportsList.total,
+  reportsList: getReportsList(state.rspecReports, ownProps.projectName),
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getRspecReports })(RspecReportsBar);
+export default connect(mapStateToProps, mapDispatchToProps)(RspecReportsBar);
