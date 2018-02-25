@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { LineChart } from '../components';
-import { getProjectReports } from '../actions/reports_actions';
+import { getProjectReports } from '../actions/project_reports_actions';
 import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth,
   reportsCreatedDates } from '../helpers/chart_helpers';
 
@@ -83,7 +83,7 @@ class ReportsLineChart extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  reports: state.reports[ownProps.projectName],
+  reports: state.projectReports.reportsList[ownProps.projectName],
   xApiKey: state.users.currentUser.xApiKey,
 });
 

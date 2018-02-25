@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { BarChart } from '../components';
 import { getProjectRspecReports, getProjectRspecReportsSuccess, getProjectRspecReportsFailure,
-  setProjectRspecReportsPage, resetProjectRspecReports } from '../actions/reports_actions';
+  setProjectRspecReportsPage, resetProjectRspecReports } from '../actions/project_reports_actions';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
 
 const lastReports = (reports, number) => {
@@ -83,7 +83,6 @@ class RspecReportsBar extends Component {
   }
 
   componentWillUnmount() {
-    console.log(this.props);
     this.props.resetProjectRspecReports();
   }
 
@@ -117,15 +116,13 @@ const mapDispatchToProps = dispatch => ({
   dispatch,
 });
 
-const getReportsList = reports => (_.get(reports, 'reportsList.data'));
-
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = ({ projectReports, users }, ownProps) => ({
   projectName: ownProps.projectName,
-  page: state.rspecReports.reportsList.page,
-  perPage: state.rspecReports.reportsList.perPage,
-  total: state.rspecReports.reportsList.total,
-  reportsList: getReportsList(state.rspecReports),
-  xApiKey: state.users.currentUser.xApiKey,
+  page: projectReports.rspecReportsList.page,
+  perPage: projectReports.rspecReportsList.perPage,
+  total: projectReports.rspecReportsList.total,
+  reportsList: projectReports.rspecReportsList.data,
+  xApiKey: users.currentUser.xApiKey,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RspecReportsBar);
