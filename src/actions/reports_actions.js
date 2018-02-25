@@ -6,6 +6,7 @@ export const GET_PROJECT_RSPEC_REPORTS_SUCCESS = 'get_rspec_reports_success';
 export const GET_PROJECT_RSPEC_REPORTS_FAILURE = 'get_rspec_reports_failure';
 export const GET_PROJECT_RSPEC_REPORT = 'get_rspec_report';
 export const SET_PROJECT_RSPEC_REPORTS_PAGE = 'set_project_rspec_reports_page';
+export const RESET_PROJECT_RSPEC_REPORTS = 'reset_project_rspec_reports';
 
 const apiUrl = process.env.API_URL;
 const reportsClient = new ReportsClient(apiUrl);
@@ -39,6 +40,8 @@ export const getProjectRspecReportsFailure = response => ({
   type: GET_PROJECT_RSPEC_REPORTS_FAILURE,
   payload: response.json(),
 });
+
+export const resetProjectRspecReports = () => ({ type: RESET_PROJECT_RSPEC_REPORTS });
 
 export const getRspecReportByProject = (projectName, id, xApiKey) => {
   const request = reportsClient.showProjectRspecReport(projectName, id, xApiKey);

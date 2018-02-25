@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { GET_PROJECT_RSPEC_REPORTS, GET_PROJECT_RSPEC_REPORTS_SUCCESS,
   GET_PROJECT_RSPEC_REPORTS_FAILURE, GET_PROJECT_RSPEC_REPORT,
-  SET_PROJECT_RSPEC_REPORTS_PAGE } from '../actions/reports_actions';
+  SET_PROJECT_RSPEC_REPORTS_PAGE, RESET_PROJECT_RSPEC_REPORTS } from '../actions/reports_actions';
 
 const INITIAL_STATE = {
   reportsList: {
@@ -22,8 +22,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, reportsList: { ...state.reportsList, error: null, loading: true } };
     }
     case GET_PROJECT_RSPEC_REPORTS_SUCCESS: {
-      const projectName = action.payload.data[0].attributes.project_name;
-      const data = { [projectName]: _.mapKeys(action.payload.data, obj => obj.id) };
+      const data = _.mapKeys(action.payload.data, obj => obj.id);
       return { ...state, reportsList: { ...state.reportsList, data, error: null, loading: false } };
       /* eslint-enable object-curly-newline */
     }
@@ -31,6 +30,9 @@ export default (state = INITIAL_STATE, action) => {
       const error = action.payload.errors;
       const { data } = state.reportsList;
       return { ...state, reportsList: { data, error, loading: false } };
+    }
+    case RESET_PROJECT_RSPEC_REPORTS: {
+      return { ...state, reportsList: INITIAL_STATE.reportsList };
     }
     case GET_PROJECT_RSPEC_REPORT: {
       const { data } = action.payload;

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { BarChart } from '../components';
-import { getProjectRspecReports, getProjectRspecReportsSuccess,
-  getProjectRspecReportsFailure, setProjectRspecReportsPage } from '../actions/reports_actions';
+import { getProjectRspecReports, getProjectRspecReportsSuccess, getProjectRspecReportsFailure,
+  setProjectRspecReportsPage, resetProjectRspecReports } from '../actions/reports_actions';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
 
 const lastReports = (reports, number) => {
@@ -82,6 +82,11 @@ class RspecReportsBar extends Component {
     }
   }
 
+  componentWillUnmount() {
+    console.log(this.props);
+    this.props.resetProjectRspecReports();
+  }
+
   fetchProjectRspecReports(perPage) {
     const { projectName, xApiKey, dispatch } = this.props;
     const options = { page: this.props.page, per_page: perPage };
@@ -108,17 +113,18 @@ class RspecReportsBar extends Component {
 
 const mapDispatchToProps = dispatch => ({
   getProjectRspecReports: (...args) => dispatch(getProjectRspecReports(...args)),
+  resetProjectRspecReports: () => dispatch(resetProjectRspecReports()),
   dispatch,
 });
 
-const getReportsList = (reports, name) => (_.get(reports, `reportsList.data.${name}`));
+const getReportsList = reports => (_.get(reports, 'reportsList.data'));
 
 const mapStateToProps = (state, ownProps) => ({
   projectName: ownProps.projectName,
   page: state.rspecReports.reportsList.page,
   perPage: state.rspecReports.reportsList.perPage,
   total: state.rspecReports.reportsList.total,
-  reportsList: getReportsList(state.rspecReports, ownProps.projectName),
+  reportsList: getReportsList(state.rspecReports),
   xApiKey: state.users.currentUser.xApiKey,
 });
 
