@@ -8,7 +8,7 @@ const apiUrl = process.env.API_URL;
 const reportsClient = new ReportsClient(apiUrl);
 
 export const getReports = (projectName, xApiKey) => {
-  const request = reportsClient.getAllReports(projectName, xApiKey);
+  const request = reportsClient.getAllProjectReports(projectName, xApiKey);
 
   return {
     type: GET_REPORTS,
@@ -17,7 +17,7 @@ export const getReports = (projectName, xApiKey) => {
 };
 
 export const getRspecReports = (projectName, xApiKey) => {
-  const request = reportsClient.getAllRspecReports(projectName, xApiKey);
+  const request = reportsClient.getAllProjectRspecReports(projectName, xApiKey);
 
   return {
     type: GET_RSPEC_REPORTS,
@@ -26,7 +26,7 @@ export const getRspecReports = (projectName, xApiKey) => {
 };
 
 export const getRspecReport = (projectName, id, xApiKey) => {
-  const request = reportsClient.showRspecReport(projectName, id, xApiKey);
+  const request = reportsClient.showProjectRspecReport(projectName, id, xApiKey);
 
   return {
     type: GET_RSPEC_REPORT,
