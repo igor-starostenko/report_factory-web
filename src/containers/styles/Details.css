@@ -49,6 +49,7 @@
 }
 
 #chart-pills {
+  cursor: pointer;
   float: right;
   margin: 0;
 }

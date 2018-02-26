@@ -1,4 +1,4 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 import { GET_REPORTS, GET_RSPEC_REPORTS, SET_RSPEC_REPORTS_PAGE,
   GET_RSPEC_REPORTS_SUCCESS, GET_RSPEC_REPORTS_FAILURE } from '../actions/reports_actions';
 
@@ -14,7 +14,8 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_REPORTS: {
-      const data = _.mapKeys(action.payload.data, obj => obj.id);
+      // const data = _.mapKeys(action.payload.data, obj => obj.id);
+      const { data } = action.payload;
       return { ...state, reportsList: { data, error: null, loading: false } };
     }
     case GET_RSPEC_REPORTS: {
@@ -29,7 +30,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, rspecReportsList: { ...state.rspecReportsList, perPage, page, total } };
     }
     case GET_RSPEC_REPORTS_SUCCESS: {
-      const data = _.mapKeys(action.payload.data, obj => obj.id);
+      // const data = _.mapKeys(action.payload.data, obj => obj.id);
+      const { data } = action.payload;
       const rspecReportsList = { ...state.rspecReportsList, data, error: null, loading: false };
       return { ...state, rspecReportsList };
       /* eslint-enable object-curly-newline */
