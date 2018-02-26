@@ -1481,13 +1481,15 @@ input.ct-red + span + label + span.switch-right {
 .pagination > li > a, .pagination > li > span, .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span {
   border-radius: 50%;
   margin: 0 2px;
-  color: #777777; }
+  color: #777777;
+  }
 
 .pagination > li.active > a, .pagination > li.active > span, .pagination > li.active > a:hover, .pagination > li.active > span:hover, .pagination > li.active > a:focus, .pagination > li.active > span:focus {
   background-color: #2CA8FF;
   border: 0;
   color: #FFFFFF;
-  padding: 7px 13px; }
+  padding: 7px 13px;
+  }
 
 .nav-pills.ct-blue > li.active > a,
 .nav-pills.ct-blue > li.active > a:hover,
@@ -1558,7 +1560,8 @@ input.ct-red + span + label + span.switch-right {
 
 .nav-pills.ct-orange > li > a {
   border: 1px solid #FF9500;
-  color: #FF9500; }
+  color: #FF9500;
+  }
 
 .nav-pills.ct-red > li > a {
   border: 1px solid #FF3B30;

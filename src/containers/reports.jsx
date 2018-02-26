@@ -15,13 +15,17 @@ class Reports extends Component {
   componentDidMount() {
     const { reportsList } = this.props;
     if (!reportsList || _.isEmpty(reportsList)) {
-      this.fetchRspecReports(this.props.perPage);
+      const { page, perPage } = this.props;
+      this.fetchRspecReports({ page, perPage });
     }
   }
 
-  fetchRspecReports(perPage) {
+  fetchRspecReports({ page, perPage }) {
     const { xApiKey, dispatch } = this.props;
-    const options = { page: this.props.page, per_page: perPage };
+    const options = {
+      page: page || this.props.page,
+      per_page: perPage || this.props.perPage,
+    };
     getRspecReports(xApiKey, options)
       .then((response) => {
         if (response.status !== 200) {
@@ -49,13 +53,13 @@ class Reports extends Component {
               <ul id="chart-pills" className="nav nav-pills ct-orange">
                 <FilterButton
                   name="30 Per Page"
-                  value={30}
+                  value={{ perPage: 30 }}
                   active={this.activeFilter(30)}
                   action={this.fetchRspecReports}
                 />
                 <FilterButton
                   name="10 Per Page"
-                  value={10}
+                  value={{ perPage: 10 }}
                   active={this.activeFilter(10)}
                   action={this.fetchRspecReports}
                 />
@@ -63,7 +67,13 @@ class Reports extends Component {
             </div>
           </div>
           <div className={styles.reportsContent}>
-            <RspecReportsList reports={this.props.reports} />
+            <RspecReportsList
+              reports={this.props.reports}
+              page={this.props.page}
+              perPage={this.props.perPage}
+              total={this.props.total}
+              action={this.fetchRspecReports}
+            />
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import { Pagination } from '../components';
 import styles from './styles/RspecReportsList.css';
 
 const formatDateAgo = (date) => {
@@ -95,6 +96,7 @@ export default class RspecReportsList extends Component {
       return (<div className="loading">Loading...</div>);
     }
 
+    const { page, perPage, total } = this.props;
     return (
       <div>
         <br />
@@ -103,6 +105,12 @@ export default class RspecReportsList extends Component {
           <ul className={styles.listGroup}>
             {this.renderReports()}
           </ul>
+          <Pagination
+            page={page}
+            perPage={perPage}
+            total={total}
+            action={this.props.action}
+          />
         </div>
       </div>
     );
