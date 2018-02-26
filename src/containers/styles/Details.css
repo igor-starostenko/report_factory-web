@@ -5,6 +5,7 @@
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 70px 20px 500px;
+  margin-bottom: 4rem;
 }
 
 .detailsHeader {
@@ -65,7 +66,6 @@
         "d";
     grid-template-columns: auto;
     grid-gap: 0;
-    margin-bottom: 4rem;
   }
 
   .detailsHeader {

@@ -5,6 +5,7 @@
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 70px auto;
+  margin-bottom: 4rem;
 }
 
 .reportsHeader {
