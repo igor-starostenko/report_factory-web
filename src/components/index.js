@@ -8,7 +8,8 @@ import FormField from './form_field';
 import FormRadio from './form_radio';
 import LineChart from './line_chart';
 import NotFound from './not_found';
+import RspecReportsList from './rspec_reports_list';
 import UserReportsLineChart from './user_reports_line_chart';
 
 export { App, BarChart, Button, ConfirmModal, FilterButton, FormErrors, FormField,
-  FormRadio, LineChart, NotFound, UserReportsLineChart };
+  FormRadio, LineChart, NotFound, RspecReportsList, UserReportsLineChart };

@@ -1,0 +1,82 @@
+.reportsList {
+}
+
+.headerRow {
+  width: 100%;
+  color: #a5a5a5;
+  background-color: #f8f8f8;
+  border: 1px solid #dddddd;
+  box-shadow: 1px 1px 4px 0px rgba(35, 41, 51, 0.2);
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+}
+
+.headerRow > div {
+  display: inline-block;
+  line-height: 3.5;
+  padding-left: 1rem;
+}
+
+.listGroup {
+  padding-left: 0;
+  margin-bottom: 50px;
+}
+
+.listRow {
+  list-style-type: none;
+  line-height: 5.5;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  font-style: oblique;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.listRow:hover {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.listRow > div {
+  display: inline-block;
+  padding-left: 1rem;
+}
+
+.passedTest {
+  background-color: rgba(45, 243, 129, 0.1);
+}
+
+.failedTest {
+    background-color: rgba(243, 129, 45, 0.1);
+}
+
+.listNumber {
+  width: 10%;
+}
+
+.listProject {
+  width: 20%;
+}
+
+.listType {
+  width: 15%;
+}
+
+.listRan {
+  width: 15%;
+}
+
+.listDuration {
+  width: 10%;
+}
+
+.listTests {
+  width: 10%;
+}
+
+.listPending {
+  width: 10%;
+}
+
+.listFailed {
+  width: 10%;
+}

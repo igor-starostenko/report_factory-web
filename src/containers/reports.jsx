@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import { RspecReportsList } from '../components';
 import { getRspecReports, setRspecReportsPage, getRspecReportsSuccess,
   getRspecReportsFailure, resetRspecReports } from '../actions/reports_actions';
 import styles from './styles/Reports.css';
@@ -27,30 +27,13 @@ class Reports extends Component {
       });
   }
 
-  renderReports() {
-    console.log(this.props.reports);
-    // return _.map(this.props.reports, (report) => {
-    //   const projectName = project.attributes.project_name;
-    //   const projectDescription = project.attributes.project_description;
-    //   const projectPath = `/projects/${projectName}`;
-    //   return (
-    //     <Link to={projectPath} className={styles.project} key={project.id}>
-    //       <div className={styles.projectBody}>
-    //         <div className={styles.projectTitle}>{projectName}</div>
-    //         <p className={styles.projectText}>{projectDescription}</p>
-    //       </div>
-    //     </Link>
-    //   );
-    // });
-  }
-
   render() {
     return (
       <div>
         <br />
         <h1>Reports</h1>
         <div className={styles.reportsContainer}>
-          {this.renderReports()}
+          <RspecReportsList reports={this.props.reports} />
         </div>
       </div>
     );

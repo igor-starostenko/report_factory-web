@@ -14,12 +14,8 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_REPORTS: {
-      const { data } = action.payload;
-      if (data[0]) {
-        const projectName = data[0].attributes.project_name;
-        return { ...state, reportsList: { [projectName]: _.mapKeys(data, obj => obj.id) } };
-      }
-      return { ...state };
+      const data = _.mapKeys(action.payload.data, obj => obj.id);
+      return { ...state, reportsList: { data, error: null, loading: false } };
     }
     case GET_RSPEC_REPORTS: {
       const rspecReportsList = { ...state.rspecReportsList, error: null, loading: true };
