@@ -62,14 +62,6 @@ export default class RspecReportsList extends Component {
   }
 
   renderReports() {
-    if (!this.props.reports) {
-      return (<div className="loading">Loading...</div>);
-    }
-
-    if (_.isEmpty(this.props.reports)) {
-      return (<div className="loading">No Reports have been submitted yet.</div>);
-    }
-
     return _.map(this.props.reports, (report) => {
       const { date, summary } = report.attributes;
       const duration = formatDuration(summary.duration);
@@ -93,6 +85,10 @@ export default class RspecReportsList extends Component {
   render() {
     if (!this.props.reports) {
       return (<div className="loading">Loading...</div>);
+    }
+
+    if (_.isEmpty(this.props.reports)) {
+      return (<div className="loading">No Reports have been submitted yet.</div>);
     }
 
     return (

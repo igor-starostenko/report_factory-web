@@ -3,6 +3,7 @@
 
 .headerRow {
   width: 100%;
+  font-size: 1em;
   color: #a5a5a5;
   background-color: #f8f8f8;
   border: 1px solid #dddddd;
@@ -26,7 +27,7 @@
   line-height: 5.5;
   border: 1px solid rgba(0, 0, 0, 0.15);
   font-style: oblique;
-  font-size: 16px;
+  font-size: 1.2em;
   color: rgba(0, 0, 0, 0.6);
 }
 
@@ -83,10 +84,10 @@
 
 @media only screen and (max-width: 767px) {
   .headerRow {
-    font-size: 8px;
+    font-size: 0.5em;
   }
 
   .listRow {
-    font-size: 11px;
+    font-size: 0.65em;
   }
 }
