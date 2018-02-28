@@ -68,9 +68,9 @@ class Reports extends Component {
                   action={this.fetchRspecReports}
                 />
                 <FilterButton
-                  name="2 Per Page"
-                  value={{ perPage: 2 }}
-                  active={this.activeFilter(2)}
+                  name="10 Per Page"
+                  value={{ perPage: 10 }}
+                  active={this.activeFilter(10)}
                   action={this.fetchRspecReports}
                 />
               </ul>

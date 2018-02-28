@@ -8,12 +8,7 @@ export default class Pagination extends Component {
     const currentPage = parseInt(this.props.page, 10);
     const pageNumbers = [];
     if (lastPage > 5) {
-      let startPage;
-      if (currentPage > 2 && currentPage + 2 <= lastPage) {
-        startPage = currentPage - 2;
-      } else {
-        startPage = 1;
-      }
+      const startPage = 1;
       pageNumbers.push(startPage);
       if (currentPage - 1 <= startPage) {
         pageNumbers.push(startPage + 1);
