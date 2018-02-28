@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { RspecReportsList, FilterButton } from '../components';
+import { RspecReportsList, Pagination, FilterButton } from '../components';
 import { getRspecReports, setRspecReportsPage, getRspecReportsSuccess,
   getRspecReportsFailure, resetRspecReports } from '../actions/reports_actions';
 import styles from './styles/Reports.css';
@@ -48,7 +48,17 @@ class Reports extends Component {
           <div className={styles.reportsHeader}>
             <div className={styles.reportsTitle}>Reports</div>
           </div>
+          <div className={styles.reportsContent}>
+            <RspecReportsList reports={this.props.reports} />
+          </div>
           <div className={styles.reportsButtons}>
+            <Pagination
+              className={styles.reportsPagination}
+              page={this.props.page}
+              perPage={this.props.perPage}
+              total={this.props.total}
+              action={this.fetchRspecReports}
+            />
             <div className="filters">
               <ul id="chart-pills" className="nav nav-pills ct-orange">
                 <FilterButton
@@ -58,22 +68,13 @@ class Reports extends Component {
                   action={this.fetchRspecReports}
                 />
                 <FilterButton
-                  name="10 Per Page"
-                  value={{ perPage: 10 }}
-                  active={this.activeFilter(10)}
+                  name="2 Per Page"
+                  value={{ perPage: 2 }}
+                  active={this.activeFilter(2)}
                   action={this.fetchRspecReports}
                 />
               </ul>
             </div>
-          </div>
-          <div className={styles.reportsContent}>
-            <RspecReportsList
-              reports={this.props.reports}
-              page={this.props.page}
-              perPage={this.props.perPage}
-              total={this.props.total}
-              action={this.fetchRspecReports}
-            />
           </div>
         </div>
       </div>

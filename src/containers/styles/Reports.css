@@ -10,7 +10,7 @@
 
 .reportsHeader {
   white-space: nowrap;
-  grid-column: 1 / 7;
+  grid-column: 1 / -1;
 }
 
 .reportsTitle {
@@ -19,13 +19,18 @@
 }
 
 .reportsButtons {
-  margin: auto;
-  margin-right: 1.5rem;
-  grid-column: 7 / -1;
+  grid-column: 1 / -1;
+  display: inline-block;
 }
 
-.reportsButtons > .btn {
-  margin-left: 1em;
+.reportsButtons > .filters {
+  margin-right: 1.5rem;
+  display: inline-block;
+}
+
+.reportsPagination {
+  float: left;
+  display: inline-block;
 }
 
 .reportsContent {
@@ -76,13 +81,9 @@
     grid-gap: 1.5rem;
   }
 
-  .reportsButtons > .btn {
-    margin: auto;
-    width: 30rem;
-  }
-
-  .filters {
-    display: flex;
+  .reportsButtons > .filters {
+    margin-right: 1.5rem;
+    display: block;
   }
 
   #chart-pills {
