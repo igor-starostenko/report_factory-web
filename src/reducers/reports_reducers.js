@@ -1,5 +1,5 @@
 // import _ from 'lodash';
-import { GET_REPORTS, GET_RSPEC_REPORTS, SET_RSPEC_REPORTS_PAGE,
+import { GET_REPORTS, GET_RSPEC_REPORT, GET_RSPEC_REPORTS, SET_RSPEC_REPORTS_PAGE,
   GET_RSPEC_REPORTS_SUCCESS, GET_RSPEC_REPORTS_FAILURE } from '../actions/reports_actions';
 
 const INITIAL_STATE = {
@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   rspecReportsList: {
     data: null, error: null, loading: false, perPage: 10, page: 1,
   },
+  activeRspecReport: { data: null, error: null, loading: false },
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -17,6 +18,10 @@ export default (state = INITIAL_STATE, action) => {
       // const data = _.mapKeys(action.payload.data, obj => obj.id);
       const { data } = action.payload;
       return { ...state, reportsList: { data, error: null, loading: false } };
+    }
+    case GET_RSPEC_REPORT: {
+      const { data } = action.payload;
+      return { ...state, activeRspecReport: { data, error: null, loading: false } };
     }
     case GET_RSPEC_REPORTS: {
       const rspecReportsList = { ...state.rspecReportsList, error: null, loading: true };

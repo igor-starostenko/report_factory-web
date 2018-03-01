@@ -18,6 +18,7 @@ import Project from './containers/project';
 import Projects from './containers/projects';
 import RequireAuth from './containers/authentication';
 import Reports from './containers/reports';
+import Report from './containers/report';
 import RspecReports from './containers/rspec_reports';
 import CreateUser from './containers/create_user';
 import User from './containers/user';
@@ -47,6 +48,7 @@ ReactDOM.render(
             <Route path="/projects/:name" component={RequireAuth(Project)} />
             <Route path="/projects" component={RequireAuth(Projects)} />
             <Route path="/project/new" component={RequireAuth(CreateProject)} />
+            <Route path="/reports/:id" component={RequireAuth(Report)} />
             <Route path="/reports" component={RequireAuth(Reports)} />
             <Route exact path="/" component={Home} />
             <Route path="*" component={NotFound} />

@@ -1,40 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import { formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import styles from './styles/RspecReportsList.css';
-
-const formatDateAgo = (date) => {
-  const seconds = Math.floor((new Date() - date) / 1000);
-
-  let interval = Math.floor(seconds / 31536000);
-
-  if (interval > 1) {
-    return `${interval} years`;
-  }
-  interval = Math.floor(seconds / 2592000);
-  if (interval > 1) {
-    return `${interval} months`;
-  }
-  interval = Math.floor(seconds / 86400);
-  if (interval > 1) {
-    return `${interval} days`;
-  }
-  interval = Math.floor(seconds / 3600);
-  if (interval > 1) {
-    return `${interval} hours`;
-  }
-  interval = Math.floor(seconds / 60);
-  if (interval > 1) {
-    return `${interval} minutes`;
-  }
-  return `${Math.floor(seconds)} seconds`;
-};
-
-/* eslint-disable arrow-body-style */
-const formatDuration = (seconds) => {
-  return new Date(parseInt(seconds * 1000, 10))
-    .toISOString().substr(14, 5);
-};
 
 const statusName = (failureCount) => {
   if (failureCount > 0) {
@@ -44,6 +12,7 @@ const statusName = (failureCount) => {
 };
 
 export default class RspecReportsList extends Component {
+  /* eslint-disable arrow-body-style */
   static renderHeaderItems(names) {
     return _.map(names, (name) => {
       return (<div className={styles[`list${name}`]} key={name}>{name}</div>);

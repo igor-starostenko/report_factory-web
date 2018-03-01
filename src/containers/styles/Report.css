@@ -1,0 +1,25 @@
+.reportContainer {
+  height: 100%;
+  margin-top: 22px;
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 70px 20px 500px;
+  margin-bottom: 4rem;
+}
+
+.reportHeader {
+  white-space: nowrap;
+  grid-column: 1 / -1;
+}
+
+.reportId {
+  font-size: 52px;
+  font-weight: 400;
+}
+
+.reportCreated {
+  grid-column: 1 / 5;
+  font-style: italic;
+  margin-left: .5em;
+}

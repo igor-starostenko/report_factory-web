@@ -1,6 +1,7 @@
 import ReportsClient from '../api/reports_client';
 
 export const GET_REPORTS = 'get_reports';
+export const GET_RSPEC_REPORT = 'get_rspec_report';
 export const GET_RSPEC_REPORTS = 'get_rspec_reports';
 export const GET_RSPEC_REPORTS_SUCCESS = 'get_rspec_reports_success';
 export const GET_RSPEC_REPORTS_FAILURE = 'get_rspec_reports_failure';
@@ -15,6 +16,15 @@ export const getReports = (xApiKey, options) => {
 
   return {
     type: GET_REPORTS,
+    payload: request.then(response => response.json()),
+  };
+};
+
+export const getRspecReport = (reportId, xApiKey) => {
+  const request = reportsClient.showRspecReport(reportId, xApiKey);
+
+  return {
+    type: GET_RSPEC_REPORT,
     payload: request.then(response => response.json()),
   };
 };

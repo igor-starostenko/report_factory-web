@@ -4,12 +4,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components';
 import ReportsLineChart from './reports_line_chart';
 import { getProject, resetProject } from '../actions/projects_actions';
+import { formatDate } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
-
-const formatDate = (date, options) => {
-  const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
-  return date.toLocaleDateString('en-US', formatOptions);
-};
 
 class Project extends Component {
   componentDidMount() {

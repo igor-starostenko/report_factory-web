@@ -5,11 +5,6 @@ import _ from 'lodash';
 import { getUsers } from '../actions/users_actions';
 import styles from './styles/Users.css';
 
-// const formatDate = (date, options) => {
-//   const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
-//   return date.toLocaleDateString('en-US', formatOptions);
-// };
-
 class Users extends Component {
   componentDidMount() {
     this.props.getUsers(this.props.xApiKey);
@@ -25,9 +20,6 @@ class Users extends Component {
       if (userType === 'Admin') {
         userClassName = 'userAdmin';
       }
-
-      // const { date } = user.attributes;
-      // const createdAt = formatDate(new Date(date.created_at));
 
       const userPath = `/users/${user.id}`;
 
