@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import styles from './styles/RspecReportsList.css';
 
@@ -68,7 +68,11 @@ export default class RspecReportsList extends Component {
       const created = formatDateAgo(new Date(date.created_at));
       const status = statusName(summary.failure_count);
       return (
-        <li className={`${styles.listRow} ${styles[status]}`} key={report.id}>
+        <Link
+          to={`/reports/${report.id}`}
+          className={`${styles.listRow} ${styles[status]}`}
+          key={report.id}
+        >
           <div className={styles.listNumber}># {report.id}</div>
           <div className={styles.listProject}>{report.attributes.project_name}</div>
           <div className={styles.listType}>{report.attributes.report_type}</div>
@@ -77,7 +81,7 @@ export default class RspecReportsList extends Component {
           <div className={styles.listTests}>{summary.example_count}</div>
           <div className={styles.listPending}>{summary.pending_count}</div>
           <div className={styles.listFailed}>{summary.failure_count}</div>
-        </li>
+        </Link>
       );
     });
   }
@@ -96,9 +100,9 @@ export default class RspecReportsList extends Component {
         <br />
         <div className={styles.reportsList}>
           {this.constructor.renderHeader()}
-          <ul className={styles.listGroup}>
+          <div className={styles.listGroup}>
             {this.renderReports()}
-          </ul>
+          </div>
         </div>
       </div>
     );

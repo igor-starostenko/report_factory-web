@@ -23,6 +23,7 @@
 }
 
 .listRow {
+  display: list-item;
   list-style-type: none;
   line-height: 5.5;
   border: 1px solid rgba(0, 0, 0, 0.15);

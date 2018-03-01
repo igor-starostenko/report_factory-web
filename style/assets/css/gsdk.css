@@ -94,7 +94,8 @@ body {
   position: relative; }
 
 a {
-  color: #2CA8FF; }
+  color: #2CA8FF;
+  }
   a:hover, a:focus {
     color: #109CFF;
     text-decoration: none; }
