@@ -30,6 +30,7 @@
   margin-top: 1.5rem;
   padding: 1.5rem;
   max-width: 27rem;
+  position: relative;
   animation: fadeIn 1s;
   background-color: grey;
   font-size: 1em;
@@ -73,5 +74,9 @@
 
   .reportDetails {
     grid-area: d;
+    width: 90%;
+    max-width: unset;
+    margin: auto;
+    margin-top: 1.5rem;
   }
 }

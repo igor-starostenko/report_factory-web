@@ -1,6 +1,12 @@
+.reportRowWrapper {
+  position: absolute;
+  top: 2em;
+  bottom: 2em;
+}
+
 .reportDetailsRow {
   margin-left: 1rem;
-  line-height: 1.5em;
+  line-height: 2em;
   font-size: 1.3em;
 }
 
@@ -13,4 +19,14 @@
   margin-left: 1rem;
   font-style: italic;
   display: inline-block;
+}
+
+@media only screen and (max-width: 767px) {
+  .reportRowWrapper {
+    position: initial;
+  }
+
+  .reportDetailsRow {
+    line-height: 1.5em;
+  }
 }

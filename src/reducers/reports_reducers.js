@@ -1,6 +1,7 @@
 // import _ from 'lodash';
-import { GET_REPORTS, GET_RSPEC_REPORT, GET_RSPEC_REPORTS, SET_RSPEC_REPORTS_PAGE,
-  GET_RSPEC_REPORTS_SUCCESS, GET_RSPEC_REPORTS_FAILURE } from '../actions/reports_actions';
+import { GET_REPORTS, GET_RSPEC_REPORT, RESET_RSPEC_REPORT, GET_RSPEC_REPORTS,
+  SET_RSPEC_REPORTS_PAGE, GET_RSPEC_REPORTS_SUCCESS, GET_RSPEC_REPORTS_FAILURE,
+  RESET_RSPEC_REPORTS } from '../actions/reports_actions';
 
 const INITIAL_STATE = {
   reportsList: {
@@ -22,6 +23,9 @@ export default (state = INITIAL_STATE, action) => {
     case GET_RSPEC_REPORT: {
       const { data } = action.payload;
       return { ...state, activeRspecReport: { data, error: null, loading: false } };
+    }
+    case RESET_RSPEC_REPORT: {
+      return { ...state, activeRspecReport: INITIAL_STATE.activeRspecReport };
     }
     case GET_RSPEC_REPORTS: {
       const rspecReportsList = { ...state.rspecReportsList, error: null, loading: true };
@@ -45,6 +49,9 @@ export default (state = INITIAL_STATE, action) => {
       const error = action.payload.errors;
       const { data } = state.rspecReportsList;
       return { ...state, rspecReportsList: { data, error, loading: false } };
+    }
+    case RESET_RSPEC_REPORTS: {
+      return { ...state, rspecReportsList: INITIAL_STATE.rspecReportsList };
     }
     default: {
       return state;

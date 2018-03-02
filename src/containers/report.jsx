@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { RspecReportDetails } from '../components';
-import { getRspecReport } from '../actions/reports_actions';
+import { RspecReportDetails, RspecReportPieChart } from '../components';
+import { getRspecReport, resetRspecReport } from '../actions/reports_actions';
 import { formatDate } from '../helpers/format_helpers';
 import styles from './styles/Report.css';
 
@@ -23,6 +23,10 @@ class Report extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.resetRspecReport();
+  }
+
   render() {
     const { reportId, report } = this.props;
 
@@ -30,7 +34,7 @@ class Report extends Component {
       return (<div className="loading">Loading...</div>);
     }
 
-    const { date } = report.attributes;
+    const { date, examples } = report.attributes;
     const createdAt = formatDate(new Date(date.created_at), formatDateOptions);
 
     return (
@@ -40,11 +44,13 @@ class Report extends Component {
           <div className={styles.reportHeader}>
             <div className={styles.reportId}># {reportId}</div>
           </div>
-          <div className={styles.reportCreated}>Created {createdAt}</div>
+          <div className={styles.reportCreated}>Created on {createdAt}</div>
           <div className={styles.reportDetails}>
             <RspecReportDetails report={report} />
           </div>
-          <div className={styles.reportChart} />
+          <div className={styles.reportChart}>
+            <RspecReportPieChart examples={examples} />
+          </div>
         </div>
       </div>
     );
@@ -57,4 +63,4 @@ const mapStateToProps = (state, ownProps) => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getRspecReport })(Report);
+export default connect(mapStateToProps, { getRspecReport, resetRspecReport })(Report);

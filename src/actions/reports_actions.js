@@ -2,6 +2,7 @@ import ReportsClient from '../api/reports_client';
 
 export const GET_REPORTS = 'get_reports';
 export const GET_RSPEC_REPORT = 'get_rspec_report';
+export const RESET_RSPEC_REPORT = 'reset_rspec_reports';
 export const GET_RSPEC_REPORTS = 'get_rspec_reports';
 export const GET_RSPEC_REPORTS_SUCCESS = 'get_rspec_reports_success';
 export const GET_RSPEC_REPORTS_FAILURE = 'get_rspec_reports_failure';
@@ -28,6 +29,8 @@ export const getRspecReport = (reportId, xApiKey) => {
     payload: request.then(response => response.json()),
   };
 };
+
+export const resetRspecReport = () => ({ type: RESET_RSPEC_REPORT });
 
 /* eslint-disable arrow-body-style */
 export const getRspecReports = (xApiKey, options) => {
