@@ -1,0 +1,16 @@
+.reportDetailsRow {
+  margin-left: 1rem;
+  line-height: 1.5em;
+  font-size: 1.3em;
+}
+
+.reportDetailsParam {
+  font-weight: 600;
+  display: inline-block;
+}
+
+.reportDetailsValue {
+  margin-left: 1rem;
+  font-style: italic;
+  display: inline-block;
+}

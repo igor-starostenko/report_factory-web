@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import _ from 'lodash';
 import { Link } from 'react-router-dom';
+import { RspecReportDetails } from '../components';
 import { getRspecReport } from '../actions/reports_actions';
 import { formatDate } from '../helpers/format_helpers';
 import styles from './styles/Report.css';
@@ -40,6 +41,10 @@ class Report extends Component {
             <div className={styles.reportId}># {reportId}</div>
           </div>
           <div className={styles.reportCreated}>Created {createdAt}</div>
+          <div className={styles.reportDetails}>
+            <RspecReportDetails report={report} />
+          </div>
+          <div className={styles.reportChart} />
         </div>
       </div>
     );

@@ -4,7 +4,7 @@
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 70px 20px 500px;
+  grid-template-rows: 70px 20px auto;
   margin-bottom: 4rem;
 }
 
@@ -19,7 +19,22 @@
 }
 
 .reportCreated {
-  grid-column: 1 / 5;
+  grid-column: 1 / 6;
   font-style: italic;
   margin-left: .5em;
+}
+
+.reportDetails {
+  grid-column: 1 / 5;
+  padding: 1.5rem;
+  background-color: grey;
+  font-size: 1em;
+  background-color: #f8f8f8;
+  border-radius: 1.5rem;
+  border: 1px solid #dddddd;
+  box-shadow: 1px 1px 4px 0px rgba(35, 41, 51, 0.2);
+}
+
+.reportChart {
+  grid-column: 6 / -1;
 }

@@ -16,7 +16,7 @@ class ReportsClient extends ApiClient {
   }
 
   showRspecReport(reportId, xApiKey) {
-    const url = `${this.baseUrl}api/v1/reports/${reportId}`;
+    const url = `${this.baseUrl}api/v1/reports/rspec/${reportId}`;
     const headers = ApiClient.formatHeaders(xApiKey);
     return fetch(new Request(url, { method: 'GET', headers }));
   }

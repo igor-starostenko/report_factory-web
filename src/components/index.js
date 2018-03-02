@@ -10,9 +10,10 @@ import LineChart from './line_chart';
 import NotFound from './not_found';
 import Pagination from './pagination';
 import PaginationNumber from './pagination_number';
+import RspecReportDetails from './rspec_report_details';
 import RspecReportsList from './rspec_reports_list';
 import UserReportsLineChart from './user_reports_line_chart';
 
 export { App, BarChart, Button, ConfirmModal, FilterButton, FormErrors, FormField,
-  FormRadio, LineChart, NotFound, Pagination, PaginationNumber, RspecReportsList,
-  UserReportsLineChart };
+  FormRadio, LineChart, NotFound, Pagination, PaginationNumber, RspecReportDetails,
+  RspecReportsList, UserReportsLineChart };
