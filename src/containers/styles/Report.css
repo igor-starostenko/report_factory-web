@@ -20,13 +20,17 @@
 
 .reportCreated {
   grid-column: 1 / 6;
+  animation: fadeIn 1s;
   font-style: italic;
   margin-left: .5em;
 }
 
 .reportDetails {
   grid-column: 1 / 6;
+  margin-top: 1.5rem;
   padding: 1.5rem;
+  max-width: 27rem;
+  animation: fadeIn 1s;
   background-color: grey;
   font-size: 1em;
   background-color: #f8f8f8;
@@ -37,6 +41,8 @@
 
 .reportChart {
   grid-column: 6 / -1;
+  margin-top: 1.5rem;
+  animation: fadeIn 1s;
 }
 
 @media only screen and (max-width: 767px) {
@@ -63,11 +69,9 @@
 
   .reportChart {
     grid-area: t;
-    margin-top: 1.5rem;
   }
 
   .reportDetails {
     grid-area: d;
-    margin-top: 1.5rem;
   }
 }
