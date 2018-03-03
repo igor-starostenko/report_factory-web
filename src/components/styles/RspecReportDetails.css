@@ -2,6 +2,7 @@
   position: absolute;
   top: 2em;
   bottom: 2em;
+  margin: auto;
   padding: 1.5rem;
   padding-right: 2.5rem;
   max-width: 27rem;

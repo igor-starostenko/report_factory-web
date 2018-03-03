@@ -63,9 +63,15 @@
 @media only screen and (max-width: 767px) {
   .exampleDetailsRow {
     line-height: 1.5em;
+    margin-left: unset;
   }
 
   .example {
     font-size: 0.8em;
+  }
+
+  .exampleDetailsValue > p {
+    word-break: break-all;
+    hyphens: auto;
   }
 }
