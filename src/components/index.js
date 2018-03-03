@@ -11,10 +11,11 @@ import NotFound from './not_found';
 import Pagination from './pagination';
 import PaginationNumber from './pagination_number';
 import RspecReportDetails from './rspec_report_details';
+import RspecReportExamplesList from './rspec_report_examples_list';
 import RspecReportPieChart from './rspec_report_pie_chart';
 import RspecReportsList from './rspec_reports_list';
 import UserReportsLineChart from './user_reports_line_chart';
 
 export { App, BarChart, Button, ConfirmModal, FilterButton, FormErrors, FormField,
   FormRadio, LineChart, NotFound, Pagination, PaginationNumber, RspecReportDetails,
-  RspecReportsList, RspecReportPieChart, UserReportsLineChart };
+  RspecReportsList, RspecReportExamplesList, RspecReportPieChart, UserReportsLineChart };

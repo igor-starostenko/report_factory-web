@@ -1,0 +1,71 @@
+.examplesHeader {
+  margin-top: 1.5rem;
+  font-size: 46px;
+  font-weight: 400;
+}
+
+.reportExamplesList {
+  padding: 1.5rem;
+}
+
+.example {
+  margin-top: 1.5rem;
+  background-color: grey;
+  font-size: 1.2em;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  border: 1px solid #dddddd;
+  box-shadow: 1px 1px 4px 0px rgba(35, 41, 51, 0.2);
+}
+
+.example > div {
+  padding: 10px 15px;
+}
+
+.example > .collapse {
+  font-size: 1.0em;
+}
+
+.exampleDetailsRow {
+  margin-left: 1rem;
+  line-height: 1.5em;
+  font-size: 1em;
+}
+
+.exampleDetailsParam {
+  font-weight: 600;
+  display: inline-block;
+}
+
+.exampleDetailsValue {
+  margin-left: 1rem;
+  font-style: italic;
+  display: inline-block;
+}
+
+.exampleDetailsValue > p {
+  margin-bottom: 0;
+  font-size: .8em;
+}
+
+.passedExample {
+  background-color: rgba(45, 243, 129, 0.1);
+}
+
+.failedExample {
+  background-color: rgba(243, 129, 45, 0.1);
+}
+
+.pendingExample {
+  background-color: rgba(227, 239, 59, 0.1);
+}
+
+@media only screen and (max-width: 767px) {
+  .exampleDetailsRow {
+    line-height: 1.5em;
+  }
+
+  .example {
+    font-size: 0.8em;
+  }
+}

@@ -29,19 +29,18 @@
   grid-column: 1 / 6;
   margin-top: 1.5rem;
   padding: 1.5rem;
-  max-width: 27rem;
   position: relative;
-  animation: fadeIn 1s;
-  background-color: grey;
-  font-size: 1em;
-  background-color: #f8f8f8;
-  border-radius: 1.5rem;
-  border: 1px solid #dddddd;
-  box-shadow: 1px 1px 4px 0px rgba(35, 41, 51, 0.2);
 }
 
 .reportChart {
   grid-column: 6 / -1;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  animation: fadeIn 1s;
+}
+
+.reportExamples {
+  grid-column: 1 / -1;
   margin-top: 1.5rem;
   animation: fadeIn 1s;
 }
@@ -54,7 +53,8 @@
         "h"
         "c"
         "t"
-        "d";
+        "d"
+        "r";
     grid-template-columns: auto;
     grid-gap: 0;
     margin-bottom: 4rem;
@@ -78,5 +78,10 @@
     max-width: unset;
     margin: auto;
     margin-top: 1.5rem;
+  }
+
+  .reportExamples {
+    grid-area: r;
+    width: 90%;
   }
 }

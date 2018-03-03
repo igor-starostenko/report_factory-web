@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { RspecReportDetails, RspecReportPieChart } from '../components';
+import { RspecReportDetails, RspecReportPieChart, RspecReportExamplesList } from '../components';
 import { getRspecReport, resetRspecReport } from '../actions/reports_actions';
 import { formatDate } from '../helpers/format_helpers';
 import styles from './styles/Report.css';
@@ -50,6 +50,9 @@ class Report extends Component {
           </div>
           <div className={styles.reportChart}>
             <RspecReportPieChart examples={examples} />
+          </div>
+          <div className={styles.reportExamples}>
+            <RspecReportExamplesList examples={examples} />
           </div>
         </div>
       </div>

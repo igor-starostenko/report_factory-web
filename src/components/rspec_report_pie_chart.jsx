@@ -31,8 +31,8 @@ const getChartData = examples => (
     return {
       label: example.description,
       value: example.run_time,
-      color: setOpacity(color, 0.8),
-      highlight: color,
+      color: setOpacity(color, 0.7),
+      highlight: setOpacity(color, 0.8),
     };
   }));
 
