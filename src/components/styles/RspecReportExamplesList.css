@@ -1,6 +1,6 @@
 .examplesHeader {
   margin-top: 1.5rem;
-  font-size: 46px;
+  font-size: 36px;
   font-weight: 400;
 }
 
@@ -12,14 +12,17 @@
   margin-top: 1.5rem;
   background-color: grey;
   font-size: 1.2em;
+  color: rgba(0, 0, 0, 0.6);
   padding: 1rem;
   border-radius: 1.5rem;
   border: 1px solid #dddddd;
   box-shadow: 1px 1px 4px 0px rgba(35, 41, 51, 0.2);
 }
 
-.example > div {
-  padding: 10px 15px;
+.example:hover {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
 }
 
 .example > .collapse {
@@ -68,6 +71,8 @@
 
   .example {
     font-size: 0.8em;
+    word-break: break-all;
+    hyphens: auto;
   }
 
   .exampleDetailsValue > p {

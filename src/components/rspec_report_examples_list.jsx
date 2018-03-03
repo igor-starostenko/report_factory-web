@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { formatDuration } from '../helpers/format_helpers';
+import { CollapsibleItem } from '../components';
 import styles from './styles/RspecReportExamplesList.css';
 
 const statusName = (status) => {
@@ -45,14 +46,12 @@ export default class RspecReportExamplesList extends Component {
     return _.map(this.props.examples, (example) => {
       const status = statusName(example.status);
       return (
-        <div className={`${styles.example} ${styles[status]}`} key={example.id}>
-          <div data-toggle="collapse" href={`#${example.id}`} className="collapsed">
-            {example.full_description}
-          </div>
-          <div id={example.id} className="panel-collapse collapse">
-            <div>{this.constructor.renderExampleDetails(example)}</div>
-          </div>
-        </div>
+        <CollapsibleItem
+          className={`${styles.example} ${styles[status]}`}
+          title={example.full_description}
+          details={this.constructor.renderExampleDetails(example)}
+          key={example.id}
+        />
       );
     });
   }

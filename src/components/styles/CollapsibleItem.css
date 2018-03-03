@@ -1,0 +1,22 @@
+.collapsibleTitle {
+  padding: 10px 15px;
+}
+
+.collapsedDetails {
+  max-height: 0px;
+  overflow: hidden;
+  padding: 0 15px;
+  opacity: 0;
+  transition-property: opacity, max-height, padding;
+  transition-duration: 1s, .5s, .5s;
+}
+
+.expandedDetails {
+  overflow: hidden;
+  overflow-y: scroll;
+  max-height: 500px;
+  padding: 10px 15px;
+  opacity: 100;
+  transition-property: opacity, max-height, padding;
+  transition-duration: .5s, .5s, .5s;
+}
