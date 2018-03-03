@@ -1,5 +1,4 @@
 import App from './app';
-import BarChart from './bar_chart';
 import Button from './button';
 import CollapsibleItem from './collapsible_item';
 import ConfirmModal from './confirm_modal';
@@ -14,9 +13,11 @@ import PaginationNumber from './pagination_number';
 import RspecReportDetails from './rspec_report_details';
 import RspecReportExamplesList from './rspec_report_examples_list';
 import RspecReportPieChart from './rspec_report_pie_chart';
+import RspecReportsBar from './rspec_reports_bar';
 import RspecReportsList from './rspec_reports_list';
 import UserReportsLineChart from './user_reports_line_chart';
 
-export { App, BarChart, Button, CollapsibleItem, ConfirmModal, FilterButton, FormErrors,
+export { App, Button, CollapsibleItem, ConfirmModal, FilterButton, FormErrors,
   FormField, FormRadio, LineChart, NotFound, Pagination, PaginationNumber, RspecReportDetails,
-  RspecReportsList, RspecReportExamplesList, RspecReportPieChart, UserReportsLineChart };
+  RspecReportsList, RspecReportExamplesList, RspecReportsBar, RspecReportPieChart,
+  UserReportsLineChart };

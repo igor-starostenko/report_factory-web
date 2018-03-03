@@ -1,10 +1,10 @@
 import ReportsClient from '../api/reports_client';
 
-export const GET_PROJECT_REPORTS = 'get_reports';
-export const GET_PROJECT_RSPEC_REPORTS = 'get_rspec_reports';
-export const GET_PROJECT_RSPEC_REPORTS_SUCCESS = 'get_rspec_reports_success';
-export const GET_PROJECT_RSPEC_REPORTS_FAILURE = 'get_rspec_reports_failure';
-export const GET_PROJECT_RSPEC_REPORT = 'get_rspec_report';
+export const GET_PROJECT_REPORTS = 'get_project_reports';
+export const GET_PROJECT_RSPEC_REPORTS = 'get_project_rspec_reports';
+export const GET_PROJECT_RSPEC_REPORTS_SUCCESS = 'get_project_rspec_reports_success';
+export const GET_PROJECT_RSPEC_REPORTS_FAILURE = 'get_project_rspec_reports_failure';
+export const GET_PROJECT_RSPEC_REPORT = 'get_project_rspec_report';
 export const SET_PROJECT_RSPEC_REPORTS_PAGE = 'set_project_rspec_reports_page';
 export const RESET_PROJECT_RSPEC_REPORTS = 'reset_project_rspec_reports';
 

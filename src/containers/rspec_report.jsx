@@ -15,7 +15,7 @@ const formatDateOptions = {
   minute: 'numeric',
 };
 
-class Report extends Component {
+class RspecReport extends Component {
   componentDidMount() {
     const { report, reportId } = this.props;
     if (!report || report.id !== reportId) {
@@ -66,4 +66,4 @@ const mapStateToProps = (state, ownProps) => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getRspecReport, resetRspecReport })(Report);
+export default connect(mapStateToProps, { getRspecReport, resetRspecReport })(RspecReport);

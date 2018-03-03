@@ -5,10 +5,10 @@ import { GET_PROJECT_REPORTS, GET_PROJECT_RSPEC_REPORTS, GET_PROJECT_RSPEC_REPOR
 
 const INITIAL_STATE = {
   reportsList: {
-    data: null, error: null, loading: false, perPage: 30, page: 1,
+    data: null, error: null, loading: false, perPage: 30, page: 1, total: null,
   },
   rspecReportsList: {
-    data: null, error: null, loading: false, perPage: 10, page: 1,
+    data: null, error: null, loading: false, perPage: 10, page: 1, total: null,
   },
 };
 

@@ -1,0 +1,128 @@
+.projectReportsContainer {
+  height: 100%;
+  margin-top: 22px;
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 70px 20px auto auto;
+  margin-bottom: 4rem;
+}
+
+.projectReportsHeader {
+  white-space: nowrap;
+  grid-column: 1 / 7;
+}
+
+.projectReportsName {
+  font-size: 52px;
+  font-weight: 400;
+}
+
+.projectReportsTotal {
+  grid-column: 1 / 7;
+  font-style: italic;
+  margin-left: .5em;
+}
+
+.projectReportsChart {
+  grid-column: 1 / -1;
+  height: 100%;
+  position: relative;
+}
+
+.projectReportsList {
+  grid-column: 1 / -1;
+  height: 100%;
+  position: relative;
+}
+
+.projectReportsListButtons {
+  grid-column: 1 / -1;
+  display: inline-block;
+}
+
+.projectReportsListButtons > .filters {
+  margin-right: 1.5rem;
+  display: inline-block;
+}
+
+.projectReportsPagination {
+  float: left;
+  display: inline-block;
+}
+
+#chart-pills {
+  float: right;
+  margin: 0;
+  cursor: pointer;
+}
+.chart > div {
+  height: 80%;
+}
+
+.filters {
+  margin: 1.5rem;
+  min-height: 40px;
+}
+
+#chart-pills {
+  cursor: pointer;
+  float: right;
+  margin: 0;
+}
+
+@media only screen and (max-width: 767px) {
+  .projectReportsContainer {
+    display: grid;
+    grid-template-rows: auto 20px auto auto;
+    grid-template-areas:
+        "h"
+        "s"
+        "c"
+        "d";
+    grid-template-columns: auto;
+    grid-gap: 0;
+  }
+
+  .projectReportsHeader {
+    white-space: pre-wrap;
+    grid-area: h;
+  }
+
+  .chart {
+    grid-area: c;
+  }
+
+  .detailsButtons {
+    grid-area: d;
+    margin: unset;
+    grid-column: unset;
+    display: grid;
+    grid-template-rows: auto;
+    grid-gap: 1.5rem;
+  }
+
+  .detailsButtons > .btn {
+    margin: auto;
+    width: 30rem;
+  }
+
+  .detailsSince {
+    grid-area: s;
+  }
+
+  .filters {
+    display: flex;
+  }
+
+  #chart-pills {
+    width: 30rem;
+    margin: auto;
+    display: inline-flex;
+  }
+
+  #chart-pills > li {
+    text-align: center;
+    flex-grow: 1;
+  }
+}
