@@ -40,6 +40,30 @@ class Reports extends Component {
     return this.props.perPage === number;
   }
 
+  renderFilterButtons() {
+    if (!this.props.reports || this.props.total <= 10) {
+      return (<div />);
+    }
+    return (
+      <div className="filters">
+        <ul id="chart-pills" className="nav nav-pills ct-orange">
+          <FilterButton
+            name="30 Per Page"
+            value={{ perPage: 30 }}
+            active={this.activeFilter(30)}
+            action={this.fetchRspecReports}
+          />
+          <FilterButton
+            name="10 Per Page"
+            value={{ perPage: 10 }}
+            active={this.activeFilter(10)}
+            action={this.fetchRspecReports}
+          />
+        </ul>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div>
@@ -59,22 +83,7 @@ class Reports extends Component {
               total={this.props.total}
               action={this.fetchRspecReports}
             />
-            <div className="filters">
-              <ul id="chart-pills" className="nav nav-pills ct-orange">
-                <FilterButton
-                  name="30 Per Page"
-                  value={{ perPage: 30 }}
-                  active={this.activeFilter(30)}
-                  action={this.fetchRspecReports}
-                />
-                <FilterButton
-                  name="10 Per Page"
-                  value={{ perPage: 10 }}
-                  active={this.activeFilter(10)}
-                  action={this.fetchRspecReports}
-                />
-              </ul>
-            </div>
+            {this.renderFilterButtons()}
           </div>
         </div>
       </div>
