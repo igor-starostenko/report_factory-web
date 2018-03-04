@@ -19,7 +19,9 @@ const colors = getColors();
 
 /* eslint-disable arrow-body-style */
 const groupByFeatures = (examples) => {
-  return _.groupBy(examples, example => (_.words(example.full_description)[0]));
+  return _.groupBy(examples, (example) => {
+    return _.split(example.full_description, ' ', 1)[0];
+  });
 };
 
 const countFeatureLength = (examples) => {
