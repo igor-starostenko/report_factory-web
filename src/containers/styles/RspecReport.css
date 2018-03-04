@@ -26,14 +26,21 @@
 }
 
 .reportDetails {
-  grid-column: 1 / 6;
+  grid-column: 1 / 5;
   margin-top: 1.5rem;
   padding: 1.5rem;
   position: relative;
 }
 
+.reportFeatureChart {
+  grid-column: 5 / 9;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  animation: fadeIn 1s;
+}
+
 .reportChart {
-  grid-column: 6 / -1;
+  grid-column: 9 / -1;
   padding: 1.5rem;
   margin-top: 1.5rem;
   animation: fadeIn 1s;
@@ -52,6 +59,7 @@
     grid-template-areas:
         "h"
         "c"
+        "f"
         "t"
         "d"
         "r";
@@ -66,6 +74,10 @@
 
   .reportCreated {
     grid-area: c;
+  }
+
+  .reportFeatureChart {
+    grid-area: f;
   }
 
   .reportChart {

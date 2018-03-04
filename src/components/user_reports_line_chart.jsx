@@ -6,11 +6,11 @@ import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth, repo
 
 const parseDate = report => _.get(report, 'attributes.report.date.created_at');
 const parseProjectName = report => _.get(report, 'attributes.report.project_name');
+const colors = getColors();
 
 const projectReportsDatasets = (reports, dates, reportsPerDate) => {
   const datasets = [];
   let colorIndex = 0;
-  const colors = getColors();
   const colorNames = Object.keys(colors);
   _.forIn(reports, (projectReports, projectName) => {
     const reportsDates = reportsCreatedDates(projectReports, parseDate);
