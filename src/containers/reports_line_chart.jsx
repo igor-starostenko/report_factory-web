@@ -78,6 +78,7 @@ class ReportsLineChart extends Component {
         getChartData={getChartData}
         options={chartOptions}
         reports={this.props.reports}
+        redraw
       />);
   }
 }

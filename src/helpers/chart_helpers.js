@@ -30,14 +30,14 @@ export function reportsCreatedDates(reports, parseDate) {
 }
 
 /* eslint-disable arrow-body-style */
-const isSameDay = (dateOne, dateTwo) => {
-  return dateOne.getFullYear() === dateTwo.getFullYear()
-    && dateOne.getDate() === dateTwo.getDate();
-};
-
 const isSameMonth = (dateOne, dateTwo) => {
   return dateOne.getFullYear() === dateTwo.getFullYear()
     && dateOne.getMonth() === dateTwo.getMonth();
+};
+
+const isSameDay = (dateOne, dateTwo) => {
+  return isSameMonth(dateOne, dateTwo)
+    && dateOne.getDate() === dateTwo.getDate();
 };
 /* eslint-enable arrow-body-style */
 
