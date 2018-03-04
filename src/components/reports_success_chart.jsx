@@ -11,6 +11,7 @@ const options = {
   percentageInnerCutout: 15,
   animateRotate: false,
   tooltipFillColor: 'rgba(255,165,91,0.8)',
+  tooltipTemplate: v => (`${v.label}: ${_.round(v.value * 100, 1)}%`),
 };
 
 const colors = getColors();
@@ -18,17 +19,17 @@ const colors = getColors();
 const getFailedCount = reports => (_.filter(reports, r => r.attributes.summary.failure_count > 0));
 
 const getChartData = (reports) => {
-  const failed = getFailedCount(reports);
+  const failed = getFailedCount(reports).length / _.keys(reports).length;
   return [
     {
       label: 'Passed',
-      value: _.keys(reports).length - failed.length,
+      value: 1 - failed,
       color: setOpacity(colors.green, 0.7),
       highlight: setOpacity(colors.green, 0.8),
     },
     {
       label: 'Failed',
-      value: failed.length,
+      value: failed,
       color: setOpacity(colors.red, 0.7),
       highlight: setOpacity(colors.red, 0.8),
     },
