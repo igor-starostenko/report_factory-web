@@ -3,10 +3,13 @@ import _ from 'lodash';
 import { Bar } from 'react-chartjs';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
 
+/* eslint-disable arrow-body-style */
 const lastReports = (reports, number) => {
-  const keys = _.takeRight(_.keys(reports), number);
-  return _.map(keys, key => reports[key]);
+  return _.reverse(_.takeRight(reports, number));
 };
+/* eslint-enable arrow-body-style */
+
+const colors = getColors();
 
 const getDuration = (reports, number = 10) => {
   if (_.isEmpty(reports)) {
@@ -16,7 +19,6 @@ const getDuration = (reports, number = 10) => {
 };
 
 const getStatus = (reports, number = 10) => {
-  const colors = getColors();
   if (_.isEmpty(reports)) {
     return _.times(number, _.constant(colors.grey));
   }
@@ -29,7 +31,11 @@ const getStatus = (reports, number = 10) => {
   });
 };
 
-const setAllOpacity = (colors, opacity = 1) => _.map(colors, c => setOpacity(c, opacity));
+/* eslint-disable arrow-body-style */
+const setAllOpacity = (barColors, opacity = 1) => {
+  return _.map(barColors, c => setOpacity(c, opacity));
+};
+/* eslint-enable arrow-body-style */
 
 const getChartData = (reports, displayedNumber) => {
   if (typeof displayedNumber !== 'number') {
@@ -37,16 +43,16 @@ const getChartData = (reports, displayedNumber) => {
   }
   const last = lastReports(reports, displayedNumber);
   const data = getDuration(last, displayedNumber);
-  const colors = getStatus(last, displayedNumber);
+  const barColors = getStatus(last, displayedNumber);
 
   return {
     labels: _.times(displayedNumber, _.constant('')),
     datasets: [
       {
-        fillColor: setAllOpacity(colors, 0.4),
-        strokeColor: setAllOpacity(colors, 0.7),
-        highlightFill: setAllOpacity(colors, 0.6),
-        highlightStroke: setAllOpacity(colors, 1),
+        fillColor: setAllOpacity(barColors, 0.4),
+        strokeColor: setAllOpacity(barColors, 0.7),
+        highlightFill: setAllOpacity(barColors, 0.6),
+        highlightStroke: setAllOpacity(barColors, 1),
         data,
       },
     ],
