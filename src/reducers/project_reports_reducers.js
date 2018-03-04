@@ -34,7 +34,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, rspecReportsList };
     }
     case GET_PROJECT_RSPEC_REPORTS_SUCCESS: {
-      const data = _.mapKeys(action.payload.data, obj => obj.id);
+      const { data } = action.payload;
       const rspecReportsList = { ...state.rspecReportsList, data, error: null, loading: false };
       return { ...state, rspecReportsList };
       /* eslint-enable object-curly-newline */
