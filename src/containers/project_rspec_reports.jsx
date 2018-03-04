@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { RspecReportsBar, RspecReportsList, Pagination, FilterButton } from '../components';
+import { RspecReportsBar, RspecReportsList, ReportsSuccessChart, Pagination, FilterButton } from '../components';
 import { getProjectRspecReports, getProjectRspecReportsSuccess, getProjectRspecReportsFailure,
   setProjectRspecReportsPage, resetProjectRspecReports } from '../actions/project_reports_actions';
 import styles from './styles/ProjectRspecReports.css';
@@ -89,6 +89,9 @@ class ProjectRspecReports extends Component {
               displayCount={this.props.perPage}
               filterAction={this.fetchProjectRspecReports}
             />
+          </div>
+          <div className={styles.projectReportsSuccessChart}>
+            <ReportsSuccessChart reports={this.props.reportsList} />
           </div>
           <div className={styles.projectReportsList}>
             <RspecReportsList reports={this.props.reportsList} />
