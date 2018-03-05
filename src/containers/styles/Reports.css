@@ -10,12 +10,18 @@
 
 .reportsHeader {
   white-space: nowrap;
-  grid-column: 1 / -1;
+  grid-column: 1 / 6;
 }
 
 .reportsTitle {
   font-size: 52px;
   font-weight: 400;
+}
+
+.reportsSearch {
+  grid-column: 6 / -1;
+  margin-top: auto;
+  margin-bottom: .8rem;
 }
 
 .reportsButtons {

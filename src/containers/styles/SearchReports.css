@@ -1,0 +1,60 @@
+.searchForm {
+  float: right;
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  padding-right: 7.5em;
+  height: 42px;
+  min-width: 30rem;
+}
+
+.searchField {
+  background-color:transparent;
+  border: 0px solid;
+  height: 100%;
+  width: 100%;
+  padding-left: 1.5rem;
+}
+
+.searchField:focus {
+  outline: none;
+}
+
+*::-webkit-input-placeholder {
+  color: #a5a5a5;
+}
+
+.cancelEnabled {
+  border: none;
+  outline: none;
+  position: absolute;
+  height: 100%;
+  color: #aaa;
+  padding: 0 .5em;
+  line-height: 1;
+  min-width: 2em;
+  margin-right: 5.5em;
+  background-color: transparent;
+  opacity: 100;
+}
+
+.cancelHidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.searchCancel:hover {
+}
+
+.searchButton {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: auto;
+}
+
+.searchButton > button {
+  max-heigh: 38px;
+}

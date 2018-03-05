@@ -33,7 +33,6 @@ class Reports extends Component {
         if (response.status !== 200) {
           return dispatch(getRspecReportsFailure(response.payload));
         }
-        dispatch(setRspecReportsTags(options.tags));
         dispatch(setRspecReportsPage(response));
         return dispatch(getRspecReportsSuccess(response));
       });
@@ -76,7 +75,12 @@ class Reports extends Component {
             <div className={styles.reportsTitle}>Reports</div>
           </div>
           <div className={styles.reportsSearch}>
-            <SearchReports action={this.fetchRspecReports} {...this.props} />
+            <SearchReports
+              action={this.fetchRspecReports}
+              setSearch={this.props.setRspecReportsTags}
+              initialValues={{ tags: this.props.tags }}
+              {...this.props}
+            />
           </div>
           <div className={styles.reportsContent}>
             <RspecReportsList reports={this.props.reports} />
@@ -99,6 +103,7 @@ class Reports extends Component {
 
 const mapDispatchToProps = dispatch => ({
   getRspecReports: (...args) => dispatch(getRspecReports(...args)),
+  setRspecReportsTags: (...args) => dispatch(setRspecReportsTags(...args)),
   resetRspecReports: () => dispatch(resetRspecReports()),
   dispatch,
 });

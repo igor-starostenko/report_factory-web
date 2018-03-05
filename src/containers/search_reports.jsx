@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, reset } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Button, FormField } from '../components';
+import { Button } from '../components';
+import styles from './styles/SearchReports.css';
 
 const formatTags = (tags) => {
   if (_.isEmpty(tags)) {
-    return { tags: null };
+    return { tags: [] };
   }
   const noSpecialCharsString = tags.replace(/[^\w\s]/gi, '');
   return { tags: _.split(noSpecialCharsString, ' ') };
@@ -16,24 +17,43 @@ class SearchReports extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.resetSearch = this.resetSearch.bind(this);
   }
 
   onSubmit(searchInput) {
     let options = _.pick(this.props, ['page', 'perPage']);
     options = _.merge(options, formatTags(searchInput.tags));
+    this.props.setSearch(options.tags);
     return this.props.action(options);
   }
 
+  resetSearch() {
+    this.props.reset('searchReportsForm');
+    this.onSubmit({ tags: [] });
+  }
+
   render() {
+    const hasTags = !_.isEmpty(this.props.values.tags);
+    const cancelClass = hasTags ? 'cancelEnabled' : 'cancelHidden';
     return (
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+      <form
+        onSubmit={this.props.handleSubmit(this.onSubmit)}
+        className={`${styles.searchForm} form-control`}
+      >
         <Field
+          className={styles.searchField}
           placeholder="Search reports by tags"
           name="tags"
           type="text"
-          component={FormField}
+          component="input"
         />
-        <div className="formButtons">
+        <button
+          className={styles[cancelClass]}
+          onClick={this.resetSearch}
+          type="button"
+        >X
+        </button>
+        <div className={styles.searchButton}>
           <Button type="submit" color="primary" text="Search" />
         </div>
       </form>
@@ -41,6 +61,10 @@ class SearchReports extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  values: state.form.searchReportsForm.values,
+});
+
 export default reduxForm({
-  form: 'SearchReportsForm',
-})(connect()(SearchReports));
+  form: 'searchReportsForm',
+})(connect(mapStateToProps, { reset })(SearchReports));

@@ -9,7 +9,7 @@ export default class FormField extends Component {
       <div className={className}>
         <label>{this.props.label}</label>
         <input
-          className="form-control"
+          className={`${this.props.className} form-control`}
           type={this.props.type}
           placeholder={this.props.placeholder}
           {...this.props.input}
