@@ -73,6 +73,10 @@ const options = {
 };
 
 export default class RspecReportsBar extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.reports !== nextProps.reports;
+  }
+
   render() {
     return (<Bar
       data={getChartData(this.props.reports, this.props.displayCount)}

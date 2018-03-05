@@ -20,6 +20,10 @@ class SearchReports extends Component {
     this.resetSearch = this.resetSearch.bind(this);
   }
 
+  componentWillUnmount() {
+    this.resetSearch();
+  }
+
   onSubmit(searchInput) {
     let options = _.pick(this.props, ['page', 'perPage']);
     options = _.merge(options, formatTags(searchInput.tags));
@@ -33,7 +37,12 @@ class SearchReports extends Component {
   }
 
   render() {
-    const hasTags = !_.isEmpty(this.props.values.tags);
+    const tags = _.get(this.props.form, 'values.tags');
+    if (!tags) {
+      return (<div />);
+    }
+    const hasTags = !_.isEmpty(tags);
+
     const cancelClass = hasTags ? 'cancelEnabled' : 'cancelHidden';
     return (
       <form
@@ -62,9 +71,10 @@ class SearchReports extends Component {
 }
 
 const mapStateToProps = state => ({
-  values: state.form.searchReportsForm.values,
+  form: state.form.searchReportsForm,
 });
 
 export default reduxForm({
   form: 'searchReportsForm',
+  destroyOnUnmount: false,
 })(connect(mapStateToProps, { reset })(SearchReports));

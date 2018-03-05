@@ -18,6 +18,12 @@
   font-weight: 400;
 }
 
+.projectReportsSearch {
+  grid-column: 7 / -1;
+  margin-top: auto;
+  margin-bottom: .8rem;
+}
+
 .projectReportsTotal {
   grid-column: 1 / 7;
   font-style: italic;
@@ -85,6 +91,7 @@
         "t"
         "s"
         "c"
+        "p"
         "l"
         "d";
     grid-template-columns: auto;
@@ -106,6 +113,12 @@
 
   .projectReportsChart {
     grid-area: c;
+  }
+
+  .projectReportsSearch {
+    grid-area: p;
+    margin-top: .8rem;
+    margin-bottom: 0;
   }
 
   .projectReportsList {

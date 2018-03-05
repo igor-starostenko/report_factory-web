@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import SearchReports from './search_reports';
 import { RspecReportsBar, RspecReportsList, ReportsSuccessChart, Pagination, FilterButton } from '../components';
 import { getProjectRspecReports, getProjectRspecReportsSuccess, getProjectRspecReportsFailure,
-  setProjectRspecReportsPage, resetProjectRspecReports } from '../actions/project_reports_actions';
+  setProjectRspecReportsPage, setProjectRspecReportsTags, resetProjectRspecReports } from '../actions/project_reports_actions';
 import styles from './styles/ProjectRspecReports.css';
 
 class ProjectRspecReports extends Component {
@@ -24,11 +25,12 @@ class ProjectRspecReports extends Component {
     this.props.resetProjectRspecReports();
   }
 
-  fetchProjectRspecReports({ page, perPage }) {
+  fetchProjectRspecReports({ page, perPage, tags }) {
     const { projectName, xApiKey, dispatch } = this.props;
     const options = {
       page: page || this.props.page,
       per_page: perPage || this.props.perPage,
+      tags: tags || this.props.tags,
     };
     getProjectRspecReports(projectName, xApiKey, options)
       .then((response) => {
@@ -36,6 +38,7 @@ class ProjectRspecReports extends Component {
           return dispatch(getProjectRspecReportsFailure(response.payload));
         }
         dispatch(setProjectRspecReportsPage(response));
+        // console.log(this.props);
         return dispatch(getProjectRspecReportsSuccess(response));
       });
   }
@@ -82,6 +85,14 @@ class ProjectRspecReports extends Component {
           <div className={styles.projectReportsHeader}>
             <div className={styles.projectReportsName}>{this.props.projectName}</div>
           </div>
+          <div className={styles.projectReportsSearch}>
+            <SearchReports
+              action={this.fetchProjectRspecReports}
+              setSearch={this.props.setProjectRspecReportsTags}
+              initialValues={{ tags: this.props.tags }}
+              {...this.props}
+            />
+          </div>
           <div className={styles.projectReportsTotal}>Total Reports: {this.props.total}</div>
           <div className={styles.projectReportsChart}>
             <RspecReportsBar
@@ -114,6 +125,7 @@ class ProjectRspecReports extends Component {
 
 const mapDispatchToProps = dispatch => ({
   getProjectRspecReports: (...args) => dispatch(getProjectRspecReports(...args)),
+  setProjectRspecReportsTags: (...args) => dispatch(setProjectRspecReportsTags(...args)),
   resetProjectRspecReports: () => dispatch(resetProjectRspecReports()),
   dispatch,
 });
@@ -123,6 +135,7 @@ const mapStateToProps = ({ projectReports, users }, ownProps) => ({
   page: projectReports.rspecReportsList.page,
   perPage: projectReports.rspecReportsList.perPage,
   total: projectReports.rspecReportsList.total,
+  tags: projectReports.rspecReportsList.tags,
   reportsList: projectReports.rspecReportsList.data,
   xApiKey: users.currentUser.xApiKey,
 });

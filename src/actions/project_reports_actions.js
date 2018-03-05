@@ -6,6 +6,7 @@ export const GET_PROJECT_RSPEC_REPORTS_SUCCESS = 'get_project_rspec_reports_succ
 export const GET_PROJECT_RSPEC_REPORTS_FAILURE = 'get_project_rspec_reports_failure';
 export const GET_PROJECT_RSPEC_REPORT = 'get_project_rspec_report';
 export const SET_PROJECT_RSPEC_REPORTS_PAGE = 'set_project_rspec_reports_page';
+export const SET_PROJECT_RSPEC_REPORTS_TAGS = 'set_project_rspec_reports_tags';
 export const RESET_PROJECT_RSPEC_REPORTS = 'reset_project_rspec_reports';
 
 const apiUrl = process.env.API_URL;
@@ -29,6 +30,11 @@ export const getProjectRspecReports = (projectName, xApiKey, options) => {
 export const setProjectRspecReportsPage = response => ({
   type: SET_PROJECT_RSPEC_REPORTS_PAGE,
   payload: response.headers,
+});
+
+export const setProjectRspecReportsTags = tags => ({
+  type: SET_PROJECT_RSPEC_REPORTS_TAGS,
+  payload: tags,
 });
 
 export const getProjectRspecReportsSuccess = response => ({
