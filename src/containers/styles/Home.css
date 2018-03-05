@@ -1,0 +1,16 @@
+.homeContainer {
+  margin-top: 2em;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.homeLogo {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.homeLogin {
+  margin-top: 2em;
+}

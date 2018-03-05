@@ -3,6 +3,8 @@
 *.sw*
 tags
 .tags
+.env
 
 /node_modules
 /bundle.js
+/report_factory.js.map

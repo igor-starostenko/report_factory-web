@@ -1,0 +1,44 @@
+.reportRowWrapper {
+  position: absolute;
+  top: 2em;
+  bottom: 2em;
+  margin: auto;
+  padding: 1.5rem;
+  padding-right: 2.5rem;
+  max-width: 27rem;
+  animation: fadeIn 1s;
+  background-color: grey;
+  font-size: 1em;
+  background-color: #f8f8f8;
+  border-radius: 1.5rem;
+  border: 1px solid #dddddd;
+  box-shadow: 1px 1px 4px 0px rgba(35, 41, 51, 0.2);
+}
+
+.reportDetailsRow {
+  margin-left: 1rem;
+  line-height: 2em;
+  font-size: 1.3em;
+  white-space: nowrap;
+}
+
+.reportDetailsParam {
+  font-weight: 600;
+  display: inline-block;
+}
+
+.reportDetailsValue {
+  margin-left: 1rem;
+  font-style: italic;
+  display: inline-block;
+}
+
+@media only screen and (max-width: 767px) {
+  .reportRowWrapper {
+    position: initial;
+  }
+
+  .reportDetailsRow {
+    line-height: 1.5em;
+  }
+}

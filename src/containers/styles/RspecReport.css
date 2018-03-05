@@ -1,0 +1,98 @@
+.reportContainer {
+  height: 100%;
+  margin-top: 22px;
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 70px 20px auto;
+  margin-bottom: 4rem;
+}
+
+.reportHeader {
+  white-space: nowrap;
+  grid-column: 1 / -1;
+}
+
+.reportId {
+  font-size: 52px;
+  font-weight: 400;
+}
+
+.reportCreated {
+  grid-column: 1 / 6;
+  animation: fadeIn 1s;
+  font-style: italic;
+  margin-left: .5em;
+}
+
+.reportDetails {
+  grid-column: 1 / 5;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.reportFeatureChart {
+  grid-column: 5 / 9;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  animation: fadeIn 1s;
+}
+
+.reportChart {
+  grid-column: 9 / -1;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  animation: fadeIn 1s;
+}
+
+.reportExamples {
+  grid-column: 1 / -1;
+  margin-top: 1.5rem;
+  animation: fadeIn 1s;
+}
+
+@media only screen and (max-width: 767px) {
+  .reportContainer {
+    display: grid;
+    grid-template-rows: 70px 20px auto auto;
+    grid-template-areas:
+        "h"
+        "c"
+        "f"
+        "t"
+        "d"
+        "r";
+    grid-template-columns: auto;
+    grid-gap: 0;
+    margin-bottom: 4rem;
+  }
+
+  .reportHeader {
+    grid-area: h;
+  }
+
+  .reportCreated {
+    grid-area: c;
+  }
+
+  .reportFeatureChart {
+    grid-area: f;
+  }
+
+  .reportChart {
+    grid-area: t;
+  }
+
+  .reportDetails {
+    grid-area: d;
+    width: 90%;
+    max-width: unset;
+    margin: auto;
+    margin-top: 1.5rem;
+  }
+
+  .reportExamples {
+    grid-area: r;
+  }
+}

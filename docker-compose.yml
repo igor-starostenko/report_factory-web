@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+
+  server:
+    image: 'reportfactory/server'
+    ports:
+      - '3000:3000'
+    environment:
+      RAILS_ENV: 'production'
+    env_file:
+      - '.env'
+    depends_on:
+      - db
+
+  web:
+    build: .
+    ports:
+      - '3001:3001'
+    environment:
+      API_URL: 'http://0.0.0.0:3000'

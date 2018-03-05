@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
-import BarChart from './bar_chart';
-import { getRspecReports } from '../actions/reports_actions';
+import { Bar } from 'react-chartjs';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
 
+/* eslint-disable arrow-body-style */
 const lastReports = (reports, number) => {
-  const keys = _.takeRight(_.keys(reports), number);
-  return _.map(keys, key => reports[key]);
+  return _.reverse(_.takeRight(reports, number));
 };
+/* eslint-enable arrow-body-style */
+
+const colors = getColors();
 
 const getDuration = (reports, number = 10) => {
   if (_.isEmpty(reports)) {
@@ -18,7 +19,6 @@ const getDuration = (reports, number = 10) => {
 };
 
 const getStatus = (reports, number = 10) => {
-  const colors = getColors();
   if (_.isEmpty(reports)) {
     return _.times(number, _.constant(colors.grey));
   }
@@ -31,38 +31,35 @@ const getStatus = (reports, number = 10) => {
   });
 };
 
-const setAllOpacity = (colors, opacity = 1) => _.map(colors, c => setOpacity(c, opacity));
+/* eslint-disable arrow-body-style */
+const setAllOpacity = (barColors, opacity = 1) => {
+  return _.map(barColors, c => setOpacity(c, opacity));
+};
+/* eslint-enable arrow-body-style */
 
-const getChartData = (reports, activeFilter) => {
-  let displayedNumber;
-  switch (activeFilter) {
-    case 'Last 10':
-      displayedNumber = 10;
-      break;
-    case 'Last 30':
-      displayedNumber = 30;
-      break;
-    default: throw new Error(`Filter ${activeFilter} is not supported`);
+const getChartData = (reports, displayedNumber) => {
+  if (typeof displayedNumber !== 'number') {
+    throw new Error(`Filter ${displayedNumber} is not supported`);
   }
   const last = lastReports(reports, displayedNumber);
   const data = getDuration(last, displayedNumber);
-  const colors = getStatus(last, displayedNumber);
+  const barColors = getStatus(last, displayedNumber);
 
   return {
     labels: _.times(displayedNumber, _.constant('')),
     datasets: [
       {
-        fillColor: setAllOpacity(colors, 0.4),
-        strokeColor: setAllOpacity(colors, 0.7),
-        highlightFill: setAllOpacity(colors, 0.6),
-        highlightStroke: setAllOpacity(colors, 1),
+        fillColor: setAllOpacity(barColors, 0.4),
+        strokeColor: setAllOpacity(barColors, 0.7),
+        highlightFill: setAllOpacity(barColors, 0.6),
+        highlightStroke: setAllOpacity(barColors, 1),
         data,
       },
     ],
   };
 };
 
-const chartOptions = {
+const options = {
   barStrokeWidth: 2,
   barValueSpacing: 3,
   scaleLineWidth: 3,
@@ -75,27 +72,21 @@ const chartOptions = {
   tooltipTemplate: '<%= value %> seconds',
 };
 
-class RspecReportsBar extends Component {
-  componentDidMount() {
-    const { rspecReports } = this.props;
-    if (!rspecReports || _.isEmpty(rspecReports)) {
-      const { projectName, xApiKey } = this.props;
-      this.props.getRspecReports(projectName, xApiKey);
-    }
+export default class RspecReportsBar extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.reports !== nextProps.reports;
   }
 
   render() {
-    return (<BarChart
-      getChartData={getChartData}
-      options={chartOptions}
-      reports={this.props.rspecReports}
+    if (_.isEmpty(this.props.reports)) {
+      return (<div />);
+    }
+
+    return (<Bar
+      data={getChartData(this.props.reports, this.props.displayCount)}
+      options={options}
+      height="350"
+      redraw
     />);
   }
 }
-
-const mapStateToProps = (state, ownProps) => ({
-  rspecReports: state.rspecReports[ownProps.projectName],
-  xApiKey: state.users.currentUser.xApiKey,
-});
-
-export default connect(mapStateToProps, { getRspecReports })(RspecReportsBar);

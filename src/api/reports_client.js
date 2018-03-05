@@ -1,19 +1,40 @@
 import ApiClient from './api_client';
 
 class ReportsClient extends ApiClient {
-  getAllReports(projectName, xApiKey) {
+  getReports(xApiKey, options) {
+    const url = `${this.baseUrl}api/v1/reports`;
+    const params = this.constructor.formatQuery(options);
+    const headers = ApiClient.formatHeaders(xApiKey);
+    return fetch(new Request(url + params, { method: 'GET', headers }));
+  }
+
+  getRspecReports(xApiKey, options) {
+    const url = `${this.baseUrl}api/v1/reports/rspec`;
+    const params = this.constructor.formatQuery(options);
+    const headers = ApiClient.formatHeaders(xApiKey);
+    return fetch(new Request(url + params, { method: 'GET', headers }));
+  }
+
+  showRspecReport(reportId, xApiKey) {
+    const url = `${this.baseUrl}api/v1/reports/rspec/${reportId}`;
+    const headers = ApiClient.formatHeaders(xApiKey);
+    return fetch(new Request(url, { method: 'GET', headers }));
+  }
+
+  getAllProjectReports(projectName, xApiKey) {
     const url = `${this.baseUrl}api/v1/projects/${projectName}/reports`;
     const headers = ApiClient.formatHeaders(xApiKey);
     return fetch(new Request(url, { method: 'GET', headers }));
   }
 
-  getAllRspecReports(projectName, xApiKey) {
+  getAllProjectRspecReports(projectName, xApiKey, options) {
     const url = `${this.baseUrl}api/v1/projects/${projectName}/reports/rspec`;
+    const params = this.constructor.formatQuery(options);
     const headers = ApiClient.formatHeaders(xApiKey);
-    return fetch(new Request(url, { method: 'GET', headers }));
+    return fetch(new Request(url + params, { method: 'GET', headers }));
   }
 
-  showRspecReport(projectName, id, xApiKey) {
+  showProjectRspecReport(projectName, id, xApiKey) {
     const url = `${this.baseUrl}api/v1/projects/${projectName}/reports/rspec/${id}`;
     const headers = ApiClient.formatHeaders(xApiKey);
     return fetch(new Request(url, { method: 'GET', headers }));

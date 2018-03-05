@@ -5,22 +5,24 @@ import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
 
-import App from './components/app';
-import Home from './components/home';
-import Login from './components/login';
-import CreateProject from './components/create_project';
-import UpdateProject from './components/update_project';
-import UpdateUser from './components/update_user';
-import NotFound from './components/not_found';
-import Project from './components/project';
-import Projects from './components/projects';
-import RequireAuth from './components/authentication';
-import RspecReports from './components/rspec_reports';
-import CreateUser from './components/create_user';
-import User from './components/user';
-import Users from './components/users';
 import history from './history';
 import reducers from './reducers';
+
+import { App, NotFound } from './components';
+import Home from './containers/home';
+import Login from './containers/login';
+import CreateProject from './containers/create_project';
+import UpdateProject from './containers/update_project';
+import UpdateUser from './containers/update_user';
+import Project from './containers/project';
+import Projects from './containers/projects';
+import ProjectRspecReports from './containers/project_rspec_reports';
+import RequireAuth from './containers/authentication';
+import Reports from './containers/reports';
+import RspecReport from './containers/rspec_report';
+import CreateUser from './containers/create_user';
+import User from './containers/user';
+import Users from './containers/users';
 
 require('babel-core/register');
 require('babel-polyfill');
@@ -42,10 +44,12 @@ ReactDOM.render(
             <Route path="/users/:id" component={RequireAuth(User)} />
             <Route path="/users" component={RequireAuth(Users)} />
             <Route path="/projects/:name/edit" component={RequireAuth(UpdateProject)} />
-            <Route path="/projects/:name/rspec" component={RequireAuth(RspecReports)} />
+            <Route path="/projects/:name/rspec" component={RequireAuth(ProjectRspecReports)} />
             <Route path="/projects/:name" component={RequireAuth(Project)} />
             <Route path="/projects" component={RequireAuth(Projects)} />
             <Route path="/project/new" component={RequireAuth(CreateProject)} />
+            <Route path="/reports/:id" component={RequireAuth(RspecReport)} />
+            <Route path="/reports" component={RequireAuth(Reports)} />
             <Route exact path="/" component={Home} />
             <Route path="*" component={NotFound} />
           </Switch>
