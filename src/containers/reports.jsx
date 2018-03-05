@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import SearchReports from './search_reports';
 import { RspecReportsList, Pagination, FilterButton } from '../components';
-import { getRspecReports, setRspecReportsPage, getRspecReportsSuccess,
-  getRspecReportsFailure, resetRspecReports } from '../actions/reports_actions';
+import { getRspecReports, setRspecReportsPage, setRspecReportsTags,
+  getRspecReportsSuccess, getRspecReportsFailure, resetRspecReports } from '../actions/reports_actions';
 import styles from './styles/Reports.css';
 
 class Reports extends Component {
@@ -20,17 +21,19 @@ class Reports extends Component {
     }
   }
 
-  fetchRspecReports({ page, perPage }) {
+  fetchRspecReports({ page, perPage, tags }) {
     const { xApiKey, dispatch } = this.props;
     const options = {
       page: page || this.props.page,
       per_page: perPage || this.props.perPage,
+      tags: tags || this.props.tags,
     };
     getRspecReports(xApiKey, options)
       .then((response) => {
         if (response.status !== 200) {
           return dispatch(getRspecReportsFailure(response.payload));
         }
+        dispatch(setRspecReportsTags(options.tags));
         dispatch(setRspecReportsPage(response));
         return dispatch(getRspecReportsSuccess(response));
       });
@@ -72,6 +75,9 @@ class Reports extends Component {
           <div className={styles.reportsHeader}>
             <div className={styles.reportsTitle}>Reports</div>
           </div>
+          <div className={styles.reportsSearch}>
+            <SearchReports action={this.fetchRspecReports} {...this.props} />
+          </div>
           <div className={styles.reportsContent}>
             <RspecReportsList reports={this.props.reports} />
           </div>
@@ -101,6 +107,7 @@ const mapStateToProps = state => ({
   page: state.reports.rspecReportsList.page,
   perPage: state.reports.rspecReportsList.perPage,
   total: state.reports.rspecReportsList.total,
+  tags: state.reports.rspecReportsList.tags,
   reports: state.reports.rspecReportsList.data,
   xApiKey: state.users.currentUser.xApiKey,
 });

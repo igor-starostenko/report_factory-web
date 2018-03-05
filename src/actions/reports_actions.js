@@ -7,6 +7,7 @@ export const GET_RSPEC_REPORTS = 'get_rspec_reports';
 export const GET_RSPEC_REPORTS_SUCCESS = 'get_rspec_reports_success';
 export const GET_RSPEC_REPORTS_FAILURE = 'get_rspec_reports_failure';
 export const SET_RSPEC_REPORTS_PAGE = 'set_rspec_reports_page';
+export const SET_RSPEC_REPORTS_TAGS = 'set_rspec_reports_tags';
 export const RESET_RSPEC_REPORTS = 'reset_rspec_reports';
 
 const apiUrl = process.env.API_URL;
@@ -41,6 +42,11 @@ export const getRspecReports = (xApiKey, options) => {
 export const setRspecReportsPage = response => ({
   type: SET_RSPEC_REPORTS_PAGE,
   payload: response.headers,
+});
+
+export const setRspecReportsTags = tags => ({
+  type: SET_RSPEC_REPORTS_TAGS,
+  payload: tags,
 });
 
 export const getRspecReportsSuccess = response => ({
