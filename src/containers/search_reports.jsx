@@ -37,12 +37,7 @@ class SearchReports extends Component {
   }
 
   render() {
-    const tags = _.get(this.props.form, 'values.tags');
-    if (!tags) {
-      return (<div />);
-    }
-    const hasTags = !_.isEmpty(tags);
-
+    const hasTags = !_.isEmpty(this.props.values.tags);
     const cancelClass = hasTags ? 'cancelEnabled' : 'cancelHidden';
     return (
       <form
@@ -71,7 +66,7 @@ class SearchReports extends Component {
 }
 
 const mapStateToProps = state => ({
-  form: state.form.searchReportsForm,
+  values: state.form.searchReportsForm.values,
 });
 
 export default reduxForm({

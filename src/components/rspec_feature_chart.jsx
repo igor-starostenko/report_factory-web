@@ -49,6 +49,10 @@ const getChartData = (examples) => {
 
 export default class ReportsFeatureChart extends Component {
   render() {
+    if (_.isEmpty(this.props.examples)) {
+      return (<div />);
+    }
+
     return (
       <PolarArea
         data={getChartData(this.props.examples)}

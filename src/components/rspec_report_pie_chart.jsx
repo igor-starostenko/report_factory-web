@@ -39,6 +39,10 @@ const getChartData = examples => (
 
 export default class RspecReportPieChart extends Component {
   render() {
+    if (_.isEmpty(this.props.examples)) {
+      return (<div />);
+    }
+
     return (
       <Pie
         data={getChartData(this.props.examples)}

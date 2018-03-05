@@ -38,6 +38,10 @@ const getChartData = (reports) => {
 
 export default class ReportsSuccessChart extends Component {
   render() {
+    if (_.isEmpty(this.props.reports)) {
+      return (<div />);
+    }
+
     return (
       <Pie
         data={getChartData(this.props.reports)}

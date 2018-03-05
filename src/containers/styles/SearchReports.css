@@ -1,6 +1,7 @@
 .searchForm {
   float: right;
   display: inline-block;
+  box-shadow: 1px 1px 4px 0px rgba(35, 41, 51, 0.2);
   position: relative;
   padding: 0;
   padding-right: 7.5em;

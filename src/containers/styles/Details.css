@@ -73,6 +73,10 @@
     grid-area: h;
   }
 
+  .detailsContent {
+    grid-area: c;
+  }
+
   .chart {
     grid-area: c;
   }

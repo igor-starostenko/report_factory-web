@@ -78,6 +78,10 @@ export default class RspecReportsBar extends Component {
   }
 
   render() {
+    if (_.isEmpty(this.props.reports)) {
+      return (<div />);
+    }
+
     return (<Bar
       data={getChartData(this.props.reports, this.props.displayCount)}
       options={options}

@@ -61,7 +61,7 @@ export default class RspecReportsList extends Component {
     }
 
     if (_.isEmpty(this.props.reports)) {
-      return (<div className="loading">No Reports have been submitted yet.</div>);
+      return (<div className="loading">No reports found.</div>);
     }
 
     return (
