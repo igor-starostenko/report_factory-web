@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { Pie } from 'react-chartjs';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
-// import styles from './styles/RspecReportPieChart.css';
+import styles from './styles/RspecReportPieChart.css';
 
 const options = {
   responsive: true,
@@ -12,6 +12,7 @@ const options = {
   animateRotate: false,
   tooltipFillColor: 'rgba(255,165,91,0.8)',
   tooltipTemplate: '<%= label %>',
+  tooltipFontSize: 10,
 };
 
 const colors = getColors();
@@ -44,12 +45,15 @@ export default class RspecReportPieChart extends Component {
     }
 
     return (
-      <Pie
-        data={getChartData(this.props.examples)}
-        options={options}
-        height="320"
-        redraw
-      />
+      <div className={styles.chart}>
+        <h4 className={styles.chartTitle}>Examples</h4>
+        <Pie
+          data={getChartData(this.props.examples)}
+          options={options}
+          height="320"
+          redraw
+        />
+      </div>
     );
   }
 }

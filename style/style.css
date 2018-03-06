@@ -29,6 +29,7 @@ canvas {
   animation: fadeIn 1s;
   display: block;
   margin: auto;
+  overflow: visible;
   width: 100%;
   max-height: 400px;
 }
