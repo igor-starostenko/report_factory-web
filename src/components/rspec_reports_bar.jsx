@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Bar } from 'react-chartjs';
+import { formatDurationString } from '../helpers/format_helpers';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
 
 /* eslint-disable arrow-body-style */
@@ -69,7 +70,7 @@ const options = {
   responsive: true,
   maintainAspectRatio: false,
   tooltipFillColor: 'rgba(255,165,91,0.8)',
-  tooltipTemplate: '<%= value %> seconds',
+  tooltipTemplate: v => (formatDurationString(v.value)),
 };
 
 export default class RspecReportsBar extends Component {
