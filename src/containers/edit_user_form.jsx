@@ -36,6 +36,7 @@ class EditUserForm extends Component {
         <Field
           label="Password"
           name="password"
+          placeholder="Enter User password"
           type="password"
           component={FormField}
         />
@@ -77,11 +78,13 @@ class EditUserForm extends Component {
           <Field
             label="User Name"
             name="name"
+            placeholder="Enter User name"
             component={FormField}
           />
           <Field
             label="Email"
             name="email"
+            placeholder="Enter User email"
             component={FormField}
           />
           {this.renderPassword()}
@@ -105,7 +108,7 @@ const validate = ({ name, email, password, type }) => {
   const errors = {};
 
   if (!name) {
-    errors.name = 'Enter User Name.';
+    errors.name = 'User Name can\'t be blank';
   }
 
   if (!/\w{3,11}$/.test(name)) {
@@ -118,7 +121,7 @@ const validate = ({ name, email, password, type }) => {
 
   if (!email) {
     errors.email = 'Enter User email address.';
-  } else if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(email)) {
+  } else if (!/^[^\s@]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(email)) {
     errors.email = 'Email is not valid.';
   }
 
