@@ -17,6 +17,7 @@ class SearchReports extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.resetSearch = this.resetSearch.bind(this);
   }
 
   componentWillUnmount() {
@@ -29,6 +30,11 @@ class SearchReports extends Component {
     options = _.merge(options, formatTags(searchInput.tags));
     this.props.setSearch(options.tags);
     return this.props.action(options);
+  }
+
+  resetSearch() {
+    this.props.reset('searchReportsForm');
+    this.onSubmit({ tags: [] });
   }
 
   render() {
