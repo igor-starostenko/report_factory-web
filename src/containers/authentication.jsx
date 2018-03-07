@@ -28,7 +28,7 @@ export default (ComposedComponent) => {
         }
         return this.props.authUser(xApiKey)
           .then((response) => {
-            if (response.status !== 200) {
+            if (response.status >= 400) {
               this.props.signInFailure(response.payload);
               return this.props.history.push('/login');
             }
