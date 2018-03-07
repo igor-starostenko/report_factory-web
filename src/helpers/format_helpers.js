@@ -47,7 +47,7 @@ export const formatDurationString = (seconds) => {
   if (formatSeconds === 0) {
     return 'Less than a second';
   }
-  if (formatSeconds < 2) {
+  if (formatSeconds < 1) {
     return `${formatSeconds} of a second`;
   }
   const minutes = Math.floor(formatSeconds / 60);
