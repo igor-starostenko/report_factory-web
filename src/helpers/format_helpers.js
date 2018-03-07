@@ -50,18 +50,18 @@ export const formatDurationString = (seconds) => {
   if (formatSeconds < 1) {
     return `${formatSeconds} of a second`;
   }
-  const minutes = Math.floor(formatSeconds / 60);
+  const minutes = formatSeconds / 60;
   if (minutes < 1) {
     return `${formatSeconds} seconds`;
   } else if (minutes > 1 && minutes < 2) {
     return `1 minute, ${Math.floor(formatSeconds - 60)} seconds`;
   }
-  const hours = Math.floor(formatSeconds / 3600);
+  const hours = formatSeconds / 3600;
   if (hours < 1) {
     const floorSeconds = Math.floor(formatSeconds - (minutes * 60));
-    return `${minutes} minutes, ${floorSeconds} seconds`;
+    return `${Math.floor(minutes)} minutes, ${floorSeconds} seconds`;
   } else if (hours > 1 && hours < 2) {
-    return `1 hour, ${minutes - 60} minutes`;
+    return `1 hour, ${Math.floor(minutes - 60)} minutes`;
   }
-  return `${hours} hours, ${minutes - (hours * 60)}`;
+  return `${Math.floor(hours)} hours, ${Math.floor(minutes - (hours * 60))}`;
 };

@@ -58,15 +58,20 @@ const getChartData = (reports, activeFilter) => {
 
 const formatTooltip = ({ datasetIndex, index }, { datasets }) => {
   const value = datasets[datasetIndex].data[index];
-  if (value > 1) {
-    return `${value} reports`;
+  if (value !== 1) {
+    return ` ${value} reports`;
   }
-  return '1 report';
+  return ' 1 report';
 };
 
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
+  scales: {
+    yAxes: [{
+      ticks: { beginAtZero: true },
+    }],
+  },
   tooltips: {
     callbacks: { label: formatTooltip },
     bodyFontSize: 14,
