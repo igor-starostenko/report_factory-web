@@ -45,22 +45,37 @@ const getChartData = (reports, activeFilter) => {
     labels,
     datasets: [
       {
-        fillColor: 'rgba(255,212,91,0.4)',
-        strokeColor: 'rgba(255,165,91,0.8)',
-        pointColor: 'rgba(255,165,91,0.9)',
-        pointStrokeColor: '#fff',
-        pointHighlightFill: 'rgba(255,165,91,1)',
+        backgroundColor: 'rgba(255,212,91,0.4)',
+        borderColor: 'rgba(255,165,91,0.8)',
+        pointBackgroundColor: 'rgba(255,165,91,0.9)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: 'rgba(255,165,91,1)',
         data,
       },
     ],
   };
 };
 
+const formatTooltip = ({ datasetIndex, index }, { datasets }) => {
+  const value = datasets[datasetIndex].data[index];
+  if (value > 1) {
+    return `${value} reports`;
+  }
+  return '1 report';
+};
+
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
-  tooltipFillColor: 'rgba(255,165,91,0.8)',
-  tooltipTemplate: '<%= value %> report(s)',
+  tooltips: {
+    callbacks: { label: formatTooltip },
+    bodyFontSize: 14,
+    backgroundColor: 'rgba(255,165,91,0.8)',
+  },
+  legend: {
+    display: false,
+    position: 'bottom',
+  },
 };
 
 class ReportsLineChart extends Component {
@@ -78,7 +93,6 @@ class ReportsLineChart extends Component {
         getChartData={getChartData}
         options={chartOptions}
         reports={this.props.reports}
-        redraw
       />);
   }
 }
