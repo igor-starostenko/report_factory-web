@@ -8,7 +8,7 @@ ENV NPM_CONFIG_LOGLEVEL warn
 RUN npm install -g serve
 
 COPY package.json package.json
-RUN npm install
+RUN CI=true npm install
 
 # Copy all local files into the image.
 COPY . .
