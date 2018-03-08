@@ -42,27 +42,44 @@ export const formatDuration = (seconds) => {
 };
 /* eslint-enable arrow-body-style */
 
+const formatSeconds = (seconds, rounded = true) => {
+  if (seconds === 1) {
+    return '1 second';
+  }
+  const formatted = rounded ? Math.floor(seconds) : seconds;
+  return `${formatted} seconds`;
+};
+
+const formatMinutes = (minutes) => {
+  if (minutes < 2) {
+    return '1 minute';
+  }
+  return `${Math.floor(minutes)} minutes`;
+};
+
+const formatHours = (hours) => {
+  if (hours < 2) {
+    return '1 hour';
+  }
+  return `${Math.floor(hours)} hours`;
+};
+
 export const formatDurationString = (seconds) => {
-  const formatSeconds = _.round(seconds, 3);
-  if (formatSeconds === 0) {
+  const roundedSeconds = _.round(seconds, 3);
+  if (seconds < 1) {
     return 'Less than a second';
+  } else if (seconds < 60) {
+    return formatSeconds(roundedSeconds, false);
   }
-  if (formatSeconds < 1) {
-    return `${formatSeconds} of a second`;
+  const minutes = roundedSeconds / 60;
+  if (minutes === 1) {
+    return '1 minute';
+  } else if (minutes < 60) {
+    return `${formatMinutes(minutes)}, ${formatSeconds(seconds % 60)}`;
   }
-  const minutes = formatSeconds / 60;
-  if (minutes < 1) {
-    return `${formatSeconds} seconds`;
-  } else if (minutes > 1 && minutes < 2) {
-    return `1 minute, ${Math.floor(formatSeconds - 60)} seconds`;
+  const hours = minutes / 60;
+  if (hours === 1) {
+    return '1 hour';
   }
-  const hours = formatSeconds / 3600;
-  const floorMinutes = Math.floor(minutes);
-  if (hours < 1) {
-    const floorSeconds = Math.floor(formatSeconds - (floorMinutes * 60));
-    return `${floorMinutes} minutes, ${floorSeconds} seconds`;
-  } else if (hours > 1 && hours < 2) {
-    return `1 hour, ${floorMinutes - 60} minutes`;
-  }
-  return `${Math.floor(hours)} hours, ${Math.floor(minutes - (hours * 60))}`;
+  return `${formatHours(hours)}, ${formatMinutes(minutes % 60)}`;
 };
