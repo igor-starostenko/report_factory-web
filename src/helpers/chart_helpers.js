@@ -76,13 +76,13 @@ export function randomColor(opacity = 1) {
 export function getColors(opacity = 1) {
   return {
     orange: `rgba(255, 212, 91, ${opacity})`,
-    yellow: `rgba(227, 239, 59, ${opacity})`,
     green: `rgba(0, 145, 0, ${opacity})`,
     cyan: `rgba(25, 153, 237, ${opacity})`,
-    blue: `rgba(52, 114, 247, ${opacity})`,
     pink: `rgba(247, 52, 114, ${opacity})`,
     purple: `rgba(149, 33, 237, ${opacity})`,
+    yellow: `rgba(227, 239, 59, ${opacity})`,
     red: `rgba(215, 0, 0, ${opacity})`,
+    blue: `rgba(52, 114, 247, ${opacity})`,
     grey: `rgba(220, 220, 220, ${opacity})`,
   };
 }
