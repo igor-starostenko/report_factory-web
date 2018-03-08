@@ -7,7 +7,7 @@ import { getColors, setOpacity } from '../helpers/chart_helpers';
 const formatTooltip = ({ datasetIndex, index }, { datasets, labels }) => {
   const label = labels[index];
   const value = datasets[datasetIndex].data[index];
-  return `${label}: ${_.round(value * 100, 1)}%`;
+  return ` ${label}: ${_.round(value * 100, 1)}%`;
 };
 
 const options = {

@@ -63,7 +63,7 @@ const getChartData = (reports, displayedNumber) => {
 
 const formatTooltip = ({ datasetIndex, index }, { datasets }) => {
   const value = datasets[datasetIndex].data[index];
-  return formatDurationString(value);
+  return ` ${formatDurationString(value)}`;
 };
 
 const options = {

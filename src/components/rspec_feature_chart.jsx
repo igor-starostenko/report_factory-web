@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-// import { PolarArea } from 'react-chartjs';
-import { Polar } from 'react-chartjs-2';
-import { getColors } from '../helpers/chart_helpers';
+import { Pie } from 'react-chartjs-2';
+import { randomColor } from '../helpers/chart_helpers';
 import { formatDuration } from '../helpers/format_helpers';
 import styles from './styles/RspecReportPieChart.css';
 
@@ -26,8 +25,6 @@ const options = {
   },
 };
 
-const colors = getColors();
-
 /* eslint-disable arrow-body-style */
 const groupByFeatures = (examples) => {
   return _.groupBy(examples, (example) => {
@@ -41,18 +38,12 @@ const countFeatureLength = (examples) => {
 };
 
 const getChartData = (examples) => {
-  let colorIndex = 3;
-  const colorNames = Object.keys(colors);
   const data = [];
   const backgroundColor = [];
   const labels = [];
   _.forEach(groupByFeatures(examples), (featureExamples, feature) => {
-    const color = _.get(colors, `${colorNames[colorIndex]}`);
-    /* eslint-disable no-unused-expressions */
-    colorIndex === colorNames.length - 1 ? colorIndex = 0 : colorIndex += 1;
-    /* eslint-enable no-unused-expressions */
     data.push(countFeatureLength(featureExamples));
-    backgroundColor.push(color);
+    backgroundColor.push(randomColor(0.8));
     labels.push(feature);
   });
   return { datasets: [{ data, backgroundColor }], labels };
@@ -67,7 +58,7 @@ export default class ReportsFeatureChart extends Component {
     return (
       <div className={styles.chart}>
         <h4 className={styles.chartTitle}>Features</h4>
-        <Polar
+        <Pie
           data={getChartData(this.props.examples)}
           options={options}
           height={350}
