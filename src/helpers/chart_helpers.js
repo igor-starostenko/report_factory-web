@@ -66,6 +66,13 @@ export function reportsPerMonth(dates, reportsDates) {
   return reportsPerDate(dates, reportsDates, isSameMonth);
 }
 
+export function randomColor(opacity = 1) {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+  return `rgba(${r},${g},${b},${opacity})`;
+}
+
 export function getColors(opacity = 1) {
   return {
     orange: `rgba(255, 212, 91, ${opacity})`,
