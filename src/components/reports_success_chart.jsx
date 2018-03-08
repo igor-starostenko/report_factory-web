@@ -34,6 +34,10 @@ const getChartData = (reports) => {
 };
 
 export default class ReportsSuccessChart extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.reports !== nextProps.reports;
+  }
+
   render() {
     if (_.isEmpty(this.props.reports)) {
       return (<div />);
