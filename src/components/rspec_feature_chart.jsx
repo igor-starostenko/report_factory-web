@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { PolarArea } from 'react-chartjs';
-import { getColors, setOpacity } from '../helpers/chart_helpers';
+import { Pie } from 'react-chartjs-2';
+import { randomColor } from '../helpers/chart_helpers';
 import { formatDuration } from '../helpers/format_helpers';
-// import styles from './styles/RspecReportPieChart.css';
+import styles from './styles/RspecReportPieChart.css';
+
+const formatTooltip = ({ datasetIndex, index }, { datasets, labels }) => {
+  const label = labels[index];
+  const value = datasets[datasetIndex].data[index];
+  return `${label}: ${formatDuration(value)}`;
+};
 
 const options = {
   responsive: true,
-  maintainAspectRatio: false,
-  segmentStrokeWidth: 1,
-  percentageInnerCutout: 15,
-  animateRotate: false,
-  tooltipFillColor: 'rgba(255,165,91,0.8)',
-  tooltipTemplate: v => (`${v.label}: ${formatDuration(v.value)}`),
+  maintainAspectRatio: true,
+  tooltips: {
+    callbacks: { label: formatTooltip },
+    bodyFontSize: 14,
+    backgroundColor: 'rgba(255,165,91,0.8)',
+  },
+  legend: {
+    display: false,
+    position: 'bottom',
+  },
 };
-
-const colors = getColors();
 
 /* eslint-disable arrow-body-style */
 const groupByFeatures = (examples) => {
@@ -30,22 +38,16 @@ const countFeatureLength = (examples) => {
 };
 
 const getChartData = (examples) => {
-  let colorIndex = 0;
-  const colorNames = Object.keys(colors);
-  return _.map(groupByFeatures(examples), (featureExamples, feature) => {
-    const color = _.get(colors, `${colorNames[colorIndex]}`);
-    /* eslint-disable no-unused-expressions */
-    colorIndex === colorNames.length - 1 ? colorIndex = 0 : colorIndex += 1;
-    /* eslint-enable no-unused-expressions */
-    return {
-      value: countFeatureLength(featureExamples),
-      color: setOpacity(color, 0.7),
-      highlight: setOpacity(color, 0.8),
-      label: feature,
-    };
+  const data = [];
+  const backgroundColor = [];
+  const labels = [];
+  _.forEach(groupByFeatures(examples), (featureExamples, feature) => {
+    data.push(countFeatureLength(featureExamples));
+    backgroundColor.push(randomColor(0.8));
+    labels.push(feature);
   });
+  return { datasets: [{ data, backgroundColor }], labels };
 };
-/* eslint-enable arrow-body-style */
 
 export default class ReportsFeatureChart extends Component {
   render() {
@@ -54,12 +56,15 @@ export default class ReportsFeatureChart extends Component {
     }
 
     return (
-      <PolarArea
-        data={getChartData(this.props.examples)}
-        options={options}
-        height="320"
-        redraw
-      />
+      <div className={styles.chart}>
+        <h4 className={styles.chartTitle}>Features</h4>
+        <Pie
+          data={getChartData(this.props.examples)}
+          options={options}
+          height={350}
+          redraw
+        />
+      </div>
     );
   }
 }

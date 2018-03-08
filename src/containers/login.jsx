@@ -33,12 +33,14 @@ class Login extends Component {
           <Field
             label="Email"
             name="email"
+            placeholder="Enter your email"
             type="text"
             component={FormField}
           />
           <Field
             label="Password"
             name="password"
+            placeholder="Enter your password"
             type="password"
             component={FormField}
           />

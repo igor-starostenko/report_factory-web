@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Line } from 'react-chartjs';
+import { Line } from 'react-chartjs-2';
 
 export default class LineChart extends Component {
   constructor(state) {
@@ -34,7 +34,7 @@ export default class LineChart extends Component {
         <Line
           data={getChartData(reports, this.state.activeFilter)}
           options={options}
-          height="320"
+          height={320}
         />
         <div className="filters">
           <ul id="chart-pills" className="nav nav-pills ct-orange">

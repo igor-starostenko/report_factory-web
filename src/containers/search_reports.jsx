@@ -21,7 +21,8 @@ class SearchReports extends Component {
   }
 
   componentWillUnmount() {
-    this.resetSearch();
+    this.props.reset('searchReportsForm');
+    this.props.setSearch([]);
   }
 
   onSubmit(searchInput) {

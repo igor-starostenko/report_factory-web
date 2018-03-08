@@ -9,7 +9,8 @@
         "describe": false,
         "it": false,
         "expect": false,
-        "cy": false
+        "cy": false,
+        "test": false
     },
     "rules": {
         "react/prop-types": "off",

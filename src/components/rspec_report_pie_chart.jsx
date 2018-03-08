@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Pie } from 'react-chartjs';
-import { getColors, setOpacity } from '../helpers/chart_helpers';
-// import styles from './styles/RspecReportPieChart.css';
+import { Pie } from 'react-chartjs-2';
+import { getColors } from '../helpers/chart_helpers';
+import styles from './styles/RspecReportPieChart.css';
+
+const formatTooltip = ({ index }, { labels }) => (labels[index]);
 
 const options = {
   responsive: true,
-  maintainAspectRatio: false,
-  segmentStrokeWidth: 1,
-  percentageInnerCutout: 15,
-  animateRotate: false,
-  tooltipFillColor: 'rgba(255,165,91,0.8)',
-  tooltipTemplate: '<%= label %>',
+  maintainAspectRatio: true,
+  cutoutPercentage: 60,
+  tooltips: {
+    callbacks: { label: formatTooltip },
+    bodyFontSize: 14,
+    backgroundColor: 'rgba(255,165,91,0.8)',
+  },
+  legend: {
+    display: false,
+    position: 'bottom',
+  },
 };
 
 const colors = getColors();
@@ -25,17 +32,17 @@ const getDataColor = (status) => {
   return colors.red;
 };
 
-const getChartData = examples => (
-  _.map(examples, (example) => {
-    const color = getDataColor(example.status);
-    return {
-      label: example.description,
-      value: example.run_time,
-      color: setOpacity(color, 0.7),
-      highlight: setOpacity(color, 0.8),
-    };
-  }));
-
+const getChartData = (examples) => {
+  const data = [];
+  const backgroundColor = [];
+  const labels = [];
+  _.each((examples), (example) => {
+    data.push(example.run_time);
+    backgroundColor.push(getDataColor(example.status));
+    labels.push(example.description);
+  });
+  return { datasets: [{ data, backgroundColor }], labels };
+};
 
 export default class RspecReportPieChart extends Component {
   render() {
@@ -44,12 +51,15 @@ export default class RspecReportPieChart extends Component {
     }
 
     return (
-      <Pie
-        data={getChartData(this.props.examples)}
-        options={options}
-        height="320"
-        redraw
-      />
+      <div className={styles.chart}>
+        <h4 className={styles.chartTitle}>Examples</h4>
+        <Pie
+          data={getChartData(this.props.examples)}
+          options={options}
+          height={350}
+          redraw
+        />
+      </div>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Bar } from 'react-chartjs';
+import { Bar } from 'react-chartjs-2';
+import { formatDurationString } from '../helpers/format_helpers';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
 
 /* eslint-disable arrow-body-style */
@@ -49,27 +50,41 @@ const getChartData = (reports, displayedNumber) => {
     labels: _.times(displayedNumber, _.constant('')),
     datasets: [
       {
-        fillColor: setAllOpacity(barColors, 0.4),
-        strokeColor: setAllOpacity(barColors, 0.7),
-        highlightFill: setAllOpacity(barColors, 0.6),
-        highlightStroke: setAllOpacity(barColors, 1),
+        backgroundColor: setAllOpacity(barColors, 0.4),
+        borderColor: setAllOpacity(barColors, 0.7),
+        borderWidth: 2,
+        hoverBackgroundColor: setAllOpacity(barColors, 0.6),
+        hoverBorderColor: setAllOpacity(barColors, 1),
         data,
       },
     ],
   };
 };
 
+const formatTooltip = ({ datasetIndex, index }, { datasets }) => {
+  const value = datasets[datasetIndex].data[index];
+  return ` ${formatDurationString(value)}`;
+};
+
 const options = {
-  barStrokeWidth: 2,
-  barValueSpacing: 3,
-  scaleLineWidth: 3,
-  scaleFontFamily: "'Helvetica Neue'",
-  scaleFontSize: 15,
-  scaleShowVerticalLines: false,
   responsive: true,
   maintainAspectRatio: false,
-  tooltipFillColor: 'rgba(255,165,91,0.8)',
-  tooltipTemplate: '<%= value %> seconds',
+  scales: {
+    xAxes: [{
+      gridLines: {
+        display: false,
+      },
+    }],
+  },
+  tooltips: {
+    callbacks: { label: formatTooltip },
+    bodyFontSize: 14,
+    backgroundColor: 'rgba(255,165,91,0.8)',
+  },
+  legend: {
+    display: false,
+    position: 'bottom',
+  },
 };
 
 export default class RspecReportsBar extends Component {
@@ -85,7 +100,7 @@ export default class RspecReportsBar extends Component {
     return (<Bar
       data={getChartData(this.props.reports, this.props.displayCount)}
       options={options}
-      height="350"
+      height={350}
       redraw
     />);
   }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { formatDuration } from '../helpers/format_helpers';
+import { formatDurationString } from '../helpers/format_helpers';
 import { CollapsibleItem } from '../components';
 import styles from './styles/RspecReportExamplesList.css';
 
@@ -25,7 +25,7 @@ export default class RspecReportExamplesList extends Component {
   static renderExampleDetails(example) {
     const details = {
       'Line Number': `${example.file_path}:${example.line_number}`,
-      'Run Time': formatDuration(example.run_time),
+      'Run Time': formatDurationString(example.run_time),
     };
     if (example.pending_message) {
       details['Pending Message'] = example.pending_message;
