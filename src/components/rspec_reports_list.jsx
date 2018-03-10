@@ -34,7 +34,7 @@ export default class RspecReportsList extends Component {
     return _.map(this.props.reports, (report) => {
       const { date, summary } = report.attributes;
       const duration = formatDuration(summary.duration);
-      const created = formatDateAgo(new Date(date.created_at));
+      const created = `${formatDateAgo(new Date(date.created_at))} ago`;
       const status = statusName(summary.failure_count);
       return (
         <Link

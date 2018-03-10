@@ -37,8 +37,12 @@ export const formatDateAgo = (date) => {
 
 /* eslint-disable arrow-body-style */
 export const formatDuration = (seconds) => {
-  return new Date(parseInt(seconds * 1000, 10))
-    .toISOString().substr(14, 5);
+  const date = new Date(parseInt(seconds * 1000, 10));
+  const hours = date.toISOString().substr(11, 2);
+  if (parseInt(hours, 10) > 0) {
+    return '>1 hour';
+  }
+  return date.toISOString().substr(14, 5);
 };
 /* eslint-enable arrow-body-style */
 
