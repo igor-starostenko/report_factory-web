@@ -28,12 +28,20 @@ export const authUser = (xApiKey) => {
   const request = usersClient.authUser(xApiKey);
 
   return {
-    type: LOGIN_SUCCESS,
-    payload: request.then(response => response.json()),
+    type: LOGIN,
+    payload: request,
   };
 };
 
-export const authSuccess = user => ({ type: LOGIN_SUCCESS, payload: user });
+export const authSuccess = request => ({
+  type: LOGIN_SUCCESS,
+  payload: request.json(),
+});
+
+export const authFailure = request => ({
+  type: LOGIN_FAILURE,
+  payload: request.json(),
+});
 
 export const signIn = ({ email, password }) => {
   const request = usersClient.loginUser(email, password);
