@@ -3,7 +3,7 @@ import ApiHelper from './api_helper';
 
 class ApiClient {
   constructor(url) {
-    ApiHelper.verifyUrl(url);
+    // ApiHelper.verifyUrl(url);
     this.baseUrl = ApiHelper.formatUrl(url);
   }
 

@@ -59,10 +59,8 @@ const validate = ({ email, password }) => {
   const errors = {};
 
   if (!email) {
-    errors.email = 'Enter your email address.';
-  }
-
-  if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(email)) {
+    errors.email = 'Enter User email address.';
+  } else if (!/^[^\s@]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(email)) {
     errors.email = 'Email is not valid.';
   }
 

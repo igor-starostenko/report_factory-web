@@ -1,9 +1,10 @@
+const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
   entry: ['babel-polyfill', './src/index.jsx'],
   output: {
-    path: __dirname,
+    path: path.resolve(__dirname, 'public'),
     publicPath: '/',
     filename: 'bundle.js',
   },
@@ -51,7 +52,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        API_URL: JSON.stringify(process.env.API_URL || 'http://0.0.0.0:3000/'),
+        API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
     new webpack.SourceMapDevToolPlugin({
@@ -61,7 +62,7 @@ module.exports = {
   devServer: {
     port: 3001,
     historyApiFallback: true,
-    contentBase: './',
+    contentBase: './public',
     inline: true,
   },
 };
