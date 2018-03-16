@@ -6,5 +6,5 @@ tags
 .env
 
 /node_modules
-/bundle.js
-/report_factory.js.map
+/public/bundle.js
+/public/report_factory.js.map
