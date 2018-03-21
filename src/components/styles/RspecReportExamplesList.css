@@ -38,6 +38,7 @@
 .exampleDetailsParam {
   font-weight: 600;
   display: inline-block;
+  vertical-align: top;
 }
 
 .exampleDetailsValue {

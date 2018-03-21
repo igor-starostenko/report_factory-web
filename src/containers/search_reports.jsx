@@ -9,7 +9,7 @@ const formatTags = (tags) => {
   if (_.isEmpty(tags)) {
     return { tags: [] };
   }
-  const noSpecialCharsString = tags.replace(/[^\w\s]/gi, '');
+  const noSpecialCharsString = tags.replace(/[^\-\w\s]/gi, '');
   return { tags: _.split(noSpecialCharsString, ' ') };
 };
 
