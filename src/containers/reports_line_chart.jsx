@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { LineChart } from '../components';
 import { getProjectReports } from '../actions/project_reports_actions';
 import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth,
-  reportsCreatedDates } from '../helpers/chart_helpers';
+  reportsCreatedDates, validateInteger } from '../helpers/chart_helpers';
 
 const parseDate = report => _.get(report, 'attributes.date.created_at');
 
@@ -69,7 +69,10 @@ const chartOptions = {
   maintainAspectRatio: false,
   scales: {
     yAxes: [{
-      ticks: { beginAtZero: true },
+      ticks: {
+         beginAtZero: true,
+         callback: validateInteger,
+       },
     }],
   },
   tooltips: {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { Bar } from 'react-chartjs-2';
 import { formatDurationString } from '../helpers/format_helpers';
-import { getColors, setOpacity } from '../helpers/chart_helpers';
+import { getColors, setOpacity, validateInteger } from '../helpers/chart_helpers';
 
 /* eslint-disable arrow-body-style */
 const lastReports = (reports, number) => {
@@ -74,6 +74,13 @@ const options = {
       gridLines: {
         display: false,
       },
+    }],
+    yAxes: [{
+        display: true,
+        ticks: {
+            beginAtZero: true,
+            callback: validateInteger,
+        }
     }],
   },
   tooltips: {
