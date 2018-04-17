@@ -48,20 +48,20 @@ class UpdatePasswordForm extends Component {
 const validate = ({ password, confirm }) => {
   const errors = {};
 
-  if (!/\w{8,105}$/.test(password)) {
-    errors.password = 'Password must be between 8 and 105 characters long.';
+  if (!/(?=.*[A-Z])/.test(password)) {
+    errors.password = 'Password needs to have at least one upper case letter.';
   }
 
   if (!/(?=.*[a-z])/.test(password)) {
     errors.password = 'Password needs to have at least one lower case letter.';
   }
 
-  if (!/(?=.*[A-Z])/.test(password)) {
-    errors.password = 'Password needs to have at least one upper case letter.';
-  }
-
   if (!/(?=.*\d)/.test(password)) {
     errors.password = 'Password needs to have at least one digit.';
+  }
+
+  if (!/[^.]{8,105}$/.test(password)) {
+    errors.password = 'Password must be between 8 and 105 characters long.';
   }
 
   if (password !== confirm) {
