@@ -140,7 +140,7 @@
     width: 30rem;
   }
 
-  .filters {
+  .projectReportsListButtons > .filters {
     display: flex;
   }
 
