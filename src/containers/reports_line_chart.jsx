@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { LineChart } from '../components';
 import { getProjectReports } from '../actions/project_reports_actions';
-import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth,
-  reportsCreatedDates, validateInteger } from '../helpers/chart_helpers';
+import { getColors, lastDays, lastMonths, formatDates, reportsPerDay,
+  reportsPerMonth, reportsCreatedDates, setOpacity, validateInteger } from '../helpers/chart_helpers';
 
 const parseDate = report => _.get(report, 'attributes.date.created_at');
 
@@ -18,25 +18,41 @@ const dataForMonths = (reports, dates) => {
   return reportsPerMonth(dates, reportsDates);
 };
 
+const filterByStatus = (reports, status) => {
+  return _.filter(reports, (report) => {
+    return _.get(report, 'attributes.status') === status;
+  });
+};
+
+const colors = getColors();
+
 const getChartData = (reports, activeFilter) => {
   let units;
   let labels;
-  let data;
+  let totalData;
+  let failedReports;
+  let failedData;
   switch (activeFilter) {
     case 'Week':
       units = lastDays(8);
       labels = formatDates(units);
-      data = dataForDays(reports, units);
+      totalData = dataForDays(reports, units);
+      failedReports = filterByStatus(reports, 'failed');
+      failedData = dataForDays(failedReports, units);
       break;
     case 'Month':
       units = lastDays(32);
       labels = formatDates(units);
-      data = dataForDays(reports, units);
+      totalData = dataForDays(reports, units);
+      failedReports = filterByStatus(reports, 'failed');
+      failedData = dataForDays(failedReports, units);
       break;
     case 'Year':
       units = lastMonths(12);
       labels = formatDates(units, { month: 'short' });
-      data = dataForMonths(reports, units);
+      totalData = dataForMonths(reports, units);
+      failedReports = filterByStatus(reports, 'failed');
+      failedData = dataForMonths(failedReports, units);
       break;
     default: throw new Error(`Filter ${activeFilter} not supported`);
   }
@@ -45,23 +61,48 @@ const getChartData = (reports, activeFilter) => {
     labels,
     datasets: [
       {
-        backgroundColor: 'rgba(255,212,91,0.4)',
-        borderColor: 'rgba(255,165,91,0.8)',
-        pointBackgroundColor: 'rgba(255,165,91,0.9)',
+        label: 'Failed',
+        fill: 'origin',
+        backgroundColor: setOpacity(colors.red, 0.4),
+        borderColor: setOpacity(colors.red, 0.8),
+        pointBackgroundColor: setOpacity(colors.red, 0.9),
         pointBorderColor: '#fff',
-        pointHoverBackgroundColor: 'rgba(255,165,91,1)',
-        data,
+        pointHoverBackgroundColor: colors.red,
+        data: failedData,
+      },
+      {
+        label: 'Passed',
+        fill: '-1',
+        backgroundColor: setOpacity(colors.green, 0.4),
+        borderColor: setOpacity(colors.green, 0.8),
+        pointBackgroundColor: setOpacity(colors.green, 0.9),
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: colors.green,
+        data: totalData,
       },
     ],
   };
 };
 
 const formatTooltip = ({ datasetIndex, index }, { datasets }) => {
-  const value = datasets[datasetIndex].data[index];
-  if (value !== 1) {
-    return ` ${value} reports`;
+  const dataset = datasets[datasetIndex];
+  const number = dataset.data[index];
+  const label = dataset.label;
+  if (number !== 1) {
+    return ` ${number} ${label} reports`;
   }
-  return ' 1 report';
+  return ` 1 ${label} report`;
+};
+
+const ensureNotFailed = ({ dataasetIndex, index }, { datasets }) => {
+  const dataset = datasets[datasetIndex];
+  const number = dataset.data[index];
+  const label = dataset.label;
+  console.log(label);
+  if (number === 0 && label === 'Failed') {
+    return false;
+  }
+  return true;
 };
 
 const chartOptions = {
@@ -69,6 +110,7 @@ const chartOptions = {
   maintainAspectRatio: false,
   scales: {
     yAxes: [{
+      stacked: true,
       ticks: {
          beginAtZero: true,
          callback: validateInteger,
@@ -76,14 +118,17 @@ const chartOptions = {
     }],
   },
   tooltips: {
-    callbacks: { label: formatTooltip },
+    callbacks: {
+      enabled: ensureNotFailed,
+      label: formatTooltip,
+    },
+    mode: 'point',
     bodyFontSize: 14,
     backgroundColor: 'rgba(255,165,91,0.8)',
   },
   legend: {
-    display: false,
-    position: 'bottom',
-  },
+    reverse: true,
+  }
 };
 
 class ReportsLineChart extends Component {
