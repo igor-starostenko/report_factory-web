@@ -4,6 +4,9 @@ const lastDate = (dateType, number) => {
   const result = [];
   for (let i = number - 1; i >= 0; i -= 1) {
     const d = new Date();
+    if (dateType === 'Month') {
+      d.setDate(1);
+    }
     const date = d[`set${dateType}`](d[`get${dateType}`]() - i);
     result.push(new Date(date));
   }
