@@ -94,17 +94,6 @@ const formatTooltip = ({ datasetIndex, index }, { datasets }) => {
   return ` 1 ${label} report`;
 };
 
-const ensureNotFailed = ({ dataasetIndex, index }, { datasets }) => {
-  const dataset = datasets[datasetIndex];
-  const number = dataset.data[index];
-  const label = dataset.label;
-  console.log(label);
-  if (number === 0 && label === 'Failed') {
-    return false;
-  }
-  return true;
-};
-
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
@@ -119,9 +108,9 @@ const chartOptions = {
   },
   tooltips: {
     callbacks: {
-      enabled: ensureNotFailed,
       label: formatTooltip,
     },
+    itemSort: (a, b) => a.datasetIndex > b.datasetIndex ? -1 : 1,
     mode: 'point',
     bodyFontSize: 14,
     backgroundColor: 'rgba(255,165,91,0.8)',
