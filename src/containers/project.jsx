@@ -2,16 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from '../components';
+import _ from 'lodash';
 import ReportsLineChart from './reports_line_chart';
 import { getProject, resetProject } from '../actions/projects_actions';
+import { getProjectScenarios } from '../actions/project_scenarios_actions';
 import { formatDate } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 
 class Project extends Component {
   componentDidMount() {
-    if (!this.props.project.data) {
-      const { xApiKey, projectName } = this.props;
+    const { xApiKey, projectName, project, scenarios } = this.props;
+    if (!project.data) {
       this.props.getProject(projectName, xApiKey);
+    }
+    if (!scenarios || _.isEmpty(scenarios)) {
+      this.props.getProjectScenarios(projectName, xApiKey);
     }
   }
 
@@ -52,7 +57,8 @@ class Project extends Component {
 const mapStateToProps = (state, ownProps) => ({
   projectName: ownProps.match.params.name,
   project: state.projects.activeProject,
+  scenarios: state.projectScenarios.scenariosList.data[ownProps.match.params.name],
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getProject, resetProject })(Project);
+export default connect(mapStateToProps, { getProject, getProjectScenarios, resetProject })(Project);
