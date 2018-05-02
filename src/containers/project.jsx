@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button } from '../components';
+import { Button, ScenariosList } from '../components';
 import _ from 'lodash';
 import ReportsLineChart from './reports_line_chart';
 import { getProject, resetProject } from '../actions/projects_actions';
@@ -47,6 +47,10 @@ class Project extends Component {
           <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           <div className={styles.detailsContent}>
             <ReportsLineChart projectName={projectName} />
+          </div>
+          <div className={styles.detailsExtraContent}>
+            <div className={styles.detailsSubHeader}>Scenarios:</div>
+            <ScenariosList scenarios={this.props.scenarios} />
           </div>
         </div>
       </div>
