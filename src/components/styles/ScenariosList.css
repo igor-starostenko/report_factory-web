@@ -52,6 +52,17 @@
   display: inline-block;
 }
 
+.scenarioListButtons {
+}
+
+.scenarioListButtons > .filters {
+  display: inline-block;
+}
+
+.scenarioPagination {
+  display: inline-block;
+}
+
 .scenarioDetailsValue > p {
   margin-bottom: 0;
   font-size: .8em;

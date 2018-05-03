@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { CollapsibleItem, Pagination } from '../components';
+import { CollapsibleItem, FilterButton, Pagination } from '../components';
 import { formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import styles from './styles/ScenariosList.css';
 
@@ -19,15 +19,49 @@ export default class ScenariosList extends Component {
     super(state);
     this.state = { page: 1, perPage: 10 };
     this.setPage = this.setPage.bind(this);
+    this.setPerPage = this.setPerPage.bind(this);
   }
 
   setPage({ page }) {
     this.setState({ page });
   }
 
+  setPerPage({ perPage }) {
+    this.setState({ perPage });
+  }
+
+  activeFilter(number) {
+    return this.state.perPage === number;
+  }
+
+  renderFilterButtons() {
+    const totalCount = this.props.scenarios.total_count;
+    if (!this.props.scenarios || totalCount <= 10) {
+      return (<div />);
+    }
+    return (
+      <div className="filters">
+        <ul id="chart-pills" className="nav nav-pills ct-orange">
+          <FilterButton
+            name="30 Per Page"
+            value={{ perPage: 30 }}
+            active={this.activeFilter(30)}
+            action={this.setPerPage}
+          />
+          <FilterButton
+            name="10 Per Page"
+            value={{ perPage: 10 }}
+            active={this.activeFilter(10)}
+            action={this.setPerPage}
+          />
+        </ul>
+      </div>
+    );
+  }
+
   renderScenarios() {
     let childKey = 0;
-    const startIndex = this.state.page * this.state.perPage - 10;
+    const startIndex = this.state.page * this.state.perPage - this.state.perPage;
     const endIndex = startIndex + this.state.perPage;
     const { examples } = this.props.scenarios;
     const pageScenarios = examples.slice(startIndex, endIndex);
@@ -64,14 +98,15 @@ export default class ScenariosList extends Component {
           <div className={styles.listGroup}>
             {this.renderScenarios()}
           </div>
-          <div>
+          <div className={styles.scenarioListButtons}>
             <Pagination
-              className={styles.projectReportsPagination}
+              className={styles.scenarioPagination}
               page={this.state.page}
               perPage={this.state.perPage}
               total={totalCount}
               action={this.setPage}
             />
+            {this.renderFilterButtons()}
           </div>
         </div>
       </div>
