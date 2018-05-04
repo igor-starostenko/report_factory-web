@@ -27,6 +27,12 @@ export default class ScenariosList extends Component {
   }
 
   setPerPage({ perPage }) {
+    let newState;
+    const totalCount = this.props.scenarios.total_count;
+    const totalPages = _.ceil(totalCount / perPage);
+    if (totalPages < this.state.page) {
+      return this.setState({ page: totalPages, perPage });
+    }
     this.setState({ perPage });
   }
 
@@ -59,13 +65,16 @@ export default class ScenariosList extends Component {
     );
   }
 
-  renderScenarios() {
-    let childKey = 0;
+  slicePageScenarios() {
     const startIndex = this.state.page * this.state.perPage - this.state.perPage;
     const endIndex = startIndex + this.state.perPage;
     const { examples } = this.props.scenarios;
-    const pageScenarios = examples.slice(startIndex, endIndex);
-    return _.map(pageScenarios, (scenario) => {
+    return examples.slice(startIndex, endIndex);
+  }
+
+  renderScenarios() {
+    let childKey = 0;
+    return _.map(this.slicePageScenarios(), (scenario) => {
       childKey += 1;
       const status = statusName(scenario.last_status);
       // details={this.constructor.renderExampleDetails(example)}
