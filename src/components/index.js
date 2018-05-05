@@ -10,6 +10,7 @@ import LineChart from './line_chart';
 import NotFound from './not_found';
 import Pagination from './pagination';
 import PaginationNumber from './pagination_number';
+import PerPageFilter from './per_page_filter';
 import ReportsSuccessChart from './reports_success_chart';
 import RspecFeatureChart from './rspec_feature_chart';
 import RspecReportDetails from './rspec_report_details';
@@ -20,7 +21,8 @@ import RspecReportsList from './rspec_reports_list';
 import ScenariosList from './scenarios_list';
 import UserReportsLineChart from './user_reports_line_chart';
 
-export { App, Button, CollapsibleItem, ConfirmModal, FilterButton, FormErrors, FormField,
-  FormRadio, LineChart, NotFound, Pagination, PaginationNumber, RspecFeatureChart,
-  RspecReportDetails, ReportsSuccessChart, RspecReportsList, RspecReportExamplesList,
-  RspecReportsBar, RspecReportPieChart, ScenariosList, UserReportsLineChart };
+export { App, Button, CollapsibleItem, ConfirmModal, PerPageFilter, FilterButton,
+  FormErrors, FormField, FormRadio, LineChart, NotFound, Pagination, PaginationNumber,
+  RspecFeatureChart, RspecReportDetails, ReportsSuccessChart, RspecReportsList,
+  RspecReportExamplesList, RspecReportsBar, RspecReportPieChart, ScenariosList,
+  UserReportsLineChart };

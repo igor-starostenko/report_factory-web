@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { CollapsibleItem, FilterButton, Pagination } from '../components';
+import { CollapsibleItem, PerPageFilter, Pagination } from '../components';
 import { formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import styles from './styles/ScenariosList.css';
 
@@ -28,41 +28,11 @@ export default class ScenariosList extends Component {
 
   setPerPage({ perPage }) {
     let newState;
-    const totalCount = this.props.scenarios.total_count;
-    const totalPages = _.ceil(totalCount / perPage);
+    const totalPages = _.ceil(this.fetchTotalCount() / perPage);
     if (totalPages < this.state.page) {
       return this.setState({ page: totalPages, perPage });
     }
     this.setState({ perPage });
-  }
-
-  activeFilter(number) {
-    return this.state.perPage === number;
-  }
-
-  renderFilterButtons() {
-    const totalCount = this.props.scenarios.total_count;
-    if (!this.props.scenarios || totalCount <= 10) {
-      return (<div />);
-    }
-    return (
-      <div className="filters">
-        <ul id="chart-pills" className="nav nav-pills ct-orange">
-          <FilterButton
-            name="30 Per Page"
-            value={{ perPage: 30 }}
-            active={this.activeFilter(30)}
-            action={this.setPerPage}
-          />
-          <FilterButton
-            name="10 Per Page"
-            value={{ perPage: 10 }}
-            active={this.activeFilter(10)}
-            action={this.setPerPage}
-          />
-        </ul>
-      </div>
-    );
   }
 
   slicePageScenarios() {
@@ -70,6 +40,10 @@ export default class ScenariosList extends Component {
     const endIndex = startIndex + this.state.perPage;
     const { examples } = this.props.scenarios;
     return examples.slice(startIndex, endIndex);
+  }
+
+  fetchTotalCount() {
+    return this.props.scenarios.total_count;
   }
 
   renderScenarios() {
@@ -97,7 +71,7 @@ export default class ScenariosList extends Component {
       return (<div className="loading">Have not submitted any scenarios yet.</div>);
     }
 
-    const totalCount = this.props.scenarios.total_count;
+    const totalCount = this.fetchTotalCount();
 
     return (
       <div>
@@ -115,7 +89,13 @@ export default class ScenariosList extends Component {
               total={totalCount}
               action={this.setPage}
             />
-            {this.renderFilterButtons()}
+            <PerPageFilter
+              items={this.props.scenarios}
+              totalCount={totalCount}
+              buttons={[30,10]}
+              perPage={this.state.perPage}
+              action={this.setPerPage}
+            />
           </div>
         </div>
       </div>
