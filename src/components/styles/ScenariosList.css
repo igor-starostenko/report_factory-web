@@ -34,6 +34,25 @@
   font-size: 1.0em;
 }
 
+.scenarioExtendedDetails {
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+}
+
+.scenarioTextDetails {
+  grid-column: 1 / 8;
+  height: 100%;
+  position: relative;
+}
+
+.scenarioSuccessChart {
+  grid-column: 8 / -1;
+  height: 8rem;
+  position: relative;
+}
+
 .scenarioDetailsRow {
   margin-left: 1rem;
   line-height: 1.5em;

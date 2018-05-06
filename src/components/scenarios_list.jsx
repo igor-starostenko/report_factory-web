@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { CollapsibleItem, PerPageFilter, Pagination } from '../components';
+import { CollapsibleItem, PerPageFilter, Pagination, ScenarioSuccessChart } from '../components';
 import { formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import styles from './styles/ScenariosList.css';
 
@@ -22,6 +22,15 @@ const dateAgoString = (dateString) => {
 }
 
 export default class ScenariosList extends Component {
+  static renderScenarioTexDetails(details) {
+    return _.map(details, (value, key) => (
+      <div className={styles.scenarioDetailsRow} key={key}>
+        <div className={styles.scenarioDetailsParam}>{key}:</div>
+        <div className={styles.scenarioDetailsValue}>{value}</div>
+      </div>
+    ));
+  }
+
   static renderScenarioDetails(scenario) {
     const details = {
       'Total Runs': scenario.total_runs,
@@ -29,12 +38,16 @@ export default class ScenariosList extends Component {
       'Last Passed': dateAgoString(scenario.last_passed),
       'Last Failed': dateAgoString(scenario.last_failed),
     };
-    return _.map(details, (value, key) => (
-      <div className={styles.scenarioDetailsRow} key={key}>
-        <div className={styles.scenarioDetailsParam}>{key}:</div>
-        <div className={styles.scenarioDetailsValue}>{value}</div>
+    return (
+      <div className={styles.scenarioExtendedDetails}>
+        <div className={styles.scenarioTextDetails}>
+          {this.renderScenarioTexDetails(details)}
+        </div>
+        <div className={styles.scenarioSuccessChart}>
+          <ScenarioSuccessChart scenario={scenario} />
+        </div>
       </div>
-    ));
+    );
   }
 
   constructor(state) {

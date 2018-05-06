@@ -19,10 +19,11 @@ import RspecReportPieChart from './rspec_report_pie_chart';
 import RspecReportsBar from './rspec_reports_bar';
 import RspecReportsList from './rspec_reports_list';
 import ScenariosList from './scenarios_list';
+import ScenarioSuccessChart from './scenario_success_chart';
 import UserReportsLineChart from './user_reports_line_chart';
 
 export { App, Button, CollapsibleItem, ConfirmModal, PerPageFilter, FilterButton,
   FormErrors, FormField, FormRadio, LineChart, NotFound, Pagination, PaginationNumber,
   RspecFeatureChart, RspecReportDetails, ReportsSuccessChart, RspecReportsList,
-  RspecReportExamplesList, RspecReportsBar, RspecReportPieChart, ScenariosList,
-  UserReportsLineChart };
+  RspecReportExamplesList, RspecReportsBar, RspecReportPieChart, ScenarioSuccessChart,
+  ScenariosList, UserReportsLineChart };
