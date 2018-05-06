@@ -13,12 +13,6 @@
   grid-column: 1 / 7;
 }
 
-.detailsSubHeader {
-  margin-top: 1.5rem;
-  font-size: 36px;
-  font-weight: 400;
-}
-
 .detailsName {
   font-size: 52px;
   font-weight: 400;

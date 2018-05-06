@@ -10,13 +10,16 @@
 .scenariosListHeader {
   font-size: 36px;
   font-weight: 400;
-  grid-column: 1 / 7;
+  grid-column: 1 / 5;
 }
 
 .scenariosSearch {
-  grid-column: 7 / -1;
+  grid-row: 1 / 1;
+  grid-column: 5 / -1;
   margin-top: auto;
-  margin-bottom: .8rem;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  margin-bottom: .4rem;
 }
 
 .scenariosDescription {

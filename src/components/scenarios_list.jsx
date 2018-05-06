@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { CollapsibleItem, PerPageFilter, Pagination, ScenarioSuccessChart } from '../components';
+import { CollapsibleItem, PerPageFilter, Pagination,
+   ScenarioSuccessChart, SearchScenarios } from '../components';
 import { capitalizeFirstLetter, formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import styles from './styles/ScenariosList.css';
 
@@ -127,29 +128,30 @@ export default class ScenariosList extends Component {
     const totalCount = this.fetchTotalCount();
 
     return (
-      <div>
+      <div className={styles.scenariosList}>
+        <div className={styles.scenariosListHeader}>Scenarios</div>
         <div className={styles.scenariosDescription}>{`Total: ${totalCount}`}</div>
-        <br />
-        <div className={styles.scenariosList}>
-          <div className={styles.listGroup}>
-            {this.renderScenarios()}
-          </div>
-          <div className={styles.scenarioListButtons}>
-            <Pagination
-              className={styles.scenarioPagination}
-              page={this.state.page}
-              perPage={this.state.perPage}
-              total={totalCount}
-              action={this.setPage}
-            />
-            <PerPageFilter
-              items={this.props.scenarios}
-              totalCount={totalCount}
-              buttons={[30,10]}
-              perPage={this.state.perPage}
-              action={this.setPerPage}
-            />
-          </div>
+        <div className={styles.scenariosSearch}>
+          <SearchScenarios search={this.state.scenarios} />
+        </div>
+        <div className={styles.scenarios}>
+          {this.renderScenarios()}
+        </div>
+        <div className={styles.scenarioListButtons}>
+          <Pagination
+            className={styles.scenarioPagination}
+            page={this.state.page}
+            perPage={this.state.perPage}
+            total={totalCount}
+            action={this.setPage}
+          />
+          <PerPageFilter
+            items={this.props.scenarios}
+            totalCount={totalCount}
+            buttons={[30,10]}
+            perPage={this.state.perPage}
+            action={this.setPerPage}
+          />
         </div>
       </div>
     );
