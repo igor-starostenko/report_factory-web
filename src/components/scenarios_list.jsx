@@ -14,7 +14,29 @@ const statusName = (status) => {
   return 'pendingScenario';
 };
 
+const dateAgoString = (dateString) => {
+  if (!dateString) {
+    return 'Never';
+  }
+  return `${formatDateAgo(new Date(dateString))} ago`;
+}
+
 export default class ScenariosList extends Component {
+  static renderScenarioDetails(scenario) {
+    const details = {
+      'Total Runs': scenario.total_runs,
+      'Last Run': dateAgoString(scenario.last_run),
+      'Last Passed': dateAgoString(scenario.last_passed),
+      'Last Failed': dateAgoString(scenario.last_failed),
+    };
+    return _.map(details, (value, key) => (
+      <div className={styles.scenarioDetailsRow} key={key}>
+        <div className={styles.scenarioDetailsParam}>{key}:</div>
+        <div className={styles.scenarioDetailsValue}>{value}</div>
+      </div>
+    ));
+  }
+
   constructor(state) {
     super(state);
     this.state = { page: 1, perPage: 10 };
@@ -51,11 +73,11 @@ export default class ScenariosList extends Component {
     return _.map(this.slicePageScenarios(), (scenario) => {
       childKey += 1;
       const status = statusName(scenario.last_status);
-      // details={this.constructor.renderExampleDetails(example)}
       return (
         <CollapsibleItem
           className={`${styles.scenario} ${styles[status]}`}
           title={scenario.name}
+          details={this.constructor.renderScenarioDetails(scenario)}
           key={childKey}
         />
       );
