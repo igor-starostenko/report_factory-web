@@ -21,6 +21,15 @@ const dateAgoString = (dateString) => {
   return `${formatDateAgo(new Date(dateString))} ago`;
 }
 
+const numberOfExamples = (number) => {
+  if (!number || number === 0) {
+    return `No examples`;
+  } else if (number === 1) {
+    return '1 example';
+  }
+  return `${number} examples`;
+}
+
 export default class ScenariosList extends Component {
   static renderScenarioTexDetails(details) {
     return _.map(details, (value, key) => (
@@ -32,16 +41,24 @@ export default class ScenariosList extends Component {
   }
 
   static renderScenarioDetails(scenario) {
-    const details = {
+    const firstColumnDetails = {
       'Total Runs': scenario.total_runs,
       'Last Run': dateAgoString(scenario.last_run),
       'Last Passed': dateAgoString(scenario.last_passed),
       'Last Failed': dateAgoString(scenario.last_failed),
     };
+    const secondColumnDetails = {
+      'Passed': numberOfExamples(scenario.total_passed),
+      'Failed': numberOfExamples(scenario.total_failed),
+      'Pending': numberOfExamples(scenario.total_pending),
+    };
     return (
       <div className={styles.scenarioExtendedDetails}>
-        <div className={styles.scenarioTextDetails}>
-          {this.renderScenarioTexDetails(details)}
+        <div className={styles.scenarioPrimaryDetails}>
+          {this.renderScenarioTexDetails(firstColumnDetails)}
+        </div>
+        <div className={styles.scenarioSecondaryDetails}>
+          {this.renderScenarioTexDetails(secondColumnDetails)}
         </div>
         <div className={styles.scenarioSuccessChart}>
           <ScenarioSuccessChart scenario={scenario} />
