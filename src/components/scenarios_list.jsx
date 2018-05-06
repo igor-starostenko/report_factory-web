@@ -71,9 +71,10 @@ export default class ScenariosList extends Component {
 
   constructor(state) {
     super(state);
-    this.state = { page: 1, perPage: 10 };
+    this.state = { page: 1, perPage: 10, search: [] };
     this.setPage = this.setPage.bind(this);
     this.setPerPage = this.setPerPage.bind(this);
+    this.setSearch = this.setSearch.bind(this);
   }
 
   setPage({ page }) {
@@ -82,27 +83,41 @@ export default class ScenariosList extends Component {
 
   setPerPage({ perPage }) {
     let newState;
-    const totalPages = _.ceil(this.fetchTotalCount() / perPage);
+    const totalPages = _.ceil(this.filterScenarios().length / perPage);
     if (totalPages < this.state.page) {
       return this.setState({ page: totalPages, perPage });
     }
     this.setState({ perPage });
   }
 
-  slicePageScenarios() {
+  setSearch({ search }) {
+    this.setState({ search });
+  }
+
+  slicePageScenarios(scenarios) {
     const startIndex = this.state.page * this.state.perPage - this.state.perPage;
     const endIndex = startIndex + this.state.perPage;
-    const { examples } = this.props.scenarios;
-    return examples.slice(startIndex, endIndex);
+    return scenarios.slice(startIndex, endIndex);
+  }
+
+  filterScenarios() {
+    return _.filter(this.props.scenarios.examples, (scenario) => {
+       return _.every(this.state.search, (word) => {
+         return scenario.name.indexOf(word) !== -1;
+       });
+    });
   }
 
   fetchTotalCount() {
     return this.props.scenarios.total_count;
   }
 
-  renderScenarios() {
+  renderScenarios(scenarios) {
+    if (_.isEmpty(scenarios)) {
+      return (<div className="loading">No scenarios found</div>);
+    }
     let childKey = 0;
-    return _.map(this.slicePageScenarios(), (scenario) => {
+    return _.map(this.slicePageScenarios(scenarios), (scenario) => {
       childKey += 1;
       const status = statusName(scenario.last_status);
       return (
@@ -125,17 +140,21 @@ export default class ScenariosList extends Component {
       return (<div className="loading">Have not submitted any scenarios yet.</div>);
     }
 
-    const totalCount = this.fetchTotalCount();
+    const filteredScenarios = this.filterScenarios();
+    const totalCount = filteredScenarios.length;
 
     return (
       <div className={styles.scenariosList}>
         <div className={styles.scenariosListHeader}>Scenarios</div>
         <div className={styles.scenariosDescription}>{`Total: ${totalCount}`}</div>
         <div className={styles.scenariosSearch}>
-          <SearchScenarios search={this.state.scenarios} />
+          <SearchScenarios
+            search={this.state.search}
+            action={this.setSearch}
+          />
         </div>
         <div className={styles.scenarios}>
-          {this.renderScenarios()}
+          {this.renderScenarios(filteredScenarios)}
         </div>
         <div className={styles.scenarioListButtons}>
           <Pagination
@@ -146,7 +165,7 @@ export default class ScenariosList extends Component {
             action={this.setPage}
           />
           <PerPageFilter
-            items={this.props.scenarios}
+            items={filteredScenarios}
             totalCount={totalCount}
             buttons={[30,10]}
             perPage={this.state.perPage}

@@ -14,7 +14,7 @@ const formatWords = (words) => {
 export default class SearchScenarios extends Component {
   constructor(props) {
     super(props);
-    this.state = { search: [], inputValue: '' }
+    this.state = { inputValue: '' }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.resetSearch = this.resetSearch.bind(this);
     this.updateInputValue = this.updateInputValue.bind(this);
@@ -22,11 +22,12 @@ export default class SearchScenarios extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.setState({ search: formatWords(this.state.inputValue) });
+    this.props.action({ search: formatWords(this.state.inputValue) });
   }
 
   resetSearch() {
-    this.setState({ search: [], inputValue: '' });
+    this.props.action({ search: [] });
+    this.setState({ inputValue: '' });
   }
 
   updateInputValue(words) {
@@ -34,7 +35,7 @@ export default class SearchScenarios extends Component {
   }
 
   render() {
-    const hasSearchWords = !_.isEmpty(this.state.search) || this.state.inputValue;
+    const hasSearchWords = !_.isEmpty(this.props.search) || this.state.inputValue;
     const cancelClass = hasSearchWords ? 'cancelEnabled' : 'cancelHidden';
     return (
       <form
