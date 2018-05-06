@@ -1,16 +1,36 @@
+.scenariosList {
+  margin-top: 1.5rem;
+  height: 100%;
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 50px 20px auto auto;
+}
+
+.scenariosListHeader {
+  font-size: 36px;
+  font-weight: 400;
+  grid-column: 1 / 7;
+}
+
+.scenariosSearch {
+  grid-column: 7 / -1;
+  margin-top: auto;
+  margin-bottom: .8rem;
+}
+
 .scenariosDescription {
+  grid-column: 1 / 7;
   font-style: italic;
   margin-left: .5em;
 }
 
-.scenariosHeader {
-  margin-top: 1.5rem;
-  font-size: 36px;
-  font-weight: 400;
+.scenarios {
+  grid-column: 1 / -1;
 }
 
-.reportscenariosList {
-  padding: 1.5rem;
+.scenarioListButtons {
+  grid-column: 1 / -1;
 }
 
 .scenario {
