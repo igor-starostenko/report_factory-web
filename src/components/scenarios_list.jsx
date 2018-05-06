@@ -103,7 +103,8 @@ export default class ScenariosList extends Component {
   filterScenarios() {
     return _.filter(this.props.scenarios.examples, (scenario) => {
        return _.every(this.state.search, (word) => {
-         return scenario.name.indexOf(word) !== -1;
+         const scenarioName = scenario.name.toLowerCase();
+         return scenarioName.indexOf(word.toLowerCase()) !== -1;
        });
     });
   }

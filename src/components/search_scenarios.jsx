@@ -3,12 +3,12 @@ import _ from 'lodash';
 import { Button } from '../components';
 import styles from './styles/SearchBar.css';
 
-const formatWords = (words) => {
-  if (_.isEmpty(words)) {
+const formatWords = (string) => {
+  if (_.isEmpty(string)) {
     return [];
   }
-  const noSpecialCharsString = words.replace(/[^\-\w\s]/gi, '');
-  return _.split(noSpecialCharsString, ' ');
+  const words = _.split(string, ' ');
+  return _.filter(words, (word) => !_.isEmpty(word));
 };
 
 export default class SearchScenarios extends Component {
