@@ -38,12 +38,11 @@
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: auto;
+  grid-template-rows: 108px;
 }
 
 .scenarioSuccessChart {
   grid-column: 1 / 4;
-  height: 8rem;
   position: relative;
 }
 
@@ -61,7 +60,7 @@
 
 .scenarioDetailsRow {
   margin-left: 1rem;
-  line-height: 1.5em;
+  line-height: 1.65em;
   font-size: 1em;
 }
 
@@ -104,7 +103,7 @@
 
 @media only screen and (max-width: 767px) {
   .scenarioExtendedDetails {
-    grid-template-rows: auto auto;
+    grid-template-rows: 96px auto;
   }
 
   .scenarioSuccessChart {
