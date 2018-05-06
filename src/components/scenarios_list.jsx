@@ -43,25 +43,25 @@ export default class ScenariosList extends Component {
   static renderScenarioDetails(scenario) {
     const firstColumnDetails = {
       'Total Runs': scenario.total_runs,
-      'Last Run': dateAgoString(scenario.last_run),
-      'Last Passed': dateAgoString(scenario.last_passed),
-      'Last Failed': dateAgoString(scenario.last_failed),
-    };
-    const secondColumnDetails = {
       'Passed': numberOfExamples(scenario.total_passed),
       'Failed': numberOfExamples(scenario.total_failed),
       'Pending': numberOfExamples(scenario.total_pending),
     };
+    const secondColumnDetails = {
+      'Last Run': dateAgoString(scenario.last_run),
+      'Last Passed': dateAgoString(scenario.last_passed),
+      'Last Failed': dateAgoString(scenario.last_failed),
+    };
     return (
       <div className={styles.scenarioExtendedDetails}>
+        <div className={styles.scenarioSuccessChart}>
+          <ScenarioSuccessChart scenario={scenario} />
+        </div>
         <div className={styles.scenarioPrimaryDetails}>
           {this.renderScenarioTexDetails(firstColumnDetails)}
         </div>
         <div className={styles.scenarioSecondaryDetails}>
           {this.renderScenarioTexDetails(secondColumnDetails)}
-        </div>
-        <div className={styles.scenarioSuccessChart}>
-          <ScenarioSuccessChart scenario={scenario} />
         </div>
       </div>
     );
