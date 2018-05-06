@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { CollapsibleItem, PerPageFilter, Pagination, ScenarioSuccessChart } from '../components';
-import { formatDuration, formatDateAgo } from '../helpers/format_helpers';
+import { capitalizeFirstLetter, formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import styles from './styles/ScenariosList.css';
 
 const statusName = (status) => {
@@ -48,6 +48,7 @@ export default class ScenariosList extends Component {
       'Pending': numberOfExamples(scenario.total_pending),
     };
     const secondColumnDetails = {
+      'Status': capitalizeFirstLetter(scenario.last_status),
       'Last Run': dateAgoString(scenario.last_run),
       'Last Passed': dateAgoString(scenario.last_passed),
       'Last Failed': dateAgoString(scenario.last_failed),
