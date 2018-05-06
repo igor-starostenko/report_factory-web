@@ -8,6 +8,12 @@ export default class CollapsibleItem extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentWillUpdate() {
+    if (this.state.expanded) {
+      this.setState({ expanded: false });
+    }
+  }
+
   handleClick() {
     this.setState({ expanded: !this.state.expanded });
   }
