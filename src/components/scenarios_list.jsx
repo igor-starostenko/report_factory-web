@@ -109,10 +109,6 @@ export default class ScenariosList extends Component {
     });
   }
 
-  fetchTotalCount() {
-    return this.props.scenarios.total_count;
-  }
-
   renderScenarios(scenarios) {
     if (_.isEmpty(scenarios)) {
       return (<div className="loading">No scenarios found</div>);
@@ -147,14 +143,14 @@ export default class ScenariosList extends Component {
     return (
       <div className={styles.scenariosList}>
         <div className={styles.scenariosListHeader}>Scenarios</div>
-        <div className={styles.scenariosDescription}>{`Total: ${totalCount}`}</div>
+        <div className={styles.scenariosDescription}>{`Total Scenarios: ${totalCount}`}</div>
         <div className={styles.scenariosSearch}>
           <SearchScenarios
             search={this.state.search}
             action={this.setSearch}
           />
         </div>
-        <div className={styles.scenarios}>
+        <div className={styles.projectScenarios}>
           {this.renderScenarios(filteredScenarios)}
         </div>
         <div className={styles.scenarioListButtons}>

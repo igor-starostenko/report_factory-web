@@ -5,7 +5,7 @@ import { CollapsibleItem, PerPageFilter, Pagination,
    ScenarioSuccessChart, SearchScenarios } from '../components';
 import { capitalizeFirstLetter, formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import { getAllScenarios } from '../actions/project_scenarios_actions';
-import styles from '../components/styles/ScenariosList.css';
+import styles from './styles/Scenarios.css';
 
 const statusName = (status) => {
   if (status === 'failed') {
@@ -139,7 +139,7 @@ class Scenarios extends Component {
   }
 
   render() {
-    if (!this.props.scenarios) {
+    if (_.isEmpty((_.get(this.props.scenarios, 'examples')))) {
       return (<div className="loading">Loading...</div>);
     }
 
@@ -151,33 +151,38 @@ class Scenarios extends Component {
     const totalCount = filteredScenarios.length;
 
     return (
-      <div className={styles.scenariosList}>
-        <div className={styles.scenariosListHeader}>Scenarios</div>
-        <div className={styles.scenariosDescription}>{`Total: ${totalCount}`}</div>
-        <div className={styles.scenariosSearch}>
-          <SearchScenarios
-            search={this.state.search}
-            action={this.setSearch}
-          />
-        </div>
+      <div>
+        <br />
         <div className={styles.scenarios}>
-          {this.renderScenarios(filteredScenarios)}
-        </div>
-        <div className={styles.scenarioListButtons}>
-          <Pagination
-            className={styles.scenarioPagination}
-            page={this.state.page}
-            perPage={this.state.perPage}
-            total={totalCount}
-            action={this.setPage}
-          />
-          <PerPageFilter
-            items={filteredScenarios}
-            totalCount={totalCount}
-            buttons={[30,10]}
-            perPage={this.state.perPage}
-            action={this.setPerPage}
-          />
+          <div className={styles.scenariosHeader}>
+            <div className={styles.scenariosTitle}>Scenarios</div>
+          </div>
+          <div className={styles.allScenariosSearch}>
+            <SearchScenarios
+              search={this.state.search}
+              action={this.setSearch}
+            />
+          </div>
+          <div className={styles.scenariosTotal}>Total Scenarios: {totalCount}</div>
+          <div className={styles.allScenarios}>
+            {this.renderScenarios(filteredScenarios)}
+          </div>
+          <div className={styles.scenarioListButtons}>
+            <Pagination
+              className={styles.scenarioPagination}
+              page={this.state.page}
+              perPage={this.state.perPage}
+              total={totalCount}
+              action={this.setPage}
+            />
+            <PerPageFilter
+              items={filteredScenarios}
+              totalCount={totalCount}
+              buttons={[30,10]}
+              perPage={this.state.perPage}
+              action={this.setPerPage}
+            />
+          </div>
         </div>
       </div>
     );
