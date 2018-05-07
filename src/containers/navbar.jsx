@@ -53,6 +53,10 @@ class Navbar extends Component {
                   </li>
                   <div className="line-separator" />
                   <li className="active navbar-link">
+                    <Link to="/scenarios">Scenarios</Link>
+                  </li>
+                  <div className="line-separator" />
+                  <li className="active navbar-link">
                     <Link to="/users">Users</Link>
                   </li>
                   <div className="line-separator" />
