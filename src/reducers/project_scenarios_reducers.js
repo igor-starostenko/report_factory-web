@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET_PROJECT_SCENARIOS } from '../actions/project_scenarios_actions';
+import { GET_SCENARIOS, GET_PROJECT_SCENARIOS } from '../actions/project_scenarios_actions';
 
 const INITIAL_STATE = {
   scenariosList: { data: {}, error: null, loading: false },
@@ -7,6 +7,13 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case GET_SCENARIOS: {
+      const projectScenarios = _.mapKeys(action.payload.data, (project) => {
+        return project.attributes.project_name;
+      });
+      const data = _.mapValues(projectScenarios, project => project.attributes.scenarios);
+      return { ...state, scenariosList: { data, error: null, loading: false } };
+    }
     case GET_PROJECT_SCENARIOS: {
       const { data } = action.payload;
       const projectName = data.attributes.project_name;

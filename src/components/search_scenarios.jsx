@@ -46,7 +46,7 @@ export default class SearchScenarios extends Component {
           className={styles.searchField}
           value={this.state.inputValue}
           onChange={this.updateInputValue}
-          placeholder="Search scenarios"
+          placeholder="Search for scenarios"
           name="words"
           type="text"
         />
