@@ -57,7 +57,7 @@
   font-size: 1.0em;
 }
 
-.scenarioExtendedDetails {
+.scenariosListExtendedDetails {
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);
@@ -81,35 +81,12 @@
   position: relative;
 }
 
-.scenarioDetailsRow {
-  margin-left: 1rem;
-  line-height: 1.65em;
-  font-size: 1em;
-}
-
-.scenarioDetailsParam {
-  font-weight: 600;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.scenarioDetailsValue {
-  margin-left: 1rem;
-  font-style: italic;
-  display: inline-block;
-}
-
 .scenarioListButtons > .filters {
   display: inline-block;
 }
 
 .scenarioPagination {
   display: inline-block;
-}
-
-.scenarioDetailsValue > p {
-  margin-bottom: 0;
-  font-size: .8em;
 }
 
 .passedScenario {
@@ -166,18 +143,7 @@
     display: none;
   }
 
-  .scenarioDetailsRow {
-    line-height: 1.8em;
-    font-size: 0.8em;
-    margin-left: unset;
-  }
-
   .scenario {
-    word-break: break-all;
-    hyphens: auto;
-  }
-
-  .scenarioDetailsValue > p {
     word-break: break-all;
     hyphens: auto;
   }

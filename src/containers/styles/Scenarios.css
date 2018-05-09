@@ -63,7 +63,11 @@
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 108px;
+  grid-template-rows: 24px 108px;
+}
+
+.scenarioExtendedDetails>.scenarioDetailsRow {
+  grid-column: 1 / -1;
 }
 
 .scenarioSuccessChart {
@@ -83,35 +87,12 @@
   position: relative;
 }
 
-.scenarioDetailsRow {
-  margin-left: 1rem;
-  line-height: 1.65em;
-  font-size: 1em;
-}
-
-.scenarioDetailsParam {
-  font-weight: 600;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.scenarioDetailsValue {
-  margin-left: 1rem;
-  font-style: italic;
-  display: inline-block;
-}
-
 .scenarioListButtons > .filters {
   display: inline-block;
 }
 
 .scenarioPagination {
   display: inline-block;
-}
-
-.scenarioDetailsValue > p {
-  margin-bottom: 0;
-  font-size: .8em;
 }
 
 .passedScenario {
@@ -128,12 +109,12 @@
 
 @media only screen and (max-width: 767px) {
   .scenarios {
-    grid-template-rows: 70px 50px auto auto;
+    grid-template-rows: 70px 20px 50px auto auto;
   }
 
   .scenariosHeader {
     grid-row: 1 / 1;
-    grid-column: 1 / 7;
+    grid-column: 1 / -1;
   }
 
   .scenariosTotal {
@@ -141,12 +122,8 @@
   }
 
   .allScenariosSearch {
-    grid-row: 2 / 2;
+    grid-row: 3 / 3;
     grid-column: 1 / -1;
-  }
-
-  .scenarioExtendedDetails {
-    grid-template-rows: 96px auto;
   }
 
   .scenarioSuccessChart {
@@ -165,18 +142,7 @@
     display: none;
   }
 
-  .scenarioDetailsRow {
-    line-height: 1.8em;
-    font-size: 0.8em;
-    margin-left: unset;
-  }
-
   .scenario {
-    word-break: break-all;
-    hyphens: auto;
-  }
-
-  .scenarioDetailsValue > p {
     word-break: break-all;
     hyphens: auto;
   }

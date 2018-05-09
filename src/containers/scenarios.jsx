@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { CollapsibleItem, PerPageFilter, Pagination,
+import { CollapsibleItem, Details, PerPageFilter, Pagination,
    ScenarioSuccessChart, SearchScenarios } from '../components';
 import { capitalizeFirstLetter, formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import { getAllScenarios } from '../actions/project_scenarios_actions';
@@ -33,15 +33,6 @@ const numberOfExamples = (number) => {
 }
 
 class Scenarios extends Component {
-  static renderScenarioTexDetails(details) {
-    return _.map(details, (value, key) => (
-      <div className={styles.scenarioDetailsRow} key={key}>
-        <div className={styles.scenarioDetailsParam}>{key}:</div>
-        <div className={styles.scenarioDetailsValue}>{value}</div>
-      </div>
-    ));
-  }
-
   static renderScenarioDetails(scenario) {
     const firstColumnDetails = {
       'Total Runs': scenario.total_runs,
@@ -57,14 +48,15 @@ class Scenarios extends Component {
     };
     return (
       <div className={styles.scenarioExtendedDetails}>
+        <Details rows={{ 'Project': scenario.project }} />
         <div className={styles.scenarioSuccessChart}>
           <ScenarioSuccessChart scenario={scenario} />
         </div>
         <div className={styles.scenarioPrimaryDetails}>
-          {this.renderScenarioTexDetails(firstColumnDetails)}
+          <Details rows={firstColumnDetails} />
         </div>
         <div className={styles.scenarioSecondaryDetails}>
-          {this.renderScenarioTexDetails(secondColumnDetails)}
+          <Details rows={secondColumnDetails} />
         </div>
       </div>
     );
@@ -190,7 +182,9 @@ class Scenarios extends Component {
 }
 
 const mergeScenarios = (projectScenarios) => {
-  const scenarios = _.map(projectScenarios, project => project.examples);
+  const scenarios = _.map(projectScenarios, (data, project) => {
+    return _.map(data.examples, example => _.set(example, 'project', project));
+  });
   const examples = _.flattenDeep(scenarios);
   return { total_count: examples.length, examples };
 }

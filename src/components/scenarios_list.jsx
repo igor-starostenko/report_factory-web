@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { CollapsibleItem, PerPageFilter, Pagination,
+import { CollapsibleItem, Details, PerPageFilter, Pagination,
    ScenarioSuccessChart, SearchScenarios } from '../components';
 import { capitalizeFirstLetter, formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import styles from './styles/ScenariosList.css';
@@ -32,15 +31,6 @@ const numberOfExamples = (number) => {
 }
 
 export default class ScenariosList extends Component {
-  static renderScenarioTexDetails(details) {
-    return _.map(details, (value, key) => (
-      <div className={styles.scenarioDetailsRow} key={key}>
-        <div className={styles.scenarioDetailsParam}>{key}:</div>
-        <div className={styles.scenarioDetailsValue}>{value}</div>
-      </div>
-    ));
-  }
-
   static renderScenarioDetails(scenario) {
     const firstColumnDetails = {
       'Total Runs': scenario.total_runs,
@@ -55,15 +45,15 @@ export default class ScenariosList extends Component {
       'Last Failed': dateAgoString(scenario.last_failed),
     };
     return (
-      <div className={styles.scenarioExtendedDetails}>
+      <div className={styles.scenariosListExtendedDetails}>
         <div className={styles.scenarioSuccessChart}>
           <ScenarioSuccessChart scenario={scenario} />
         </div>
         <div className={styles.scenarioPrimaryDetails}>
-          {this.renderScenarioTexDetails(firstColumnDetails)}
+          <Details rows={firstColumnDetails} />
         </div>
         <div className={styles.scenarioSecondaryDetails}>
-          {this.renderScenarioTexDetails(secondColumnDetails)}
+          <Details rows={secondColumnDetails} />
         </div>
       </div>
     );

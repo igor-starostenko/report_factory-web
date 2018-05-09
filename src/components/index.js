@@ -2,6 +2,7 @@ import App from './app';
 import Button from './button';
 import CollapsibleItem from './collapsible_item';
 import ConfirmModal from './confirm_modal';
+import Details from './details';
 import FilterButton from './filter_button';
 import FormErrors from './form_errors';
 import FormField from './form_field';
@@ -23,8 +24,8 @@ import ScenariosList from './scenarios_list';
 import ScenarioSuccessChart from './scenario_success_chart';
 import UserReportsLineChart from './user_reports_line_chart';
 
-export { App, Button, CollapsibleItem, ConfirmModal, PerPageFilter, FilterButton,
-  FormErrors, FormField, FormRadio, LineChart, NotFound, Pagination, PaginationNumber,
-  RspecFeatureChart, RspecReportDetails, ReportsSuccessChart, RspecReportsList,
-  RspecReportExamplesList, RspecReportsBar, RspecReportPieChart, SearchScenarios,
-  ScenarioSuccessChart, ScenariosList, UserReportsLineChart };
+export { App, Button, CollapsibleItem, ConfirmModal, Details, PerPageFilter,
+  FilterButton, FormErrors, FormField, FormRadio, LineChart, NotFound, Pagination,
+  PaginationNumber, RspecFeatureChart, RspecReportDetails, ReportsSuccessChart,
+  RspecReportsList, RspecReportExamplesList, RspecReportsBar, RspecReportPieChart,
+  SearchScenarios, ScenarioSuccessChart, ScenariosList, UserReportsLineChart };
