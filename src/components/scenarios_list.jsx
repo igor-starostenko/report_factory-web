@@ -1,59 +1,23 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { CollapsibleItem, Details, PerPageFilter, Pagination,
-   ScenarioSuccessChart, SearchScenarios } from '../components';
-import { capitalizeFirstLetter, formatDuration, formatDateAgo } from '../helpers/format_helpers';
+  ScenarioSuccessChart, SearchScenarios } from '../components';
+import { filterScenarios, firstScenarioColumn, secondScenarioColumn,
+  slicePageScenarios, statusName } from '../helpers/scenarios_helpers';
 import styles from './styles/ScenariosList.css';
-
-const statusName = (status) => {
-  if (status === 'failed') {
-    return 'failedScenario';
-  } else if (status === 'passed') {
-    return 'passedScenario';
-  }
-  return 'pendingScenario';
-};
-
-const dateAgoString = (dateString) => {
-  if (!dateString) {
-    return 'Never';
-  }
-  return `${formatDateAgo(new Date(dateString))} ago`;
-}
-
-const numberOfExamples = (number) => {
-  if (!number || number === 0) {
-    return `No examples`;
-  } else if (number === 1) {
-    return '1 example';
-  }
-  return `${number} examples`;
-}
 
 export default class ScenariosList extends Component {
   static renderScenarioDetails(scenario) {
-    const firstColumnDetails = {
-      'Total Runs': scenario.total_runs,
-      'Passed': numberOfExamples(scenario.total_passed),
-      'Failed': numberOfExamples(scenario.total_failed),
-      'Pending': numberOfExamples(scenario.total_pending),
-    };
-    const secondColumnDetails = {
-      'Status': capitalizeFirstLetter(scenario.last_status),
-      'Last Run': dateAgoString(scenario.last_run),
-      'Last Passed': dateAgoString(scenario.last_passed),
-      'Last Failed': dateAgoString(scenario.last_failed),
-    };
     return (
       <div className={styles.scenariosListExtendedDetails}>
         <div className={styles.scenarioSuccessChart}>
           <ScenarioSuccessChart scenario={scenario} />
         </div>
         <div className={styles.scenarioPrimaryDetails}>
-          <Details rows={firstColumnDetails} />
+          <Details rows={firstScenarioColumn(scenario)} />
         </div>
         <div className={styles.scenarioSecondaryDetails}>
-          <Details rows={secondColumnDetails} />
+          <Details rows={secondScenarioColumn(scenario)} />
         </div>
       </div>
     );
@@ -73,8 +37,10 @@ export default class ScenariosList extends Component {
 
   setPerPage({ perPage }) {
     let newState;
-    const totalPages = _.ceil(this.filterScenarios().length / perPage);
-    if (totalPages < this.state.page) {
+    const { search, page } = this.state;
+    const filteredScenarios = filterScenarios(this.props.scenarios, search);
+    const totalPages = _.ceil(filteredScenarios.length / perPage);
+    if (totalPages < page) {
       return this.setState({ page: totalPages, perPage });
     }
     this.setState({ perPage });
@@ -84,27 +50,13 @@ export default class ScenariosList extends Component {
     this.setState({ search });
   }
 
-  slicePageScenarios(scenarios) {
-    const startIndex = this.state.page * this.state.perPage - this.state.perPage;
-    const endIndex = startIndex + this.state.perPage;
-    return scenarios.slice(startIndex, endIndex);
-  }
-
-  filterScenarios() {
-    return _.filter(this.props.scenarios.examples, (scenario) => {
-       return _.every(this.state.search, (word) => {
-         const scenarioName = scenario.name.toLowerCase();
-         return scenarioName.indexOf(word.toLowerCase()) !== -1;
-       });
-    });
-  }
-
   renderScenarios(scenarios) {
     if (_.isEmpty(scenarios)) {
       return (<div className="loading">No scenarios found</div>);
     }
     let childKey = 0;
-    return _.map(this.slicePageScenarios(scenarios), (scenario) => {
+    const { page, perPage } = this.state;
+    return _.map(slicePageScenarios(scenarios, page, perPage), (scenario) => {
       childKey += 1;
       const status = statusName(scenario.last_status);
       return (
@@ -127,7 +79,7 @@ export default class ScenariosList extends Component {
       return (<div className="loading">Have not submitted any scenarios yet.</div>);
     }
 
-    const filteredScenarios = this.filterScenarios();
+    const filteredScenarios = filterScenarios(this.props.scenarios, this.state.search);
     const totalCount = filteredScenarios.length;
 
     return (
