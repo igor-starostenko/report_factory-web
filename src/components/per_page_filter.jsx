@@ -23,7 +23,7 @@ export default class PerPageFilter extends Component {
   }
 
   render() {
-    if (!this.props.items || this.props.totalCount <= 10) {
+    if (this.props.totalCount <= 10) {
       return (<div />);
     }
     return (

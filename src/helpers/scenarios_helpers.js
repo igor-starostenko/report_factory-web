@@ -26,12 +26,12 @@ const numberOfExamples = (number) => {
   return `${number} examples`;
 }
 
-export const filterScenarios = (scenarios, search) => {
-  return _.filter(scenarios.examples, (scenario) => {
-     return _.every(search, (word) => {
-       const scenarioName = scenario.name.toLowerCase();
-       return scenarioName.indexOf(word.toLowerCase()) !== -1;
-     });
+export const filterScenarios = (examples, search) => {
+  return _.filter(examples, (scenario) => {
+    return _.every(search, (word) => {
+      const scenarioName = scenario.name.toLowerCase();
+      return scenarioName.indexOf(word.toLowerCase()) !== -1;
+    });
   });
 }
 
