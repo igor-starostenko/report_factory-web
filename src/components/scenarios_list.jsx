@@ -41,7 +41,15 @@ export default class ScenariosList extends Component {
   componentDidUpdate() {
     const examples = _.get(this.props.scenarios, 'examples');
     const filteredScenarios = filterScenarios(examples, this.state.search);
-    this.setState({ scenarios: filteredScenarios, total: filteredScenarios.length });
+    const totalPages = _.ceil(this.state.total / this.state.perPage);
+    const newState = {
+      scenarios: filteredScenarios,
+      total: filteredScenarios.length,
+    }
+    if (totalPages < this.state.page) {
+      return this.setState(_.merge(newState, { page: totalPages }));
+    }
+    this.setState(newState);
   }
 
   setPage({ page }) {
@@ -49,21 +57,11 @@ export default class ScenariosList extends Component {
   }
 
   setPerPage({ perPage }) {
-    const totalPages = _.ceil(this.state.total / perPage);
-    if (totalPages < this.state.page) {
-      return this.setState({ page: totalPages, perPage });
-    }
     this.setState({ perPage });
   }
 
   setSearch({ search }) {
-    const examples = _.get(this.props.scenarios, 'examples');
-    const filteredScenarios = filterScenarios(examples, search);
-    this.setState({
-      scenarios: filteredScenarios,
-      total: filteredScenarios.length,
-      search,
-    });
+    this.setState({ search });
   }
 
   renderScenarios() {
@@ -95,16 +93,11 @@ export default class ScenariosList extends Component {
       return (<div className="loading">Have not submitted any scenarios yet.</div>);
     }
 
-    // console.log(this.state);
-
-    // const filteredScenarios = filterScenarios(this.props.scenarios, this.state.search);
-    // this.setTotal(filteredScenarios);
-
     return (
       <div className={styles.scenariosList}>
         <div className={styles.scenariosListHeader}>Scenarios</div>
         <div className={styles.scenariosDescription}>
-          {`Total Scenarios: ${this.state.total}`}
+          Total Scenarios: {this.state.total}
         </div>
         <div className={styles.scenariosSearch}>
           <SearchScenarios
