@@ -28,7 +28,7 @@ class Scenarios extends Component {
 
   constructor(state) {
     super(state);
-    this.state = { scenarios: [], page: 1, perPage: 10, total: 0, search: [] };
+    this.state = { scenarios: [], page: 1, perPage: 10, total: 1, search: [] };
     this.setPage = this.setPage.bind(this);
     this.setPerPage = this.setPerPage.bind(this);
     this.setSearch = this.setSearch.bind(this);
@@ -44,9 +44,14 @@ class Scenarios extends Component {
   componentDidMount() {
     const { xApiKey, scenarios } = this.props;
     this.props.getAllScenarios(xApiKey);
+    this.setScenarios();
   }
 
   componentDidUpdate() {
+    this.setScenarios();
+  }
+
+  setScenarios() {
     const examples = _.get(this.props.scenarios, 'examples');
     const filteredScenarios = filterScenarios(examples, this.state.search);
     const totalPages = _.ceil(this.state.total / this.state.perPage);
@@ -54,7 +59,7 @@ class Scenarios extends Component {
       scenarios: filteredScenarios,
       total: filteredScenarios.length,
     }
-    if (totalPages < this.state.page) {
+    if (totalPages > 1 && totalPages < this.state.page) {
       return this.setState(_.merge(newState, { page: totalPages }));
     }
     this.setState(newState);
