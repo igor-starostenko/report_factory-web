@@ -1,15 +1,6 @@
 import _ from 'lodash';
 import { capitalizeFirstLetter, formatDateAgo } from './format_helpers';
 
-export const statusName = (status) => {
-  if (status === 'failed') {
-    return 'failedScenario';
-  } else if (status === 'passed') {
-    return 'passedScenario';
-  }
-  return 'pendingScenario';
-};
-
 const dateAgoString = (dateString) => {
   if (!dateString) {
     return 'Never';

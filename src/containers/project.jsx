@@ -49,7 +49,7 @@ class Project extends Component {
             <ReportsLineChart projectName={projectName} />
           </div>
           <div className={styles.detailsExtraContent}>
-            <ProjectScenarios scenarios={this.props.scenarios} />
+            <ProjectScenarios scenariosList={this.props.scenarios} />
           </div>
         </div>
       </div>
