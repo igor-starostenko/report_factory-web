@@ -33,11 +33,12 @@ class Scenarios extends Component {
   }
 
   render() {
-    if (_.isEmpty((_.get(this.props.scenariosList, 'examples')))) {
+    if (_.get(this.props.scenariosList, 'loading')) {
       return (<div className="loading">Loading...</div>);
     }
 
-    if (_.isEmpty(this.props.scenariosList)) {
+    console.log(_.get(this.props.scenariosList, 'total_count'));
+    if (_.get(this.props.scenariosList, 'total_count') === 0) {
       return (<div className="loading">Have not submitted any scenarios yet.</div>);
     }
 
@@ -82,11 +83,14 @@ class Scenarios extends Component {
 }
 
 const mergeScenarios = (projectScenarios) => {
+  if (_.isEmpty(projectScenarios)) {
+    return { total_count: 0, examples: [], loading: true };
+  }
   const scenarios = _.map(projectScenarios, (data, project) => {
     return _.map(data.examples, example => _.set(example, 'project', project));
   });
   const examples = _.flattenDeep(scenarios);
-  return { total_count: examples.length, examples };
+  return { total_count: examples.length, examples, loading: false };
 }
 
 const mapStateToProps = (state) => ({
