@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import ScenariosList from '../components/scenarios_list';
-import { Details, PerPageFilter, Pagination,
-  ScenarioSuccessChart, SearchScenarios } from '../components';
+import { Details, PerPageFilter, Pagination, ScenarioSuccessChart,
+   SearchScenarios } from '../components';
 import { firstScenarioColumn, secondScenarioColumn } from '../helpers/scenarios_helpers';
 import { getAllScenarios } from '../actions/project_scenarios_actions';
 import styles from './styles/Scenarios.css';

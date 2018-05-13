@@ -1,12 +1,11 @@
 import _ from 'lodash';
-import { GET_PROJECT_REPORTS, GET_PROJECT_RSPEC_REPORTS, GET_PROJECT_RSPEC_REPORTS_SUCCESS,
-  GET_PROJECT_RSPEC_REPORTS_FAILURE, GET_PROJECT_RSPEC_REPORT, SET_PROJECT_RSPEC_REPORTS_PAGE,
-  SET_PROJECT_RSPEC_REPORTS_TAGS, RESET_PROJECT_RSPEC_REPORTS } from '../actions/project_reports_actions';
+import { GET_PROJECT_REPORTS, GET_PROJECT_REPORTS_SUCCESS, GET_PROJECT_REPORTS_FAILURE,
+  GET_PROJECT_RSPEC_REPORTS, GET_PROJECT_RSPEC_REPORTS_SUCCESS, GET_PROJECT_RSPEC_REPORTS_FAILURE
+  , GET_PROJECT_RSPEC_REPORT, SET_PROJECT_RSPEC_REPORTS_PAGE, SET_PROJECT_RSPEC_REPORTS_TAGS,
+  RESET_PROJECT_RSPEC_REPORTS } from '../actions/project_reports_actions';
 
 const INITIAL_STATE = {
-  reportsList: {
-    data: null, error: null, loading: false, perPage: 30, page: 1, total: null, tags: [],
-  },
+  reportsList: {},
   rspecReportsList: {
     data: null, error: null, loading: false, perPage: 10, page: 1, total: null, tags: [],
   },
@@ -15,12 +14,25 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_PROJECT_REPORTS: {
+      const { projectName } = action.payload;
+      return { ...state, reportsList: { [projectName]: { data: null, error: null, loading: true } } };
+    }
+    case GET_PROJECT_REPORTS_SUCCESS: {
       const { data } = action.payload;
-      if (data[0]) {
-        const projectName = data[0].attributes.project_name;
-        return { ...state, reportsList: { [projectName]: _.mapKeys(data, obj => obj.id) } };
+      const project = _.pickBy(state.reportsList, (project) => project.loading);
+      const projectName = Object.keys(project)[0];
+      if (_.isEmpty(data)) {
+        return { ...state, reportsList: { [projectName]: { data: [], error: null, loading: false } } };
       }
-      return { ...state };
+      const projectReports = _.mapKeys(data, obj => obj.id);
+      const reportsList = { [projectName]: { data: projectReports, error: null, loading: false } };
+      return { ...state, reportsList };
+    }
+    case GET_PROJECT_REPORTS_FAILURE: {
+      const error = action.payload.errors;
+      const project = _.pickBy(state.reportsList, (project) => project.loading);
+      const projectName = Object.keys(project)[0];
+      return { ...state, reportsList: { [projectName]: { data, error, loading: false } } };
     }
     case SET_PROJECT_RSPEC_REPORTS_PAGE: {
       /* eslint-disable object-curly-newline */

@@ -35,7 +35,7 @@ class ProjectRspecReports extends Component {
     getProjectRspecReports(projectName, xApiKey, options)
       .then((response) => {
         if (response.status !== 200) {
-          return dispatch(getProjectRspecReportsFailure(response.payload));
+          return dispatch(getProjectRspecReportsFailure(response));
         }
         dispatch(setProjectRspecReportsPage(response));
         return dispatch(getProjectRspecReportsSuccess(response));

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { LineChart } from '../components';
-import { getProjectReports } from '../actions/project_reports_actions';
+import { getProjectReports, setProjectReportsName, getProjectReportsSuccess,
+  getProjectReportsFailure } from '../actions/project_reports_actions';
 import { getColors, lastDays, lastMonths, formatDates, reportsPerDay,
   reportsPerMonth, reportsCreatedDates, setOpacity, validateInteger } from '../helpers/chart_helpers';
 
@@ -124,24 +125,50 @@ class ReportsLineChart extends Component {
   componentDidMount() {
     const { reports } = this.props;
     if (!reports || _.isEmpty(reports)) {
-      const { projectName, xApiKey } = this.props;
-      this.props.getProjectReports(projectName, xApiKey);
+      this.fetchProjectReports();
     }
   }
 
+  fetchProjectReports() {
+    const { projectName, xApiKey } = this.props;
+    this.props.setProjectReportsName(projectName);
+    getProjectReports(projectName, xApiKey)
+      .then((response) => {
+        if (response.status !== 200) {
+          return this.props.getProjectReportsFailure(response);
+        }
+        return this.props.getProjectReportsSuccess(response);
+      });
+  }
+
   render() {
+    console.log(this.props.reports);
+    if (!this.props.reports || _.get(this.props.reports, 'loading')) {
+      return (<div className="loading">Loading...</div>);
+    }
+
+    if (_.isEmpty(_.get(this.props.reports, 'data'))) {
+      return (<div className="loading">Have not submitted any reports yet.</div>);
+    }
+
     return (
       <LineChart
         getChartData={getChartData}
         options={chartOptions}
-        reports={this.props.reports}
+        reports={this.props.reports.data}
       />);
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  setProjectReportsName: (...args) => dispatch(setProjectReportsName(...args)),
+  getProjectReportsSuccess: (...args) => dispatch(getProjectReportsSuccess(...args)),
+  getProjectReportsFailure: (...args) => dispatch(getProjectReportsFailure(...args)),
+});
 
 const mapStateToProps = (state, ownProps) => ({
   reports: state.projectReports.reportsList[ownProps.projectName],
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getProjectReports })(ReportsLineChart);
+export default connect(mapStateToProps, mapDispatchToProps)(ReportsLineChart);
