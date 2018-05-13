@@ -1,23 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, ProjectScenarios } from '../components';
+import { Button, ProjectScenarios, ReportsLineChart } from '../components';
 import _ from 'lodash';
-import ReportsLineChart from './reports_line_chart';
 import { getProject, resetProject } from '../actions/projects_actions';
+import { getProjectReports, setProjectReportsName, getProjectReportsSuccess,
+  getProjectReportsFailure } from '../actions/project_reports_actions';
 import { getProjectScenarios } from '../actions/project_scenarios_actions';
 import { formatDate } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 
 class Project extends Component {
   componentDidMount() {
-    const { xApiKey, projectName, project, scenarios } = this.props;
-    if (!project.data) {
+    const { xApiKey, projectName } = this.props;
+    if (!this.props.project.data) {
       this.props.getProject(projectName, xApiKey);
     }
-    if (!scenarios || _.isEmpty(scenarios)) {
+    if (!this.props.reports || _.isEmpty(this.props.reports)) {
+      this.fetchProjectReports();
+    }
+    if (!this.props.scenarios || _.isEmpty(this.props.scenarios)) {
       this.props.getProjectScenarios(projectName, xApiKey);
     }
+  }
+
+  fetchProjectReports() {
+    const { xApiKey, projectName } = this.props;
+    this.props.setProjectReportsName(projectName);
+    getProjectReports(projectName, xApiKey)
+      .then((response) => {
+        if (response.status !== 200) {
+          return this.props.getProjectReportsFailure(response);
+        }
+        return this.props.getProjectReportsSuccess(response);
+      });
   }
 
   render() {
@@ -46,7 +62,7 @@ class Project extends Component {
           </div>
           <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
           <div className={styles.detailsContent}>
-            <ReportsLineChart projectName={projectName} />
+            <ReportsLineChart reports={this.props.reports} />
           </div>
           <div className={styles.detailsExtraContent}>
             <ProjectScenarios scenariosList={this.props.scenarios} />
@@ -57,11 +73,21 @@ class Project extends Component {
   }
 }
 
+const mapDispatchToProps = {
+  getProject,
+  resetProject,
+  setProjectReportsName,
+  getProjectReportsSuccess,
+  getProjectReportsFailure,
+  getProjectScenarios,
+};
+
 const mapStateToProps = (state, ownProps) => ({
   projectName: ownProps.match.params.name,
   project: state.projects.activeProject,
+  reports: state.projectReports.reportsList[ownProps.match.params.name],
   scenarios: state.projectScenarios.scenariosList.data[ownProps.match.params.name],
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getProject, getProjectScenarios, resetProject })(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(Project);

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 import { LineChart } from '../components';
-import { getProjectReports, setProjectReportsName, getProjectReportsSuccess,
-  getProjectReportsFailure } from '../actions/project_reports_actions';
 import { getColors, lastDays, lastMonths, formatDates, reportsPerDay,
   reportsPerMonth, reportsCreatedDates, setOpacity, validateInteger } from '../helpers/chart_helpers';
 
@@ -121,26 +118,7 @@ const chartOptions = {
   }
 };
 
-class ReportsLineChart extends Component {
-  componentDidMount() {
-    const { reports } = this.props;
-    if (!reports || _.isEmpty(reports)) {
-      this.fetchProjectReports();
-    }
-  }
-
-  fetchProjectReports() {
-    const { projectName, xApiKey } = this.props;
-    this.props.setProjectReportsName(projectName);
-    getProjectReports(projectName, xApiKey)
-      .then((response) => {
-        if (response.status !== 200) {
-          return this.props.getProjectReportsFailure(response);
-        }
-        return this.props.getProjectReportsSuccess(response);
-      });
-  }
-
+export default class ReportsLineChart extends Component {
   render() {
     if (!this.props.reports || _.get(this.props.reports, 'loading')) {
       return (<div className="loading">Loading...</div>);
@@ -158,14 +136,3 @@ class ReportsLineChart extends Component {
       />);
   }
 }
-
-const mapDispatchToProps = {
-  setProjectReportsName, getProjectReportsSuccess, getProjectReportsFailure,
-};
-
-const mapStateToProps = (state, ownProps) => ({
-  reports: state.projectReports.reportsList[ownProps.projectName],
-  xApiKey: state.users.currentUser.xApiKey,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ReportsLineChart);
