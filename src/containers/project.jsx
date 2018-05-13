@@ -7,7 +7,7 @@ import { getProject, resetProject } from '../actions/projects_actions';
 import { getProjectReports, setProjectReportsName, getProjectReportsSuccess,
   getProjectReportsFailure } from '../actions/project_reports_actions';
 import { getProjectScenarios } from '../actions/project_scenarios_actions';
-import { formatDate } from '../helpers/format_helpers';
+import { formatTotalString } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 
 class Project extends Component {
@@ -43,9 +43,7 @@ class Project extends Component {
       return (<div className="loading">Loading...</div>);
     }
 
-    const { date } = project.data.attributes;
-    const createdAt = new Date(date.created_at);
-
+    const reportsData = _.get(this.props.reports, 'data');
     const rspecUrl = `${this.props.match.url}/rspec`;
     const editUrl = `${this.props.match.url}/edit`;
 
@@ -60,7 +58,7 @@ class Project extends Component {
             <Button to={rspecUrl} color="primary" fill="true" text="View Reports" />
             <Button to={editUrl} color="warning" fill="true" text="Edit Project" />
           </div>
-          <div className={styles.detailsSince}>since {formatDate(createdAt)}</div>
+          <div className={styles.detailsTotal}>{formatTotalString(reportsData)}</div>
           <div className={styles.detailsContent}>
             <ReportsLineChart reports={this.props.reports} />
           </div>

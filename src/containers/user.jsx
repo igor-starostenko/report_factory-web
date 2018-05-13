@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { Button, ConfirmModal, UserReportsLineChart } from '../components';
 import { getUser, logOut, getUserReports } from '../actions/users_actions';
-import { formatDate } from '../helpers/format_helpers';
+import { formatTotalString } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';
 
@@ -113,9 +113,7 @@ class User extends Component {
       return (<div />);
     }
 
-    const { attributes: { name, date } } = user.data;
-    const createdAt = formatDate(new Date(date.created_at));
-
+    const { name } = user.data.attributes;
     const reports = _.get(userReports, `data.${userId}`);
 
     return (
@@ -126,7 +124,7 @@ class User extends Component {
             <div className={styles.detailsName}>{name}</div>
           </div>
           {this.renderDetailsButtons()}
-          <div className={styles.detailsSince}>since {createdAt}</div>
+          <div className={styles.detailsTotal}>{formatTotalString(reports)}</div>
           <div className={styles.detailsContent}>
             <UserReportsLineChart
               userReports={reports}

@@ -37,7 +37,6 @@ class Scenarios extends Component {
       return (<div className="loading">Loading...</div>);
     }
 
-    console.log(_.get(this.props.scenariosList, 'total_count'));
     if (_.get(this.props.scenariosList, 'total_count') === 0) {
       return (<div className="loading">Have not submitted any scenarios yet.</div>);
     }
