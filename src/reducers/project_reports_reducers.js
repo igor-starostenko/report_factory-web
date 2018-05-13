@@ -15,14 +15,16 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_PROJECT_REPORTS: {
       const { projectName } = action.payload;
-      return { ...state, reportsList: { [projectName]: { data: null, error: null, loading: true } } };
+      const reportsList = { [projectName]: { data: null, error: null, loading: true } };
+      return { ...state, reportsList };
     }
     case GET_PROJECT_REPORTS_SUCCESS: {
       const { data } = action.payload;
-      const project = _.pickBy(state.reportsList, (project) => project.loading);
-      const projectName = Object.keys(project)[0];
+      const currentProject = _.pickBy(state.reportsList, project => project.loading);
+      const projectName = Object.keys(currentProject)[0];
       if (_.isEmpty(data)) {
-        return { ...state, reportsList: { [projectName]: { data: [], error: null, loading: false } } };
+        const reportsList = { [projectName]: { data: [], error: null, loading: false } };
+        return { ...state, reportsList };
       }
       const projectReports = _.mapKeys(data, obj => obj.id);
       const reportsList = { [projectName]: { data: projectReports, error: null, loading: false } };
@@ -30,9 +32,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case GET_PROJECT_REPORTS_FAILURE: {
       const error = action.payload.errors;
-      const project = _.pickBy(state.reportsList, (project) => project.loading);
-      const projectName = Object.keys(project)[0];
-      return { ...state, reportsList: { [projectName]: { data, error, loading: false } } };
+      const currentProject = _.pickBy(state.reportsList, project => project.loading);
+      const projectName = Object.keys(currentProject)[0];
+      return { ...state, reportsList: { [projectName]: { data: null, error, loading: false } } };
     }
     case SET_PROJECT_RSPEC_REPORTS_PAGE: {
       /* eslint-disable object-curly-newline */

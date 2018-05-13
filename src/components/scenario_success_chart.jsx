@@ -30,9 +30,11 @@ const getChartData = (scenario) => {
   const failed = scenario.total_failed / scenario.total_runs;
   const data = [passed, 1 - passed - failed, failed];
   const backgroundColor = [colors.green, colors.yellow, colors.red];
-  const hoverBackgroundColor = [setOpacity(colors.green, 0.8),
-                                setOpacity(colors.yellow, 0.8),
-                                setOpacity(colors.red, 0.8)];
+  const hoverBackgroundColor = [
+    setOpacity(colors.green, 0.8),
+    setOpacity(colors.yellow, 0.8),
+    setOpacity(colors.red, 0.8)
+  ];
   const labels = ['Passed', 'Pending', 'Failed'];
   return { datasets: [{ data, backgroundColor, hoverBackgroundColor }], labels };
 };

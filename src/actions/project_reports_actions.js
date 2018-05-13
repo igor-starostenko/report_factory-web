@@ -14,14 +14,16 @@ export const RESET_PROJECT_RSPEC_REPORTS = 'reset_project_rspec_reports';
 const apiUrl = process.env.API_URL;
 const reportsClient = new ReportsClient(apiUrl);
 
+/* eslint-disable arrow-body-style */
 export const getProjectReports = (projectName, xApiKey) => {
   return reportsClient.getAllProjectReports(projectName, xApiKey);
 };
+/* eslint-enable arrow-body-style */
 
 export const setProjectReportsName = projectName => ({
   type: GET_PROJECT_REPORTS,
   payload: { projectName },
-})
+});
 
 export const getProjectReportsSuccess = response => ({
   type: GET_PROJECT_REPORTS_SUCCESS,
