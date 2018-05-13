@@ -33,7 +33,7 @@ class ProjectScenarios extends Component {
     }
 
     if (_.get(this.props.scenariosList, 'total_count') === 0) {
-      return (<div className="loading">Have not submitted any scenarios yet.</div>);
+      return (<div />);
     }
 
     return (

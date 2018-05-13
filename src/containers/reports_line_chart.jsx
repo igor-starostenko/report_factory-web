@@ -142,7 +142,6 @@ class ReportsLineChart extends Component {
   }
 
   render() {
-    console.log(this.props.reports);
     if (!this.props.reports || _.get(this.props.reports, 'loading')) {
       return (<div className="loading">Loading...</div>);
     }
@@ -160,11 +159,9 @@ class ReportsLineChart extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  setProjectReportsName: (...args) => dispatch(setProjectReportsName(...args)),
-  getProjectReportsSuccess: (...args) => dispatch(getProjectReportsSuccess(...args)),
-  getProjectReportsFailure: (...args) => dispatch(getProjectReportsFailure(...args)),
-});
+const mapDispatchToProps = {
+  setProjectReportsName, getProjectReportsSuccess, getProjectReportsFailure,
+};
 
 const mapStateToProps = (state, ownProps) => ({
   reports: state.projectReports.reportsList[ownProps.projectName],
