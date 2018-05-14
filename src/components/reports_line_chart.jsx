@@ -125,7 +125,7 @@ export default class ReportsLineChart extends Component {
     }
 
     if (_.isEmpty(_.get(this.props.reports, 'data'))) {
-      return (<div className="loading">Have not submitted any reports yet.</div>);
+      return (<div className="loading">No reports submitted for this project yet.</div>);
     }
 
     return (
