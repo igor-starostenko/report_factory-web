@@ -25,9 +25,11 @@ import SearchScenarios from './search_scenarios';
 import ScenarioSuccessChart from './scenario_success_chart';
 import UserReportsLineChart from './user_reports_line_chart';
 
-export { App, Button, CollapsibleItem, ConfirmModal, Details, PerPageFilter,
+export {
+  App, Button, CollapsibleItem, ConfirmModal, Details, PerPageFilter,
   FilterButton, FormErrors, FormField, FormRadio, LineChart, NotFound, Pagination,
   PaginationNumber, ProjectScenarios, ReportsLineChart, ReportsSuccessChart,
   RspecFeatureChart, RspecReportDetails, RspecReportExamplesList, RspecReportPieChart,
   RspecReportsBar, RspecReportsList, SearchScenarios, ScenarioSuccessChart,
-  UserReportsLineChart };
+  UserReportsLineChart,
+};

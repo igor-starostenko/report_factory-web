@@ -1,7 +1,9 @@
 import _ from 'lodash';
-import { EDIT_USER, EDIT_USER_SUCCESS, EDIT_USER_FAILURE, RESET_EDIT_USER, GET_USER_REPORTS,
+import {
+  EDIT_USER, EDIT_USER_SUCCESS, EDIT_USER_FAILURE, RESET_EDIT_USER, GET_USER_REPORTS,
   GET_USER, GET_USERS, RESET_ACTIVE_USER, LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
-  API_KEY } from '../actions/users_actions';
+  API_KEY,
+} from '../actions/users_actions';
 
 /* eslint-disable object-curly-newline */
 const INITIAL_STATE = {
