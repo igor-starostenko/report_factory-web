@@ -1,6 +1,8 @@
 import ReportsClient from '../api/reports_client';
 
 export const GET_PROJECT_REPORTS = 'get_project_reports';
+export const GET_PROJECT_REPORTS_SUCCESS = 'get_project_reports_success';
+export const GET_PROJECT_REPORTS_FAILURE = 'get_project_reports_failure';
 export const GET_PROJECT_RSPEC_REPORTS = 'get_project_rspec_reports';
 export const GET_PROJECT_RSPEC_REPORTS_SUCCESS = 'get_project_rspec_reports_success';
 export const GET_PROJECT_RSPEC_REPORTS_FAILURE = 'get_project_rspec_reports_failure';
@@ -12,14 +14,26 @@ export const RESET_PROJECT_RSPEC_REPORTS = 'reset_project_rspec_reports';
 const apiUrl = process.env.API_URL;
 const reportsClient = new ReportsClient(apiUrl);
 
+/* eslint-disable arrow-body-style */
 export const getProjectReports = (projectName, xApiKey) => {
-  const request = reportsClient.getAllProjectReports(projectName, xApiKey);
-
-  return {
-    type: GET_PROJECT_REPORTS,
-    payload: request.then(response => response.json()),
-  };
+  return reportsClient.getAllProjectReports(projectName, xApiKey);
 };
+/* eslint-enable arrow-body-style */
+
+export const setProjectReportsName = projectName => ({
+  type: GET_PROJECT_REPORTS,
+  payload: { projectName },
+});
+
+export const getProjectReportsSuccess = response => ({
+  type: GET_PROJECT_REPORTS_SUCCESS,
+  payload: response.json(),
+});
+
+export const getProjectReportsFailure = response => ({
+  type: GET_PROJECT_REPORTS_FAILURE,
+  payload: response.payload.json(),
+});
 
 /* eslint-disable arrow-body-style */
 export const getProjectRspecReports = (projectName, xApiKey, options) => {
@@ -44,7 +58,7 @@ export const getProjectRspecReportsSuccess = response => ({
 
 export const getProjectRspecReportsFailure = response => ({
   type: GET_PROJECT_RSPEC_REPORTS_FAILURE,
-  payload: response.json(),
+  payload: response.payload.json(),
 });
 
 export const resetProjectRspecReports = () => ({ type: RESET_PROJECT_RSPEC_REPORTS });

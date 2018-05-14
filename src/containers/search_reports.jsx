@@ -3,7 +3,7 @@ import { Field, reduxForm, reset } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Button } from '../components';
-import styles from './styles/SearchReports.css';
+import styles from '../components/styles/SearchBar.css';
 
 const formatTags = (tags) => {
   if (_.isEmpty(tags)) {

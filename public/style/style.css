@@ -12,6 +12,10 @@
   box-shadow: 0 10px 30px -7px rgba(35, 41, 51, 0.2);
 }
 
+.navbar-collapse {
+  max-height: unset;
+}
+
 .navbar-link {
   color: #FFFFFF;
   opacity: 0.8;

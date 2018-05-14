@@ -1,0 +1,35 @@
+.scenarioDetailsRow {
+  margin-left: 1rem;
+  line-height: 1.65em;
+  font-size: 1em;
+}
+
+.scenarioDetailsParam {
+  font-weight: 600;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.scenarioDetailsValue {
+  margin-left: 1rem;
+  font-style: italic;
+  display: inline-block;
+}
+
+.scenarioDetailsValue > p {
+  margin-bottom: 0;
+  font-size: .8em;
+}
+
+@media only screen and (max-width: 767px) {
+  .scenarioDetailsRow {
+    line-height: 1.8em;
+    font-size: 0.8em;
+    margin-left: unset;
+  }
+
+  .scenarioDetailsValue > p {
+    word-break: break-all;
+    hyphens: auto;
+  }
+}

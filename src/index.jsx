@@ -23,6 +23,7 @@ import RspecReport from './containers/rspec_report';
 import CreateUser from './containers/create_user';
 import User from './containers/user';
 import Users from './containers/users';
+import Scenarios from './containers/scenarios';
 
 require('babel-core/register');
 require('babel-polyfill');
@@ -50,6 +51,7 @@ ReactDOM.render(
             <Route path="/project/new" component={RequireAuth(CreateProject)} />
             <Route path="/reports/:id" component={RequireAuth(RspecReport)} />
             <Route path="/reports" component={RequireAuth(Reports)} />
+            <Route path="/scenarios" component={RequireAuth(Scenarios)} />
             <Route exact path="/" component={Home} />
             <Route path="*" component={NotFound} />
           </Switch>

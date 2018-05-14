@@ -4,7 +4,7 @@
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 70px 20px 500px;
+  grid-template-rows: 70px 20px auto auto;
   margin-bottom: 4rem;
 }
 
@@ -28,7 +28,7 @@
   margin-left: 1em;
 }
 
-.detailsSince {
+.detailsTotal {
   grid-column: 1 / 4;
   font-style: italic;
   margin-left: .5em;
@@ -38,6 +38,10 @@
   grid-column: 1 / -1;
   height: 100%;
   position: relative;
+}
+
+.detailsExtraContent {
+  grid-column: 1 / -1;
 }
 
 .chart > div {
@@ -58,12 +62,13 @@
 @media only screen and (max-width: 767px) {
   .detailsContainer {
     display: grid;
-    grid-template-rows: auto 20px auto auto;
+    grid-template-rows: auto 20px auto auto auto;
     grid-template-areas:
         "h"
         "s"
         "c"
-        "d";
+        "d"
+        "e";
     grid-template-columns: auto;
     grid-gap: 0;
   }
@@ -75,6 +80,10 @@
 
   .detailsContent {
     grid-area: c;
+  }
+
+  .detailsExtraContent {
+    grid-area: e;
   }
 
   .chart {
@@ -95,7 +104,7 @@
     width: 30rem;
   }
 
-  .detailsSince {
+  .detailsTotal {
     grid-area: s;
   }
 

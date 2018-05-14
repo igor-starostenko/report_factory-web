@@ -1,0 +1,112 @@
+.projectScenarios {
+  margin-top: 1.5rem;
+  height: 100%;
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 50px 20px auto auto;
+}
+
+.projectScenariosHeader {
+  font-size: 36px;
+  font-weight: 400;
+  grid-column: 1 / 5;
+}
+
+.projectScenariosSearch {
+  grid-row: 1 / 1;
+  grid-column: 5 / -1;
+  margin-top: auto;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  margin-bottom: .4rem;
+}
+
+.projectScenariosDescription {
+  grid-column: 1 / 7;
+  font-style: italic;
+  margin-left: .5em;
+}
+
+.projectScenariosList {
+  grid-column: 1 / -1;
+}
+
+.projectScenariosButtons {
+  grid-column: 1 / -1;
+}
+
+.projectScenariosExtendedDetails {
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 108px;
+}
+
+.scenarioSuccessChart {
+  grid-column: 1 / 4;
+  position: relative;
+}
+
+.scenarioPrimaryDetails {
+  grid-column: 4 / 8;
+  height: 100%;
+  position: relative;
+}
+
+.scenarioSecondaryDetails {
+  grid-column: 8 / -1;
+  height: 100%;
+  position: relative;
+}
+
+.projectScenariosButtons > .filters {
+  display: inline-block;
+}
+
+.scenarioPagination {
+  display: inline-block;
+}
+
+@media only screen and (max-width: 767px) {
+  .projectScenarios {
+    grid-template-rows: 50px 50px auto auto;
+  }
+
+  .projectScenariosHeader {
+    grid-row: 1 / 1;
+    grid-column: 1 / 7;
+  }
+
+  .projectScenariosDescription {
+    grid-column: 7 / -1;
+    margin-top: auto;
+    margin-bottom: .7rem;
+    margin-left: 0px;
+  }
+
+  .projectScenariosSearch {
+    grid-row: 2 / 2;
+    grid-column: 1 / -1;
+  }
+
+  .projectScenariosExtendedDetails {
+    grid-template-rows: 96px auto;
+  }
+
+  .scenarioSuccessChart {
+    grid-column: 1 / 6;
+  }
+
+  .scenarioPrimaryDetails {
+    grid-column: 6 / -1;
+  }
+
+  .scenarioSecondaryDetails {
+    grid-column: 1 / -1;
+  }
+
+  .scenarioSecondaryDetails>div:not(:nth-child(1)) {
+    display: none;
+  }
+}

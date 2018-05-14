@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { LineChart } from '../components';
 import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth, reportsCreatedDates,
-  groupReportsByProjects, getColors, setOpacity } from '../helpers/chart_helpers';
+  groupReportsByProjects, getColors, setOpacity, validateInteger } from '../helpers/chart_helpers';
 
 const parseDate = report => _.get(report, 'attributes.report.date.created_at');
 const parseProjectName = report => _.get(report, 'attributes.report.project_name');
@@ -60,10 +60,18 @@ const getChartData = (reports, activeFilter) => {
 
 const chartOptions = {
   responsive: true,
-  maintainAspectRatio: false,
   tooltips: {
     bodyFontSize: 14,
     backgroundColor: 'rgba(255,165,91,0.8)',
+  },
+  scales: {
+    yAxes: [{
+      display: true,
+      ticks: {
+        beginAtZero: true,
+        callback: validateInteger,
+      },
+    }],
   },
 };
 

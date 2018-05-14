@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import SearchReports from './search_reports';
-import { RspecReportsList, Pagination, FilterButton } from '../components';
+import { RspecReportsList, Pagination, PerPageFilter } from '../components';
 import { getRspecReports, setRspecReportsPage, setRspecReportsTags,
   getRspecReportsSuccess, getRspecReportsFailure, resetRspecReports } from '../actions/reports_actions';
 import styles from './styles/Reports.css';
@@ -38,34 +38,6 @@ class Reports extends Component {
       });
   }
 
-  activeFilter(number) {
-    return this.props.perPage === number;
-  }
-
-  renderFilterButtons() {
-    if (!this.props.reports || this.props.total <= 10) {
-      return (<div />);
-    }
-    return (
-      <div className="filters">
-        <ul id="chart-pills" className="nav nav-pills ct-orange">
-          <FilterButton
-            name="30 Per Page"
-            value={{ perPage: 30 }}
-            active={this.activeFilter(30)}
-            action={this.fetchRspecReports}
-          />
-          <FilterButton
-            name="10 Per Page"
-            value={{ perPage: 10 }}
-            active={this.activeFilter(10)}
-            action={this.fetchRspecReports}
-          />
-        </ul>
-      </div>
-    );
-  }
-
   render() {
     return (
       <div>
@@ -93,7 +65,13 @@ class Reports extends Component {
               total={this.props.total}
               action={this.fetchRspecReports}
             />
-            {this.renderFilterButtons()}
+            <PerPageFilter
+              items={this.props.reports}
+              totalCount={this.props.total}
+              buttons={[30,10]}
+              perPage={this.props.perPage}
+              action={this.fetchRspecReports}
+            />
           </div>
         </div>
       </div>

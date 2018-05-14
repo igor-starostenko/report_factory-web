@@ -1,5 +1,15 @@
 import _ from 'lodash';
 
+export const capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
+
+export const formatTotalString = (reports) => {
+  const totalReports = _.keys(reports).length;
+  if (totalReports === 0) {
+    return '';
+  }
+  return `Total Reports: ${totalReports}`;
+};
+
 export const formatDate = (date, options) => {
   const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };
   return date.toLocaleDateString('en-US', formatOptions);

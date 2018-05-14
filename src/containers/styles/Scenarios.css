@@ -1,0 +1,111 @@
+.scenarios {
+  height: 100%;
+  margin-top: 22px;
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 70px 20px auto auto;
+  margin-bottom: 4rem;
+}
+
+.scenariosHeader {
+  white-space: nowrap;
+  grid-column: 1 / 6;
+}
+
+.scenariosTitle {
+  font-size: 52px;
+  font-weight: 400;
+}
+
+.allScenariosSearch {
+  grid-column: 6 / -1;
+  margin-top: auto;
+  margin-bottom: .8rem;
+}
+
+.scenariosTotal {
+  grid-column: 1 / 7;
+  font-style: italic;
+  margin-left: .5em;
+}
+
+.allScenarios {
+  grid-column: 1 / -1;
+}
+
+.scenarioListButtons {
+  grid-column: 1 / -1;
+}
+
+.scenarioExtendedDetails {
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 24px 108px;
+}
+
+.scenarioExtendedDetails>.scenarioDetailsRow {
+  grid-column: 1 / -1;
+}
+
+.scenarioSuccessChart {
+  grid-column: 1 / 4;
+  position: relative;
+}
+
+.scenarioPrimaryDetails {
+  grid-column: 4 / 8;
+  height: 100%;
+  position: relative;
+}
+
+.scenarioSecondaryDetails {
+  grid-column: 8 / -1;
+  height: 100%;
+  position: relative;
+}
+
+.scenarioListButtons > .filters {
+  display: inline-block;
+}
+
+.scenarioPagination {
+  display: inline-block;
+}
+
+@media only screen and (max-width: 767px) {
+  .scenarios {
+    grid-template-rows: 70px 20px 50px auto auto;
+  }
+
+  .scenariosHeader {
+    grid-row: 1 / 1;
+    grid-column: 1 / -1;
+  }
+
+  .scenariosTotal {
+    grid-column: 1 / -1;
+  }
+
+  .allScenariosSearch {
+    grid-row: 3 / 3;
+    grid-column: 1 / -1;
+  }
+
+  .scenarioSuccessChart {
+    grid-column: 1 / 6;
+  }
+
+  .scenarioPrimaryDetails {
+    grid-column: 6 / -1;
+  }
+
+  .scenarioSecondaryDetails {
+    grid-column: 1 / -1;
+  }
+
+  .scenarioSecondaryDetails>div:not(:nth-child(1)) {
+    display: none;
+  }
+}

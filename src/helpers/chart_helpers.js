@@ -4,6 +4,9 @@ const lastDate = (dateType, number) => {
   const result = [];
   for (let i = number - 1; i >= 0; i -= 1) {
     const d = new Date();
+    if (dateType === 'Month') {
+      d.setDate(1);
+    }
     const date = d[`set${dateType}`](d[`get${dateType}`]() - i);
     result.push(new Date(date));
   }
@@ -92,6 +95,10 @@ export function setOpacity(color, opacity = 1) {
   const endIndex = color.lastIndexOf(')') + 1;
   const toReplace = color.substring(startIndex, endIndex);
   return color.replace(toReplace, `,${opacity})`);
+}
+
+export function validateInteger(value) {
+  return (value % 1 === 0 ? value : null);
 }
 
 export function groupReportsByProjects(reports, parseProjectName) {

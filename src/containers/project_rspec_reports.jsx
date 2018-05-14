@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import SearchReports from './search_reports';
-import { RspecReportsBar, RspecReportsList, ReportsSuccessChart, Pagination, FilterButton } from '../components';
+import { RspecReportsBar, RspecReportsList, ReportsSuccessChart, Pagination, PerPageFilter } from '../components';
 import { getProjectRspecReports, getProjectRspecReportsSuccess, getProjectRspecReportsFailure,
   setProjectRspecReportsPage, setProjectRspecReportsTags, resetProjectRspecReports } from '../actions/project_reports_actions';
 import styles from './styles/ProjectRspecReports.css';
@@ -35,40 +35,11 @@ class ProjectRspecReports extends Component {
     getProjectRspecReports(projectName, xApiKey, options)
       .then((response) => {
         if (response.status !== 200) {
-          return dispatch(getProjectRspecReportsFailure(response.payload));
+          return dispatch(getProjectRspecReportsFailure(response));
         }
         dispatch(setProjectRspecReportsPage(response));
-        // console.log(this.props);
         return dispatch(getProjectRspecReportsSuccess(response));
       });
-  }
-
-  activeFilter(number) {
-    return this.props.perPage === number;
-  }
-
-  renderFilterButtons() {
-    if (!this.props.reportsList || this.props.total <= 10) {
-      return (<div />);
-    }
-    return (
-      <div className="filters">
-        <ul id="chart-pills" className="nav nav-pills ct-orange">
-          <FilterButton
-            name="30 Per Page"
-            value={{ perPage: 30 }}
-            active={this.activeFilter(30)}
-            action={this.fetchProjectRspecReports}
-          />
-          <FilterButton
-            name="10 Per Page"
-            value={{ perPage: 10 }}
-            active={this.activeFilter(10)}
-            action={this.fetchProjectRspecReports}
-          />
-        </ul>
-      </div>
-    );
   }
 
   render() {
@@ -115,7 +86,13 @@ class ProjectRspecReports extends Component {
               total={this.props.total}
               action={this.fetchProjectRspecReports}
             />
-            {this.renderFilterButtons()}
+            <PerPageFilter
+              items={this.props.reportsList}
+              totalCount={this.props.total}
+              buttons={[30,10]}
+              perPage={this.props.perPage}
+              action={this.fetchProjectRspecReports}
+            />
           </div>
         </div>
       </div>
