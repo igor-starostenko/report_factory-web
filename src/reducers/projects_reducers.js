@@ -1,6 +1,8 @@
 import _ from 'lodash';
-import { EDIT_PROJECT, EDIT_PROJECT_SUCCESS, EDIT_PROJECT_FAILURE, RESET_EDIT_PROJECT,
-  GET_PROJECT, GET_PROJECTS, RESET_ACTIVE_PROJECT } from '../actions/projects_actions';
+import {
+  EDIT_PROJECT, EDIT_PROJECT_SUCCESS, EDIT_PROJECT_FAILURE, RESET_EDIT_PROJECT,
+  GET_PROJECT, GET_PROJECTS, RESET_ACTIVE_PROJECT,
+} from '../actions/projects_actions';
 
 const INITIAL_STATE = {
   activeProject: { data: null, error: null, loading: false },
