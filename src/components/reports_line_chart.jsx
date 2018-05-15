@@ -27,33 +27,25 @@ const colors = getColors();
 const getChartData = (reports, activeFilter) => {
   let units;
   let labels;
-  let totalData;
-  let failedReports;
-  let failedData;
   switch (activeFilter) {
     case 'Week':
       units = lastDays(8);
       labels = formatDates(units);
-      totalData = dataForDays(reports, units);
-      failedReports = filterByStatus(reports, 'failed');
-      failedData = dataForDays(failedReports, units);
       break;
     case 'Month':
       units = lastDays(32);
       labels = formatDates(units);
-      totalData = dataForDays(reports, units);
-      failedReports = filterByStatus(reports, 'failed');
-      failedData = dataForDays(failedReports, units);
       break;
     case 'Year':
       units = lastMonths(12);
       labels = formatDates(units, { month: 'short' });
-      totalData = dataForMonths(reports, units);
-      failedReports = filterByStatus(reports, 'failed');
-      failedData = dataForMonths(failedReports, units);
       break;
     default: throw new Error(`Filter ${activeFilter} not supported`);
   }
+  const failedReports = filterByStatus(reports, 'failed');
+  const passedReports = filterByStatus(reports, 'passed');
+  const failedData = dataForDays(failedReports, units);
+  const passedData = dataForDays(passedReports, units);
 
   return {
     labels,
@@ -76,7 +68,7 @@ const getChartData = (reports, activeFilter) => {
         pointBackgroundColor: setOpacity(colors.green, 0.9),
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: colors.green,
-        data: totalData,
+        data: passedData,
       },
     ],
   };

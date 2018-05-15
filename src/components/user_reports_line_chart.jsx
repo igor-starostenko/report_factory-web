@@ -60,6 +60,7 @@ const getChartData = (reports, activeFilter) => {
 
 const chartOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   tooltips: {
     bodyFontSize: 14,
     backgroundColor: 'rgba(255,165,91,0.8)',
