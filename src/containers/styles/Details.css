@@ -40,6 +40,10 @@
   position: relative;
 }
 
+.detailsContent canvas {
+  height: 400px !important;
+}
+
 .detailsExtraContent {
   grid-column: 1 / -1;
 }
