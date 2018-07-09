@@ -16,6 +16,7 @@ export const queryScenarios = (xApiKey) => {
   }
 }
 
+// Deprecated. Use 'queryScenarios' action instead
 export const getAllScenarios = (xApiKey) => {
   const request = scenariosClient.getScenarios(xApiKey);
 

@@ -37,8 +37,8 @@ export default (ComposedComponent) => {
     }
 
     setScenarios() {
-      const examples = _.get(this.props.scenariosList, 'examples');
-      const filteredScenarios = filterScenarios(examples, this.state.search);
+      const scenarios = this.props.scenariosList.data;
+      const filteredScenarios = filterScenarios(scenarios, this.state.search);
       const totalPages = _.ceil(this.state.total / this.state.perPage);
       const newState = {
         scenarios: filteredScenarios,
@@ -70,11 +70,11 @@ export default (ComposedComponent) => {
       let childKey = 0;
       return _.map(slicePageScenarios(scenarios, page, perPage), (scenario) => {
         childKey += 1;
-        const status = statusName(scenario.last_status);
+        const status = statusName(scenario.status);
         return (
           <CollapsibleItem
             className={`${styles.scenario} ${styles[status]}`}
-            title={scenario.name}
+            title={scenario.full_description}
             details={renderDetails(scenario)}
             key={childKey}
           />
