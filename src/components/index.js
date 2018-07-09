@@ -22,6 +22,7 @@ import RspecReportPieChart from './rspec_report_pie_chart';
 import RspecReportsBar from './rspec_reports_bar';
 import RspecReportsList from './rspec_reports_list';
 import SearchScenarios from './search_scenarios';
+import Scenario from './scenario';
 import ScenarioSuccessChart from './scenario_success_chart';
 import UserReportsLineChart from './user_reports_line_chart';
 
@@ -30,6 +31,6 @@ export {
   FilterButton, FormErrors, FormField, FormRadio, LineChart, NotFound, Pagination,
   PaginationNumber, ProjectScenarios, ReportsLineChart, ReportsSuccessChart,
   RspecFeatureChart, RspecReportDetails, RspecReportExamplesList, RspecReportPieChart,
-  RspecReportsBar, RspecReportsList, SearchScenarios, ScenarioSuccessChart,
+  RspecReportsBar, RspecReportsList, Scenario, SearchScenarios, ScenarioSuccessChart,
   UserReportsLineChart,
 };

@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { CollapsibleItem } from '../components';
+import { Scenario } from '../components';
 import { filterScenarios, slicePageScenarios } from '../helpers/scenarios_helpers';
-import styles from './styles/ScenariosList.css';
-
-const statusName = (status) => {
-  if (status === 'failed') {
-    return 'failedScenario';
-  } else if (status === 'passed') {
-    return 'passedScenario';
-  }
-  return 'pendingScenario';
-};
 
 export default (ComposedComponent) => {
   class ScenariosList extends Component {
@@ -62,7 +52,7 @@ export default (ComposedComponent) => {
       this.setState({ search });
     }
 
-    renderScenarios(renderDetails) {
+    renderScenarios() {
       const { scenarios, page, perPage } = this.state;
       if (_.isEmpty(scenarios)) {
         return (<div className="loading">No scenarios found</div>);
@@ -70,12 +60,11 @@ export default (ComposedComponent) => {
       let childKey = 0;
       return _.map(slicePageScenarios(scenarios, page, perPage), (scenario) => {
         childKey += 1;
-        const status = statusName(scenario.status);
         return (
-          <CollapsibleItem
-            className={`${styles.scenario} ${styles[status]}`}
+          <Scenario
             title={scenario.full_description}
-            details={renderDetails(scenario)}
+            project={scenario.project_name}
+            status={scenario.status}
             key={childKey}
           />
         );
