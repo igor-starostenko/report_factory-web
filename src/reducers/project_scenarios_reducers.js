@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { GET_SCENARIOS, GET_PROJECT_SCENARIOS } from '../actions/project_scenarios_actions';
+import { GET_SCENARIOS, GET_PROJECT_SCENARIOS } from '../actions/scenarios_actions';
 
 const INITIAL_STATE = {
   scenariosList: { data: {}, error: null, loading: false },

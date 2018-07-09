@@ -5,7 +5,7 @@ import ScenariosList from '../components/scenarios_list';
 import { Details, PerPageFilter, Pagination, ScenarioSuccessChart,
    SearchScenarios } from '../components';
 import { firstScenarioColumn, secondScenarioColumn } from '../helpers/scenarios_helpers';
-import { getAllScenarios } from '../actions/project_scenarios_actions';
+import { getAllScenarios, queryScenarios } from '../actions/scenarios_actions';
 import styles from './styles/Scenarios.css';
 
 class Scenarios extends Component {
@@ -28,6 +28,7 @@ class Scenarios extends Component {
 
   componentDidMount() {
     const { xApiKey, scenarios } = this.props;
+    this.props.queryScenarios(xApiKey);
     this.props.getAllScenarios(xApiKey);
     this.props.setScenarios();
   }
@@ -99,4 +100,4 @@ const mapStateToProps = (state) => ({
 });
 
 const composedComponent = ScenariosList(Scenarios);
-export default connect(mapStateToProps, { getAllScenarios })(composedComponent);
+export default connect(mapStateToProps, { getAllScenarios, queryScenarios })(composedComponent);

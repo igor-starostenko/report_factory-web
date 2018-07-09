@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { getProject, resetProject } from '../actions/projects_actions';
 import { getProjectReports, setProjectReportsName, getProjectReportsSuccess,
   getProjectReportsFailure } from '../actions/project_reports_actions';
-import { getProjectScenarios } from '../actions/project_scenarios_actions';
+import { getProjectScenarios } from '../actions/scenarios_actions';
 import { formatTotalString } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 

@@ -1,6 +1,17 @@
 import ApiClient from './api_client';
 
 class ScenariosClient extends ApiClient {
+  queryScenarios(xApiKey) {
+    const headers = ApiClient.formatHeaders(xApiKey);
+    return this.query({ query: `{
+      scenarios {
+        status
+        project_name
+        full_description
+      }
+    }`, headers });
+  }
+
   getScenarios(xApiKey) {
     const url = `${this.baseUrl}api/v1/scenarios`;
     const headers = ApiClient.formatHeaders(xApiKey);
