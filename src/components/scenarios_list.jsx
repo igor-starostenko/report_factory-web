@@ -17,8 +17,8 @@ export default (ComposedComponent) => {
 
     shouldComponentUpdate(nextProps, nextState) {
       return (
-        (!_.isEqual(nextProps, this.props)) ||
-        (!_.isEqual(nextState, this.state))
+        (!_.isEqual(nextState, this.state)) ||
+        (!_.isEqual(nextProps, this.props))
       );
     }
 
@@ -60,11 +60,16 @@ export default (ComposedComponent) => {
       let childKey = 0;
       return _.map(slicePageScenarios(scenarios, page, perPage), (scenario) => {
         childKey += 1;
+        const path = `${scenario.project_name}.${scenario.full_description}`;
+        const scenarioDetails = _.get(this.props.scenariosDetails, path);
         return (
           <Scenario
             title={scenario.full_description}
-            project={scenario.project_name}
+            projectName={scenario.project_name}
             status={scenario.status}
+            scenarioDetails={scenarioDetails}
+            queryScenario={this.props.queryScenario}
+            xApiKey={this.props.xApiKey}
             key={childKey}
           />
         );

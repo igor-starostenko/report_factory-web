@@ -31,9 +31,53 @@
   background-color: rgba(227, 239, 59, 0.1);
 }
 
+.scenarioExtendedDetails {
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 24px 108px;
+}
+
+.scenarioExtendedDetails>.scenarioDetailsRow {
+  grid-column: 1 / -1;
+}
+
+.scenarioSuccessChart {
+  grid-column: 1 / 4;
+  position: relative;
+}
+
+.scenarioPrimaryDetails {
+  grid-column: 4 / 8;
+  height: 100%;
+  position: relative;
+}
+
+.scenarioSecondaryDetails {
+  grid-column: 8 / -1;
+  height: 100%;
+  position: relative;
+}
+
 @media only screen and (max-width: 767px) {
   .scenario {
     word-break: break-all;
     hyphens: auto;
+  }
+
+  .scenarioSuccessChart {
+    grid-column: 1 / 6;
+  }
+
+  .scenarioPrimaryDetails {
+    grid-column: 6 / -1;
+  }
+
+  .scenarioSecondaryDetails {
+    grid-column: 1 / -1;
+  }
+
+  .scenarioSecondaryDetails>div:not(:nth-child(1)) {
+    display: none;
   }
 }

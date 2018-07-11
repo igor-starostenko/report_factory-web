@@ -12,6 +12,25 @@ class ScenariosClient extends ApiClient {
     }`, headers });
   }
 
+  queryScenario(projectName, scenarioName, xApiKey) {
+    const headers = ApiClient.formatHeaders(xApiKey);
+    return this.query({ query: `{
+      scenario(project_name: "${projectName}",
+               scenario_name: "${scenarioName}") {
+        name
+        project_name
+        last_run
+        last_status
+        last_passed
+        last_failed
+        total_runs
+        total_passed
+        total_failed
+        total_pending
+      }
+    }`, headers });
+  }
+
   getScenarios(xApiKey) {
     const url = `${this.baseUrl}api/v1/scenarios`;
     const headers = ApiClient.formatHeaders(xApiKey);

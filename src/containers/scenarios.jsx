@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import ScenariosList from '../components/scenarios_list';
-import { PerPageFilter, Pagination, ScenarioSuccessChart,
-   SearchScenarios } from '../components';
-import { firstScenarioColumn, secondScenarioColumn } from '../helpers/scenarios_helpers';
-import { queryScenarios } from '../actions/scenarios_actions';
+import { PerPageFilter, Pagination, SearchScenarios } from '../components';
+import { queryScenarios, queryScenario } from '../actions/scenarios_actions';
 import styles from './styles/Scenarios.css';
 
 class Scenarios extends Component {
@@ -66,8 +64,9 @@ class Scenarios extends Component {
 
 const mapStateToProps = (state) => ({
   scenariosList: state.scenarios.list,
+  scenariosDetails: state.scenarios.details.data,
   xApiKey: state.users.currentUser.xApiKey,
 });
 
 const composedComponent = ScenariosList(Scenarios);
-export default connect(mapStateToProps, { queryScenarios })(composedComponent);
+export default connect(mapStateToProps, { queryScenarios, queryScenario })(composedComponent);
