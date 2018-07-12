@@ -28,11 +28,7 @@ class ProjectScenarios extends Component {
   }
 
   render() {
-    if (_.get(this.props.scenariosList, 'examples') === undefined) {
-      return (<div className="loading">Loading...</div>);
-    }
-
-    if (_.get(this.props.scenariosList, 'total_count') === 0) {
+    if (_.isEmpty(this.props.scenariosList)) {
       return (<div />);
     }
 
