@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, ProjectScenarios, ReportsLineChart } from '../components';
 import _ from 'lodash';
-import { getProject, resetProject } from '../actions/projects_actions';
+import { getProject, queryProject, resetProject } from '../actions/projects_actions';
 import { getProjectReports, setProjectReportsName, getProjectReportsSuccess,
   getProjectReportsFailure } from '../actions/project_reports_actions';
 import { getProjectScenarios } from '../actions/scenarios_actions';
@@ -13,6 +13,9 @@ import styles from './styles/Details.css';
 class Project extends Component {
   componentDidMount() {
     const { xApiKey, projectName } = this.props;
+    if (!this.props.projects[projectName]) {
+      this.props.queryProject(projectName, xApiKey);
+    }
     if (!this.props.project.data) {
       this.props.getProject(projectName, xApiKey);
     }
@@ -72,6 +75,7 @@ class Project extends Component {
 }
 
 const mapDispatchToProps = {
+  queryProject,
   getProject,
   resetProject,
   setProjectReportsName,
@@ -83,8 +87,9 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, ownProps) => ({
   projectName: ownProps.match.params.name,
   project: state.projects.activeProject,
+  projects: state.projects.list.data,
   reports: state.projectReports.reportsList[ownProps.match.params.name],
-  scenarios: state.projectScenarios.scenariosList.data[ownProps.match.params.name],
+  scenarios: state.scenarios.byProject.data[ownProps.match.params.name],
   xApiKey: state.users.currentUser.xApiKey,
 });
 

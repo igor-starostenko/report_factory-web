@@ -1,17 +1,23 @@
 import _ from 'lodash';
 import {
   EDIT_PROJECT, EDIT_PROJECT_SUCCESS, EDIT_PROJECT_FAILURE, RESET_EDIT_PROJECT,
-  GET_PROJECT, GET_PROJECTS, RESET_ACTIVE_PROJECT,
+  GET_PROJECT, GET_PROJECTS, PROJECT, RESET_ACTIVE_PROJECT,
 } from '../actions/projects_actions';
 
 const INITIAL_STATE = {
   activeProject: { data: null, error: null, loading: false },
   editProject: { data: null, error: null, loading: false },
   projectsList: { data: null, error: null, loading: false },
+  list: { data: {}, error: null, loading: false },
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case PROJECT: {
+      const { project } = action.payload.data;
+      const data = { ...state.list.data, [project.project_name]: project };
+      return { ...state, list: { data, error: null, loading: false } };
+    }
     case GET_PROJECTS: {
       const list = _.mapKeys(action.payload.data, obj => obj.attributes.project_name);
       return { ...state, projectsList: { data: list, error: null, loading: false } };

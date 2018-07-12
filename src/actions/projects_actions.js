@@ -1,5 +1,6 @@
 import ProjectsClient from '../api/projects_client';
 
+export const PROJECT = 'project';
 export const EDIT_PROJECT = 'edit_project';
 export const EDIT_PROJECT_SUCCESS = 'create_project_success';
 export const EDIT_PROJECT_FAILURE = 'create_project_failure';
@@ -10,6 +11,15 @@ export const RESET_ACTIVE_PROJECT = 'reset_active_project';
 
 const apiUrl = process.env.API_URL;
 const projectsClient = new ProjectsClient(apiUrl);
+
+export const queryProject = (projectName, xApiKey) => {
+  const request = projectsClient.queryProject(projectName, xApiKey);
+
+  return {
+    type: PROJECT,
+    payload: request.then(response => response.json()),
+  };
+};
 
 export const getProjects = (xApiKey) => {
   const request = projectsClient.getAllProjects(xApiKey);

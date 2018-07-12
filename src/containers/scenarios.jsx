@@ -14,11 +14,11 @@ class Scenarios extends Component {
   }
 
   render() {
-    if (_.get(this.props.scenariosList, 'loading')) {
+    if (this.props.loading) {
       return (<div className="loading">Loading...</div>);
     }
 
-    if (_.isEmpty(this.props.scenariosList.data)) {
+    if (_.isEmpty(this.props.scenariosList)) {
       return (<div className="loading">Have not submitted any scenarios yet.</div>);
     }
 
@@ -63,7 +63,8 @@ class Scenarios extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  scenariosList: state.scenarios.list,
+  loading: state.scenarios.list.loading,
+  scenariosList: state.scenarios.list.data,
   scenariosDetails: state.scenarios.details.data,
   xApiKey: state.users.currentUser.xApiKey,
 });

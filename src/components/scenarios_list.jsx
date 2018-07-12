@@ -27,7 +27,7 @@ export default (ComposedComponent) => {
     }
 
     setScenarios() {
-      const scenarios = this.props.scenariosList.data;
+      const scenarios = this.props.scenariosList;
       const filteredScenarios = filterScenarios(scenarios, this.state.search);
       const totalPages = _.ceil(this.state.total / this.state.perPage);
       const newState = {
