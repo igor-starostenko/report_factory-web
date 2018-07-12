@@ -4,7 +4,7 @@ import { LineChart } from '../components';
 import { getColors, lastDays, lastMonths, formatDates, reportsPerDay,
   reportsPerMonth, reportsCreatedDates, setOpacity, validateInteger } from '../helpers/chart_helpers';
 
-const parseDate = report => _.get(report, 'attributes.date.created_at');
+const parseDate = report => report.created_at;
 
 const dataForDays = (reports, dates) => {
   const reportsDates = reportsCreatedDates(reports, parseDate);
@@ -17,9 +17,7 @@ const dataForMonths = (reports, dates) => {
 };
 
 const filterByStatus = (reports, status) => {
-  return _.filter(reports, (report) => {
-    return _.get(report, 'attributes.status') === status;
-  });
+  return _.filter(reports, report => { return report.status === status });
 };
 
 const colors = getColors();
@@ -116,11 +114,7 @@ const chartOptions = {
 
 export default class ReportsLineChart extends Component {
   render() {
-    if (!this.props.reports || _.get(this.props.reports, 'loading')) {
-      return (<div className="loading">Loading...</div>);
-    }
-
-    if (_.isEmpty(_.get(this.props.reports, 'data'))) {
+    if (_.isEmpty(this.props.reports)) {
       return (<div className="loading">No reports submitted for this project yet.</div>);
     }
 
@@ -128,7 +122,7 @@ export default class ReportsLineChart extends Component {
       <LineChart
         getChartData={getChartData}
         options={chartOptions}
-        reports={this.props.reports.data}
+        reports={this.props.reports}
       />);
   }
 }

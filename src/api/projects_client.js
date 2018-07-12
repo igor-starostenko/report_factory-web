@@ -22,7 +22,10 @@ class ProjectsClient extends ApiClient {
       project(project_name: "${projectName}") {
         project_name
         reports {
+          id
           status
+          created_at
+          updated_at
         }
         scenarios {
           status
