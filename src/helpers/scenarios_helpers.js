@@ -21,7 +21,7 @@ const numberOfExamples = (number) => {
 export const filterScenarios = (examples, search) => {
   return _.filter(examples, (scenario) => {
     return _.every(search, (word) => {
-      const scenarioName = scenario.name.toLowerCase();
+      const scenarioName = scenario.full_description.toLowerCase();
       return scenarioName.indexOf(word.toLowerCase()) !== -1;
     });
   });

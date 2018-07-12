@@ -10,20 +10,22 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SCENARIOS: {
-      const data = action.payload.data.scenarios;
-      const projectScenarios = _.groupBy(data, scenario => scenario.project_name);
+      const { scenarios } = action.payload.data;
+      const projectScenarios = _.groupBy(scenarios, scenario => scenario.project_name);
+      /* eslint-disable arrow-body-style */
       const byProjectData = _.mapValues(projectScenarios, (project) => {
         return { scenarios: project, total_count: project.length };
       });
-      const dataObject = (data) => ({ data, error: null, loading: false });
-      return { ...state, list: dataObject(data), byProject: dataObject(byProjectData) };
+      /* eslint-enable arrow-body-style */
+      const dataObject = data => ({ data, error: null, loading: false });
+      return { ...state, list: dataObject(scenarios), byProject: dataObject(byProjectData) };
     }
     case SCENARIO: {
       const { scenario } = action.payload.data;
       const projectName = scenario.project_name;
       const project = { ...state.details.data[projectName], [scenario.name]: scenario };
       const data = { ...state.details.data, [projectName]: project };
-      return { ...state, details: { data, error: null, loading: false } }
+      return { ...state, details: { data, error: null, loading: false } };
     }
     case GET_SCENARIOS: {
       /* eslint-disable arrow-body-style */

@@ -14,8 +14,8 @@ export const queryScenarios = (xApiKey) => {
   return {
     type: SCENARIOS,
     payload: request.then(response => response.json()),
-  }
-}
+  };
+};
 
 export const queryScenario = (projectName, scenarioName, xApiKey) => {
   const request = scenariosClient.queryScenario(projectName, scenarioName, xApiKey);
@@ -23,8 +23,8 @@ export const queryScenario = (projectName, scenarioName, xApiKey) => {
   return {
     type: SCENARIO,
     payload: request.then(response => response.json()),
-  }
-}
+  };
+};
 
 // Deprecated. Use 'queryScenarios' action instead
 export const getAllScenarios = (xApiKey) => {

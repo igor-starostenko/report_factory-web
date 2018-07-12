@@ -9,7 +9,7 @@ class ApiClient {
   }
 
   query({ query, variables, headers }) {
-    const body = JSON.stringify({ query, variables, });
+    const body = JSON.stringify({ query, variables });
     return fetch(new Request(this.graphqlUrl, { method: 'POST', body, headers }));
   }
 
