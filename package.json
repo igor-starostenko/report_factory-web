@@ -4,7 +4,7 @@
   "description": "Web dashboard service for report_factory",
   "main": "index.jsx",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development",
     "start": "node server",
     "test": "jest",

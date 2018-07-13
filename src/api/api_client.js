@@ -5,7 +5,7 @@ class ApiClient {
   constructor(url) {
     // ApiHelper.verifyUrl(url);
     this.baseUrl = ApiHelper.formatUrl(url);
-    this.graphqlUrl = `${this.baseUrl}/graphql`;
+    this.graphqlUrl = `${this.baseUrl}graphql`;
   }
 
   query({ query, variables, headers }) {
