@@ -5,6 +5,12 @@ class ApiClient {
   constructor(url) {
     // ApiHelper.verifyUrl(url);
     this.baseUrl = ApiHelper.formatUrl(url);
+    this.graphqlUrl = `${this.baseUrl}graphql`;
+  }
+
+  query({ query, variables, headers }) {
+    const body = JSON.stringify({ query, variables });
+    return fetch(new Request(this.graphqlUrl, { method: 'POST', body, headers }));
   }
 
   static formatQuery(options) {

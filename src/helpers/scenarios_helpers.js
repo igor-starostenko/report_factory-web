@@ -21,7 +21,7 @@ const numberOfExamples = (number) => {
 export const filterScenarios = (examples, search) => {
   return _.filter(examples, (scenario) => {
     return _.every(search, (word) => {
-      const scenarioName = scenario.name.toLowerCase();
+      const scenarioName = scenario.full_description.toLowerCase();
       return scenarioName.indexOf(word.toLowerCase()) !== -1;
     });
   });
@@ -34,16 +34,26 @@ export const slicePageScenarios = (scenarios, page, perPage) => {
   return scenarios.slice(startIndex, endIndex);
 };
 
-export const firstScenarioColumn = scenario => ({
-  'Total Runs': scenario.total_runs,
-  Passed: numberOfExamples(scenario.total_passed),
-  Failed: numberOfExamples(scenario.total_failed),
-  Pending: numberOfExamples(scenario.total_pending),
-});
+export const firstScenarioColumn = (scenario) => {
+  if (!scenario) {
+    return {};
+  }
+  return {
+    'Total Runs': scenario.total_runs,
+    Passed: numberOfExamples(scenario.total_passed),
+    Failed: numberOfExamples(scenario.total_failed),
+    Pending: numberOfExamples(scenario.total_pending),
+  };
+};
 
-export const secondScenarioColumn = scenario => ({
-  Status: capitalizeFirstLetter(scenario.last_status),
-  'Last Run': dateAgoString(scenario.last_run),
-  'Last Passed': dateAgoString(scenario.last_passed),
-  'Last Failed': dateAgoString(scenario.last_failed),
-});
+export const secondScenarioColumn = (scenario) => {
+  if (!scenario) {
+    return {};
+  }
+  return {
+    Status: capitalizeFirstLetter(scenario.last_status),
+    'Last Run': dateAgoString(scenario.last_run),
+    'Last Passed': dateAgoString(scenario.last_passed),
+    'Last Failed': dateAgoString(scenario.last_failed),
+  };
+};

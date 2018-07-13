@@ -16,6 +16,29 @@ class ProjectsClient extends ApiClient {
     return fetch(new Request(url, { method: 'POST', body, headers }));
   }
 
+  queryProject(projectName, xApiKey) {
+    const headers = ApiClient.formatHeaders(xApiKey);
+    return this.query({
+      query: `{
+        project(project_name: "${projectName}") {
+          project_name
+          reports {
+            id
+            status
+            created_at
+            updated_at
+          }
+          scenarios {
+            status
+            project_name
+            full_description
+          }
+        }
+      }`,
+      headers,
+    });
+  }
+
   showProject(projectName, xApiKey) {
     const url = `${this.baseUrl}api/v1/projects/${projectName}`;
     const headers = ApiClient.formatHeaders(xApiKey);

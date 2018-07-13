@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { CollapsibleItem } from '../components';
+import { Scenario } from '../components';
 import { filterScenarios, slicePageScenarios } from '../helpers/scenarios_helpers';
-import styles from './styles/ScenariosList.css';
-
-const statusName = (status) => {
-  if (status === 'failed') {
-    return 'failedScenario';
-  } else if (status === 'passed') {
-    return 'passedScenario';
-  }
-  return 'pendingScenario';
-};
 
 export default (ComposedComponent) => {
   class ScenariosList extends Component {
@@ -27,8 +17,8 @@ export default (ComposedComponent) => {
 
     shouldComponentUpdate(nextProps, nextState) {
       return (
-        (!_.isEqual(nextProps, this.props)) ||
-        (!_.isEqual(nextState, this.state))
+        (!_.isEqual(nextState, this.state)) ||
+        (!_.isEqual(nextProps, this.props))
       );
     }
 
@@ -37,8 +27,8 @@ export default (ComposedComponent) => {
     }
 
     setScenarios() {
-      const examples = _.get(this.props.scenariosList, 'examples');
-      const filteredScenarios = filterScenarios(examples, this.state.search);
+      const scenarios = this.props.scenariosList;
+      const filteredScenarios = filterScenarios(scenarios, this.state.search);
       const totalPages = _.ceil(this.state.total / this.state.perPage);
       const newState = {
         scenarios: filteredScenarios,
@@ -62,7 +52,7 @@ export default (ComposedComponent) => {
       this.setState({ search });
     }
 
-    renderScenarios(renderDetails) {
+    renderScenarios({ withProjectName }) {
       const { scenarios, page, perPage } = this.state;
       if (_.isEmpty(scenarios)) {
         return (<div className="loading">No scenarios found</div>);
@@ -70,12 +60,17 @@ export default (ComposedComponent) => {
       let childKey = 0;
       return _.map(slicePageScenarios(scenarios, page, perPage), (scenario) => {
         childKey += 1;
-        const status = statusName(scenario.last_status);
+        const path = `${scenario.project_name}.${scenario.full_description}`;
+        const scenarioDetails = _.get(this.props.scenariosDetails, path);
         return (
-          <CollapsibleItem
-            className={`${styles.scenario} ${styles[status]}`}
-            title={scenario.name}
-            details={renderDetails(scenario)}
+          <Scenario
+            title={scenario.full_description}
+            projectName={scenario.project_name}
+            withProjectName={withProjectName}
+            status={scenario.status}
+            scenarioDetails={scenarioDetails}
+            queryScenario={this.props.queryScenario}
+            xApiKey={this.props.xApiKey}
             key={childKey}
           />
         );
