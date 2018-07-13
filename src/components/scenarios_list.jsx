@@ -52,7 +52,7 @@ export default (ComposedComponent) => {
       this.setState({ search });
     }
 
-    renderScenarios() {
+    renderScenarios({ withProjectName }) {
       const { scenarios, page, perPage } = this.state;
       if (_.isEmpty(scenarios)) {
         return (<div className="loading">No scenarios found</div>);
@@ -66,6 +66,7 @@ export default (ComposedComponent) => {
           <Scenario
             title={scenario.full_description}
             projectName={scenario.project_name}
+            withProjectName={withProjectName}
             status={scenario.status}
             scenarioDetails={scenarioDetails}
             queryScenario={this.props.queryScenario}

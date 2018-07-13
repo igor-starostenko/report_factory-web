@@ -29,7 +29,7 @@ class ProjectScenarios extends Component {
           />
         </div>
         <div className={styles.projectScenariosList}>
-          {this.props.renderScenarios()}
+          {this.props.renderScenarios({ withProjectName: false })}
         </div>
         <div className={styles.projectScenariosButtons}>
           <Pagination

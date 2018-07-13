@@ -19,11 +19,18 @@ export default class Scenario extends Component {
     return 'pendingScenario';
   };
 
+  extendedDetailsStyle() {
+    if (this.props.withProjectName) {
+      return 'scenarioExtendedDetails';
+    }
+    return 'projectScenariosExtendedDetails';
+  }
+
   renderProjectName() {
-    if (this.props.projectName) {
+    if (this.props.withProjectName) {
       return (<Details rows={{ 'Project': this.props.projectName }} />);
     }
-    return (<div />);
+    return (<div style={{ display: 'none' }}/>);
   }
 
   renderDetails() {
@@ -32,7 +39,7 @@ export default class Scenario extends Component {
       return (<div className="loading" style={loadingStyle}>Loading...</div>);
     }
     return (
-      <div className={styles.scenarioExtendedDetails}>
+      <div className={styles[this.extendedDetailsStyle()]}>
         {this.renderProjectName()}
         <div className={styles.scenarioSuccessChart}>
           <ScenarioSuccessChart scenario={this.props.scenarioDetails} />

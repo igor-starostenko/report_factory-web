@@ -39,7 +39,7 @@ class Scenarios extends Component {
             Total Scenarios: {this.props.total}
           </div>
           <div className={styles.allScenarios}>
-            {this.props.renderScenarios()}
+            {this.props.renderScenarios({ withProjectName: true })}
           </div>
           <div className={styles.scenarioListButtons}>
             <Pagination

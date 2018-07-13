@@ -42,6 +42,13 @@
   grid-column: 1 / -1;
 }
 
+.projectScenariosExtendedDetails {
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 108px;
+}
+
 .scenarioSuccessChart {
   grid-column: 1 / 4;
   position: relative;
@@ -63,6 +70,10 @@
   .scenario {
     word-break: break-all;
     hyphens: auto;
+  }
+
+  .projectScenariosExtendedDetails {
+    grid-template-rows: 96px auto;
   }
 
   .scenarioSuccessChart {
