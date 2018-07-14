@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Scenario } from '../components';
+import { removeSpecialCharacters } from '../helpers/format_helpers';
 import { filterScenarios, slicePageScenarios } from '../helpers/scenarios_helpers';
 
 export default (ComposedComponent) => {
@@ -60,7 +61,8 @@ export default (ComposedComponent) => {
       let childKey = 0;
       return _.map(slicePageScenarios(scenarios, page, perPage), (scenario) => {
         childKey += 1;
-        const path = `${scenario.project_name}.${scenario.full_description}`;
+        const formattedScenarioName = removeSpecialCharacters(scenario.full_description);
+        const path = `${scenario.project_name}.${formattedScenarioName}`;
         const scenarioDetails = _.get(this.props.scenariosDetails, path);
         return (
           <Scenario

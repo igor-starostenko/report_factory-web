@@ -25,7 +25,7 @@ export default (state = INITIAL_STATE, action) => {
       const { scenario } = action.payload.data;
       const projectName = scenario.project_name;
       const scenarioName = removeSpecialCharacters(scenario.name);
-      const project = { ...state.details.data[projectName], [scenario.name]: scenario };
+      const project = { ...state.details.data[projectName], [scenarioName]: scenario };
       const data = { ...state.details.data, [projectName]: project };
       return { ...state, details: { data, error: null, loading: false } };
     }
