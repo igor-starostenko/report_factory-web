@@ -19,11 +19,10 @@ class ProjectsClient extends ApiClient {
   queryProject(projectName, xApiKey) {
     const headers = ApiClient.formatHeaders(xApiKey);
     return this.query({
-      query: `{
-        project(project_name: "${projectName}") {
+      query: `query project($projectName: String!){
+        project(project_name: $projectName) {
           project_name
           reports {
-            id
             status
             created_at
             updated_at
@@ -35,6 +34,7 @@ class ProjectsClient extends ApiClient {
           }
         }
       }`,
+      variables: { projectName },
       headers,
     });
   }
