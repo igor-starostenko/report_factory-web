@@ -2,6 +2,8 @@ import _ from 'lodash';
 
 export const capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
 
+export const removeSpecialCharacters = string => string.replace(/[^\w\s]/gi, '');
+
 export const formatTotalString = (reports) => {
   const totalReports = _.keys(reports).length;
   if (totalReports === 0) {

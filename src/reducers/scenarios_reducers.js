@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { removeSpecialCharacters } from '../helpers/format_helpers';
 import { SCENARIOS, SCENARIO, GET_SCENARIOS, GET_PROJECT_SCENARIOS } from '../actions/scenarios_actions';
 
 const INITIAL_STATE = {
@@ -23,6 +24,7 @@ export default (state = INITIAL_STATE, action) => {
     case SCENARIO: {
       const { scenario } = action.payload.data;
       const projectName = scenario.project_name;
+      const scenarioName = removeSpecialCharacters(scenario.name);
       const project = { ...state.details.data[projectName], [scenario.name]: scenario };
       const data = { ...state.details.data, [projectName]: project };
       return { ...state, details: { data, error: null, loading: false } };
