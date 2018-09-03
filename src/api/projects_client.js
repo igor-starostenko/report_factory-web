@@ -20,17 +20,17 @@ class ProjectsClient extends ApiClient {
     const headers = ApiClient.formatHeaders(xApiKey);
     return this.query({
       query: `query project($projectName: String!){
-        project(project_name: $projectName) {
-          project_name
+        project(projectName: $projectName) {
+          projectName
           reports {
             status
-            created_at
-            updated_at
+            createdAt
+            updatedAt
           }
           scenarios {
             status
-            project_name
-            full_description
+            projectName
+            fullDescription
           }
         }
       }`,

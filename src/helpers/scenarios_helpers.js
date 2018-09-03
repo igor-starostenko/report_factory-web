@@ -21,7 +21,7 @@ const numberOfExamples = (number) => {
 export const filterScenarios = (examples, search) => {
   return _.filter(examples, (scenario) => {
     return _.every(search, (word) => {
-      const scenarioName = scenario.full_description.toLowerCase();
+      const scenarioName = scenario.fullDescription.toLowerCase();
       return scenarioName.indexOf(word.toLowerCase()) !== -1;
     });
   });
@@ -39,10 +39,10 @@ export const firstScenarioColumn = (scenario) => {
     return {};
   }
   return {
-    'Total Runs': scenario.total_runs,
-    Passed: numberOfExamples(scenario.total_passed),
-    Failed: numberOfExamples(scenario.total_failed),
-    Pending: numberOfExamples(scenario.total_pending),
+    'Total Runs': scenario.totalRuns,
+    Passed: numberOfExamples(scenario.totalPassed),
+    Failed: numberOfExamples(scenario.totalFailed),
+    Pending: numberOfExamples(scenario.totalPending),
   };
 };
 
@@ -51,9 +51,9 @@ export const secondScenarioColumn = (scenario) => {
     return {};
   }
   return {
-    Status: capitalizeFirstLetter(scenario.last_status),
-    'Last Run': dateAgoString(scenario.last_run),
-    'Last Passed': dateAgoString(scenario.last_passed),
-    'Last Failed': dateAgoString(scenario.last_failed),
+    Status: capitalizeFirstLetter(scenario.lastStatus),
+    'Last Run': dateAgoString(scenario.lastRun),
+    'Last Passed': dateAgoString(scenario.lastPassed),
+    'Last Failed': dateAgoString(scenario.lastFailed),
   };
 };

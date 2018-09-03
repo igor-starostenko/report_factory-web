@@ -7,8 +7,8 @@ class ScenariosClient extends ApiClient {
       query: `{
         scenarios {
           status
-          project_name
-          full_description
+          projectName
+          fullDescription
         }
       }`,
       headers,
@@ -19,18 +19,18 @@ class ScenariosClient extends ApiClient {
     const headers = ApiClient.formatHeaders(xApiKey);
     return this.query({
       query: `query scenario($projectName: String!, $scenarioName: String!){
-        scenario(project_name: $projectName,
-                 scenario_name: $scenarioName) {
+        scenario(projectName: $projectName,
+                 scenarioName: $scenarioName) {
           name
-          project_name
-          last_run
-          last_status
-          last_passed
-          last_failed
-          total_runs
-          total_passed
-          total_failed
-          total_pending
+          projectName
+          lastRun
+          lastStatus
+          lastPassed
+          lastFailed
+          totalRuns
+          totalPassed
+          totalFailed
+          totalPending
         }
       }`,
       variables: { projectName, scenarioName },

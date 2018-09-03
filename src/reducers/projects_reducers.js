@@ -15,7 +15,7 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case PROJECT: {
       const { project } = action.payload.data;
-      const data = { ...state.list.data, [project.project_name]: project };
+      const data = { ...state.list.data, [project.projectName]: project };
       return { ...state, list: { data, error: null, loading: false } };
     }
     case GET_PROJECTS: {
