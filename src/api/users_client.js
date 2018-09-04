@@ -1,6 +1,24 @@
 import ApiClient from './api_client';
 
 class UsersClient extends ApiClient {
+  queryUserReports(userId, xApiKey) {
+    const headers = ApiClient.formatHeaders(xApiKey);
+    return this.query({
+      query: `query user($id: Int!){
+        user(id: $id) {
+          id
+          name
+          reports {
+            projectName
+            createdAt
+          }
+        }
+      }`,
+      variables: { id: parseInt(userId) },
+      headers,
+    });
+  }
+
   getAllUsers(xApiKey) {
     const url = `${this.baseUrl}api/v1/users`;
     const headers = ApiClient.formatHeaders(xApiKey);

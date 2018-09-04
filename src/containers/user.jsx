@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { Button, ConfirmModal, UserReportsLineChart } from '../components';
-import { getUser, logOut, getUserReports } from '../actions/users_actions';
+import { getUser, logOut, queryUserReports } from '../actions/users_actions';
 import { formatTotalString } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';
@@ -18,7 +18,7 @@ class User extends Component {
     this.requestUser();
     const { userReports, userId } = this.props;
     if (!_.get(userReports, `data.${userId}`)) {
-      this.props.getUserReports(userId, this.props.xApiKey);
+      this.props.queryUserReports(userId, this.props.xApiKey);
     }
   }
 
@@ -147,4 +147,4 @@ const mapStateToProps = (state, ownProps) => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getUser, logOut, getUserReports })(User);
+export default connect(mapStateToProps, { getUser, logOut, queryUserReports })(User);
