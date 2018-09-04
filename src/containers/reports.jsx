@@ -3,42 +3,57 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import SearchReports from './search_reports';
 import { RspecReportsList, Pagination, PerPageFilter } from '../components';
-import { getRspecReports, setRspecReportsPage, setRspecReportsTags,
-  getRspecReportsSuccess, getRspecReportsFailure, resetRspecReports } from '../actions/reports_actions';
+import { queryRspecReports, setRspecReportsQuery } from '../actions/reports_actions';
 import styles from './styles/Reports.css';
 
 class Reports extends Component {
   constructor(props) {
     super(props);
+    this.setSearchTags = this.setSearchTags.bind(this);
     this.fetchRspecReports = this.fetchRspecReports.bind(this);
   }
 
   componentDidMount() {
-    const { reportsList } = this.props;
-    if (!reportsList || _.isEmpty(reportsList)) {
-      const { page, perPage } = this.props;
-      this.fetchRspecReports({ page, perPage });
+    if (!this.props.rspecReports) {
+      const { tags } = this.props.query;
+      this.fetchRspecReports({ perPage: this.perPage(), tags });
     }
   }
 
-  fetchRspecReports({ page, perPage, tags }) {
-    const { xApiKey, dispatch } = this.props;
-    const options = {
-      page: page || this.props.page,
-      per_page: perPage || this.props.perPage,
-      tags: tags || this.props.tags,
-    };
-    getRspecReports(xApiKey, options)
-      .then((response) => {
-        if (response.status !== 200) {
-          return dispatch(getRspecReportsFailure(response.payload));
-        }
-        dispatch(setRspecReportsPage(response));
-        return dispatch(getRspecReportsSuccess(response));
-      });
+  fetchRspecReports({ perPage, tags }) {
+    const { xApiKey } = this.props;
+    const variables = this.prepareVariables({ perPage, tags });
+    this.props.setRspecReportsQuery(variables)
+    this.props.queryRspecReports(xApiKey, variables);
+  }
+
+  prepareVariables({ perPage, tags }) {
+    const { first, last, before, after } = this.props.query;
+    if (last) {
+      return { last: perPage || last, before, tags };
+    }
+    return { first: perPage || first, after, tags };
+  }
+
+  setSearchTags(tags) {
+    this.props.setRspecReportsQuery({ tags })
+  }
+
+  perPage() {
+    const { query: { first, last } } = this.props;
+    return first || last;
+  }
+
+  fetchReportablesFromProps() {
+    return this.props.edges.map(edge => edge.node);
   }
 
   render() {
+    if (!this.props.edges) {
+      return (<div className="loading">Loading...</div>);
+    }
+
+    const reports = this.fetchReportablesFromProps();
     return (
       <div>
         <br />
@@ -49,27 +64,19 @@ class Reports extends Component {
           <div className={styles.reportsSearch}>
             <SearchReports
               action={this.fetchRspecReports}
-              setSearch={this.props.setRspecReportsTags}
-              initialValues={{ tags: this.props.tags }}
+              setSearch={this.setSearchTags}
+              initialValues={{ tags: this.props.query.tags }}
               {...this.props}
             />
           </div>
           <div className={styles.reportsContent}>
-            <RspecReportsList reports={this.props.reports} />
+            <RspecReportsList reports={reports} />
           </div>
           <div className={styles.reportsButtons}>
-            <Pagination
-              className={styles.reportsPagination}
-              page={this.props.page}
-              perPage={this.props.perPage}
-              total={this.props.total}
-              action={this.fetchRspecReports}
-            />
             <PerPageFilter
-              items={this.props.reports}
-              totalCount={this.props.total}
+              totalCount={this.props.totalCount}
               buttons={[30,10]}
-              perPage={this.props.perPage}
+              perPage={this.perPage()}
               action={this.fetchRspecReports}
             />
           </div>
@@ -79,20 +86,12 @@ class Reports extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  getRspecReports: (...args) => dispatch(getRspecReports(...args)),
-  setRspecReportsTags: (...args) => dispatch(setRspecReportsTags(...args)),
-  resetRspecReports: () => dispatch(resetRspecReports()),
-  dispatch,
-});
-
 const mapStateToProps = state => ({
-  page: state.reports.rspecReportsList.page,
-  perPage: state.reports.rspecReportsList.perPage,
-  total: state.reports.rspecReportsList.total,
-  tags: state.reports.rspecReportsList.tags,
-  reports: state.reports.rspecReportsList.data,
+  edges: state.reports.rspecReportsConnection.edges,
+  pageInfo: state.reports.rspecReportsConnection.pageInfo,
+  totalCount: state.reports.rspecReportsConnection.totalCount,
+  query: state.reports.rspecReportsConnection.query,
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Reports);
+export default connect(mapStateToProps, { queryRspecReports, setRspecReportsQuery })(Reports);
