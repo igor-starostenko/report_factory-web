@@ -15,7 +15,7 @@ const INITIAL_STATE = {
   },
   rspecReportsConnection: {
     edges: null, pageInfo: null, totalCount: null, errors: null,
-    query: { first: 10, tags: [] },
+    query: { page: 1, first: 10, tags: [] },
   },
   activeRspecReport: { data: null, error: null, loading: false },
 };

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import SearchReports from './search_reports';
-import { RspecReportsList, Pagination, PerPageFilter } from '../components';
+import { RspecReportsList, PaginationConnection, PerPageFilter } from '../components';
 import { queryRspecReports, setRspecReportsQuery } from '../actions/reports_actions';
 import styles from './styles/Reports.css';
 
@@ -20,19 +20,30 @@ class Reports extends Component {
     }
   }
 
-  fetchRspecReports({ perPage, tags }) {
+  fetchRspecReports({ page, perPage, tags }) {
     const { xApiKey } = this.props;
-    const variables = this.prepareVariables({ perPage, tags });
+    const variables = this.prepareVariables({ page, perPage, tags });
     this.props.setRspecReportsQuery(variables)
     this.props.queryRspecReports(xApiKey, variables);
   }
 
-  prepareVariables({ perPage, tags }) {
-    const { first, last, before, after } = this.props.query;
+  prepareVariables({ page, perPage, tags }) {
+    const {
+      first, last, before, after,
+    } = this.props.query;
+    const newPage = page || this.props.query.page;
     if (last) {
-      return { last: perPage || last, before, tags };
+      return {
+        page: newPage,
+        last: perPage || last,
+        before, tags,
+      };
     }
-    return { first: perPage || first, after, tags };
+    return {
+      page: newPage,
+      first: perPage || first,
+      after, tags,
+    };
   }
 
   setSearchTags(tags) {
@@ -73,6 +84,13 @@ class Reports extends Component {
             <RspecReportsList reports={reports} />
           </div>
           <div className={styles.reportsButtons}>
+            <PaginationConnection
+              className={styles.reportsPagination}
+              perPage={this.perPage()}
+              page={this.props.query.page}
+              totalCount={this.props.totalCount}
+              action={this.fetchRspecReports}
+            />
             <PerPageFilter
               totalCount={this.props.totalCount}
               buttons={[30,10]}
