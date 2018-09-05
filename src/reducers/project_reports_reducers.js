@@ -1,13 +1,18 @@
 import _ from 'lodash';
 import {
   GET_PROJECT_REPORTS, GET_PROJECT_REPORTS_SUCCESS, GET_PROJECT_REPORTS_FAILURE,
-  GET_PROJECT_RSPEC_REPORTS, GET_PROJECT_RSPEC_REPORTS_SUCCESS, GET_PROJECT_RSPEC_REPORTS_FAILURE
-  , GET_PROJECT_RSPEC_REPORT, SET_PROJECT_RSPEC_REPORTS_PAGE, SET_PROJECT_RSPEC_REPORTS_TAGS,
-  RESET_PROJECT_RSPEC_REPORTS,
+  GET_PROJECT_RSPEC_REPORTS, GET_PROJECT_RSPEC_REPORTS_SUCCESS,
+  GET_PROJECT_RSPEC_REPORTS_FAILURE, GET_PROJECT_RSPEC_REPORT,
+  SET_PROJECT_RSPEC_REPORTS_PAGE, SET_PROJECT_RSPEC_REPORTS_TAGS,
+  RESET_PROJECT_RSPEC_REPORTS, PROJECT_RSPEC_REPORTS, PROJECT_RSPEC_REPORTS_QUERY,
 } from '../actions/project_reports_actions';
 
 const INITIAL_STATE = {
   reportsList: {},
+  rspecReportsConnection: {
+    edges: null, pageInfo: null, totalCount: null, errors: null,
+    query: { page: 1, perPage: 10, tags: [] },
+  },
   rspecReportsList: {
     data: null, error: null, loading: false, perPage: 10, page: 1, total: null, tags: [],
   },
@@ -15,6 +20,18 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case PROJECT_RSPEC_REPORTS: {
+      const { query } = state.rspecReportsConnection;
+      let { rspecReportsConnection } = action.payload.data;
+      const { edges, pageInfo, totalCount, errors } = rspecReportsConnection;
+      rspecReportsConnection = { edges, pageInfo, totalCount, errors, query };
+      return { ...state, rspecReportsConnection };
+    }
+    case PROJECT_RSPEC_REPORTS_QUERY: {
+      const query = action.payload;
+      const rspecReportsConnection = { ...state.rspecReportsConnection, query };
+      return { ...state, rspecReportsConnection };
+    }
     case GET_PROJECT_REPORTS: {
       const { projectName } = action.payload;
       const reportsList = { [projectName]: { data: null, error: null, loading: true } };
@@ -65,7 +82,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, rspecReportsList: { data, error, loading: false } };
     }
     case RESET_PROJECT_RSPEC_REPORTS: {
-      return { ...state, rspecReportsList: INITIAL_STATE.rspecReportsList };
+      const { rspecReportsList, rspecReportsConnection } = INITIAL_STATE;
+      return { ...state, rspecReportsList, rspecReportsConnection };
     }
     case GET_PROJECT_RSPEC_REPORT: {
       const { data } = action.payload;

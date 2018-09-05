@@ -22,7 +22,9 @@ const options = {
 
 const colors = getColors(0.7);
 
-const getFailedCount = reports => (_.filter(reports, r => r.attributes.summary.failure_count > 0));
+const getFailedCount = (reports) => {
+  return _.filter(reports, report => report.summary.failureCount > 0);
+};
 
 const getChartData = (reports) => {
   const failed = getFailedCount(reports).length / _.keys(reports).length;
@@ -35,7 +37,7 @@ const getChartData = (reports) => {
 
 export default class ReportsSuccessChart extends Component {
   shouldComponentUpdate(nextProps) {
-    return this.props.reports !== nextProps.reports;
+    return !_.isEqual(this.props.reports, nextProps.reports);
   }
 
   render() {

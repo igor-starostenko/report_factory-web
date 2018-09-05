@@ -10,9 +10,25 @@ export const GET_PROJECT_RSPEC_REPORT = 'get_project_rspec_report';
 export const SET_PROJECT_RSPEC_REPORTS_PAGE = 'set_project_rspec_reports_page';
 export const SET_PROJECT_RSPEC_REPORTS_TAGS = 'set_project_rspec_reports_tags';
 export const RESET_PROJECT_RSPEC_REPORTS = 'reset_project_rspec_reports';
+export const PROJECT_RSPEC_REPORTS = 'project_rspec_reports';
+export const PROJECT_RSPEC_REPORTS_QUERY = 'project_rspec_reports_query';
 
 const apiUrl = process.env.API_URL;
 const reportsClient = new ReportsClient(apiUrl);
+
+export const queryProjectRspecReports = (xApiKey, variables) => {
+  const request = reportsClient.queryRspecReports(xApiKey, variables);
+
+  return {
+    type: PROJECT_RSPEC_REPORTS,
+    payload: request.then(response => response.json()),
+  };
+};
+
+export const setProjectRspecReportsQuery = variables => ({
+  type: PROJECT_RSPEC_REPORTS_QUERY,
+  payload: variables,
+});
 
 /* eslint-disable arrow-body-style */
 export const getProjectReports = (projectName, xApiKey) => {

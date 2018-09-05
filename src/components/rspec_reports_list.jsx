@@ -11,33 +11,7 @@ const statusName = (failureCount) => {
   return 'passedTest';
 };
 
-// Ensure both data formats are supported
 const fetchDetailsFromReport = (rspecReport) => {
-  if (rspecReport.attributes) {
-    return fetchFromAttributes(rspecReport);
-  }
-  return fetchFromConnection(rspecReport);
-};
-
-const fetchFromAttributes = (rspecReport) => {
-  const {
-    project_name: projectName,
-    report_type: reportableType,
-    date: { created_at: createdAt },
-    summary: {
-      duration,
-      example_count: exampleCount,
-      pending_count: pendingCount,
-      failure_count: failureCount,
-    },
-  } = rspecReport.attributes;
-  return {
-    projectName, reportableType, createdAt, duration,
-    exampleCount, pendingCount, failureCount,
-  };
-};
-
-const fetchFromConnection = (rspecReport) => {
   const {
     report: { projectName, reportableType, createdAt },
     summary: { duration, exampleCount, pendingCount, failureCount },
@@ -51,7 +25,7 @@ const fetchFromConnection = (rspecReport) => {
 export default class RspecReportsList extends Component {
   /* eslint-disable arrow-body-style */
   static renderHeaderItems(names) {
-    return _.map(names, (name) => {
+    return names.map((name) => {
       return (<div className={styles[`list${name}`]} key={name}>{name}</div>);
     });
   }

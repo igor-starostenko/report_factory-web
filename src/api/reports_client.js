@@ -43,8 +43,8 @@ class ReportsClient extends ApiClient {
   queryRspecReports(xApiKey, variables) {
     const headers = ApiClient.formatHeaders(xApiKey);
     return this.query({
-      query: `query rspecReportsConnection($first: Int, $last: Int, $before: String, $after: String, $tags: [String]) {
-        rspecReportsConnection(first: $first, last: $last, after: $after, before: $before, tags: $tags) {
+      query: `query rspecReportsConnection($first: Int, $last: Int, $before: String, $after: String, $tags: [String], $projectName: String) {
+        rspecReportsConnection(first: $first, last: $last, after: $after, before: $before, tags: $tags, projectName: $projectName) {
           totalCount
           pageInfo {
             startCursor

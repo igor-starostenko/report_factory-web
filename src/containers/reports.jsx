@@ -14,7 +14,7 @@ class Reports extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.rspecReports) {
+    if (!this.props.edges) {
       const { perPage, tags } = this.props.query;
       this.fetchRspecReports({ perPage, tags });
     }
@@ -61,16 +61,12 @@ class Reports extends Component {
     this.props.setRspecReportsQuery({ page: 1, perPage: 10, tags })
   }
 
-  fetchReportablesFromProps() {
-    return this.props.edges.map(edge => edge.node);
-  }
-
   render() {
     if (!this.props.edges) {
       return (<div className="loading">Loading...</div>);
     }
 
-    const reports = this.fetchReportablesFromProps();
+    const reports = this.props.edges.map(edge => edge.node);
     return (
       <div>
         <br />
@@ -92,8 +88,8 @@ class Reports extends Component {
           <div className={styles.reportsButtons}>
             <PaginationConnection
               className={styles.reportsPagination}
-              perPage={this.props.query.perPage}
               page={this.props.query.page}
+              perPage={this.props.query.perPage}
               totalCount={this.props.totalCount}
               action={this.fetchRspecReports}
             />
