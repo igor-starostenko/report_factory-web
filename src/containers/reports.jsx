@@ -9,50 +9,48 @@ import styles from './styles/Reports.css';
 class Reports extends Component {
   constructor(props) {
     super(props);
-    this.setSearchTags = this.setSearchTags.bind(this);
+    this.resetSearchTags = this.resetSearchTags.bind(this);
     this.fetchRspecReports = this.fetchRspecReports.bind(this);
   }
 
   componentDidMount() {
     if (!this.props.rspecReports) {
-      const { tags } = this.props.query;
-      this.fetchRspecReports({ perPage: this.perPage(), tags });
+      const { perPage, tags } = this.props.query;
+      this.fetchRspecReports({ perPage, tags });
     }
   }
 
-  fetchRspecReports({ page, perPage, tags }) {
+  fetchRspecReports(options) {
     const { xApiKey } = this.props;
-    const variables = this.prepareVariables({ page, perPage, tags });
+    const variables = this.prepareVariables(options);
     this.props.setRspecReportsQuery(variables)
     this.props.queryRspecReports(xApiKey, variables);
   }
 
-  prepareVariables({ page, perPage, tags }) {
-    const {
-      first, last, before, after,
-    } = this.props.query;
+  prepareVariables({
+    page, perPage, tags, start, next, previous, end
+  }) {
     const newPage = page || this.props.query.page;
-    if (last) {
-      return {
-        page: newPage,
-        last: perPage || last,
-        before, tags,
-      };
+    const newPerPage = perPage || this.props.query.perPage;
+    const newTags = tags || this.props.query.tags;
+    if (start || tags || perPage) {
+      return { page: 1, perPage: newPerPage, first: newPerPage, tags: newTags };
+    } else if (next) {
+      const { endCursor: after } = this.props.pageInfo;
+      return { page: newPage, perPage: newPerPage, first: newPerPage, after, tags: newTags };
+    } else if (previous) {
+      const { startCursor: before } = this.props.pageInfo;
+      return { page: newPage, perPage: newPerPage, last: newPerPage, before, tags: newTags };
+    } else if (end) {
+      const remaining = this.props.totalCount % newPerPage;
+      return { page: newPage, perPage: newPerPage, last: remaining, tags: newTags };
+    } else {
+      return { page: newPage, perPage: newPerPage, first: newPerPage, tags: newTags };
     }
-    return {
-      page: newPage,
-      first: perPage || first,
-      after, tags,
-    };
   }
 
-  setSearchTags(tags) {
-    this.props.setRspecReportsQuery({ tags })
-  }
-
-  perPage() {
-    const { query: { first, last } } = this.props;
-    return first || last;
+  resetSearchTags(tags) {
+    this.props.setRspecReportsQuery({ page: 1, perPage: 10, tags })
   }
 
   fetchReportablesFromProps() {
@@ -75,7 +73,7 @@ class Reports extends Component {
           <div className={styles.reportsSearch}>
             <SearchReports
               action={this.fetchRspecReports}
-              setSearch={this.setSearchTags}
+              setSearch={this.resetSearchTags}
               initialValues={{ tags: this.props.query.tags }}
               {...this.props}
             />
@@ -86,7 +84,7 @@ class Reports extends Component {
           <div className={styles.reportsButtons}>
             <PaginationConnection
               className={styles.reportsPagination}
-              perPage={this.perPage()}
+              perPage={this.props.query.perPage}
               page={this.props.query.page}
               totalCount={this.props.totalCount}
               action={this.fetchRspecReports}
@@ -94,7 +92,7 @@ class Reports extends Component {
             <PerPageFilter
               totalCount={this.props.totalCount}
               buttons={[30,10]}
-              perPage={this.perPage()}
+              perPage={this.props.query.perPage}
               action={this.fetchRspecReports}
             />
           </div>

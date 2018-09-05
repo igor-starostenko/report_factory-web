@@ -39,7 +39,7 @@ export default class PaginationConnection extends Component {
       pages.push({ page: 2, next: (currentPage === 1) });
     }
     pages.push({ page: lastPage, end: true });
-    return _.map(pages, (obj) => {
+    return pages.map((obj) => {
       if (obj.ellipsis) {
         return (<div key={obj.page} className={styles.ellipsis}>...</div>);
       }
