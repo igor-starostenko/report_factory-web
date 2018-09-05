@@ -14,7 +14,7 @@ class UsersClient extends ApiClient {
           }
         }
       }`,
-      variables: { id: parseInt(userId) },
+      variables: { id: parseInt(userId, 10) },
       headers,
     });
   }

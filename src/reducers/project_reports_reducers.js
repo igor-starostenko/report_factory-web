@@ -10,7 +10,10 @@ import {
 const INITIAL_STATE = {
   reportsList: {},
   rspecReportsConnection: {
-    edges: null, pageInfo: null, totalCount: null, errors: null,
+    edges: null,
+    pageInfo: null,
+    totalCount: null,
+    errors: null,
     query: { page: 1, perPage: 10, tags: [] },
   },
   rspecReportsList: {
@@ -23,8 +26,12 @@ export default (state = INITIAL_STATE, action) => {
     case PROJECT_RSPEC_REPORTS: {
       const { query } = state.rspecReportsConnection;
       let { rspecReportsConnection } = action.payload.data;
-      const { edges, pageInfo, totalCount, errors } = rspecReportsConnection;
-      rspecReportsConnection = { edges, pageInfo, totalCount, errors, query };
+      const {
+        edges, pageInfo, totalCount, errors,
+      } = rspecReportsConnection;
+      rspecReportsConnection = {
+        edges, pageInfo, totalCount, errors, query,
+      };
       return { ...state, rspecReportsConnection };
     }
     case PROJECT_RSPEC_REPORTS_QUERY: {

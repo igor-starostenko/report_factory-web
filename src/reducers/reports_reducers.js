@@ -3,7 +3,7 @@ import {
   GET_REPORTS, GET_RSPEC_REPORT, RESET_RSPEC_REPORT, GET_RSPEC_REPORTS,
   SET_RSPEC_REPORTS_PAGE, SET_RSPEC_REPORTS_TAGS, GET_RSPEC_REPORTS_SUCCESS,
   GET_RSPEC_REPORTS_FAILURE, RESET_RSPEC_REPORTS, RSPEC_REPORTS,
-  RSPEC_REPORTS_QUERY
+  RSPEC_REPORTS_QUERY,
 } from '../actions/reports_actions';
 
 const INITIAL_STATE = {
@@ -14,7 +14,10 @@ const INITIAL_STATE = {
     data: null, error: null, loading: false, perPage: 10, page: 1, tags: [],
   },
   rspecReportsConnection: {
-    edges: null, pageInfo: null, totalCount: null, errors: null,
+    edges: null,
+    pageInfo: null,
+    totalCount: null,
+    errors: null,
     query: { page: 1, perPage: 10, tags: [] },
   },
   activeRspecReport: { data: null, error: null, loading: false },
@@ -25,8 +28,12 @@ export default (state = INITIAL_STATE, action) => {
     case RSPEC_REPORTS: {
       const { query } = state.rspecReportsConnection;
       let { rspecReportsConnection } = action.payload.data;
-      const { edges, pageInfo, totalCount, errors } = rspecReportsConnection;
-      rspecReportsConnection = { edges, pageInfo, totalCount, errors, query };
+      const {
+        edges, pageInfo, totalCount, errors,
+      } = rspecReportsConnection;
+      rspecReportsConnection = {
+        edges, pageInfo, totalCount, errors, query,
+      };
       return { ...state, rspecReportsConnection };
     }
     case RSPEC_REPORTS_QUERY: {
