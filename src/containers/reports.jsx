@@ -21,10 +21,18 @@ class Reports extends Component {
   }
 
   fetchRspecReports(options) {
-    const { xApiKey } = this.props;
     const variables = this.prepareVariables(options);
-    this.props.setRspecReportsQuery(variables)
-    this.props.queryRspecReports(xApiKey, variables);
+    this.setRspecReportsQuery(variables);
+    this.queryRspecReports(variables);
+  }
+
+  setRspecReportsQuery({ page, perPage, tags }) {
+    this.props.setRspecReportsQuery({ page, perPage, tags });
+  }
+
+  queryRspecReports({ first, last, before, after, tags }) {
+    const { xApiKey } = this.props;
+    this.props.queryRspecReports(xApiKey, { first, last, before, after, tags });
   }
 
   prepareVariables({
