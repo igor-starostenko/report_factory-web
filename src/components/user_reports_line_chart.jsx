@@ -4,8 +4,8 @@ import { LineChart } from '../components';
 import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth, reportsCreatedDates,
   groupReportsByProjects, getColors, setOpacity, validateInteger } from '../helpers/chart_helpers';
 
-const parseDate = report => _.get(report, 'attributes.report.date.created_at');
-const parseProjectName = report => _.get(report, 'attributes.report.project_name');
+const parseDate = report => report.createdAt;
+const parseProjectName = report => report.projectName;
 const colors = getColors();
 
 const projectReportsDatasets = (reports, dates, reportsPerDate) => {

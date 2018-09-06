@@ -26,8 +26,8 @@ const options = {
 const colors = getColors(0.7);
 
 const getChartData = (scenario) => {
-  const passed = scenario.total_passed / scenario.total_runs;
-  const failed = scenario.total_failed / scenario.total_runs;
+  const passed = scenario.totalPassed / scenario.totalRuns;
+  const failed = scenario.totalFailed / scenario.totalRuns;
   const data = [passed, 1 - passed - failed, failed];
   const backgroundColor = [colors.green, colors.yellow, colors.red];
   const hoverBackgroundColor = [

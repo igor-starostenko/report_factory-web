@@ -1,6 +1,8 @@
 # Report Factory Web
 
-*Report Factory Web* is a dashboard that provides a web interface to [Report Factory](https://github.com/igor-starostenko/report_factory) server and allows user to set up projects, do user management and view reports details and analytics.
+[![Build Status](https://travis-ci.org/igor-starostenko/report_factory-web.svg?branch=master)](https://travis-ci.org/igor-starostenko/report_factory-web)
+
+*Report Factory Web* is a dashboard that provides a web interface for [Report Factory](https://github.com/igor-starostenko/report_factory) server and allows user to set up projects, do user management and view reports details and analytics.
 
 ## Getting Started
 Follow these [instructions](https://github.com/igor-starostenko/report_factory/blob/master/setup/INSTRUCTIONS.md) to get *Report Factory* running with *Docker*. The configuration is ready for production.

@@ -11,10 +11,21 @@ const statusName = (failureCount) => {
   return 'passedTest';
 };
 
+const fetchDetailsFromReport = (rspecReport) => {
+  const {
+    report: { projectName, reportableType, createdAt },
+    summary: { duration, exampleCount, pendingCount, failureCount },
+  } = rspecReport;
+  return {
+    projectName, reportableType, createdAt, duration,
+    exampleCount, pendingCount, failureCount,
+  };
+};
+
 export default class RspecReportsList extends Component {
   /* eslint-disable arrow-body-style */
   static renderHeaderItems(names) {
-    return _.map(names, (name) => {
+    return names.map((name) => {
       return (<div className={styles[`list${name}`]} key={name}>{name}</div>);
     });
   }
@@ -31,11 +42,13 @@ export default class RspecReportsList extends Component {
   }
 
   renderReports() {
-    return _.map(this.props.reports, (report) => {
-      const { date, summary } = report.attributes;
-      const duration = formatDuration(summary.duration);
-      const created = `${formatDateAgo(new Date(date.created_at))} ago`;
-      const status = statusName(summary.failure_count);
+    return this.props.reports.map((report) => {
+      const {
+        projectName, reportableType, createdAt, duration,
+        exampleCount, pendingCount, failureCount,
+      } = fetchDetailsFromReport(report);
+      const timeAgo = `${formatDateAgo(new Date(createdAt))} ago`;
+      const status = statusName(failureCount);
       return (
         <Link
           to={`/reports/${report.id}`}
@@ -43,13 +56,13 @@ export default class RspecReportsList extends Component {
           key={report.id}
         >
           <div className={styles.listNumber}># {report.id}</div>
-          <div className={styles.listProject}>{report.attributes.project_name}</div>
-          <div className={styles.listType}>{report.attributes.report_type}</div>
-          <div className={styles.listRan}>{created}</div>
-          <div className={styles.listDuration}>{duration}</div>
-          <div className={styles.listTests}>{summary.example_count}</div>
-          <div className={styles.listPending}>{summary.pending_count}</div>
-          <div className={styles.listFailed}>{summary.failure_count}</div>
+          <div className={styles.listProject}>{projectName}</div>
+          <div className={styles.listType}>{reportableType}</div>
+          <div className={styles.listRan}>{timeAgo}</div>
+          <div className={styles.listDuration}>{formatDuration(duration)}</div>
+          <div className={styles.listTests}>{exampleCount}</div>
+          <div className={styles.listPending}>{pendingCount}</div>
+          <div className={styles.listFailed}>{failureCount}</div>
         </Link>
       );
     });

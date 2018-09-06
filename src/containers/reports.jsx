@@ -2,43 +2,71 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import SearchReports from './search_reports';
-import { RspecReportsList, Pagination, PerPageFilter } from '../components';
-import { getRspecReports, setRspecReportsPage, setRspecReportsTags,
-  getRspecReportsSuccess, getRspecReportsFailure, resetRspecReports } from '../actions/reports_actions';
+import { RspecReportsList, PaginationConnection, PerPageFilter } from '../components';
+import { queryRspecReports, setRspecReportsQuery } from '../actions/reports_actions';
 import styles from './styles/Reports.css';
 
 class Reports extends Component {
   constructor(props) {
     super(props);
+    this.resetSearchTags = this.resetSearchTags.bind(this);
     this.fetchRspecReports = this.fetchRspecReports.bind(this);
   }
 
   componentDidMount() {
-    const { reportsList } = this.props;
-    if (!reportsList || _.isEmpty(reportsList)) {
-      const { page, perPage } = this.props;
-      this.fetchRspecReports({ page, perPage });
+    if (!this.props.edges) {
+      const { perPage, tags } = this.props.query;
+      this.fetchRspecReports({ perPage, tags });
     }
   }
 
-  fetchRspecReports({ page, perPage, tags }) {
-    const { xApiKey, dispatch } = this.props;
-    const options = {
-      page: page || this.props.page,
-      per_page: perPage || this.props.perPage,
-      tags: tags || this.props.tags,
-    };
-    getRspecReports(xApiKey, options)
-      .then((response) => {
-        if (response.status !== 200) {
-          return dispatch(getRspecReportsFailure(response.payload));
-        }
-        dispatch(setRspecReportsPage(response));
-        return dispatch(getRspecReportsSuccess(response));
-      });
+  fetchRspecReports(options) {
+    const variables = this.prepareVariables(options);
+    this.setRspecReportsQuery(variables);
+    this.queryRspecReports(variables);
+  }
+
+  setRspecReportsQuery({ page, perPage, tags }) {
+    this.props.setRspecReportsQuery({ page, perPage, tags });
+  }
+
+  queryRspecReports({ first, last, before, after, tags }) {
+    const { xApiKey } = this.props;
+    this.props.queryRspecReports(xApiKey, { first, last, before, after, tags });
+  }
+
+  prepareVariables({
+    page, perPage, tags, start, next, previous, end
+  }) {
+    const newPage = page || this.props.query.page;
+    const newPerPage = perPage || this.props.query.perPage;
+    const newTags = tags || this.props.query.tags;
+    if (start || tags || perPage) {
+      return { page: 1, perPage: newPerPage, first: newPerPage, tags: newTags };
+    } else if (next) {
+      const { endCursor: after } = this.props.pageInfo;
+      return { page: newPage, perPage: newPerPage, first: newPerPage, after, tags: newTags };
+    } else if (previous) {
+      const { startCursor: before } = this.props.pageInfo;
+      return { page: newPage, perPage: newPerPage, last: newPerPage, before, tags: newTags };
+    } else if (end) {
+      const remaining = this.props.totalCount % newPerPage;
+      return { page: newPage, perPage: newPerPage, last: remaining, tags: newTags };
+    } else {
+      return { page: newPage, perPage: newPerPage, first: newPerPage, tags: newTags };
+    }
+  }
+
+  resetSearchTags(tags) {
+    this.props.setRspecReportsQuery({ page: 1, perPage: 10, tags })
   }
 
   render() {
+    if (!this.props.edges) {
+      return (<div className="loading">Loading...</div>);
+    }
+
+    const reports = this.props.edges.map(edge => edge.node);
     return (
       <div>
         <br />
@@ -49,27 +77,26 @@ class Reports extends Component {
           <div className={styles.reportsSearch}>
             <SearchReports
               action={this.fetchRspecReports}
-              setSearch={this.props.setRspecReportsTags}
-              initialValues={{ tags: this.props.tags }}
+              setSearch={this.resetSearchTags}
+              initialValues={{ tags: this.props.query.tags }}
               {...this.props}
             />
           </div>
           <div className={styles.reportsContent}>
-            <RspecReportsList reports={this.props.reports} />
+            <RspecReportsList reports={reports} />
           </div>
           <div className={styles.reportsButtons}>
-            <Pagination
+            <PaginationConnection
               className={styles.reportsPagination}
-              page={this.props.page}
-              perPage={this.props.perPage}
-              total={this.props.total}
+              page={this.props.query.page}
+              perPage={this.props.query.perPage}
+              totalCount={this.props.totalCount}
               action={this.fetchRspecReports}
             />
             <PerPageFilter
-              items={this.props.reports}
-              totalCount={this.props.total}
+              totalCount={this.props.totalCount}
               buttons={[30,10]}
-              perPage={this.props.perPage}
+              perPage={this.props.query.perPage}
               action={this.fetchRspecReports}
             />
           </div>
@@ -79,20 +106,12 @@ class Reports extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  getRspecReports: (...args) => dispatch(getRspecReports(...args)),
-  setRspecReportsTags: (...args) => dispatch(setRspecReportsTags(...args)),
-  resetRspecReports: () => dispatch(resetRspecReports()),
-  dispatch,
-});
-
 const mapStateToProps = state => ({
-  page: state.reports.rspecReportsList.page,
-  perPage: state.reports.rspecReportsList.perPage,
-  total: state.reports.rspecReportsList.total,
-  tags: state.reports.rspecReportsList.tags,
-  reports: state.reports.rspecReportsList.data,
+  edges: state.reports.rspecReportsConnection.edges,
+  pageInfo: state.reports.rspecReportsConnection.pageInfo,
+  totalCount: state.reports.rspecReportsConnection.totalCount,
+  query: state.reports.rspecReportsConnection.query,
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Reports);
+export default connect(mapStateToProps, { queryRspecReports, setRspecReportsQuery })(Reports);

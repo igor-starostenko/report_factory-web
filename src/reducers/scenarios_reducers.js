@@ -12,18 +12,17 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SCENARIOS: {
       const { scenarios } = action.payload.data;
-      const projectScenarios = _.groupBy(scenarios, scenario => scenario.project_name);
+      const projectScenarios = _.groupBy(scenarios, scenario => scenario.projectName);
       /* eslint-disable arrow-body-style */
       const byProjectData = _.mapValues(projectScenarios, (project) => {
-        return { scenarios: project, total_count: project.length };
+        return { scenarios: project, totalCount: project.length };
       });
       /* eslint-enable arrow-body-style */
       const dataObject = data => ({ data, error: null, loading: false });
       return { ...state, list: dataObject(scenarios), byProject: dataObject(byProjectData) };
     }
     case SCENARIO: {
-      const { scenario } = action.payload.data;
-      const projectName = scenario.project_name;
+      const { scenario, scenario: { projectName } } = action.payload.data;
       const scenarioName = removeSpecialCharacters(scenario.name);
       const project = { ...state.details.data[projectName], [scenarioName]: scenario };
       const data = { ...state.details.data, [projectName]: project };

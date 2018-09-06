@@ -61,13 +61,13 @@ export default (ComposedComponent) => {
       let childKey = 0;
       return _.map(slicePageScenarios(scenarios, page, perPage), (scenario) => {
         childKey += 1;
-        const formattedScenarioName = removeSpecialCharacters(scenario.full_description);
-        const path = `${scenario.project_name}.${formattedScenarioName}`;
+        const formattedScenarioName = removeSpecialCharacters(scenario.fullDescription);
+        const path = `${scenario.projectName}.${formattedScenarioName}`;
         const scenarioDetails = _.get(this.props.scenariosDetails, path);
         return (
           <Scenario
-            title={scenario.full_description}
-            projectName={scenario.project_name}
+            title={scenario.fullDescription}
+            projectName={scenario.projectName}
             withProjectName={withProjectName}
             status={scenario.status}
             scenarioDetails={scenarioDetails}

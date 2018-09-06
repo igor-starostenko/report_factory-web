@@ -16,15 +16,15 @@ const getDuration = (reports, number = 10) => {
   if (_.isEmpty(reports)) {
     return _.times(number, _.constant(0));
   }
-  return _.map(reports, report => report.attributes.summary.duration);
+  return reports.map(report => report.summary.duration);
 };
 
 const getStatus = (reports, number = 10) => {
   if (_.isEmpty(reports)) {
     return _.times(number, _.constant(colors.grey));
   }
-  return _.map(reports, (report) => {
-    const failureCount = report.attributes.summary.failure_count;
+  return reports.map((report) => {
+    const { failureCount } = report.summary;
     if (failureCount > 0) {
       return colors.red;
     }
@@ -96,7 +96,7 @@ const options = {
 
 export default class RspecReportsBar extends Component {
   shouldComponentUpdate(nextProps) {
-    return this.props.reports !== nextProps.reports;
+    return !_.isEqual(this.props.reports, nextProps.reports);
   }
 
   render() {

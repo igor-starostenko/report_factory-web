@@ -2,7 +2,7 @@ import _ from 'lodash';
 import {
   EDIT_USER, EDIT_USER_SUCCESS, EDIT_USER_FAILURE, RESET_EDIT_USER, GET_USER_REPORTS,
   GET_USER, GET_USERS, RESET_ACTIVE_USER, LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
-  API_KEY,
+  API_KEY, USER_REPORTS,
 } from '../actions/users_actions';
 
 /* eslint-disable object-curly-newline */
@@ -36,6 +36,12 @@ export default (state = INITIAL_STATE, action) => {
     case LOGOUT: {
       return { ...state, currentUser: { data: null, error: null, loading: false, xApiKey: null } };
     }
+    case USER_REPORTS: {
+      const { id, reports } = action.payload.data.user;
+      const data = { ...state.userReports.data, [id]: reports };
+      return { ...state, userReports: { data, error: null, loading: false } };
+    }
+    // Deprecated in favor of USER_REPORTS graphql
     case GET_USER_REPORTS: {
       const userId = _.get(_.last(action.payload.data), 'attributes.user_id');
       if (userId) {

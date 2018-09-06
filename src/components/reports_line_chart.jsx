@@ -4,7 +4,7 @@ import { LineChart } from '../components';
 import { getColors, lastDays, lastMonths, formatDates, reportsPerDay,
   reportsPerMonth, reportsCreatedDates, setOpacity, validateInteger } from '../helpers/chart_helpers';
 
-const parseDate = report => report.created_at;
+const parseDate = report => report.createdAt;
 
 const dataForDays = (reports, dates) => {
   const reportsDates = reportsCreatedDates(reports, parseDate);
