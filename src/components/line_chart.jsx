@@ -1,34 +1,34 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
+import { FilterButton } from '../components';
 
 export default class LineChart extends Component {
+  constructor(props) {
+    super(props);
+    this.setFilter = this.setFilter.bind(this);
+  }
+
   setFilter(filterName) {
     const newFilters = { ...this.props.filterMapping[filterName], filterName };
     this.props.filterAction(newFilters);
   }
 
-  renderFilterItems() {
-    return Object.keys(this.props.filterMapping).map((filterName) => {
-      return this.renderFilterItem(filterName);
-    });
+  activeFilter(filterName) {
+    return this.props.activeFilter === filterName;
   }
 
-  renderFilterItem(filterName) {
-    const className = this.props.activeFilter === filterName ? 'active' : '';
-    return (
-      /* eslint-disable jsx-a11y/click-events-have-key-events */
-      /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-      /* eslint-disable react/jsx-no-bind */
-      <li
-        className={className}
-        key={filterName}
-        onClick={this.setFilter.bind(this, filterName)}
-      ><a>{filterName}</a>
-      </li>
-      /* eslint-enable react/jsx-no-bind */
-      /* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
-      /* eslint-enable jsx-a11y/click-events-have-key-events */
-    );
+  renderFilterItems() {
+    return Object.keys(this.props.filterMapping).map((filterName) => {
+      return (
+        <FilterButton
+          action={this.setFilter}
+          active={this.activeFilter(filterName)}
+          key={filterName}
+          name={filterName}
+          value={filterName}
+        />
+      );
+    });
   }
 
   render() {

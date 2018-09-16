@@ -12,11 +12,11 @@ export default class PerPageFilter extends Component {
       const name = `${value} Per Page`;
       return (
         <FilterButton
-          name={name}
-          key={value}
-          value={{ perPage: value }}
-          active={this.activeFilter(value)}
           action={this.props.action}
+          active={this.activeFilter(value)}
+          key={value}
+          name={name}
+          value={{ perPage: value }}
         />
       );
     });
