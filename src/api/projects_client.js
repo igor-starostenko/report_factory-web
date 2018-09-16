@@ -1,6 +1,23 @@
 import ApiClient from './api_client';
 
 class ProjectsClient extends ApiClient {
+  queryProjects(xApiKey, { lastDays, lastMonths } = {}) {
+    const headers = ApiClient.formatHeaders(xApiKey);
+    return this.query({
+      query: `query projects($lastDays: Int, $lastMonths: Int) {
+        projects {
+          id
+          projectName
+          reports(lastDays: $lastDays, lastMonths: $lastMonths) {
+            createdAt
+          }
+        }
+      }`,
+      variables: { lastDays, lastMonths },
+      headers,
+    });
+  }
+
   getAllProjects(xApiKey) {
     const url = `${this.baseUrl}api/v1/projects`;
     const headers = ApiClient.formatHeaders(xApiKey);
@@ -19,7 +36,7 @@ class ProjectsClient extends ApiClient {
   queryProject(xApiKey, { projectName, lastDays, lastMonths } = {}) {
     const headers = ApiClient.formatHeaders(xApiKey);
     return this.query({
-      query: `query project($projectName: String!, $lastDays: Int, $lastMonths: Int){
+      query: `query project($projectName: String!, $lastDays: Int, $lastMonths: Int) {
         project(projectName: $projectName) {
           projectName
           reportsCount

@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { ProjectSelection } from '../components';
-import { getProjects } from '../actions/projects_actions';
+import { queryProjects } from '../actions/projects_actions';
 import styles from './styles/Projects.css';
 
 class Projects extends Component {
   componentDidMount() {
-    this.props.getProjects(this.props.xApiKey);
+    this.props.queryProjects(this.props.xApiKey);
   }
 
   renderProjects() {
-    return _.map(this.props.projects, (project) => {
-      const projectName = project.attributes.project_name;
-      const projectDescription = project.attributes.project_description;
+    const { data: projects } = this.props.projectsList;
+
+    return Object.keys(projects).map((projectName) => {
       const projectPath = `/projects/${projectName}`;
       return (
         <ProjectSelection
-          description={projectDescription}
-          key={project.id}
+          key={projectName}
           path={projectPath}
           title={projectName}
         />
@@ -41,6 +39,10 @@ class Projects extends Component {
   }
 
   render() {
+    if (!this.props.projectsList.loaded) {
+      return (<div className="loading">Loading...</div>);
+    }
+
     return (
       <div>
         <br />
@@ -55,9 +57,9 @@ class Projects extends Component {
 }
 
 const mapStateToProps = state => ({
-  projects: state.projects.projectsList.data,
+  projectsList: state.projects.projectsList,
   isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getProjects })(Projects);
+export default connect(mapStateToProps, { queryProjects })(Projects);

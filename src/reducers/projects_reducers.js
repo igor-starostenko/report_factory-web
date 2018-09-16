@@ -1,23 +1,32 @@
 import _ from 'lodash';
 import {
   EDIT_PROJECT, EDIT_PROJECT_SUCCESS, EDIT_PROJECT_FAILURE, RESET_EDIT_PROJECT,
-  GET_PROJECT, GET_PROJECTS, PROJECT, PROJECT_FILTERS, RESET_ACTIVE_PROJECT,
+  GET_PROJECT, GET_PROJECTS, PROJECTS, PROJECT, PROJECT_FILTERS, RESET_ACTIVE_PROJECT,
 } from '../actions/projects_actions';
 
 const INITIAL_STATE = {
   activeProject: { data: null, error: null, loading: false },
   editProject: { data: null, error: null, loading: false },
-  projectsList: { data: null, error: null, loading: false },
-  list: { data: {}, error: null, loading: false },
+  projectsList: { data: {}, loaded: false },
+  list: { data: {} },
   filters: {},
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case PROJECTS: {
+      const { projects } = action.payload.data;
+      const data = projects.reduce((result, project) => {
+        result[project.projectName] = project;
+        return result;
+      }, {})
+      // const data = projects.map(project => { [project.projectName]: project });
+      return { ...state, projectsList: { data, loaded: true } };
+    }
     case PROJECT: {
       const { project } = action.payload.data;
       const data = { ...state.list.data, [project.projectName]: project };
-      return { ...state, list: { data, error: null, loading: false } };
+      return { ...state, list: { data } };
     }
     case PROJECT_FILTERS: {
       const { projectName, data } = action.payload;
