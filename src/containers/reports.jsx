@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import SearchReports from './search_reports';
 import { RspecReportsList, PaginationConnection, PerPageFilter } from '../components';
 import { queryRspecReports, setRspecReportsQuery } from '../actions/reports_actions';

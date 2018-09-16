@@ -16,25 +16,26 @@ class ProjectsClient extends ApiClient {
     return fetch(new Request(url, { method: 'POST', body, headers }));
   }
 
-  queryProject(projectName, xApiKey) {
+  queryProject(xApiKey, { projectName, lastDays, lastMonths } = {}) {
     const headers = ApiClient.formatHeaders(xApiKey);
     return this.query({
-      query: `query project($projectName: String!){
+      query: `query project($projectName: String!, $lastDays: Int, $lastMonths: Int){
         project(projectName: $projectName) {
           projectName
-          reports {
+          reportsCount
+          reports(lastDays: $lastDays, lastMonths: $lastMonths) {
             status
             createdAt
             updatedAt
           }
-          scenarios {
+          scenarios(lastDays: $lastDays, lastMonths: $lastMonths) {
             status
             projectName
             fullDescription
           }
         }
       }`,
-      variables: { projectName },
+      variables: { projectName, lastDays, lastMonths },
       headers,
     });
   }

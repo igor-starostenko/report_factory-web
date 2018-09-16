@@ -2,23 +2,28 @@ import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
 
 export default class LineChart extends Component {
-  constructor(state) {
-    super(state);
-    this.state = { activeFilter: 'Week' };
+  setFilter(filterName) {
+    const newFilters = { ...this.props.filterMapping[filterName], filterName };
+    this.props.filterAction(newFilters);
   }
 
-  setFilter(name) {
-    this.setState({ activeFilter: name });
+  renderFilterItems() {
+    return Object.keys(this.props.filterMapping).map((filterName) => {
+      return this.renderFilterItem(filterName);
+    });
   }
 
-  renderFilterItem(name) {
-    const className = this.state.activeFilter === name ? 'active' : '';
+  renderFilterItem(filterName) {
+    const className = this.props.activeFilter === filterName ? 'active' : '';
     return (
       /* eslint-disable jsx-a11y/click-events-have-key-events */
       /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
       /* eslint-disable react/jsx-no-bind */
-      <li className={className} onClick={this.setFilter.bind(this, name)}>
-        <a>{name}</a>
+      <li
+        className={className}
+        key={filterName}
+        onClick={this.setFilter.bind(this, filterName)}
+      ><a>{filterName}</a>
       </li>
       /* eslint-enable react/jsx-no-bind */
       /* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
@@ -27,19 +32,17 @@ export default class LineChart extends Component {
   }
 
   render() {
-    const { reports, options, getChartData } = this.props;
+    const { options, getChartData } = this.props;
 
     return (
       <div>
         <Line
-          data={getChartData(reports, this.state.activeFilter)}
+          data={getChartData()}
           options={options}
         />
         <div className="filters">
           <ul id="chart-pills" className="nav nav-pills ct-orange">
-            {this.renderFilterItem('Year')}
-            {this.renderFilterItem('Month')}
-            {this.renderFilterItem('Week')}
+            {this.renderFilterItems()}
           </ul>
         </div>
       </div>

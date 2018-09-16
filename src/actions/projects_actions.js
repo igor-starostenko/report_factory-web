@@ -1,6 +1,7 @@
 import ProjectsClient from '../api/projects_client';
 
 export const PROJECT = 'project';
+export const PROJECT_FILTERS = 'project_filters';
 export const EDIT_PROJECT = 'edit_project';
 export const EDIT_PROJECT_SUCCESS = 'create_project_success';
 export const EDIT_PROJECT_FAILURE = 'create_project_failure';
@@ -20,6 +21,11 @@ export const queryProject = (projectName, xApiKey) => {
     payload: request.then(response => response.json()),
   };
 };
+
+export const setProjectFilters = (projectName, filters) => ({
+    type: PROJECT_FILTERS,
+    payload: { projectName, data: filters },
+});
 
 export const getProjects = (xApiKey) => {
   const request = projectsClient.getAllProjects(xApiKey);

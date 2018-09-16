@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {
   EDIT_PROJECT, EDIT_PROJECT_SUCCESS, EDIT_PROJECT_FAILURE, RESET_EDIT_PROJECT,
-  GET_PROJECT, GET_PROJECTS, PROJECT, RESET_ACTIVE_PROJECT,
+  GET_PROJECT, GET_PROJECTS, PROJECT, PROJECT_FILTERS, RESET_ACTIVE_PROJECT,
 } from '../actions/projects_actions';
 
 const INITIAL_STATE = {
@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   editProject: { data: null, error: null, loading: false },
   projectsList: { data: null, error: null, loading: false },
   list: { data: {}, error: null, loading: false },
+  filters: {},
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -17,6 +18,11 @@ export default (state = INITIAL_STATE, action) => {
       const { project } = action.payload.data;
       const data = { ...state.list.data, [project.projectName]: project };
       return { ...state, list: { data, error: null, loading: false } };
+    }
+    case PROJECT_FILTERS: {
+      const { projectName, data } = action.payload;
+      const filters = { ...state.filters.data, [projectName]: data }
+      return { ...state, filters };
     }
     case GET_PROJECTS: {
       const list = _.mapKeys(action.payload.data, obj => obj.attributes.project_name);
