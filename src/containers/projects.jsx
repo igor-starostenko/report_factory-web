@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import { ProjectSelection } from '../components';
 import { getProjects } from '../actions/projects_actions';
 import styles from './styles/Projects.css';
 
@@ -16,12 +17,12 @@ class Projects extends Component {
       const projectDescription = project.attributes.project_description;
       const projectPath = `/projects/${projectName}`;
       return (
-        <Link to={projectPath} className={styles.project} key={project.id}>
-          <div className={styles.projectBody}>
-            <div className={styles.projectTitle}>{projectName}</div>
-            <p className={styles.projectText}>{projectDescription}</p>
-          </div>
-        </Link>
+        <ProjectSelection
+          description={projectDescription}
+          key={project.id}
+          path={projectPath}
+          title={projectName}
+        />
       );
     });
   }
@@ -29,11 +30,11 @@ class Projects extends Component {
   renderNewProject() {
     if (this.props.isAdmin) {
       return (
-        <Link to="/project/new" className={`${styles.project} ${styles.newProject}`}>
-          <div className={styles.projectBody}>
-            <div className={styles.newProjectTitle}>Create a project</div>
-          </div>
-        </Link>
+        <ProjectSelection
+          newProject={true}
+          path="/project/new"
+          title="Create a project"
+        />
       );
     }
     return (<div />);
