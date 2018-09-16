@@ -20,7 +20,7 @@ class ProjectScenarios extends Component {
       <div className={styles.projectScenarios}>
         <div className={styles.projectScenariosHeader}>Scenarios</div>
         <div className={styles.projectScenariosDescription}>
-          Total Scenarios: {this.props.total}
+          Scenarios reported: {this.props.total}
         </div>
         <div className={styles.projectScenariosSearch}>
           <SearchScenarios

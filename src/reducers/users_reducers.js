@@ -9,7 +9,7 @@ import {
 const INITIAL_STATE = {
   currentUser: { data: null, error: null, loading: false, xApiKey: null },
   activeUser: { data: null, error: null, loading: false },
-  userReports: { data: null, reportsCount: 0 },
+  userReports: { data: {}, error: null, loading: false },
   filters: {}, // Query params for userReports
   editUser: { data: null, error: null, loading: false },
   usersList: { data: null, error: null, loading: false },
@@ -39,12 +39,12 @@ export default (state = INITIAL_STATE, action) => {
     }
     case USER_REPORTS: {
       const { id, reports, reportsCount } = action.payload.data.user;
-      const data = { ...state.userReports.data, [id]: reports };
-      return { ...state, userReports: { data, reportsCount } };
+      const data = { ...state.userReports.data, [id]: { reports, reportsCount } };
+      return { ...state, userReports: { data } };
     }
     case USER_REPORTS_FILTERS: {
       const { userId, data } = action.payload;
-      const filters = { ...state.filters.data, [userId]: data };
+      const filters = { ...state.filters, [userId]: data };
       return { ...state, filters };
     }
     // Deprecated in favor of USER_REPORTS graphql

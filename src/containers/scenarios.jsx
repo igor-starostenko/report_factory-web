@@ -36,7 +36,7 @@ class Scenarios extends Component {
             />
           </div>
           <div className={styles.scenariosTotal}>
-            Total Scenarios: {this.props.total}
+            Scenarios reported: {this.props.total}
           </div>
           <div className={styles.allScenarios}>
             {this.props.renderScenarios({ withProjectName: true })}

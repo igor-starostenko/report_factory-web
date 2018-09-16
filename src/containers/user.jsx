@@ -131,8 +131,8 @@ class User extends Component {
     }
 
     const { name } = user.data.attributes;
-    const reports = _.get(userReports, userId);
-    const totalCountText = formatTotalReports(this.props.reportsCount);
+    const { reports, reportsCount } = _.get(userReports, userId) || {};
+    const totalCountText = formatTotalReports(reportsCount);
 
     return (
       <div>
@@ -147,7 +147,7 @@ class User extends Component {
             <UserReportsLineChart
               filterAction={this.queryUserReports}
               filters={this.getFilters()}
-              totalCount={this.props.reportsCount}
+              totalCount={reportsCount}
               userReports={reports}
             />
           </div>
@@ -171,7 +171,6 @@ const mapStateToProps = (state, ownProps) => ({
   isCurrent: _.get(state.users.currentUser, 'data.id') === ownProps.match.params.id,
   user: state.users.activeUser,
   userReports: state.users.userReports.data,
-  reportsCount: state.users.userReports.reportsCount,
   filters: state.users.filters,
   xApiKey: state.users.currentUser.xApiKey,
 });
