@@ -5,7 +5,7 @@ export const capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + 
 export const removeSpecialCharacters = string => string.replace(/[^\w\s]/gi, '');
 
 export const formatTotalReports = (count) => {
-  if (count < 1) {
+  if (!count || count < 1) {
     return '';
   }
   return `Reports submitted: ${count}`;

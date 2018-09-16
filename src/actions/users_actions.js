@@ -19,6 +19,7 @@ export const RESET_ACTIVE_USER = 'reset_active_user';
 
 export const GET_USER_REPORTS = 'get_user_reports';
 export const USER_REPORTS = 'user_details';
+export const USER_REPORTS_FILTERS = 'user_reports_filters';
 
 const apiUrl = process.env.API_URL;
 const usersClient = new UsersClient(apiUrl);
@@ -77,14 +78,19 @@ export const logOut = () => {
   };
 };
 
-export const queryUserReports = (userId, xApiKey) => {
-  const request = usersClient.queryUserReports(userId, xApiKey);
+export const queryUserReports = (xApiKey, filters) => {
+  const request = usersClient.queryUserReports(xApiKey, filters);
 
   return {
     type: USER_REPORTS,
     payload: request.then(response => response.json()),
   };
 };
+
+export const setUserReportsFilters = (userId, filters) => ({
+  type: USER_REPORTS_FILTERS,
+  payload: { userId, data: filters },
+});
 
 export const getUserReports = (userId, xApiKey) => {
   const request = usersClient.getAllUserReports(userId, xApiKey);

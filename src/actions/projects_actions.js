@@ -13,8 +13,8 @@ export const RESET_ACTIVE_PROJECT = 'reset_active_project';
 const apiUrl = process.env.API_URL;
 const projectsClient = new ProjectsClient(apiUrl);
 
-export const queryProject = (projectName, xApiKey) => {
-  const request = projectsClient.queryProject(projectName, xApiKey);
+export const queryProject = (xApiKey, filters) => {
+  const request = projectsClient.queryProject(xApiKey, filters);
 
   return {
     type: PROJECT,

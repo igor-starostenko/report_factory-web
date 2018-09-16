@@ -2,14 +2,15 @@ import _ from 'lodash';
 import {
   EDIT_USER, EDIT_USER_SUCCESS, EDIT_USER_FAILURE, RESET_EDIT_USER, GET_USER_REPORTS,
   GET_USER, GET_USERS, RESET_ACTIVE_USER, LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
-  API_KEY, USER_REPORTS,
+  API_KEY, USER_REPORTS, USER_REPORTS_FILTERS,
 } from '../actions/users_actions';
 
 /* eslint-disable object-curly-newline */
 const INITIAL_STATE = {
   currentUser: { data: null, error: null, loading: false, xApiKey: null },
   activeUser: { data: null, error: null, loading: false },
-  userReports: { data: null, error: null, loading: false },
+  userReports: { data: null, reportsCount: 0 },
+  filters: {}, // Query params for userReports
   editUser: { data: null, error: null, loading: false },
   usersList: { data: null, error: null, loading: false },
 };
@@ -37,9 +38,14 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, currentUser: { data: null, error: null, loading: false, xApiKey: null } };
     }
     case USER_REPORTS: {
-      const { id, reports } = action.payload.data.user;
+      const { id, reports, reportsCount } = action.payload.data.user;
       const data = { ...state.userReports.data, [id]: reports };
-      return { ...state, userReports: { data, error: null, loading: false } };
+      return { ...state, userReports: { data, reportsCount } };
+    }
+    case USER_REPORTS_FILTERS: {
+      const { userId, data } = action.payload;
+      const filters = { ...state.filters.data, [userId]: data };
+      return { ...state, filters };
     }
     // Deprecated in favor of USER_REPORTS graphql
     case GET_USER_REPORTS: {

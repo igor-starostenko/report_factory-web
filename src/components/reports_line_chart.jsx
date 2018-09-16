@@ -138,12 +138,11 @@ export default class ReportsLineChart extends Component {
 
     return (
       <LineChart
+        activeFilter={this.props.filters.filterName}
         filterAction={this.props.filterAction}
         filterMapping={filterMapping}
-        activeFilter={this.props.filters.filterName}
         getChartData={this.getChartData}
         options={chartOptions}
-        reports={this.props.reports}
       />
     );
   }

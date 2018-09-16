@@ -1,20 +1,21 @@
 import ApiClient from './api_client';
 
 class UsersClient extends ApiClient {
-  queryUserReports(userId, xApiKey) {
+  queryUserReports(xApiKey, { userId, lastDays, lastMonths }) {
     const headers = ApiClient.formatHeaders(xApiKey);
     return this.query({
-      query: `query user($id: Int!){
+      query: `query user($id: Int!, $lastDays: Int, $lastMonths: Int){
         user(id: $id) {
           id
           name
-          reports {
+          reportsCount
+          reports(lastDays: $lastDays, lastMonths: $lastMonths) {
             projectName
             createdAt
           }
         }
       }`,
-      variables: { id: parseInt(userId, 10) },
+      variables: { id: parseInt(userId, 10), lastDays, lastMonths },
       headers,
     });
   }

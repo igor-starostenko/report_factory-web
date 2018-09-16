@@ -60,10 +60,10 @@ class Project extends Component {
           <div className={styles.detailsTotal}>{totalCountText}</div>
           <div className={styles.detailsContent}>
             <ReportsLineChart
+              filterAction={this.queryProject}
+              filters={this.getFilters()}
               reports={project.reports}
               totalCount={project.reportsCount}
-              filters={this.getFilters()}
-              filterAction={this.queryProject}
             />
           </div>
           <div className={styles.detailsExtraContent}>
