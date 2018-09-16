@@ -21,7 +21,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case PROJECT_FILTERS: {
       const { projectName, data } = action.payload;
-      const filters = { ...state.filters.data, [projectName]: data }
+      const filters = { ...state.filters.data, [projectName]: data };
       return { ...state, filters };
     }
     case GET_PROJECTS: {

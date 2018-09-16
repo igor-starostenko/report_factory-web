@@ -4,17 +4,17 @@ export const capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + 
 
 export const removeSpecialCharacters = string => string.replace(/[^\w\s]/gi, '');
 
-export const formatTotalString = (reports) => {
-  const totalReportsCount = _.keys(reports).length;
-  return formatTotalReports(totalReportsCount);
-};
-
 export const formatTotalReports = (count) => {
   if (count < 1) {
     return '';
   }
   return `Reports submitted: ${count}`;
-}
+};
+
+export const formatTotalString = (reports) => {
+  const totalReportsCount = _.keys(reports).length;
+  return formatTotalReports(totalReportsCount);
+};
 
 export const formatDate = (date, options) => {
   const formatOptions = options || { month: 'short', day: 'numeric', year: 'numeric' };

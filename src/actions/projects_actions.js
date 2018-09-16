@@ -23,8 +23,8 @@ export const queryProject = (projectName, xApiKey) => {
 };
 
 export const setProjectFilters = (projectName, filters) => ({
-    type: PROJECT_FILTERS,
-    payload: { projectName, data: filters },
+  type: PROJECT_FILTERS,
+  payload: { projectName, data: filters },
 });
 
 export const getProjects = (xApiKey) => {
