@@ -7,31 +7,32 @@ import {
 const INITIAL_STATE = {
   activeProject: { data: null, error: null, loading: false },
   editProject: { data: null, error: null, loading: false },
-  projectsList: { data: {}, loaded: false },
-  list: { data: {} },
-  filters: {},
+  list: { data: {}, loaded: false },
+  details: { data: {}, filters: {} },
 };
+
+/* eslint-disable arrow-body-style */
+const arrayToObject = (array, getKey) => {
+  return array.reduce((obj, item) => ({ ...obj, [getKey(item)]: item }), {});
+};
+/* eslint-enable arrow-body-style */
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case PROJECTS: {
       const { projects } = action.payload.data;
-      const data = projects.reduce((result, project) => {
-        result[project.projectName] = project;
-        return result;
-      }, {})
-      // const data = projects.map(project => { [project.projectName]: project });
-      return { ...state, projectsList: { data, loaded: true } };
+      const data = arrayToObject(projects, project => project.projectName);
+      return { ...state, list: { data, loaded: true } };
     }
     case PROJECT: {
       const { project } = action.payload.data;
-      const data = { ...state.list.data, [project.projectName]: project };
-      return { ...state, list: { data } };
+      const data = { ...state.details.data, [project.projectName]: project };
+      return { ...state, details: { ...state.details, data } };
     }
     case PROJECT_FILTERS: {
       const { projectName, data } = action.payload;
-      const filters = { ...state.filters.data, [projectName]: data };
-      return { ...state, filters };
+      const filters = { ...state.details.filters, [projectName]: data };
+      return { ...state, details: { ...state.details, filters } };
     }
     case GET_PROJECTS: {
       const list = _.mapKeys(action.payload.data, obj => obj.attributes.project_name);

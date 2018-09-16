@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// import { ReportsLineCharts } from '../components';
-// import { firstScenarioColumn, secondScenarioColumn } from '../helpers/scenarios_helpers';
+import { Line } from 'react-chartjs-2';
 import styles from './styles/ProjectSelection.css';
 
 export default class ProjectSelection extends Component {
@@ -20,11 +19,15 @@ export default class ProjectSelection extends Component {
   }
 
   render() {
-    const { path, title, description } = this.props;
+    const { description, path, name } = this.props;
     return (
       <Link to={path} className={this.getClassName()}>
+        <Line
+          data={this.props.getChartData(name)}
+          options={this.props.chartOptions}
+        />
         <div className={styles.projectBody}>
-          <div className={this.getTitleClassName()}>{title}</div>
+          <div className={this.getTitleClassName()}>{name}</div>
           <p className={styles.projectText}>{description}</p>
         </div>
       </Link>

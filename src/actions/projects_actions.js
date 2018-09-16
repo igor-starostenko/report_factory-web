@@ -1,6 +1,6 @@
 import ProjectsClient from '../api/projects_client';
 
-export const PROJECTS = 'project';
+export const PROJECTS = 'projects';
 export const PROJECT = 'project';
 export const PROJECT_FILTERS = 'project_filters';
 export const EDIT_PROJECT = 'edit_project';

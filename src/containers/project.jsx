@@ -14,18 +14,17 @@ class Project extends Component {
   }
 
   componentDidMount() {
-    const { projects, projectName } = this.props;
-    if (!projects[projectName]) {
+    if (!this.props.project) {
       this.queryProject(this.getFilters())
     }
   }
 
   getFilters() {
-    const { filters, projectName } = this.props;
-    if (!filters[projectName]) {
+    const { filters } = this.props;
+    if (!this.props.filters) {
       return { filterName: 'Week', lastDays: 8 }
     }
-    return filters[projectName];
+    return this.props.filters;
   }
 
   queryProject({ filterName, lastDays, lastMonths }) {
@@ -35,8 +34,7 @@ class Project extends Component {
   }
 
   render() {
-    const { projects, filters, projectName } = this.props;
-    const project = projects[projectName];
+    const { project, filters, projectName } = this.props;
 
     if (!project) {
       return (<div className="loading">Loading...</div>);
@@ -88,8 +86,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => ({
   projectName: ownProps.match.params.name,
-  projects: state.projects.list.data,
-  filters: state.projects.filters,
+  project: state.projects.details.data[ownProps.match.params.name],
+  filters: state.projects.details.filters[ownProps.match.params.name],
   scenariosDetails: state.scenarios.details.data,
   xApiKey: state.users.currentUser.xApiKey,
 });
