@@ -75,6 +75,7 @@
         "e";
     grid-template-columns: auto;
     grid-gap: 0;
+    margin-bottom: 6em;
   }
 
   .detailsHeader {
