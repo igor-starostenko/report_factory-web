@@ -29,7 +29,7 @@
 }
 
 .detailsTotal {
-  grid-column: 1 / 4;
+  grid-column: 1 / 5;
   font-style: italic;
   margin-left: .5em;
 }
@@ -75,6 +75,7 @@
         "e";
     grid-template-columns: auto;
     grid-gap: 0;
+    margin-bottom: 6em;
   }
 
   .detailsHeader {

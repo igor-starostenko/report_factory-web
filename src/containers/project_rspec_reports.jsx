@@ -95,7 +95,7 @@ class ProjectRspecReports extends Component {
             />
           </div>
           <div className={styles.projectReportsTotal}>
-            Total Reports: {this.props.totalCount}
+            Reports submitted: {this.props.totalCount}
           </div>
           <div className={styles.projectReportsChart}>
             <RspecReportsBar

@@ -101,6 +101,11 @@ export function validateInteger(value) {
   return (value % 1 === 0 ? value : null);
 }
 
+export function validatePositive(value) {
+  const integer = validateInteger(value);
+  return (integer && integer >= 0 ? value : null);
+}
+
 export function groupReportsByProjects(reports, parseProjectName) {
   if (_.isEmpty(reports)) {
     return [];

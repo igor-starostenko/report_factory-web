@@ -1,0 +1,30 @@
+.project {
+  color: rgba(100, 100, 100, 0.8);
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 1.5rem;
+  box-shadow: 2px 3px 8px 0px rgba(35, 41, 51, 0.2);
+}
+
+.project:hover {
+  color: rgba(80, 80, 80, 1);
+  border: 1px solid rgba(0,0,0,.35);
+}
+
+.projectHeader {
+  font-size: 2.5rem;
+}
+
+.projectTitle {
+  margin-left: 0.4em;
+  margin-top: 0.2em;
+}
+
+.projectDescription {
+  margin-left: 0.8em;
+  font-size: 0.5em;
+}
+
+.projectChart {
+  height: 75%;
+  margin: 0 .5em;
+}

@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { LineChart } from '../components';
 import { getColors, lastDays, lastMonths, formatDates, reportsPerDay,
   reportsPerMonth, reportsCreatedDates, setOpacity, validateInteger } from '../helpers/chart_helpers';
+
+const filterMapping = {
+   'Year': {},
+   'Month': { lastDays: 32 },
+   'Week': { lastDays: 8 },
+};
 
 const parseDate = report => report.createdAt;
 
@@ -17,33 +22,36 @@ const dataForMonths = (reports, dates) => {
 };
 
 const filterByStatus = (reports, status) => {
-  return _.filter(reports, report => { return report.status === status });
+  return reports.filter(report => { return report.status === status });
 };
 
 const colors = getColors();
 
+const chartData = {
+  'Week': () => {
+    const units = lastDays(filterMapping['Week'].lastDays);
+    return {
+      units, labels: formatDates(units), dataForDate: dataForDays,
+    };
+  },
+  'Month': () => {
+    const units = lastDays(filterMapping['Month'].lastDays);
+    return {
+      units, labels: formatDates(units), dataForDate: dataForDays,
+    };
+  },
+  'Year': () => {
+    const units = lastMonths(filterMapping['Year'].lastMonths || 12);
+    return {
+      units,
+      labels: formatDates(units, { month: 'short' }),
+      dataForDate: dataForMonths,
+    };
+  },
+};
+
 const getChartData = (reports, activeFilter) => {
-  let units;
-  let labels;
-  let dataForDate;
-  switch (activeFilter) {
-    case 'Week':
-      units = lastDays(8);
-      labels = formatDates(units);
-      dataForDate = dataForDays;
-      break;
-    case 'Month':
-      units = lastDays(32);
-      labels = formatDates(units);
-      dataForDate = dataForDays;
-      break;
-    case 'Year':
-      units = lastMonths(12);
-      labels = formatDates(units, { month: 'short' });
-      dataForDate = dataForMonths;
-      break;
-    default: throw new Error(`Filter ${activeFilter} not supported`);
-  }
+  const { units, labels, dataForDate } = chartData[activeFilter]();
   const failedReports = filterByStatus(reports, 'failed');
   const passedReports = filterByStatus(reports, 'passed');
   const failedData = dataForDate(failedReports, units);
@@ -113,16 +121,29 @@ const chartOptions = {
 };
 
 export default class ReportsLineChart extends Component {
+  constructor(state) {
+    super(state);
+    this.getChartData = this.getChartData.bind(this);
+  }
+
+  getChartData() {
+    const { reports, filters: { filterName } } = this.props;
+    return getChartData(reports, filterName);
+  }
+
   render() {
-    if (_.isEmpty(this.props.reports)) {
+    if (!this.props.totalCount || this.props.totalCount === 0) {
       return (<div className="loading">No reports submitted for this project yet.</div>);
     }
 
     return (
       <LineChart
-        getChartData={getChartData}
+        activeFilter={this.props.filters.filterName}
+        filterAction={this.props.filterAction}
+        filterMapping={filterMapping}
+        getChartData={this.getChartData}
         options={chartOptions}
-        reports={this.props.reports}
-      />);
+      />
+    );
   }
 }

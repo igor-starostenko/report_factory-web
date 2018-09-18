@@ -14,6 +14,7 @@ import PaginationConnection from './pagination_connection';
 import PaginationNumber from './pagination_number';
 import PerPageFilter from './per_page_filter';
 import ProjectScenarios from './project_scenarios';
+import ProjectSelection from './project_selection';
 import ReportsLineChart from './reports_line_chart';
 import ReportsSuccessChart from './reports_success_chart';
 import RspecFeatureChart from './rspec_feature_chart';
@@ -30,8 +31,8 @@ import UserReportsLineChart from './user_reports_line_chart';
 export {
   App, Button, CollapsibleItem, ConfirmModal, Details, PerPageFilter,
   FilterButton, FormErrors, FormField, FormRadio, LineChart, NotFound, Pagination,
-  PaginationConnection, PaginationNumber, ProjectScenarios, ReportsLineChart,
-  ReportsSuccessChart, RspecFeatureChart, RspecReportDetails, RspecReportExamplesList,
-  RspecReportPieChart, RspecReportsBar, RspecReportsList, Scenario, SearchScenarios,
-  ScenarioSuccessChart, UserReportsLineChart,
+  PaginationConnection, PaginationNumber, ProjectScenarios, ProjectSelection,
+  ReportsLineChart, ReportsSuccessChart, RspecFeatureChart, RspecReportDetails,
+  RspecReportExamplesList, RspecReportPieChart, RspecReportsBar, RspecReportsList,
+  Scenario, SearchScenarios, ScenarioSuccessChart, UserReportsLineChart,
 };

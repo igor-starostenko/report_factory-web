@@ -1,61 +1,16 @@
-.projectsContainer {
+.projectsList {
+  grid-column: 1 / -1;
+  grid-row: 3 / -1;
   display: grid;
-  grid-gap: 1em;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-auto-rows: 100px;
-  margin-top: 3em;
-  margin-bottom: 6em;
+  grid-gap: 2em;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: 300px;
+  margin-bottom: 4em;
 }
 
-.project {
-  color: rgba(100, 100, 100, 0.8);
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: 1.5rem;
-  text-align: center;
-  position: relative;
-  box-shadow: 2px 3px 8px 0px rgba(35, 41, 51, 0.2);
-}
-
-.projectsContainer > .project:nth-child(1n):not(.newProject) {
-  background-color: rgba(147, 211, 211, 0.2);
-}
-
-.projectsContainer > .project:nth-child(2n):not(.newProject) {
-  background-color: rgba(211, 211, 147, 0.2);
-}
-
-.projectsContainer > .project:nth-child(3n):not(.newProject) {
-  background-color: rgba(211, 147, 211, 0.2);
-}
-
-.projectsContainer > .project:nth-child(4n):not(.newProject) {
-  background-color: rgba(198, 200, 243, 0.2);
-}
-
-.projectBody {
-  font-size: 2.5rem;
-  font-weight: 500;
-  padding-bottom: 1.5em;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 30%;
-  margin: auto;
-}
-
-.newProject {
-  background-color: rgba(200, 200, 200, 0.2);
-  color: rgba(100, 100, 100, 0.5);
-  font-style: italic;
-}
-
-.newProject:hover {
-  color: rgba(100, 100, 100, 1);
-}
-
-.project:hover {
-  color: rgba(80, 80, 80, 1);
-  border: 1px solid rgba(0,0,0,.35);
+@media only screen and (max-width: 767px) {
+  .projectsList {
+    grid-area: c;
+    margin-bottom: 4em;
+  }
 }
