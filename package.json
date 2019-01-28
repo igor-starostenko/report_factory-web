@@ -54,7 +54,7 @@
     "history": "^4.7.2",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.10",
-    "morgan": "^1.9.0",
+    "morgan": "^1.9.1",
     "react": "^16.4.1",
     "react-chartjs-2": "^2.7.2",
     "react-dom": "^16.4.1",
