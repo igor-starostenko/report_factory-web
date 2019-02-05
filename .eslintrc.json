@@ -1,21 +1,34 @@
 {
-    "extends": "airbnb",
-    "globals": {
-        "document": false,
-        "fetch": false,
-        "window": false,
-        "Request": false,
-        "Headers": false,
-        "describe": false,
-        "it": false,
-        "expect": false,
-        "cy": false,
-        "test": false
-    },
-    "rules": {
-        "react/prop-types": "off",
-        "jsx-a11y/anchor-is-valid": "off",
-        "jsx-a11y/label-has-for": "off",
-        "react/prefer-stateless-function": "off"
+  "extends": "airbnb",
+  "plugins": ["lodash"],
+  "globals": {
+    "document": false,
+    "fetch": false,
+    "window": false,
+    "Request": false,
+    "Headers": false,
+    "describe": false,
+    "it": false,
+    "expect": false,
+    "cy": false,
+    "test": false
+  },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {
+        root: "./",
+        alias: {
+          "~": "./"
+        }
+      }
     }
+  },
+  "rules": {
+    "quotes": 0,
+    "semi": 0,
+    "react/prop-types": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/label-has-for": "off",
+    "react/prefer-stateless-function": "off"
+  }
 }
