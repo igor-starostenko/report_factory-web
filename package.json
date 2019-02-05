@@ -30,7 +30,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^1.0.0",
-    "cypress": "^3.0.2",
+    "cypress": "^3.1.5",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^4.0.0",
@@ -48,7 +48,7 @@
     "source-map-loader": "^0.2.3",
     "webpack": "^4.16.0",
     "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.14"
   },
   "eslintIgnore": [
     "bundle.js"
@@ -62,7 +62,7 @@
     "history": "^4.7.2",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.10",
-    "morgan": "^1.9.0",
+    "morgan": "^1.9.1",
     "react": "^16.4.1",
     "react-chartjs-2": "^2.7.2",
     "react-dom": "^16.4.1",
