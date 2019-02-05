@@ -16,8 +16,8 @@
   "settings": {
     "import/resolver": {
       "babel-module": {
-        root: "./",
-        alias: {
+        "root": "./",
+        "alias": {
           "~": "./"
         }
       }
