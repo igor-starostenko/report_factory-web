@@ -1,21 +1,52 @@
 {
-    "extends": "airbnb",
-    "globals": {
-        "document": false,
-        "fetch": false,
-        "window": false,
-        "Request": false,
-        "Headers": false,
-        "describe": false,
-        "it": false,
-        "expect": false,
-        "cy": false,
-        "test": false
-    },
-    "rules": {
-        "react/prop-types": "off",
-        "jsx-a11y/anchor-is-valid": "off",
-        "jsx-a11y/label-has-for": "off",
-        "react/prefer-stateless-function": "off"
+  "extends": ["airbnb"],
+  "plugins": ["lodash"],
+  "globals": {
+    "document": false,
+    "fetch": false,
+    "window": false,
+    "Request": false,
+    "Headers": false,
+    "describe": false,
+    "it": false,
+    "expect": false,
+    "cy": false,
+    "test": false
+  },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {
+        "root": "./",
+        "alias": {
+          "~": "./"
+        }
+      }
     }
+  },
+  "rules": {
+    "comma-dangle": "off",
+    "import/named": "off",
+    "import/namespace": "off",
+    "import/default": "off",
+    "import/export": "off",
+    "import/no-named-as-default": "off",
+    "import/no-named-as-default-member": "off",
+    "import/no-restricted-paths": [
+      "error",
+      { 
+        "zones": [
+          {
+            "target": "*",
+            "from": "lodash"
+          }
+        ]
+      }
+    ],
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/label-has-for": "off",
+    "quotes": "off",
+    "react/prefer-stateless-function": "off",
+    "react/prop-types": "off",
+    "semi": "off"
+  }
 }

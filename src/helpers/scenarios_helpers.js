@@ -11,7 +11,7 @@ const dateAgoString = (dateString) => {
 const numberOfExamples = (number) => {
   if (!number || number === 0) {
     return 'No examples';
-  } else if (number === 1) {
+  } if (number === 1) {
     return '1 example';
   }
   return `${number} examples`;

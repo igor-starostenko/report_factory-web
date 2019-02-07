@@ -88,13 +88,13 @@ export const formatDurationString = (seconds) => {
   const roundedSeconds = _.round(seconds, 3);
   if (seconds < 1) {
     return 'Less than a second';
-  } else if (seconds < 60) {
+  } if (seconds < 60) {
     return formatSeconds(roundedSeconds, false);
   }
   const minutes = roundedSeconds / 60;
   if (minutes === 1) {
     return '1 minute';
-  } else if (minutes < 60) {
+  } if (minutes < 60) {
     return `${formatMinutes(minutes)}, ${formatSeconds(seconds % 60)}`;
   }
   const hours = minutes / 60;
