@@ -89,6 +89,6 @@
     "redux-actions": "^2.4.0",
     "redux-form": "^7.4.2",
     "redux-promise": "^0.6.0",
-    "style-loader": "^0.20.3"
+    "style-loader": "^0.23.1"
   }
 }
