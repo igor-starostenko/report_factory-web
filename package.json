@@ -22,7 +22,7 @@
       "eslint"
     ],
     "*.{js,jsx,json,md}": [
-      "prettier --list-different"
+      "prettier --format"
     ]
   },
   "repository": {

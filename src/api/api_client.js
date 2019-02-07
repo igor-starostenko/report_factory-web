@@ -24,7 +24,7 @@ class ApiClient {
       const value = options[key];
       if (!value || value === []) {
         return null;
-      } else if (typeof value === 'object') {
+      } if (typeof value === 'object') {
         arrayParams = _.union(arrayParams, _.map(value, (paramValue) => {
           return `${encodeURIComponent(key)}[]=${encodeURIComponent(paramValue)}`;
         }));

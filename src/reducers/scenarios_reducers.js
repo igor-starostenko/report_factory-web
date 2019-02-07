@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import { removeSpecialCharacters } from '../helpers/format_helpers';
-import { SCENARIOS, SCENARIO, GET_SCENARIOS, GET_PROJECT_SCENARIOS } from '../actions/scenarios_actions';
+import {
+  SCENARIOS, SCENARIO, GET_SCENARIOS, GET_PROJECT_SCENARIOS,
+} from '../actions/scenarios_actions';
 
 const INITIAL_STATE = {
   list: { data: [], error: null, loading: true },

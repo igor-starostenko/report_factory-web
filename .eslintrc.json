@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb"],
   "plugins": ["lodash"],
   "globals": {
     "document": false,
@@ -24,11 +24,29 @@
     }
   },
   "rules": {
-    "quotes": 0,
-    "semi": 0,
-    "react/prop-types": "off",
+    "comma-dangle": "off",
+    "import/named": "off",
+    "import/namespace": "off",
+    "import/default": "off",
+    "import/export": "off",
+    "import/no-named-as-default": "off",
+    "import/no-named-as-default-member": "off",
+    "import/no-restricted-paths": [
+      "error",
+      { 
+        "zones": [
+          {
+            "target": "*",
+            "from": "lodash"
+          }
+        ]
+      }
+    ],
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/label-has-for": "off",
-    "react/prefer-stateless-function": "off"
+    "quotes": "off",
+    "react/prefer-stateless-function": "off",
+    "react/prop-types": "off",
+    "semi": "off"
   }
 }
