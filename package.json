@@ -74,7 +74,7 @@
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "chart.js": "^2.7.2",
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "express-http-proxy": "^1.2.0",
     "history": "^4.7.2",
     "js-cookie": "^2.2.0",
