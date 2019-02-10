@@ -9,7 +9,7 @@ export default class CollapsibleItem extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!_.isEqual(this.props.title, nextProps.title)) {
       if (this.state.expanded) {
         this.setState({ expanded: false });
@@ -32,7 +32,7 @@ export default class CollapsibleItem extends Component {
     if (this.props.onExpand && !this.state.expanded) {
       this.props.onExpand();
     }
-    this.setState({ expanded: !this.state.expanded });
+    this.setState(prevState => ({ expanded: !prevState.expanded }));
   }
 
   render() {

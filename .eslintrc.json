@@ -54,6 +54,7 @@
     "jsx-a11y/label-has-for": "off",
     "quotes": "off",
     "react/destructuring-assignment": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": "off",
     "react/prop-types": "off",

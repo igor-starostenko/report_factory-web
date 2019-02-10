@@ -7,7 +7,12 @@ export default class ConfirmModal extends React.Component {
 
   renderCloseButton() {
     return (
-      <button className="close" data-dismiss="modal" {...this.props.close}>
+      <button
+        className="close"
+        type="button"
+        data-dismiss="modal"
+        {...this.props.close}
+      >
         ×
       </button>
     );
@@ -25,6 +30,7 @@ export default class ConfirmModal extends React.Component {
       <button
         className="btn btn-default btn-simple"
         data-dismiss="modal"
+        type="button"
         {...this.props.cancel}
       >
         {this.props.cancelText}
@@ -37,6 +43,7 @@ export default class ConfirmModal extends React.Component {
       return (
         <button
           className={`btn ${this.buttonColor()} btn-simple`}
+          type="submit"
           data-dismiss="modal"
           {...this.props.submit}
         >

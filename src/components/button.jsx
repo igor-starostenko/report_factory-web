@@ -35,7 +35,7 @@ export default class Button extends Component {
       );
     }
     return (
-      <button className={this.buttonStyle()} {...this.props}>
+      <button type="button" className={this.buttonStyle()} {...this.props}>
         {this.props.text}
       </button>
     );
