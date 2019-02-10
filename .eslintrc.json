@@ -1,6 +1,6 @@
 {
-  "extends": ["airbnb"],
-  "plugins": ["lodash"],
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "plugins": ["prettier", "lodash"],
   "globals": {
     "document": false,
     "fetch": false,
@@ -13,6 +13,18 @@
     "cy": false,
     "test": false
   },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "jest": true,
+    "sourceType": "module",
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "impliedStrict": true,
+      "experimentalObjectRestSpread": true,
+      "jsx": true,
+      "modules": true
+    }
+  },
   "settings": {
     "import/resolver": {
       "babel-module": {
@@ -24,6 +36,10 @@
     }
   },
   "rules": {
+    "prettier/prettier": ["error"],
+    "react/prefer-stateless-function": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "comma-dangle": "off",
     "import/named": "off",
     "import/namespace": "off",
@@ -33,7 +49,7 @@
     "import/no-named-as-default-member": "off",
     "import/no-restricted-paths": [
       "error",
-      { 
+      {
         "zones": [
           {
             "target": "*",
