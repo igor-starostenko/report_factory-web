@@ -1,7 +1,15 @@
 import _ from 'lodash';
 import {
-  EDIT_PROJECT, EDIT_PROJECT_SUCCESS, EDIT_PROJECT_FAILURE, RESET_EDIT_PROJECT,
-  GET_PROJECT, GET_PROJECTS, PROJECTS, PROJECT, PROJECT_FILTERS, RESET_ACTIVE_PROJECT,
+  EDIT_PROJECT,
+  EDIT_PROJECT_SUCCESS,
+  EDIT_PROJECT_FAILURE,
+  RESET_EDIT_PROJECT,
+  GET_PROJECT,
+  GET_PROJECTS,
+  PROJECTS,
+  PROJECT,
+  PROJECT_FILTERS,
+  RESET_ACTIVE_PROJECT,
 } from '../actions/projects_actions';
 
 const INITIAL_STATE = {
@@ -35,15 +43,24 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, details: { ...state.details, filters } };
     }
     case GET_PROJECTS: {
-      const list = _.mapKeys(action.payload.data, obj => obj.attributes.project_name);
-      return { ...state, projectsList: { data: list, error: null, loading: false } };
+      const list = _.mapKeys(
+        action.payload.data,
+        obj => obj.attributes.project_name,
+      );
+      return {
+        ...state,
+        projectsList: { data: list, error: null, loading: false },
+      };
     }
     case GET_PROJECT: {
       const { data } = action.payload;
       return { ...state, activeProject: { data, error: null, loading: false } };
     }
     case RESET_ACTIVE_PROJECT: {
-      return { ...state, activeProject: { data: null, error: null, loading: false } };
+      return {
+        ...state,
+        activeProject: { data: null, error: null, loading: false },
+      };
     }
     case EDIT_PROJECT: {
       return { ...state, editProject: { ...state.editProject, loading: true } };
@@ -57,7 +74,10 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, editProject: { data: null, error, loading: false } };
     }
     case RESET_EDIT_PROJECT: {
-      return { ...state, editProject: { data: null, error: null, loading: false } };
+      return {
+        ...state,
+        editProject: { data: null, error: null, loading: false },
+      };
     }
     default: {
       return state;

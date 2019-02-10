@@ -7,7 +7,12 @@ import scenarios from './scenarios_reducers';
 import reports from './reports_reducers';
 
 const rootReducer = combineReducers({
-  form, users, projects, projectReports, scenarios, reports,
+  form,
+  users,
+  projects,
+  projectReports,
+  scenarios,
+  reports,
 });
 
 export default rootReducer;

@@ -4,8 +4,10 @@ export const GET_PROJECT_REPORTS = 'get_project_reports';
 export const GET_PROJECT_REPORTS_SUCCESS = 'get_project_reports_success';
 export const GET_PROJECT_REPORTS_FAILURE = 'get_project_reports_failure';
 export const GET_PROJECT_RSPEC_REPORTS = 'get_project_rspec_reports';
-export const GET_PROJECT_RSPEC_REPORTS_SUCCESS = 'get_project_rspec_reports_success';
-export const GET_PROJECT_RSPEC_REPORTS_FAILURE = 'get_project_rspec_reports_failure';
+export const GET_PROJECT_RSPEC_REPORTS_SUCCESS =
+  'get_project_rspec_reports_success';
+export const GET_PROJECT_RSPEC_REPORTS_FAILURE =
+  'get_project_rspec_reports_failure';
 export const GET_PROJECT_RSPEC_REPORT = 'get_project_rspec_report';
 export const SET_PROJECT_RSPEC_REPORTS_PAGE = 'set_project_rspec_reports_page';
 export const SET_PROJECT_RSPEC_REPORTS_TAGS = 'set_project_rspec_reports_tags';
@@ -77,10 +79,16 @@ export const getProjectRspecReportsFailure = response => ({
   payload: response.payload.json(),
 });
 
-export const resetProjectRspecReports = () => ({ type: RESET_PROJECT_RSPEC_REPORTS });
+export const resetProjectRspecReports = () => ({
+  type: RESET_PROJECT_RSPEC_REPORTS,
+});
 
 export const getRspecReportByProject = (projectName, id, xApiKey) => {
-  const request = reportsClient.showProjectRspecReport(projectName, id, xApiKey);
+  const request = reportsClient.showProjectRspecReport(
+    projectName,
+    id,
+    xApiKey,
+  );
 
   return {
     type: GET_PROJECT_RSPEC_REPORT,

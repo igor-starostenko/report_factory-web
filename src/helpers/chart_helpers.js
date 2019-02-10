@@ -24,23 +24,26 @@ export function lastMonths(number) {
 
 export function formatDates(dates, options) {
   const formatOptions = options || { month: 'short', day: 'numeric' };
-  return _.map(dates, d => (d.toLocaleDateString('en-US', formatOptions)));
+  return _.map(dates, d => d.toLocaleDateString('en-US', formatOptions));
 }
 
 export function reportsCreatedDates(reports, parseDate) {
   const projectReports = _.values(reports);
-  return _.map(projectReports, report => (new Date(parseDate(report))));
+  return _.map(projectReports, report => new Date(parseDate(report)));
 }
 
 /* eslint-disable arrow-body-style */
 const isSameMonth = (dateOne, dateTwo) => {
-  return dateOne.getFullYear() === dateTwo.getFullYear()
-    && dateOne.getMonth() === dateTwo.getMonth();
+  return (
+    dateOne.getFullYear() === dateTwo.getFullYear() &&
+    dateOne.getMonth() === dateTwo.getMonth()
+  );
 };
 
 const isSameDay = (dateOne, dateTwo) => {
-  return isSameMonth(dateOne, dateTwo)
-    && dateOne.getDate() === dateTwo.getDate();
+  return (
+    isSameMonth(dateOne, dateTwo) && dateOne.getDate() === dateTwo.getDate()
+  );
 };
 /* eslint-enable arrow-body-style */
 
@@ -98,12 +101,12 @@ export function setOpacity(color, opacity = 1) {
 }
 
 export function validateInteger(value) {
-  return (value % 1 === 0 ? value : null);
+  return value % 1 === 0 ? value : null;
 }
 
 export function validatePositive(value) {
   const integer = validateInteger(value);
-  return (integer && integer >= 0 ? value : null);
+  return integer && integer >= 0 ? value : null;
 }
 
 export function groupReportsByProjects(reports, parseProjectName) {

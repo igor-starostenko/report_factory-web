@@ -19,13 +19,8 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [
-              'babel-preset-env',
-              'babel-preset-react',
-            ],
-            plugins: [
-              'transform-object-rest-spread',
-            ],
+            presets: ['babel-preset-env', 'babel-preset-react'],
+            plugins: ['transform-object-rest-spread'],
           },
         },
       },
@@ -41,7 +36,8 @@ module.exports = {
             options: {
               modules: true,
               /* eslint-disable no-unused-vars */
-              getLocalIdent: (context, localIdentName, localName, options) => localName,
+              getLocalIdent: (context, localIdentName, localName, options) =>
+                localName,
               /* eslint-enable no-unused-vars */
             },
           },

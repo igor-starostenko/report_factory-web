@@ -21,10 +21,13 @@ class Users extends Component {
         userClassName = 'userAdmin';
       }
 
-      const userPath = `/users/${user.id}`;
-
       return (
-        <Link to={userPath} className={`${styles.user} ${styles[userClassName]}`} key={user.id}>
+        <Link
+          to={`/users/${user.id}`}
+          className={`${styles.user}
+          ${styles[userClassName]}`}
+          key={user.id}
+        >
           <div className={styles.userBody}>
             <div className={styles.userTitle}>{userName}</div>
             <div className={styles.userEmail}>{userEmail}</div>
