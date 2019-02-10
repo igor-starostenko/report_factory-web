@@ -46,7 +46,7 @@ export default ComposedComponent => {
       if (totalPages > 0 && totalPages < this.state.page) {
         return this.setState(_.merge(newState, { page: totalPages }));
       }
-      this.setState(newState);
+      return this.setState(newState);
     }
 
     setPage({ page }) {

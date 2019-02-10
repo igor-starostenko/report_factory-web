@@ -26,12 +26,6 @@ class Reports extends Component {
     }
   }
 
-  fetchRspecReports(options) {
-    const variables = this.prepareVariables(options);
-    this.setRspecReportsQuery(variables);
-    this.queryRspecReports(variables);
-  }
-
   setRspecReportsQuery({ page, perPage, tags }) {
     this.props.setRspecReportsQuery({ page, perPage, tags });
   }
@@ -83,6 +77,12 @@ class Reports extends Component {
       first: newPerPage,
       tags: newTags,
     };
+  }
+
+  fetchRspecReports(options) {
+    const variables = this.prepareVariables(options);
+    this.setRspecReportsQuery(variables);
+    this.queryRspecReports(variables);
   }
 
   resetSearchTags(tags) {

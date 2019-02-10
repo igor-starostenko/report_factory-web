@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
 import SearchReports from './search_reports';
 import {
   RspecReportsBar,
@@ -33,12 +32,6 @@ class ProjectRspecReports extends Component {
 
   componentWillUnmount() {
     this.props.resetProjectRspecReports();
-  }
-
-  fetchProjectRspecReports(options) {
-    const variables = this.prepareVariables(options);
-    this.setProjectRspecReportsQuery(variables);
-    this.queryProjectRspecReports(variables);
   }
 
   setProjectRspecReportsQuery({ page, perPage, tags }) {
@@ -99,6 +92,12 @@ class ProjectRspecReports extends Component {
       first: newPerPage,
       tags: newTags,
     };
+  }
+
+  fetchProjectRspecReports(options) {
+    const variables = this.prepareVariables(options);
+    this.setProjectRspecReportsQuery(variables);
+    this.queryProjectRspecReports(variables);
   }
 
   resetSearchTags(tags) {

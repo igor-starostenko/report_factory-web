@@ -102,7 +102,7 @@ const getChartData = (reports, activeFilter) => {
 const formatTooltip = ({ datasetIndex, index }, { datasets }) => {
   const dataset = datasets[datasetIndex];
   const number = dataset.data[index];
-  const label = dataset.label;
+  const { label } = dataset;
   if (number !== 1) {
     return ` ${number} ${label} reports`;
   }

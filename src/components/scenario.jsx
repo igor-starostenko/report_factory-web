@@ -13,6 +13,13 @@ export default class Scenario extends Component {
     this.onExpand = this.onExpand.bind(this);
   }
 
+  onExpand() {
+    const { projectName, title, xApiKey } = this.props;
+    if (!this.props.scenarioDetails) {
+      this.props.queryScenario(projectName, title, xApiKey);
+    }
+  }
+
   statusName() {
     if (this.props.status === 'failed') {
       return 'failedScenario';
@@ -60,13 +67,6 @@ export default class Scenario extends Component {
         </div>
       </div>
     );
-  }
-
-  onExpand() {
-    const { projectName, title, xApiKey } = this.props;
-    if (!this.props.scenarioDetails) {
-      this.props.queryScenario(projectName, title, xApiKey);
-    }
   }
 
   render() {

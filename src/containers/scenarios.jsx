@@ -9,8 +9,10 @@ import styles from './styles/Scenarios.css';
 class Scenarios extends Component {
   componentDidMount() {
     const { xApiKey, scenarios } = this.props;
-    this.props.queryScenarios(xApiKey);
-    this.props.setScenarios();
+    if (_.isEmpty(scenarios)) {
+      this.props.queryScenarios(xApiKey);
+      this.props.setScenarios();
+    }
   }
 
   render() {

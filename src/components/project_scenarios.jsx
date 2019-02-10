@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import ScenariosList from './scenarios_list';
-import {
-  PerPageFilter,
-  Pagination,
-  ScenarioSuccessChart,
-  SearchScenarios,
-} from '.';
-import {
-  firstScenarioColumn,
-  secondScenarioColumn,
-} from '../helpers/scenarios_helpers';
+import { PerPageFilter, Pagination, SearchScenarios } from '.';
 import styles from './styles/ProjectScenarios.css';
 
 class ProjectScenarios extends Component {
