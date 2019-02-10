@@ -6,7 +6,12 @@ import styles from './styles/ProjectSelection.css';
 export default class ProjectSelection extends Component {
   render() {
     const {
-      chartOptions, description, getChartData, name, path, style,
+      chartOptions,
+      description,
+      getChartData,
+      name,
+      path,
+      style,
     } = this.props;
     return (
       <Link to={path} className={styles.project} style={this.props.style}>

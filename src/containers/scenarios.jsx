@@ -15,11 +15,13 @@ class Scenarios extends Component {
 
   render() {
     if (this.props.loading) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     if (_.isEmpty(this.props.scenariosList)) {
-      return (<div className="loading">Have not submitted any scenarios yet.</div>);
+      return (
+        <div className="loading">Have not submitted any scenarios yet.</div>
+      );
     }
 
     return (
@@ -51,7 +53,7 @@ class Scenarios extends Component {
             />
             <PerPageFilter
               totalCount={this.props.total}
-              buttons={[30,10]}
+              buttons={[30, 10]}
               perPage={this.props.perPage}
               action={this.props.setPerPage}
             />
@@ -62,7 +64,7 @@ class Scenarios extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   loading: state.scenarios.list.loading,
   scenariosList: state.scenarios.list.data,
   scenariosDetails: state.scenarios.details.data,
@@ -70,4 +72,7 @@ const mapStateToProps = (state) => ({
 });
 
 const composedComponent = ScenariosList(Scenarios);
-export default connect(mapStateToProps, { queryScenarios, queryScenario })(composedComponent);
+export default connect(
+  mapStateToProps,
+  { queryScenarios, queryScenario },
+)(composedComponent);

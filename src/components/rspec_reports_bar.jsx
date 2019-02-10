@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { Bar } from 'react-chartjs-2';
 import { formatDurationString } from '../helpers/format_helpers';
-import { getColors, setOpacity, validateInteger } from '../helpers/chart_helpers';
+import {
+  getColors,
+  setOpacity,
+  validateInteger,
+} from '../helpers/chart_helpers';
 
 /* eslint-disable arrow-body-style */
 const lastReports = (reports, number) => {
@@ -23,7 +27,7 @@ const getStatus = (reports, number = 10) => {
   if (_.isEmpty(reports)) {
     return _.times(number, _.constant(colors.grey));
   }
-  return reports.map((report) => {
+  return reports.map(report => {
     const { failureCount } = report.summary;
     if (failureCount > 0) {
       return colors.red;
@@ -70,18 +74,22 @@ const options = {
   responsive: true,
   maintainAspectRatio: false,
   scales: {
-    xAxes: [{
-      gridLines: {
-        display: false,
+    xAxes: [
+      {
+        gridLines: {
+          display: false,
+        },
       },
-    }],
-    yAxes: [{
+    ],
+    yAxes: [
+      {
         display: true,
         ticks: {
-            beginAtZero: true,
-            callback: validateInteger,
-        }
-    }],
+          beginAtZero: true,
+          callback: validateInteger,
+        },
+      },
+    ],
   },
   tooltips: {
     callbacks: { label: formatTooltip },
@@ -101,14 +109,16 @@ export default class RspecReportsBar extends Component {
 
   render() {
     if (_.isEmpty(this.props.reports)) {
-      return (<div />);
+      return <div />;
     }
 
-    return (<Bar
-      data={getChartData(this.props.reports, this.props.displayCount)}
-      options={options}
-      height={350}
-      redraw
-    />);
+    return (
+      <Bar
+        data={getChartData(this.props.reports, this.props.displayCount)}
+        options={options}
+        height={350}
+        redraw
+      />
+    );
   }
 }

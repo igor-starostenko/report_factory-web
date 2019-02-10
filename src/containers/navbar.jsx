@@ -16,7 +16,11 @@ class Navbar extends Component {
       }
     }
     return (
-      <li><Link to={linkUrl} className="btn btn-round btn-default">{linkText}</Link></li>
+      <li>
+        <Link to={linkUrl} className="btn btn-round btn-default">
+          {linkText}
+        </Link>
+      </li>
     );
   }
 
@@ -25,7 +29,10 @@ class Navbar extends Component {
     return (
       <div id="navbar-full">
         <div id="navbar">
-          <nav className="navbar navbar-ct-yellow navbar-fixed-top" role="navigation">
+          <nav
+            className="navbar navbar-ct-yellow navbar-fixed-top"
+            role="navigation"
+          >
             <div className="container">
               <div className="navbar-header">
                 <button
@@ -39,9 +46,14 @@ class Navbar extends Component {
                   <span className="icon-bar" />
                   <span className="icon-bar" />
                 </button>
-                <Link to="/" className="navbar-brand">Report Factory</Link>
+                <Link to="/" className="navbar-brand">
+                  Report Factory
+                </Link>
               </div>
-              <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <div
+                className="collapse navbar-collapse"
+                id="bs-example-navbar-collapse-1"
+              >
                 <ul className="nav navbar-nav">
                   <div className="line-separator" />
                   <li className="active navbar-link">
@@ -79,4 +91,7 @@ const mapStateToProps = state => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, {})(Navbar);
+export default connect(
+  mapStateToProps,
+  {},
+)(Navbar);

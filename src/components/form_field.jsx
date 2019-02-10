@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 
 export default class FormField extends Component {
   render() {
-    const { meta: { touched, error } } = this.props;
+    const {
+      meta: { touched, error },
+    } = this.props;
     const className = `form-group ${touched && error ? 'has-danger' : ''}`;
 
     return (
@@ -14,9 +16,7 @@ export default class FormField extends Component {
           placeholder={this.props.placeholder}
           {...this.props.input}
         />
-        <div className="text-help error">
-          {touched ? error : ''}
-        </div>
+        <div className="text-help error">{touched ? error : ''}</div>
       </div>
     );
   }

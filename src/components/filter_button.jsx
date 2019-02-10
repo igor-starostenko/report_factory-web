@@ -13,11 +13,9 @@ export default class FilterButton extends Component {
   render() {
     const className = this.props.active ? 'active' : '';
     return (
-      <li
-        className={className}
-        onClick={this.handleFilterClick}
-        role="button"
-      ><a>{this.props.name}</a></li>
+      <li className={className} onClick={this.handleFilterClick} role="button">
+        <a>{this.props.name}</a>
+      </li>
     );
   }
 }

@@ -1,27 +1,37 @@
 import React, { Component } from 'react';
-import { LineChart } from '../components';
-import { lastDays, lastMonths, formatDates, reportsPerDay, reportsPerMonth, reportsCreatedDates,
-  groupReportsByProjects, getColors, setOpacity, validateInteger } from '../helpers/chart_helpers';
+import { LineChart } from '.';
+import {
+  lastDays,
+  lastMonths,
+  formatDates,
+  reportsPerDay,
+  reportsPerMonth,
+  reportsCreatedDates,
+  groupReportsByProjects,
+  getColors,
+  setOpacity,
+  validateInteger,
+} from '../helpers/chart_helpers';
 
 const parseDate = report => report.createdAt;
 const parseProjectName = report => report.projectName;
 const colors = getColors();
 
 const filterMapping = {
-   'Year': {},
-   'Month': { lastDays: 32 },
-   'Week': { lastDays: 8 },
+  Year: {},
+  Month: { lastDays: 32 },
+  Week: { lastDays: 8 },
 };
 
 const projectReportsDatasets = (reports, dates, reportsPerDate) => {
   let colorIndex = 0;
   const colorNames = Object.keys(colors);
-  return Object.keys(reports).map((projectName) => {
+  return Object.keys(reports).map(projectName => {
     const projectReports = reports[projectName];
     const reportsDates = reportsCreatedDates(projectReports, parseDate);
     const color = colors[colorNames[colorIndex]];
     /* eslint-disable no-unused-expressions */
-    colorIndex === colorNames.length - 1 ? colorIndex = 0 : colorIndex += 1;
+    colorIndex === colorNames.length - 1 ? (colorIndex = 0) : (colorIndex += 1);
     /* eslint-enable no-unused-expressions */
     return {
       label: projectName,
@@ -37,20 +47,24 @@ const projectReportsDatasets = (reports, dates, reportsPerDate) => {
 };
 
 const chartData = {
-  'Week': () => {
-    const units = lastDays(filterMapping['Week'].lastDays);
+  Week: () => {
+    const units = lastDays(filterMapping.Week.lastDays);
     return {
-      units, labels: formatDates(units), dataForDate: reportsPerDay,
+      units,
+      labels: formatDates(units),
+      dataForDate: reportsPerDay,
     };
   },
-  'Month': () => {
-    const units = lastDays(filterMapping['Month'].lastDays);
+  Month: () => {
+    const units = lastDays(filterMapping.Month.lastDays);
     return {
-      units, labels: formatDates(units), dataForDate: reportsPerDay,
+      units,
+      labels: formatDates(units),
+      dataForDate: reportsPerDay,
     };
   },
-  'Year': () => {
-    const units = lastMonths(filterMapping['Year'].lastMonths || 12);
+  Year: () => {
+    const units = lastMonths(filterMapping.Year.lastMonths || 12);
     return {
       units,
       labels: formatDates(units, { month: 'short' }),
@@ -73,13 +87,15 @@ const chartOptions = {
     backgroundColor: 'rgba(255,165,91,0.8)',
   },
   scales: {
-    yAxes: [{
-      display: true,
-      ticks: {
-        beginAtZero: true,
-        callback: validateInteger,
+    yAxes: [
+      {
+        display: true,
+        ticks: {
+          beginAtZero: true,
+          callback: validateInteger,
+        },
       },
-    }],
+    ],
   },
 };
 
@@ -90,18 +106,23 @@ export default class UserReportsLineChart extends Component {
   }
 
   getChartData() {
-    const { userReports, filters: { filterName } } = this.props;
+    const {
+      userReports,
+      filters: { filterName },
+    } = this.props;
     const reports = groupReportsByProjects(userReports, parseProjectName);
     return getChartData(reports, filterName);
   }
 
   render() {
     if (!this.props.userReports) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     if (!this.props.totalCount || this.props.totalCount === 0) {
-      return (<div className="loading">No reports submitted by this user yet</div>);
+      return (
+        <div className="loading">No reports submitted by this user yet</div>
+      );
     }
 
     return (

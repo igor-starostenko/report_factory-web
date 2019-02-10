@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { FilterButton } from '../components';
+import { FilterButton } from '.';
 
 export default class PerPageFilter extends Component {
   activeFilter(number) {
@@ -8,7 +8,7 @@ export default class PerPageFilter extends Component {
   }
 
   renderFilterButtons() {
-    return _.map(this.props.buttons, (value) => {
+    return _.map(this.props.buttons, value => {
       const name = `${value} Per Page`;
       return (
         <FilterButton
@@ -24,7 +24,7 @@ export default class PerPageFilter extends Component {
 
   render() {
     if (this.props.totalCount <= 10) {
-      return (<div />);
+      return <div />;
     }
     return (
       <div className="filters">

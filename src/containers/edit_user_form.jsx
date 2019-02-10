@@ -3,8 +3,11 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Button, FormField, FormRadio, FormErrors } from '../components';
-import { editUserSuccess, editUserFailure,
-  resetEditUser } from '../actions/users_actions';
+import {
+  editUserSuccess,
+  editUserFailure,
+  resetEditUser,
+} from '../actions/users_actions';
 import styles from './styles/Details.css';
 
 class EditUserForm extends Component {
@@ -13,21 +16,20 @@ class EditUserForm extends Component {
   }
 
   onSubmit(values, dispatch) {
-    this.props.action(values)
-      .then((response) => {
-        if (!response.payload.data) {
-          return dispatch(editUserFailure(response.payload));
-        }
-        dispatch(editUserSuccess(response.payload));
-        return this.props.history.push('/users');
-      });
+    this.props.action(values).then(response => {
+      if (!response.payload.data) {
+        return dispatch(editUserFailure(response.payload));
+      }
+      dispatch(editUserSuccess(response.payload));
+      return this.props.history.push('/users');
+    });
   }
 
   renderSideButton() {
     if (this.props.sideButton) {
       return this.props.sideButton();
     }
-    return (<div />);
+    return <div />;
   }
 
   renderPassword() {
@@ -42,20 +44,14 @@ class EditUserForm extends Component {
         />
       );
     }
-    return (<div />);
+    return <div />;
   }
 
   renderType(value) {
     if (this.props.isAdmin || !this.props.isCurrent) {
-      return (
-        <Field
-          name="type"
-          options={[{ value }]}
-          component={FormRadio}
-        />
-      );
+      return <Field name="type" options={[{ value }]} component={FormRadio} />;
     }
-    return (<div />);
+    return <div />;
   }
 
   render() {
@@ -92,7 +88,11 @@ class EditUserForm extends Component {
           {this.renderType('Admin')}
           <FormErrors errors={errors} />
           <div className="formButtons">
-            <Button type="submit" color="primary" text={this.props.submitText} />
+            <Button
+              type="submit"
+              color="primary"
+              text={this.props.submitText}
+            />
             <Button to={backPath} text="Cancel" />
           </div>
         </form>
@@ -104,11 +104,11 @@ class EditUserForm extends Component {
 
 /* eslint-disable object-curly-newline */
 const validate = ({ name, email, password, type }) => {
-/* eslint-enable object-curly-newline */
+  /* eslint-enable object-curly-newline */
   const errors = {};
 
   if (!name) {
-    errors.name = 'User Name can\'t be blank';
+    errors.name = "User Name can't be blank";
   }
 
   if (!/\w{3,11}$/.test(name)) {
@@ -142,7 +142,7 @@ const validate = ({ name, email, password, type }) => {
   }
 
   if (!type) {
-    errors.type = 'Please select user\'s level of permissions.';
+    errors.type = "Please select user's level of permissions.";
   }
 
   // If errors is empty, the form is fine to submit
@@ -162,4 +162,9 @@ const mapStateToProps = (state, ownProps) => ({
 export default reduxForm({
   validate,
   form: 'editUserForm',
-})(connect(mapStateToProps, mapDispatchToProps)(EditUserForm));
+})(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditUserForm),
+);

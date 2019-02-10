@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2';
 import { getColors } from '../helpers/chart_helpers';
 import styles from './styles/RspecReportPieChart.css';
 
-const formatTooltip = ({ index }, { labels }) => (labels[index]);
+const formatTooltip = ({ index }, { labels }) => labels[index];
 
 const options = {
   responsive: true,
@@ -23,20 +23,21 @@ const options = {
 
 const colors = getColors();
 
-const getDataColor = (status) => {
+const getDataColor = status => {
   if (status === 'passed') {
     return colors.green;
-  } else if (status === 'pending') {
+  }
+  if (status === 'pending') {
     return colors.orange;
   }
   return colors.red;
 };
 
-const getChartData = (examples) => {
+const getChartData = examples => {
   const data = [];
   const backgroundColor = [];
   const labels = [];
-  _.each((examples), (example) => {
+  _.each(examples, example => {
     data.push(example.run_time);
     backgroundColor.push(getDataColor(example.status));
     labels.push(example.description);
@@ -47,7 +48,7 @@ const getChartData = (examples) => {
 export default class RspecReportPieChart extends Component {
   render() {
     if (_.isEmpty(this.props.examples)) {
-      return (<div />);
+      return <div />;
     }
 
     return (

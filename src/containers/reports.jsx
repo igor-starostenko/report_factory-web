@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SearchReports from './search_reports';
-import { RspecReportsList, PaginationConnection, PerPageFilter } from '../components';
-import { queryRspecReports, setRspecReportsQuery } from '../actions/reports_actions';
+import {
+  RspecReportsList,
+  PaginationConnection,
+  PerPageFilter,
+} from '../components';
+import {
+  queryRspecReports,
+  setRspecReportsQuery,
+} from '../actions/reports_actions';
 import styles from './styles/Reports.css';
 
 class Reports extends Component {
@@ -34,35 +41,57 @@ class Reports extends Component {
     this.props.queryRspecReports(xApiKey, { first, last, before, after, tags });
   }
 
-  prepareVariables({
-    page, perPage, tags, start, next, previous, end
-  }) {
+  prepareVariables({ page, perPage, tags, start, next, previous, end }) {
     const newPage = page || this.props.query.page;
     const newPerPage = perPage || this.props.query.perPage;
     const newTags = tags || this.props.query.tags;
     if (start || tags || perPage) {
       return { page: 1, perPage: newPerPage, first: newPerPage, tags: newTags };
-    } else if (next) {
-      const { endCursor: after } = this.props.pageInfo;
-      return { page: newPage, perPage: newPerPage, first: newPerPage, after, tags: newTags };
-    } else if (previous) {
-      const { startCursor: before } = this.props.pageInfo;
-      return { page: newPage, perPage: newPerPage, last: newPerPage, before, tags: newTags };
-    } else if (end) {
-      const remaining = this.props.totalCount % newPerPage;
-      return { page: newPage, perPage: newPerPage, last: remaining, tags: newTags };
-    } else {
-      return { page: newPage, perPage: newPerPage, first: newPerPage, tags: newTags };
     }
+    if (next) {
+      const { endCursor: after } = this.props.pageInfo;
+      return {
+        page: newPage,
+        perPage: newPerPage,
+        first: newPerPage,
+        after,
+        tags: newTags,
+      };
+    }
+    if (previous) {
+      const { startCursor: before } = this.props.pageInfo;
+      return {
+        page: newPage,
+        perPage: newPerPage,
+        last: newPerPage,
+        before,
+        tags: newTags,
+      };
+    }
+    if (end) {
+      const remaining = this.props.totalCount % newPerPage;
+      return {
+        page: newPage,
+        perPage: newPerPage,
+        last: remaining,
+        tags: newTags,
+      };
+    }
+    return {
+      page: newPage,
+      perPage: newPerPage,
+      first: newPerPage,
+      tags: newTags,
+    };
   }
 
   resetSearchTags(tags) {
-    this.props.setRspecReportsQuery({ page: 1, perPage: 10, tags })
+    this.props.setRspecReportsQuery({ page: 1, perPage: 10, tags });
   }
 
   render() {
     if (!this.props.edges) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     const reports = this.props.edges.map(edge => edge.node);
@@ -94,7 +123,7 @@ class Reports extends Component {
             />
             <PerPageFilter
               totalCount={this.props.totalCount}
-              buttons={[30,10]}
+              buttons={[30, 10]}
               perPage={this.props.query.perPage}
               action={this.fetchRspecReports}
             />
@@ -113,4 +142,7 @@ const mapStateToProps = state => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { queryRspecReports, setRspecReportsQuery })(Reports);
+export default connect(
+  mapStateToProps,
+  { queryRspecReports, setRspecReportsQuery },
+)(Reports);

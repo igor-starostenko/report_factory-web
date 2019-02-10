@@ -23,9 +23,9 @@ export default class CollapsibleItem extends Component {
         <div className={styles.expandedDetails}>
           {this.props.details || this.props.renderDetails()}
         </div>
-      )
+      );
     }
-    return (<div className={styles.collapsedDetails}/>)
+    return <div className={styles.collapsedDetails} />;
   }
 
   handleClick() {

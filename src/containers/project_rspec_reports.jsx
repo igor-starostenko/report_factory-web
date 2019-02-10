@@ -3,10 +3,18 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import SearchReports from './search_reports';
-import { RspecReportsBar, RspecReportsList, ReportsSuccessChart,
-  PaginationConnection, PerPageFilter } from '../components';
-import { queryProjectRspecReports, setProjectRspecReportsQuery,
-  resetProjectRspecReports } from '../actions/project_reports_actions';
+import {
+  RspecReportsBar,
+  RspecReportsList,
+  ReportsSuccessChart,
+  PaginationConnection,
+  PerPageFilter,
+} from '../components';
+import {
+  queryProjectRspecReports,
+  setProjectRspecReportsQuery,
+  resetProjectRspecReports,
+} from '../actions/project_reports_actions';
 import styles from './styles/ProjectRspecReports.css';
 
 class ProjectRspecReports extends Component {
@@ -40,39 +48,66 @@ class ProjectRspecReports extends Component {
   queryProjectRspecReports({ first, last, before, after, tags }) {
     const { xApiKey, projectName } = this.props;
     this.props.queryProjectRspecReports(xApiKey, {
-      projectName, first, last, before, after, tags
+      projectName,
+      first,
+      last,
+      before,
+      after,
+      tags,
     });
   }
 
-  prepareVariables({
-    page, perPage, tags, start, next, previous, end
-  }) {
+  prepareVariables({ page, perPage, tags, start, next, previous, end }) {
     const newPage = page || this.props.query.page;
     const newPerPage = perPage || this.props.query.perPage;
     const newTags = tags || this.props.query.tags;
     if (start || tags || perPage) {
       return { page: 1, perPage: newPerPage, first: newPerPage, tags: newTags };
-    } else if (next) {
-      const { endCursor: after } = this.props.pageInfo;
-      return { page: newPage, perPage: newPerPage, first: newPerPage, after, tags: newTags };
-    } else if (previous) {
-      const { startCursor: before } = this.props.pageInfo;
-      return { page: newPage, perPage: newPerPage, last: newPerPage, before, tags: newTags };
-    } else if (end) {
-      const remaining = this.props.totalCount % newPerPage;
-      return { page: newPage, perPage: newPerPage, last: remaining, tags: newTags };
-    } else {
-      return { page: newPage, perPage: newPerPage, first: newPerPage, tags: newTags };
     }
+    if (next) {
+      const { endCursor: after } = this.props.pageInfo;
+      return {
+        page: newPage,
+        perPage: newPerPage,
+        first: newPerPage,
+        after,
+        tags: newTags,
+      };
+    }
+    if (previous) {
+      const { startCursor: before } = this.props.pageInfo;
+      return {
+        page: newPage,
+        perPage: newPerPage,
+        last: newPerPage,
+        before,
+        tags: newTags,
+      };
+    }
+    if (end) {
+      const remaining = this.props.totalCount % newPerPage;
+      return {
+        page: newPage,
+        perPage: newPerPage,
+        last: remaining,
+        tags: newTags,
+      };
+    }
+    return {
+      page: newPage,
+      perPage: newPerPage,
+      first: newPerPage,
+      tags: newTags,
+    };
   }
 
   resetSearchTags(tags) {
-    this.props.setProjectRspecReportsQuery({ page: 1, perPage: 10, tags })
+    this.props.setProjectRspecReportsQuery({ page: 1, perPage: 10, tags });
   }
 
   render() {
     if (!this.props.edges) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     const projectUrl = `/projects/${this.props.projectName}`;
@@ -120,7 +155,7 @@ class ProjectRspecReports extends Component {
             />
             <PerPageFilter
               totalCount={this.props.totalCount}
-              buttons={[30,10]}
+              buttons={[30, 10]}
               perPage={this.props.query.perPage}
               action={this.fetchProjectRspecReports}
             />
@@ -146,4 +181,7 @@ const mapStateToProps = (state, ownProps) => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectRspecReports);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ProjectRspecReports);

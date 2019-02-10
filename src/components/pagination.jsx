@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { PaginationNumber } from '../components';
+import { PaginationNumber } from '.';
 import styles from './styles/Pagination.css';
 
 export default class Pagination extends Component {
@@ -43,14 +43,12 @@ export default class Pagination extends Component {
     const { perPage, total } = this.props;
     const lastPage = _.ceil(parseInt(total, 10) / parseInt(perPage, 10));
     if (lastPage <= 1) {
-      return (<div />);
+      return <div />;
     }
 
     return (
       <ul className={styles.pagination}>
-        <div className={styles.pageWrapper}>
-          {this.renderPages(lastPage)}
-        </div>
+        <div className={styles.pageWrapper}>{this.renderPages(lastPage)}</div>
       </ul>
     );
   }

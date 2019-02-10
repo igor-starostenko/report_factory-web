@@ -3,27 +3,29 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Button, FormField, FormErrors } from '../components';
-import { editProjectSuccess, editProjectFailure,
-  resetEditProject } from '../actions/projects_actions';
+import {
+  editProjectSuccess,
+  editProjectFailure,
+  resetEditProject,
+} from '../actions/projects_actions';
 import styles from './styles/Details.css';
 
 class EditProjectForm extends Component {
   onSubmit(values, dispatch) {
-    this.props.action(values.name)
-      .then((response) => {
-        if (!response.payload.data) {
-          return dispatch(editProjectFailure(response.payload));
-        }
-        dispatch(editProjectSuccess(response.payload));
-        return this.props.history.push('/projects');
-      });
+    this.props.action(values.name).then(response => {
+      if (!response.payload.data) {
+        return dispatch(editProjectFailure(response.payload));
+      }
+      dispatch(editProjectSuccess(response.payload));
+      return this.props.history.push('/projects');
+    });
   }
 
   renderSideButton() {
     if (this.props.sideButton) {
       return this.props.sideButton();
     }
-    return (<div />);
+    return <div />;
   }
 
   render() {
@@ -50,7 +52,11 @@ class EditProjectForm extends Component {
           />
           <FormErrors errors={errors} />
           <div className="formButtons">
-            <Button type="submit" color="primary" text={this.props.submitText} />
+            <Button
+              type="submit"
+              color="primary"
+              text={this.props.submitText}
+            />
             <Button to={backPath} text="Cancel" />
           </div>
         </form>
@@ -59,7 +65,7 @@ class EditProjectForm extends Component {
   }
 }
 
-const validate = (values) => {
+const validate = values => {
   const errors = {};
   const { name } = values;
 
@@ -90,4 +96,9 @@ const mapStateToProps = (state, ownProps) => ({
 export default reduxForm({
   validate,
   form: 'EditProjectForm',
-})(connect(mapStateToProps, mapDispatchToProps)(EditProjectForm));
+})(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditProjectForm),
+);
