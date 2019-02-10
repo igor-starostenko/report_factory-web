@@ -36,17 +36,9 @@
     }
   },
   "rules": {
-    "prettier/prettier": ["error"],
-    "react/prefer-stateless-function": 0,
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "comma-dangle": "off",
-    "import/named": "off",
-    "import/namespace": "off",
-    "import/default": "off",
-    "import/export": "off",
-    "import/no-named-as-default": "off",
-    "import/no-named-as-default-member": "off",
+    "prettier/prettier": "error",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/no-restricted-paths": [
       "error",
       {
@@ -61,6 +53,8 @@
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/label-has-for": "off",
     "quotes": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": "off",
     "react/prop-types": "off",
     "semi": "off"

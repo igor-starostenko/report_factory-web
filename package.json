@@ -6,8 +6,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development",
-    "format": "eslint --format codeframe --fix .",
-    "lint": "eslint --format codeframe .",
+    "lint": "eslint --color src cypress server --ext js,jsx",
+    "format": "eslint src cypress server --ext js,jsx --fix",
     "start": "node server",
     "test": "jest",
     "cypress-open": "cypress open"
