@@ -16,6 +16,7 @@ export default class FormField extends Component {
         <label htmlFor={label}>{label}</label>
         <input
           className={`${this.props.className} form-control`}
+          id={label}
           type={type}
           placeholder={placeholder}
           {...input}
