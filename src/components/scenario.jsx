@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { CollapsibleItem, Details, ScenarioSuccessChart } from '../components';
-import { firstScenarioColumn, secondScenarioColumn } from '../helpers/scenarios_helpers';
+import { CollapsibleItem, Details, ScenarioSuccessChart } from '.';
+import {
+  firstScenarioColumn,
+  secondScenarioColumn,
+} from '../helpers/scenarios_helpers';
 import styles from './styles/Scenario.css';
 
 export default class Scenario extends Component {
@@ -10,14 +13,22 @@ export default class Scenario extends Component {
     this.onExpand = this.onExpand.bind(this);
   }
 
+  onExpand() {
+    const { projectName, title, xApiKey } = this.props;
+    if (!this.props.scenarioDetails) {
+      this.props.queryScenario(projectName, title, xApiKey);
+    }
+  }
+
   statusName() {
     if (this.props.status === 'failed') {
       return 'failedScenario';
-    } else if (this.props.status === 'passed') {
+    }
+    if (this.props.status === 'passed') {
       return 'passedScenario';
     }
     return 'pendingScenario';
-  };
+  }
 
   extendedDetailsStyle() {
     if (this.props.withProjectName) {
@@ -28,15 +39,19 @@ export default class Scenario extends Component {
 
   renderProjectName() {
     if (this.props.withProjectName) {
-      return (<Details rows={{ 'Project': this.props.projectName }} />);
+      return <Details rows={{ Project: this.props.projectName }} />;
     }
-    return (<div style={{ display: 'none' }}/>);
+    return <div style={{ display: 'none' }} />;
   }
 
   renderDetails() {
     if (!this.props.scenarioDetails) {
-      const loadingStyle={ marginTop: '4%', marginBottom: '4%' };
-      return (<div className="loading" style={loadingStyle}>Loading...</div>);
+      const loadingStyle = { marginTop: '4%', marginBottom: '4%' };
+      return (
+        <div className="loading" style={loadingStyle}>
+          Loading...
+        </div>
+      );
     }
     return (
       <div className={styles[this.extendedDetailsStyle()]}>
@@ -54,20 +69,13 @@ export default class Scenario extends Component {
     );
   }
 
-  onExpand() {
-    const { projectName, title, xApiKey } = this.props;
-    if (!this.props.scenarioDetails) {
-      this.props.queryScenario(projectName, title, xApiKey);
-    }
-  }
-
   render() {
     return (
       <CollapsibleItem
         className={`${styles.scenario} ${styles[this.statusName()]}`}
         renderDetails={this.renderDetails}
         onExpand={this.onExpand}
-        { ...this.props }
+        {...this.props}
       />
     );
   }

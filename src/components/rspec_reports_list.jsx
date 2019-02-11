@@ -4,48 +4,68 @@ import _ from 'lodash';
 import { formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import styles from './styles/RspecReportsList.css';
 
-const statusName = (failureCount) => {
+const statusName = failureCount => {
   if (failureCount > 0) {
     return 'failedTest';
   }
   return 'passedTest';
 };
 
-const fetchDetailsFromReport = (rspecReport) => {
+const fetchDetailsFromReport = rspecReport => {
   const {
     report: { projectName, reportableType, createdAt },
     summary: { duration, exampleCount, pendingCount, failureCount },
   } = rspecReport;
   return {
-    projectName, reportableType, createdAt, duration,
-    exampleCount, pendingCount, failureCount,
+    projectName,
+    reportableType,
+    createdAt,
+    duration,
+    exampleCount,
+    pendingCount,
+    failureCount,
   };
 };
 
 export default class RspecReportsList extends Component {
   /* eslint-disable arrow-body-style */
   static renderHeaderItems(names) {
-    return names.map((name) => {
-      return (<div className={styles[`list${name}`]} key={name}>{name}</div>);
+    return names.map(name => {
+      return (
+        <div className={styles[`list${name}`]} key={name}>
+          {name}
+        </div>
+      );
     });
   }
   /* eslint-enable arrow-body-style */
 
   static renderHeader() {
-    const items = ['Number', 'Project', 'Type', 'Ran', 'Duration',
-      'Tests', 'Pending', 'Failed'];
+    const items = [
+      'Number',
+      'Project',
+      'Type',
+      'Ran',
+      'Duration',
+      'Tests',
+      'Pending',
+      'Failed',
+    ];
     return (
-      <div className={styles.headerRow}>
-        {this.renderHeaderItems(items)}
-      </div>
+      <div className={styles.headerRow}>{this.renderHeaderItems(items)}</div>
     );
   }
 
   renderReports() {
-    return this.props.reports.map((report) => {
+    return this.props.reports.map(report => {
       const {
-        projectName, reportableType, createdAt, duration,
-        exampleCount, pendingCount, failureCount,
+        projectName,
+        reportableType,
+        createdAt,
+        duration,
+        exampleCount,
+        pendingCount,
+        failureCount,
       } = fetchDetailsFromReport(report);
       const timeAgo = `${formatDateAgo(new Date(createdAt))} ago`;
       const status = statusName(failureCount);
@@ -70,11 +90,11 @@ export default class RspecReportsList extends Component {
 
   render() {
     if (!this.props.reports) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     if (_.isEmpty(this.props.reports)) {
-      return (<div className="loading">No reports found.</div>);
+      return <div className="loading">No reports found.</div>;
     }
 
     return (
@@ -82,9 +102,7 @@ export default class RspecReportsList extends Component {
         <br />
         <div className={styles.reportsList}>
           {this.constructor.renderHeader()}
-          <div className={styles.listGroup}>
-            {this.renderReports()}
-          </div>
+          <div className={styles.listGroup}>{this.renderReports()}</div>
         </div>
       </div>
     );

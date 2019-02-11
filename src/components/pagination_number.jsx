@@ -20,7 +20,8 @@ export default class PaginationNumber extends Component {
       <li
         onClick={this.handlePageClick}
         className={`${styles.pageNumber} ${pageStyle}`}
-      >{this.props.value.page}
+      >
+        {this.props.value.page}
       </li>
       /* eslint-enable jsx-a11y/click-events-have-key-events */
       /* eslint-enable jsx-a11y/no-noninteractive-element-interactions */

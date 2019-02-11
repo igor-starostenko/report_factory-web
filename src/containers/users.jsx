@@ -11,7 +11,7 @@ class Users extends Component {
   }
 
   renderUsers() {
-    return _.map(this.props.users.data, (user) => {
+    return _.map(this.props.users.data, user => {
       const userName = user.attributes.name;
       const userEmail = user.attributes.email;
       const userType = user.attributes.type;
@@ -21,10 +21,13 @@ class Users extends Component {
         userClassName = 'userAdmin';
       }
 
-      const userPath = `/users/${user.id}`;
-
       return (
-        <Link to={userPath} className={`${styles.user} ${styles[userClassName]}`} key={user.id}>
+        <Link
+          to={`/users/${user.id}`}
+          className={`${styles.user}
+          ${styles[userClassName]}`}
+          key={user.id}
+        >
           <div className={styles.userBody}>
             <div className={styles.userTitle}>{userName}</div>
             <div className={styles.userEmail}>{userEmail}</div>
@@ -44,12 +47,12 @@ class Users extends Component {
         </Link>
       );
     }
-    return (<div />);
+    return <div />;
   }
 
   render() {
     if (!this.props.users.data) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     return (
@@ -71,4 +74,7 @@ const mapStateToProps = state => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getUsers })(Users);
+export default connect(
+  mapStateToProps,
+  { getUsers },
+)(Users);

@@ -3,18 +3,23 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { FormField, FormErrors } from '../components';
-import { updateUser, editUserSuccess, editUserFailure,
-  resetEditUser } from '../actions/users_actions';
+import {
+  updateUser,
+  editUserSuccess,
+  editUserFailure,
+  resetEditUser,
+} from '../actions/users_actions';
 
 const update = (values, dispatch, { userId, xApiKey, reset }) => {
-  dispatch(updateUser(userId, _.pick(values, 'password'), xApiKey))
-    .then((response) => {
+  dispatch(updateUser(userId, _.pick(values, 'password'), xApiKey)).then(
+    response => {
       reset();
       if (!response.payload.data) {
         return dispatch(editUserFailure(response.payload));
       }
       return dispatch(editUserSuccess(response.payload));
-    });
+    },
+  );
 };
 
 class UpdatePasswordForm extends Component {
@@ -65,7 +70,7 @@ const validate = ({ password, confirm }) => {
   }
 
   if (password !== confirm) {
-    errors.confirm = 'Password doesn\'t match. Please try again.';
+    errors.confirm = "Password doesn't match. Please try again.";
   }
 
   // If errors is empty, the form is fine to submit
@@ -86,4 +91,9 @@ export default reduxForm({
   validate,
   form: 'editPasswordForm',
   onSubmit: update,
-})(connect(mapStateToProps, mapDispatchToProps)(UpdatePasswordForm));
+})(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(UpdatePasswordForm),
+);

@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import { RspecReportDetails, RspecReportPieChart, RspecFeatureChart,
-  RspecReportExamplesList } from '../components';
+import {
+  RspecReportDetails,
+  RspecReportPieChart,
+  RspecFeatureChart,
+  RspecReportExamplesList,
+} from '../components';
 import { getRspecReport, resetRspecReport } from '../actions/reports_actions';
 import { formatDate } from '../helpers/format_helpers';
 import styles from './styles/RspecReport.css';
@@ -32,7 +36,7 @@ class RspecReport extends Component {
     const { reportId, report } = this.props;
 
     if (!report) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     const { date, examples } = report.attributes;
@@ -70,4 +74,7 @@ const mapStateToProps = (state, ownProps) => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { getRspecReport, resetRspecReport })(RspecReport);
+export default connect(
+  mapStateToProps,
+  { getRspecReport, resetRspecReport },
+)(RspecReport);

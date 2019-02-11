@@ -4,8 +4,13 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import EditProjectForm from './edit_project_form';
 import { Button, ConfirmModal } from '../components';
-import { getProject, updateProject, deleteProject, editProjectSuccess,
-  editProjectFailure } from '../actions/projects_actions';
+import {
+  getProject,
+  updateProject,
+  deleteProject,
+  editProjectSuccess,
+  editProjectFailure,
+} from '../actions/projects_actions';
 import styles from './styles/Details.css';
 
 const hasProject = (project, projectName) => {
@@ -29,14 +34,13 @@ class UpdateProject extends Component {
 
   handleDelete() {
     const { dispatch, projectName, xApiKey } = this.props;
-    this.props.deleteProject(projectName, xApiKey)
-      .then((response) => {
-        if (response.payload.errors) {
-          return dispatch(editProjectFailure(response.payload));
-        }
-        dispatch(editProjectSuccess(response.payload));
-        return this.props.history.push('/projects');
-      });
+    this.props.deleteProject(projectName, xApiKey).then(response => {
+      if (response.payload.errors) {
+        return dispatch(editProjectFailure(response.payload));
+      }
+      dispatch(editProjectSuccess(response.payload));
+      return this.props.history.push('/projects');
+    });
   }
 
   deleteButton() {
@@ -69,7 +73,7 @@ class UpdateProject extends Component {
         </div>
       );
     }
-    return (<div />);
+    return <div />;
   }
 
   update(newName) {
@@ -80,7 +84,7 @@ class UpdateProject extends Component {
   render() {
     const { project, projectName } = this.props;
     if (!hasProject(project, projectName)) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     const initialValues = { name: projectName };
@@ -118,4 +122,7 @@ const mapStateToProps = (state, ownProps) => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateProject);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UpdateProject);

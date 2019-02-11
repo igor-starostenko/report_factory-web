@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-import { FilterButton } from '../components';
+import { FilterButton } from '.';
 
 export default class LineChart extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export default class LineChart extends Component {
   }
 
   renderFilterItems() {
-    return Object.keys(this.props.filterMapping).map((filterName) => {
+    return Object.keys(this.props.filterMapping).map(filterName => {
       return (
         <FilterButton
           action={this.setFilter}
@@ -36,10 +36,7 @@ export default class LineChart extends Component {
 
     return (
       <div>
-        <Line
-          data={getChartData()}
-          options={options}
-        />
+        <Line data={getChartData()} options={options} />
         <div className="filters">
           <ul id="chart-pills" className="nav nav-pills ct-orange">
             {this.renderFilterItems()}

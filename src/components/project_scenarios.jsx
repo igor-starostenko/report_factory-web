@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import ScenariosList from '../components/scenarios_list';
-import { PerPageFilter, Pagination, ScenarioSuccessChart,
-   SearchScenarios } from '../components';
-import { firstScenarioColumn, secondScenarioColumn } from '../helpers/scenarios_helpers';
+import ScenariosList from './scenarios_list';
+import { PerPageFilter, Pagination, SearchScenarios } from '.';
 import styles from './styles/ProjectScenarios.css';
 
 class ProjectScenarios extends Component {
@@ -13,7 +11,7 @@ class ProjectScenarios extends Component {
 
   render() {
     if (_.isEmpty(this.props.scenariosList)) {
-      return (<div />);
+      return <div />;
     }
 
     return (
@@ -41,7 +39,7 @@ class ProjectScenarios extends Component {
           />
           <PerPageFilter
             totalCount={this.props.total}
-            buttons={[30,10]}
+            buttons={[30, 10]}
             perPage={this.props.perPage}
             action={this.props.setPerPage}
           />

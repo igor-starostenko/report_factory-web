@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { formatDurationString } from '../helpers/format_helpers';
-import { CollapsibleItem } from '../components';
+import { CollapsibleItem } from '.';
 import styles from './styles/RspecReportExamplesList.css';
 
-const statusName = (status) => {
+const statusName = status => {
   if (status === 'failed') {
     return 'failedExample';
-  } else if (status === 'passed') {
+  }
+  if (status === 'passed') {
     return 'passedExample';
   }
   return 'pendingExample';
@@ -16,9 +17,9 @@ const statusName = (status) => {
 export default class RspecReportExamplesList extends Component {
   static renderBacktrace(backtraces) {
     let i = 0;
-    return _.map(backtraces, (backtrace) => {
+    return _.map(backtraces, backtrace => {
       i += 1;
-      return (<p key={i}>{backtrace}</p>);
+      return <p key={i}>{backtrace}</p>;
     });
   }
 
@@ -43,7 +44,7 @@ export default class RspecReportExamplesList extends Component {
   }
 
   renderExamples() {
-    return _.map(this.props.examples, (example) => {
+    return _.map(this.props.examples, example => {
       const status = statusName(example.status);
       return (
         <CollapsibleItem
@@ -58,19 +59,19 @@ export default class RspecReportExamplesList extends Component {
 
   render() {
     if (!this.props.examples) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     if (_.isEmpty(this.props.examples)) {
-      return (<div className="loading">This report does not have any examples</div>);
+      return (
+        <div className="loading">This report does not have any examples</div>
+      );
     }
 
     return (
       <div>
         <div className={styles.examplesHeader}>Examples:</div>
-        <div className={styles.reportExamplesList}>
-          {this.renderExamples()}
-        </div>
+        <div className={styles.reportExamplesList}>{this.renderExamples()}</div>
       </div>
     );
   }

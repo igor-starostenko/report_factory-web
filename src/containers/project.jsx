@@ -15,29 +15,33 @@ class Project extends Component {
 
   componentDidMount() {
     if (!this.props.project) {
-      this.queryProject(this.getFilters())
+      this.queryProject(this.getFilters());
     }
   }
 
   getFilters() {
     const { filters } = this.props;
-    if (!this.props.filters) {
-      return { filterName: 'Week', lastDays: 8 }
+    if (!filters) {
+      return { filterName: 'Week', lastDays: 8 };
     }
     return this.props.filters;
   }
 
   queryProject({ filterName, lastDays, lastMonths }) {
     const { xApiKey, projectName } = this.props;
-    this.props.setProjectFilters(projectName, { filterName, lastDays, lastMonths });
+    this.props.setProjectFilters(projectName, {
+      filterName,
+      lastDays,
+      lastMonths,
+    });
     this.props.queryProject(xApiKey, { projectName, lastDays, lastMonths });
   }
 
   render() {
-    const { project, filters, projectName } = this.props;
+    const { project, projectName } = this.props;
 
     if (!project) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     const rspecUrl = `${this.props.match.url}/rspec`;
@@ -52,8 +56,18 @@ class Project extends Component {
             <div className={styles.detailsName}>{projectName}</div>
           </div>
           <div className={styles.detailsButtons}>
-            <Button to={rspecUrl} color="primary" fill="true" text="View Reports" />
-            <Button to={editUrl} color="warning" fill="true" text="Edit Project" />
+            <Button
+              to={rspecUrl}
+              color="primary"
+              fill="true"
+              text="View Reports"
+            />
+            <Button
+              to={editUrl}
+              color="warning"
+              fill="true"
+              text="Edit Project"
+            />
           </div>
           <div className={styles.detailsTotal}>{totalCountText}</div>
           <div className={styles.detailsContent}>
@@ -92,4 +106,7 @@ const mapStateToProps = (state, ownProps) => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Project);

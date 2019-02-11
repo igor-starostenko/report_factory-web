@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { Button } from '../components';
 import styles from '../components/styles/SearchBar.css';
 
-const formatTags = (tags) => {
+const formatTags = tags => {
   if (_.isEmpty(tags)) {
     return { tags: [] };
   }
@@ -56,7 +56,8 @@ class SearchReports extends Component {
           className={styles[cancelClass]}
           onClick={this.resetSearch}
           type="button"
-        >X
+        >
+          X
         </button>
         <div className={styles.searchButton}>
           <Button type="submit" color="primary" text="Search" />
@@ -73,4 +74,9 @@ const mapStateToProps = state => ({
 export default reduxForm({
   form: 'searchReportsForm',
   destroyOnUnmount: false,
-})(connect(mapStateToProps, { reset })(SearchReports));
+})(
+  connect(
+    mapStateToProps,
+    { reset },
+  )(SearchReports),
+);

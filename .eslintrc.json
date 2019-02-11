@@ -1,6 +1,6 @@
 {
-  "extends": ["airbnb"],
-  "plugins": ["lodash"],
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "plugins": ["prettier", "lodash"],
   "globals": {
     "document": false,
     "fetch": false,
@@ -12,6 +12,18 @@
     "expect": false,
     "cy": false,
     "test": false
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "jest": true,
+    "sourceType": "module",
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "impliedStrict": true,
+      "experimentalObjectRestSpread": true,
+      "jsx": true,
+      "modules": true
+    }
   },
   "settings": {
     "import/resolver": {
@@ -25,15 +37,11 @@
   },
   "rules": {
     "comma-dangle": "off",
-    "import/named": "off",
-    "import/namespace": "off",
-    "import/default": "off",
-    "import/export": "off",
-    "import/no-named-as-default": "off",
-    "import/no-named-as-default-member": "off",
+    "prettier/prettier": "error",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/no-restricted-paths": [
       "error",
-      { 
+      {
         "zones": [
           {
             "target": "*",
@@ -43,8 +51,20 @@
       }
     ],
     "jsx-a11y/anchor-is-valid": "off",
-    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/label-has-for": [
+      2,
+      {
+        "components": ["Label"],
+        "required": {
+          "some": ["nesting", "id"]
+        },
+        "allowChildren": false
+      }
+    ],
     "quotes": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": "off",
     "react/prop-types": "off",
     "semi": "off"

@@ -25,7 +25,7 @@ const options = {
 
 const colors = getColors(0.7);
 
-const getChartData = (scenario) => {
+const getChartData = scenario => {
   const passed = scenario.totalPassed / scenario.totalRuns;
   const failed = scenario.totalFailed / scenario.totalRuns;
   const data = [passed, 1 - passed - failed, failed];
@@ -33,10 +33,13 @@ const getChartData = (scenario) => {
   const hoverBackgroundColor = [
     setOpacity(colors.green, 0.8),
     setOpacity(colors.yellow, 0.8),
-    setOpacity(colors.red, 0.8)
+    setOpacity(colors.red, 0.8),
   ];
   const labels = ['Passed', 'Pending', 'Failed'];
-  return { datasets: [{ data, backgroundColor, hoverBackgroundColor }], labels };
+  return {
+    datasets: [{ data, backgroundColor, hoverBackgroundColor }],
+    labels,
+  };
 };
 
 export default class ScenarioSuccessChart extends Component {
@@ -46,15 +49,11 @@ export default class ScenarioSuccessChart extends Component {
 
   render() {
     if (_.isEmpty(this.props.scenario)) {
-      return (<div />);
+      return <div />;
     }
 
     return (
-      <Pie
-        data={getChartData(this.props.scenario)}
-        options={options}
-        redraw
-      />
+      <Pie data={getChartData(this.props.scenario)} options={options} redraw />
     );
   }
 }

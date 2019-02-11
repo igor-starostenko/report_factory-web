@@ -44,8 +44,14 @@ ReactDOM.render(
             <Route path="/users/:id/edit" component={RequireAuth(UpdateUser)} />
             <Route path="/users/:id" component={RequireAuth(User)} />
             <Route path="/users" component={RequireAuth(Users)} />
-            <Route path="/projects/:name/edit" component={RequireAuth(UpdateProject)} />
-            <Route path="/projects/:name/rspec" component={RequireAuth(ProjectRspecReports)} />
+            <Route
+              path="/projects/:name/edit"
+              component={RequireAuth(UpdateProject)}
+            />
+            <Route
+              path="/projects/:name/rspec"
+              component={RequireAuth(ProjectRspecReports)}
+            />
             <Route path="/projects/:name" component={RequireAuth(Project)} />
             <Route path="/projects" component={RequireAuth(Projects)} />
             <Route path="/project/new" component={RequireAuth(CreateProject)} />

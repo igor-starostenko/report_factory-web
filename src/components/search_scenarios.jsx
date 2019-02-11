@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Button } from '../components';
+import { Button } from '.';
 import styles from './styles/SearchBar.css';
 
-const formatWords = (string) => {
+const formatWords = string => {
   if (_.isEmpty(string)) {
     return [];
   }
   const words = _.split(string, ' ');
-  return _.filter(words, (word) => !_.isEmpty(word));
+  return _.filter(words, word => !_.isEmpty(word));
 };
 
 export default class SearchScenarios extends Component {
   constructor(props) {
     super(props);
-    this.state = { inputValue: '' }
+    this.state = { inputValue: '' };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.resetSearch = this.resetSearch.bind(this);
     this.updateInputValue = this.updateInputValue.bind(this);
   }
 
   handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
     this.props.action({ search: formatWords(this.state.inputValue) });
   }
 
@@ -35,7 +35,8 @@ export default class SearchScenarios extends Component {
   }
 
   render() {
-    const hasSearchWords = !_.isEmpty(this.props.search) || this.state.inputValue;
+    const hasSearchWords =
+      !_.isEmpty(this.props.search) || this.state.inputValue;
     const cancelClass = hasSearchWords ? 'cancelEnabled' : 'cancelHidden';
     return (
       <form
@@ -54,7 +55,8 @@ export default class SearchScenarios extends Component {
           className={styles[cancelClass]}
           onClick={this.resetSearch}
           type="button"
-        >X
+        >
+          X
         </button>
         <div className={styles.searchButton}>
           <Button type="submit" color="primary" text="Search" />

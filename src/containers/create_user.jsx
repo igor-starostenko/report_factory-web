@@ -41,4 +41,7 @@ const mapStateToProps = state => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, { createUser })(CreateUser);
+export default connect(
+  mapStateToProps,
+  { createUser },
+)(CreateUser);
