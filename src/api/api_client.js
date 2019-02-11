@@ -10,7 +10,9 @@ class ApiClient {
 
   query({ query, variables, headers }) {
     const body = JSON.stringify({ query, variables });
-    return fetch(new Request(this.graphqlUrl, { method: 'POST', body, headers }));
+    return fetch(
+      new Request(this.graphqlUrl, { method: 'POST', body, headers }),
+    );
   }
 
   static formatQuery(options) {
@@ -20,14 +22,20 @@ class ApiClient {
     }
     let arrayParams = [];
     /* eslint-disable arrow-body-style */
-    const paramsArr = params.map((key) => {
+    const paramsArr = params.map(key => {
       const value = options[key];
       if (!value || value === []) {
         return null;
-      } if (typeof value === 'object') {
-        arrayParams = _.union(arrayParams, _.map(value, (paramValue) => {
-          return `${encodeURIComponent(key)}[]=${encodeURIComponent(paramValue)}`;
-        }));
+      }
+      if (typeof value === 'object') {
+        arrayParams = _.union(
+          arrayParams,
+          _.map(value, paramValue => {
+            return `${encodeURIComponent(key)}[]=${encodeURIComponent(
+              paramValue,
+            )}`;
+          }),
+        );
         return null;
       }
       return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;

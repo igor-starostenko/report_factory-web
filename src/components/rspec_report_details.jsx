@@ -31,7 +31,9 @@ export default class RspecReportDetails extends Component {
       <div className={styles.reportRowWrapper}>
         <div className={styles.reportDetailsRow}>
           <div className={styles.reportDetailsParam}>Project:</div>
-          <Link to={projectLink} className={styles.reportDetailsValue}>{projectName}</Link>
+          <Link to={projectLink} className={styles.reportDetailsValue}>
+            {projectName}
+          </Link>
         </div>
         {this.constructor.renderDetails(details)}
       </div>

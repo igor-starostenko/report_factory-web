@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { PaginationNumber } from '../components';
+import { PaginationNumber } from '.';
 import styles from './styles/Pagination.css';
 
 export default class PaginationConnection extends Component {
@@ -34,14 +34,18 @@ export default class PaginationConnection extends Component {
         pages.push({ page: currentPage - 2, ellipsis: true });
         pages.push({ page: currentPage - 1, previous: true });
       }
-    } else if (lastPage === 3){
+    } else if (lastPage === 3) {
       // 1, 2, 3
-      pages.push({ page: 2, next: (currentPage === 1) });
+      pages.push({ page: 2, next: currentPage === 1 });
     }
     pages.push({ page: lastPage, end: true });
-    return pages.map((obj) => {
+    return pages.map(obj => {
       if (obj.ellipsis) {
-        return (<div key={obj.page} className={styles.ellipsis}>...</div>);
+        return (
+          <div key={obj.page} className={styles.ellipsis}>
+            ...
+          </div>
+        );
       }
       return (
         <PaginationNumber
@@ -58,14 +62,12 @@ export default class PaginationConnection extends Component {
     const { perPage, totalCount } = this.props;
     const lastPage = _.ceil(parseInt(totalCount, 10) / parseInt(perPage, 10));
     if (lastPage <= 1) {
-      return (<div />);
+      return <div />;
     }
 
     return (
       <ul className={styles.pagination}>
-        <div className={styles.pageWrapper}>
-          {this.renderPages(lastPage)}
-        </div>
+        <div className={styles.pageWrapper}>{this.renderPages(lastPage)}</div>
       </ul>
     );
   }

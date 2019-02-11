@@ -8,7 +8,7 @@ export const GET_PROJECT_SCENARIOS = 'get_project_scenarios';
 const apiUrl = process.env.API_URL;
 const scenariosClient = new ScenariosClient(apiUrl);
 
-export const queryScenarios = (xApiKey) => {
+export const queryScenarios = xApiKey => {
   const request = scenariosClient.queryScenarios(xApiKey);
 
   return {
@@ -18,7 +18,11 @@ export const queryScenarios = (xApiKey) => {
 };
 
 export const queryScenario = (projectName, scenarioName, xApiKey) => {
-  const request = scenariosClient.queryScenario(projectName, scenarioName, xApiKey);
+  const request = scenariosClient.queryScenario(
+    projectName,
+    scenarioName,
+    xApiKey,
+  );
 
   return {
     type: SCENARIO,
@@ -27,7 +31,7 @@ export const queryScenario = (projectName, scenarioName, xApiKey) => {
 };
 
 // Deprecated. Use 'queryScenarios' action instead
-export const getAllScenarios = (xApiKey) => {
+export const getAllScenarios = xApiKey => {
   const request = scenariosClient.getScenarios(xApiKey);
 
   return {

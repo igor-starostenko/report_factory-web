@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
 import _ from 'lodash';
-import { authUser, authSuccess, authFailure, setApiKey } from '../actions/users_actions';
+import {
+  authUser,
+  authSuccess,
+  authFailure,
+  setApiKey,
+} from '../actions/users_actions';
 
-export default (ComposedComponent) => {
+export default ComposedComponent => {
   class Authentication extends Component {
     constructor(props) {
       super(props);
@@ -26,14 +31,13 @@ export default (ComposedComponent) => {
           }
           return this.props.setApiKey(xApiKey);
         }
-        return this.props.authUser(xApiKey)
-          .then(({ payload }) => {
-            if (payload.status >= 400) {
-              this.props.authFailure(payload);
-              return this.props.history.push('/login');
-            }
-            return this.props.authSuccess(payload);
-          });
+        return this.props.authUser(xApiKey).then(({ payload }) => {
+          if (payload.status >= 400) {
+            this.props.authFailure(payload);
+            return this.props.history.push('/login');
+          }
+          return this.props.authSuccess(payload);
+        });
       }
     }
     /* eslint-enable consistent-return */
@@ -55,5 +59,8 @@ export default (ComposedComponent) => {
     xApiKey: state.users.currentUser.xApiKey,
   });
 
-  return connect(mapStateToProps, mapDispatchToProps)(Authentication);
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Authentication);
 };

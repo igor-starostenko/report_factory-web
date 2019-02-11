@@ -26,7 +26,7 @@ const usersClient = new UsersClient(apiUrl);
 
 export const setApiKey = xApiKey => ({ type: API_KEY, payload: xApiKey });
 
-export const authUser = (xApiKey) => {
+export const authUser = xApiKey => {
   const request = usersClient.authUser(xApiKey);
 
   return {
@@ -54,7 +54,7 @@ export const signIn = ({ email, password }) => {
   };
 };
 
-export const signInSuccess = (payload) => {
+export const signInSuccess = payload => {
   const xApiKey = payload.data.attributes.api_key;
   Cookies.set('X-API-KEY', xApiKey, { expires: 7 });
   store.dispatch(setApiKey(xApiKey));
@@ -101,7 +101,7 @@ export const getUserReports = (userId, xApiKey) => {
   };
 };
 
-export const getUsers = (xApiKey) => {
+export const getUsers = xApiKey => {
   const request = usersClient.getAllUsers(xApiKey);
 
   return {

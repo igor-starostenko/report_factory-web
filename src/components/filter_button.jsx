@@ -12,12 +12,11 @@ export default class FilterButton extends Component {
 
   render() {
     const className = this.props.active ? 'active' : '';
+    /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
     return (
-      <li
-        className={className}
-        onClick={this.handleFilterClick}
-        role="button"
-      ><a>{this.props.name}</a></li>
+      <li className={className} onClick={this.handleFilterClick} role="button">
+        <a>{this.props.name}</a>
+      </li>
     );
   }
 }

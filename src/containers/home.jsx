@@ -23,11 +23,13 @@ class Home extends Component {
     if (!this.state.loggedIn) {
       return (
         <div className={styles.homeLogin}>
-          <Link to="/login" className="btn btn-lg btn-info btn-fill">Login</Link>
+          <Link to="/login" className="btn btn-lg btn-info btn-fill">
+            Login
+          </Link>
         </div>
       );
     }
-    return (<div />);
+    return <div />;
   }
 
   render() {
@@ -43,7 +45,11 @@ class Home extends Component {
             title="Report Factory Gears"
           />
           <p>
-            See <a href="https://github.com/igor-starostenko/report_factory-web">github</a> for more info.
+            See{' '}
+            <a href="https://github.com/igor-starostenko/report_factory-web">
+              github
+            </a>{' '}
+            for more info.
           </p>
           {this.renderLogin()}
         </div>
@@ -56,4 +62,7 @@ const mapStateToProps = state => ({
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, {})(Home);
+export default connect(
+  mapStateToProps,
+  {},
+)(Home);

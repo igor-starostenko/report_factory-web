@@ -8,17 +8,16 @@ import { signIn, signInFailure, signInSuccess } from '../actions/users_actions';
 class Login extends Component {
   onSubmit(values, dispatch) {
     return new Promise((resolve, reject) => {
-      dispatch(this.props.signIn(values))
-        .then((response) => {
-          if (!response.payload.data) {
-            dispatch(signInFailure(response.payload));
-            reject(response.data); // this is for redux-form itself
-          } else {
-            dispatch(signInSuccess(response.payload));
-            resolve(); // this is for redux-form itself
-            this.props.history.push('/projects');
-          }
-        });
+      dispatch(this.props.signIn(values)).then(response => {
+        if (!response.payload.data) {
+          dispatch(signInFailure(response.payload));
+          reject(response.data); // this is for redux-form itself
+        } else {
+          dispatch(signInSuccess(response.payload));
+          resolve(); // this is for redux-form itself
+          this.props.history.push('/projects');
+        }
+      });
     });
   }
 
@@ -80,4 +79,9 @@ const mapStateToProps = state => ({
 export default reduxForm({
   validate,
   form: 'LoginForm',
-})(connect(mapStateToProps, { signIn })(Login));
+})(
+  connect(
+    mapStateToProps,
+    { signIn },
+  )(Login),
+);

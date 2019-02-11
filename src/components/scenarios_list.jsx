@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Scenario } from '../components';
+import { Scenario } from '.';
 import { removeSpecialCharacters } from '../helpers/format_helpers';
-import { filterScenarios, slicePageScenarios } from '../helpers/scenarios_helpers';
+import {
+  filterScenarios,
+  slicePageScenarios,
+} from '../helpers/scenarios_helpers';
 
-export default (ComposedComponent) => {
+export default ComposedComponent => {
   class ScenariosList extends Component {
     constructor(state) {
       super(state);
-      this.state = { scenarios: [], page: 1, perPage: 10, total: 0, search: [] };
+      this.state = {
+        scenarios: [],
+        page: 1,
+        perPage: 10,
+        total: 0,
+        search: [],
+      };
       this.setPage = this.setPage.bind(this);
       this.setPerPage = this.setPerPage.bind(this);
       this.setSearch = this.setSearch.bind(this);
@@ -18,8 +27,7 @@ export default (ComposedComponent) => {
 
     shouldComponentUpdate(nextProps, nextState) {
       return (
-        (!_.isEqual(nextState, this.state)) ||
-        (!_.isEqual(nextProps, this.props))
+        !_.isEqual(nextState, this.state) || !_.isEqual(nextProps, this.props)
       );
     }
 
@@ -34,11 +42,11 @@ export default (ComposedComponent) => {
       const newState = {
         scenarios: filteredScenarios,
         total: filteredScenarios.length,
-      }
+      };
       if (totalPages > 0 && totalPages < this.state.page) {
         return this.setState(_.merge(newState, { page: totalPages }));
       }
-      this.setState(newState);
+      return this.setState(newState);
     }
 
     setPage({ page }) {
@@ -56,12 +64,14 @@ export default (ComposedComponent) => {
     renderScenarios({ withProjectName }) {
       const { scenarios, page, perPage } = this.state;
       if (_.isEmpty(scenarios)) {
-        return (<div className="loading">No scenarios found</div>);
+        return <div className="loading">No scenarios found</div>;
       }
       let childKey = 0;
-      return _.map(slicePageScenarios(scenarios, page, perPage), (scenario) => {
+      return _.map(slicePageScenarios(scenarios, page, perPage), scenario => {
         childKey += 1;
-        const formattedScenarioName = removeSpecialCharacters(scenario.fullDescription);
+        const formattedScenarioName = removeSpecialCharacters(
+          scenario.fullDescription,
+        );
         const path = `${scenario.projectName}.${formattedScenarioName}`;
         const scenarioDetails = _.get(this.props.scenariosDetails, path);
         return (
@@ -79,18 +89,20 @@ export default (ComposedComponent) => {
       });
     }
 
-    render () {
-      return (<ComposedComponent
-        setScenarios={this.setScenarios}
-        setPage={this.setPage}
-        setPerPage={this.setPerPage}
-        setSearch={this.setSearch}
-        renderScenarios={this.renderScenarios}
-        { ...this.props }
-        { ...this.state }
-      />);
+    render() {
+      return (
+        <ComposedComponent
+          setScenarios={this.setScenarios}
+          setPage={this.setPage}
+          setPerPage={this.setPerPage}
+          setSearch={this.setSearch}
+          renderScenarios={this.renderScenarios}
+          {...this.props}
+          {...this.state}
+        />
+      );
     }
   }
 
   return ScenariosList;
-}
+};

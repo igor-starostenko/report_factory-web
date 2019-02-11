@@ -22,17 +22,23 @@ const options = {
 
 const colors = getColors(0.7);
 
-const getFailedCount = (reports) => {
+const getFailedCount = reports => {
   return _.filter(reports, report => report.summary.failureCount > 0);
 };
 
-const getChartData = (reports) => {
+const getChartData = reports => {
   const failed = getFailedCount(reports).length / _.keys(reports).length;
   const data = [1 - failed, failed];
   const backgroundColor = [colors.green, colors.red];
-  const hoverBackgroundColor = [setOpacity(colors.green, 0.8), setOpacity(colors.red, 0.8)];
+  const hoverBackgroundColor = [
+    setOpacity(colors.green, 0.8),
+    setOpacity(colors.red, 0.8),
+  ];
   const labels = ['Passed', 'Failed'];
-  return { datasets: [{ data, backgroundColor, hoverBackgroundColor }], labels };
+  return {
+    datasets: [{ data, backgroundColor, hoverBackgroundColor }],
+    labels,
+  };
 };
 
 export default class ReportsSuccessChart extends Component {
@@ -42,7 +48,7 @@ export default class ReportsSuccessChart extends Component {
 
   render() {
     if (_.isEmpty(this.props.reports)) {
-      return (<div />);
+      return <div />;
     }
 
     return (

@@ -1,17 +1,18 @@
 import _ from 'lodash';
 import { capitalizeFirstLetter, formatDateAgo } from './format_helpers';
 
-const dateAgoString = (dateString) => {
+const dateAgoString = dateString => {
   if (!dateString) {
     return 'Never';
   }
   return `${formatDateAgo(new Date(dateString))} ago`;
 };
 
-const numberOfExamples = (number) => {
+const numberOfExamples = number => {
   if (!number || number === 0) {
     return 'No examples';
-  } if (number === 1) {
+  }
+  if (number === 1) {
     return '1 example';
   }
   return `${number} examples`;
@@ -19,8 +20,8 @@ const numberOfExamples = (number) => {
 
 /* eslint-disable arrow-body-style */
 export const filterScenarios = (examples, search) => {
-  return _.filter(examples, (scenario) => {
-    return _.every(search, (word) => {
+  return _.filter(examples, scenario => {
+    return _.every(search, word => {
       const scenarioName = scenario.fullDescription.toLowerCase();
       return scenarioName.indexOf(word.toLowerCase()) !== -1;
     });
@@ -29,12 +30,12 @@ export const filterScenarios = (examples, search) => {
 /* eslint-enable arrow-body-style */
 
 export const slicePageScenarios = (scenarios, page, perPage) => {
-  const startIndex = (page * perPage) - perPage;
+  const startIndex = page * perPage - perPage;
   const endIndex = startIndex + perPage;
   return scenarios.slice(startIndex, endIndex);
 };
 
-export const firstScenarioColumn = (scenario) => {
+export const firstScenarioColumn = scenario => {
   if (!scenario) {
     return {};
   }
@@ -46,7 +47,7 @@ export const firstScenarioColumn = (scenario) => {
   };
 };
 
-export const secondScenarioColumn = (scenario) => {
+export const secondScenarioColumn = scenario => {
   if (!scenario) {
     return {};
   }

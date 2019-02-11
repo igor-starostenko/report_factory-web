@@ -26,18 +26,18 @@ const options = {
 };
 
 /* eslint-disable arrow-body-style */
-const groupByFeatures = (examples) => {
-  return _.groupBy(examples, (example) => {
+const groupByFeatures = examples => {
+  return _.groupBy(examples, example => {
     return _.split(example.full_description, ' ', 1)[0];
   });
 };
 
-const countFeatureLength = (examples) => {
-  const runTimes = _.map(examples, example => (example.run_time));
-  return _.reduce(runTimes, (sum, n) => (sum + n), 0);
+const countFeatureLength = examples => {
+  const runTimes = _.map(examples, example => example.run_time);
+  return _.reduce(runTimes, (sum, n) => sum + n, 0);
 };
 
-const getChartData = (examples) => {
+const getChartData = examples => {
   const data = [];
   const backgroundColor = [];
   const labels = [];
@@ -52,7 +52,7 @@ const getChartData = (examples) => {
 export default class ReportsFeatureChart extends Component {
   render() {
     if (_.isEmpty(this.props.examples)) {
-      return (<div />);
+      return <div />;
     }
 
     return (

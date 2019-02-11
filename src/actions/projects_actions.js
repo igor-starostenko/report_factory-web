@@ -37,7 +37,7 @@ export const setProjectFilters = (projectName, filters) => ({
   payload: { projectName, data: filters },
 });
 
-export const getProjects = (xApiKey) => {
+export const getProjects = xApiKey => {
   const request = projectsClient.getAllProjects(xApiKey);
 
   return {

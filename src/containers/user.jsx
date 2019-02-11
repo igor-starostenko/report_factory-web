@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { Button, ConfirmModal,
-  UserReportsLineChart } from '../components';
-import { getUser, logOut, setUserReportsFilters,
-  queryUserReports } from '../actions/users_actions';
+import { Button, ConfirmModal, UserReportsLineChart } from '../components';
+import {
+  getUser,
+  logOut,
+  setUserReportsFilters,
+  queryUserReports,
+} from '../actions/users_actions';
 import { formatTotalReports } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';
@@ -29,6 +32,14 @@ class User extends Component {
     this.requestUser();
   }
 
+  getFilters() {
+    const { filters, userId } = this.props;
+    if (!filters[userId]) {
+      return { filterName: 'Week', lastDays: 8 };
+    }
+    return filters[userId];
+  }
+
   requestUser() {
     const { user, userId } = this.props;
     if (!user.data || _.get(user, 'data.id') !== userId) {
@@ -36,17 +47,13 @@ class User extends Component {
     }
   }
 
-  getFilters() {
-    const { filters, userId } = this.props;
-    if (!filters[userId]) {
-      return { filterName: 'Week', lastDays: 8 }
-    }
-    return filters[userId];
-  }
-
   queryUserReports({ filterName, lastDays, lastMonths }) {
     const { userId, xApiKey } = this.props;
-    this.props.setUserReportsFilters(userId, { filterName, lastDays, lastMonths });
+    this.props.setUserReportsFilters(userId, {
+      filterName,
+      lastDays,
+      lastMonths,
+    });
     this.props.queryUserReports(xApiKey, { userId, lastDays, lastMonths });
   }
 
@@ -66,7 +73,7 @@ class User extends Component {
         />
       );
     }
-    return (<div />);
+    return <div />;
   }
 
   renderApiKeyModal() {
@@ -86,7 +93,7 @@ class User extends Component {
         />
       );
     }
-    return (<div />);
+    return <div />;
   }
 
   renderViewApiKey() {
@@ -102,7 +109,7 @@ class User extends Component {
         />
       );
     }
-    return (<div />);
+    return <div />;
   }
 
   renderDetailsButtons() {
@@ -121,13 +128,13 @@ class User extends Component {
         </div>
       );
     }
-    return (<div />);
+    return <div />;
   }
 
   render() {
     const { user, userId, userReports } = this.props;
     if (!user.data || _.get(user, 'data.id') !== userId) {
-      return (<div />);
+      return <div />;
     }
 
     const { name } = user.data.attributes;
@@ -162,17 +169,21 @@ const mapDispatchToProps = {
   getUser,
   logOut,
   setUserReportsFilters,
-  queryUserReports
+  queryUserReports,
 };
 
 const mapStateToProps = (state, ownProps) => ({
   userId: ownProps.match.params.id,
   isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
-  isCurrent: _.get(state.users.currentUser, 'data.id') === ownProps.match.params.id,
+  isCurrent:
+    _.get(state.users.currentUser, 'data.id') === ownProps.match.params.id,
   user: state.users.activeUser,
   userReports: state.users.userReports.data,
   filters: state.users.filters,
   xApiKey: state.users.currentUser.xApiKey,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(User);

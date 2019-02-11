@@ -6,7 +6,13 @@ import _ from 'lodash';
 import EditUserForm from './edit_user_form';
 import UpdatePasswordForm from './update_password_form';
 import { Button, ConfirmModal } from '../components';
-import { getUser, updateUser, deleteUser, editUserSuccess, editUserFailure } from '../actions/users_actions';
+import {
+  getUser,
+  updateUser,
+  deleteUser,
+  editUserSuccess,
+  editUserFailure,
+} from '../actions/users_actions';
 import styles from './styles/Details.css';
 
 class UpdateUser extends Component {
@@ -26,23 +32,23 @@ class UpdateUser extends Component {
 
   handleDelete() {
     const { dispatch, userId, xApiKey } = this.props;
-    this.props.deleteUser(userId, xApiKey)
-      .then((response) => {
-        if (response.payload.errors) {
-          return dispatch(editUserFailure(response.payload));
-        }
-        dispatch(editUserSuccess(response.payload));
-        return this.props.history.push('/users');
-      });
+    this.props.deleteUser(userId, xApiKey).then(response => {
+      if (response.payload.errors) {
+        return dispatch(editUserFailure(response.payload));
+      }
+      dispatch(editUserSuccess(response.payload));
+      return this.props.history.push('/users');
+    });
   }
 
   sideButton() {
     if (this.props.isCurrent) {
       return this.updatePasswordButton();
-    } else if (this.props.isAdmin) {
+    }
+    if (this.props.isAdmin) {
       return this.deleteButton();
     }
-    return (<div />);
+    return <div />;
   }
 
   updatePasswordButton() {
@@ -52,7 +58,8 @@ class UpdateUser extends Component {
       <UpdatePasswordForm
         userId={this.props.userId}
         xApiKey={this.props.xApiKey}
-      />);
+      />
+    );
     const resetForm = () => this.props.dispatch(reset('editPasswordForm'));
     const submitButton = {
       onClick: () => this.props.dispatch(submit('editPasswordForm')),
@@ -123,12 +130,16 @@ class UpdateUser extends Component {
   render() {
     const { user, userId, userName } = this.props;
     if (!user.data || _.get(user, 'data.id') !== userId) {
-      return (<div className="loading">Loading...</div>);
+      return <div className="loading">Loading...</div>;
     }
 
     const title = `Edit ${userName}`;
     const backPath = `/users/${userId}`;
-    const initialValues = _.pick(user.data.attributes, ['name', 'email', 'type']);
+    const initialValues = _.pick(user.data.attributes, [
+      'name',
+      'email',
+      'type',
+    ]);
 
     return (
       <div>
@@ -159,11 +170,15 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = (state, ownProps) => ({
   userId: ownProps.match.params.id,
   isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
-  isCurrent: _.get(state.users.currentUser, 'data.id') === ownProps.match.params.id,
+  isCurrent:
+    _.get(state.users.currentUser, 'data.id') === ownProps.match.params.id,
   user: state.users.activeUser,
   userName: _.get(state.users.activeUser, 'data.attributes.name'),
   xApiKey: state.users.currentUser.xApiKey,
   passwordForm: state.form.editPasswordForm,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateUser);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UpdateUser);
