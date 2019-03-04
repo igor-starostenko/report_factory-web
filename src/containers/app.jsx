@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
 import _ from 'lodash';
@@ -14,10 +14,10 @@ class App extends Component {
     const userId = _.get(this.props.currentUser, 'data.id');
 
     return (
-      <div>
+      <Fragment>
         <Navbar isLoggedIn={this.isLoggedIn()} userId={userId} />
         <div className="container">{this.props.children}</div>
-      </div>
+      </Fragment>
     );
   }
 }

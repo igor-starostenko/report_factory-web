@@ -39,33 +39,31 @@ const store = createStore(reducers, composeEnhancers(applyMiddleware(promise)));
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <div>
-        <App path="/">
-          <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/users/new" component={RequireAuth(CreateUser)} />
-            <Route path="/users/:id/edit" component={RequireAuth(UpdateUser)} />
-            <Route path="/users/:id" component={RequireAuth(User)} />
-            <Route path="/users" component={RequireAuth(Users)} />
-            <Route
-              path="/projects/:name/edit"
-              component={RequireAuth(UpdateProject)}
-            />
-            <Route
-              path="/projects/:name/rspec"
-              component={RequireAuth(ProjectRspecReports)}
-            />
-            <Route path="/projects/:name" component={RequireAuth(Project)} />
-            <Route path="/projects" component={RequireAuth(Projects)} />
-            <Route path="/project/new" component={RequireAuth(CreateProject)} />
-            <Route path="/reports/:id" component={RequireAuth(RspecReport)} />
-            <Route path="/reports" component={RequireAuth(Reports)} />
-            <Route path="/scenarios" component={RequireAuth(Scenarios)} />
-            <Route exact path="/" component={Home} />
-            <Route path="*" component={NotFound} />
-          </Switch>
-        </App>
-      </div>
+      <App path="/">
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/users/new" component={RequireAuth(CreateUser)} />
+          <Route path="/users/:id/edit" component={RequireAuth(UpdateUser)} />
+          <Route path="/users/:id" component={RequireAuth(User)} />
+          <Route path="/users" component={RequireAuth(Users)} />
+          <Route
+            path="/projects/:name/edit"
+            component={RequireAuth(UpdateProject)}
+          />
+          <Route
+            path="/projects/:name/rspec"
+            component={RequireAuth(ProjectRspecReports)}
+          />
+          <Route path="/projects/:name" component={RequireAuth(Project)} />
+          <Route path="/projects" component={RequireAuth(Projects)} />
+          <Route path="/project/new" component={RequireAuth(CreateProject)} />
+          <Route path="/reports/:id" component={RequireAuth(RspecReport)} />
+          <Route path="/reports" component={RequireAuth(Reports)} />
+          <Route path="/scenarios" component={RequireAuth(Scenarios)} />
+          <Route exact path="/" component={Home} />
+          <Route path="*" component={NotFound} />
+        </Switch>
+      </App>
     </Router>
   </Provider>,
   document.querySelector('.app'),
