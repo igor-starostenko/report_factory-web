@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import { Link } from 'react-router-dom';
 import {
   Navbar,
@@ -95,7 +96,7 @@ class Navigation extends Component {
           <Link to="/">Report Factory</Link>
         </NavbarBrand>
         <NavbarToggler className={styles.navbarToggle} onClick={this.toggle} />
-        <div className={`row align-items-center ${styles.navbarDesktop}`}>
+        <div className={`row align-items-center ${styles.desktopOnly}`}>
           <Nav className="mr-auto" navbar>
             <NavbarLinks />
           </Nav>
@@ -103,13 +104,26 @@ class Navigation extends Component {
             <ProfileButton isLoggedIn={isLoggedIn} userId={userId} />
           </Nav>
         </div>
-        {this.state.isOpen && (
+        <CSSTransition
+          in={this.state.isOpen}
+          timeout={500}
+          classNames="overlay"
+          unmountOnExit
+        >
+          <div className={styles.overlay} />
+        </CSSTransition>
+        <CSSTransition
+          in={this.state.isOpen}
+          timeout={500}
+          classNames="sideNav"
+          unmountOnExit
+        >
           <SideNav
             className={styles.yellow}
             isLoggedIn={isLoggedIn}
             userId={userId}
           />
-        )}
+        </CSSTransition>
       </Navbar>
     );
   }
