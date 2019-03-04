@@ -1,5 +1,10 @@
 .navbar {
   margin-bottom: 100px;
+  z-index: 1;
+}
+
+.navbarDesktop {
+  display: contents;
 }
 
 .navbar-brand {
@@ -7,7 +12,7 @@
   margin-right: 2rem;
 }
 
-.navbarYellow {
+.yellow {
   background-image:
     linear-gradient(
       to top right,
@@ -19,10 +24,7 @@
 
 .navbarToggle {
   border: none;
-}
-
-.navbarToggle:focus {
-  outline: none;
+  padding: 0px;
 }
 
 .navbarToggle>.navbar-toggler-icon {
@@ -52,4 +54,41 @@
   background-color: unset;
   border-color: #FFFFFF;
   opacity: 0.8;
+}
+
+.profileButton:active {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: rgb(255, 165, 91) !important;
+  border-color: rgb(255, 212, 91) !important;
+}
+
+.profileButton:focus {
+  background-color: #FFFFFF;
+  color: rgb(255, 165, 91);
+}
+
+@media only screen and (max-width: 767px) {
+  .navbarDesktop {
+    display: none;
+  }
+
+  .lineSeparator {
+    border-top: 1px solid rgba(255,255,255,.6);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .sideNav {
+    position: fixed;
+    top: 56px;
+    right: 0;
+    width: 200px;
+    height: 100%;
+    padding: 1.25rem;
+    z-index: 25;
+    overflow: auto;
+    /* -webkit-transform: translateX(100%); */
+    /* -ms-transform: translateX(100%); */
+    /* transform: translateX(100%); */
+  }
 }
