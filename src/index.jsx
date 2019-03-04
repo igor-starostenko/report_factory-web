@@ -8,7 +8,10 @@ import promise from 'redux-promise';
 import history from './history';
 import reducers from './reducers';
 
-import { App, NotFound } from './components';
+import 'bootstrap/dist/css/bootstrap.css';
+
+import { NotFound } from './components';
+import App from './containers/app';
 import Home from './containers/home';
 import Login from './containers/login';
 import CreateProject from './containers/create_project';

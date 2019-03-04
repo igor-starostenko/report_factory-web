@@ -1,0 +1,43 @@
+.navbar {
+  margin-bottom: 100px;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  margin-right: 2rem;
+}
+
+.navbarYellow {
+  background-image:
+    linear-gradient(
+      to top right,
+      rgba(255, 165, 91, 1),
+      rgba(255, 212, 91, 1)
+  );
+  box-shadow: 0 10px 30px -7px rgba(35, 41, 51, 0.2);
+}
+
+.navbar a {
+  opacity: 1;
+  color: #FFFFFF;
+}
+
+.navbar a:hover {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.profileButton {
+  background-color: unset;
+  border-color: #FFFFFF;
+  border-radius: 30px;
+  border-width: 1px;
+  opacity: 1;
+  color: #FFFFFF;
+}
+
+.profileButton:hover {
+  background-color: unset;
+  border-color: #FFFFFF;
+  opacity: 0.8;
+}
