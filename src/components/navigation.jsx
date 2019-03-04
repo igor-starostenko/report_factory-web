@@ -33,7 +33,10 @@ class Navigation extends Component {
           <NavbarBrand tag="div">
             <Link to="/">Report Factory</Link>
           </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
+          <NavbarToggler
+            className={styles.navbarToggle}
+            onClick={this.toggle}
+          />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="mr-auto" navbar>
               <NavItem>
