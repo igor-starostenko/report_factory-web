@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch, withRouter } from 'react-router-dom';
 import promise from 'redux-promise';
 
 import history from './history';
@@ -36,10 +36,12 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable no-underscore-dangle */
 const store = createStore(reducers, composeEnhancers(applyMiddleware(promise)));
 
+const AppRouter = withRouter(App);
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <App path="/">
+      <AppRouter path="/">
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/users/new" component={RequireAuth(CreateUser)} />
@@ -63,7 +65,7 @@ ReactDOM.render(
           <Route exact path="/" component={Home} />
           <Route path="*" component={NotFound} />
         </Switch>
-      </App>
+      </AppRouter>
     </Router>
   </Provider>,
   document.querySelector('.app'),
