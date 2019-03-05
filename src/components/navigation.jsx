@@ -41,12 +41,12 @@ const NavbarLinks = () => {
 };
 
 const ProfileButton = props => {
-  const { isLoggedIn, userId, ...rest } = props;
+  const { userId, ...rest } = props;
 
   return (
     <NavItem>
       <NavLink tag="div">
-        {isLoggedIn && userId ? (
+        {userId ? (
           <LinkButton
             className={styles.profileButton}
             to={`/users/${userId}`}
@@ -65,13 +65,13 @@ const ProfileButton = props => {
 };
 
 const SideNav = props => {
-  const { isLoggedIn, userId, className, ...rest } = props;
+  const { userId, className, ...rest } = props;
 
   return (
     <Nav className={`${styles.sideNav} ${className}`} vertical {...rest}>
       <NavbarLinks />
       <div className={styles.lineSeparator} />
-      <ProfileButton isLoggedIn={isLoggedIn} userId={userId} block />
+      <ProfileButton userId={userId} block />
     </Nav>
   );
 };
@@ -89,7 +89,7 @@ class Navigation extends Component {
   }
 
   render() {
-    const { isLoggedIn, userId } = this.props;
+    const { userId } = this.props;
 
     return (
       <Navbar className={styles.yellow} dark expand="md">
@@ -102,7 +102,7 @@ class Navigation extends Component {
             <NavbarLinks />
           </Nav>
           <Nav className="ml-auto" navbar>
-            <ProfileButton isLoggedIn={isLoggedIn} userId={userId} />
+            <ProfileButton userId={userId} />
           </Nav>
         </Row>
         <CSSTransition
@@ -119,11 +119,7 @@ class Navigation extends Component {
           classNames="sideNav"
           unmountOnExit
         >
-          <SideNav
-            className={styles.yellow}
-            isLoggedIn={isLoggedIn}
-            userId={userId}
-          />
+          <SideNav className={styles.yellow} userId={userId} />
         </CSSTransition>
       </Navbar>
     );

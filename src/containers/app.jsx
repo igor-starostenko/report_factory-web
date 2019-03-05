@@ -3,33 +3,59 @@ import { connect } from 'react-redux';
 import { Container } from 'reactstrap';
 import Cookies from 'js-cookie';
 import getValue from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
 import Navbar from '../components/navigation';
+import {
+  authUser,
+  authSuccess,
+  authFailure,
+  setApiKey,
+} from '../actions/users_actions';
 
 class App extends Component {
-  isLoggedIn() {
-    const xApiKey = this.props.xApiKey || Cookies.get('X-API-KEY');
-    return !isEmpty(xApiKey);
+  componentDidMount() {
+    const { xApiKey: storeApiKey, userId } = this.props;
+    const xApiKey = storeApiKey || Cookies.get('X-API-KEY');
+    if (!xApiKey) {
+      this.props.authFailure({ errors: [{ detail: 'Not authorized' }] });
+    } else {
+      if (!storeApiKey) {
+        this.props.setApiKey(xApiKey);
+      }
+      if (!userId) {
+        this.props.authUser(xApiKey).then(({ payload }) => {
+          if (payload.status >= 400) {
+            this.props.authFailure(payload);
+          }
+          return this.props.authSuccess(payload);
+        });
+      }
+    }
   }
 
   render() {
-    const userId = getValue(this.props.currentUser, 'data.id');
-
+    const { userId, children } = this.props;
     return (
       <Fragment>
-        <Navbar isLoggedIn={this.isLoggedIn()} userId={userId} />
-        <Container>{this.props.children}</Container>
+        <Navbar userId={userId} />
+        <Container>{children}</Container>
       </Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.users.currentUser,
+  userId: getValue(state.users.currentUser, 'data.id'),
   xApiKey: state.users.currentUser.xApiKey,
 });
 
+const mapDispatchToProps = {
+  authUser,
+  authSuccess,
+  authFailure,
+  setApiKey,
+};
+
 export default connect(
   mapStateToProps,
-  {},
+  mapDispatchToProps,
 )(App);

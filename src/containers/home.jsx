@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
-import { Link } from 'react-router-dom';
+import { LinkButton } from '../components';
 import styles from './styles/Home.css';
 
 class Home extends Component {
@@ -17,19 +17,6 @@ class Home extends Component {
       this.setState({ loggedIn: true });
       /* eslint-enable react/no-did-mount-set-state */
     }
-  }
-
-  renderLogin() {
-    if (!this.state.loggedIn) {
-      return (
-        <div className={styles.homeLogin}>
-          <Link to="/login" className="btn btn-lg btn-info btn-fill">
-            Login
-          </Link>
-        </div>
-      );
-    }
-    return <div />;
   }
 
   render() {
@@ -51,7 +38,16 @@ class Home extends Component {
             </a>{' '}
             for more info.
           </p>
-          {this.renderLogin()}
+          {!this.state.loggedIn && (
+            <LinkButton
+              className={styles.homeLogin}
+              to="/login"
+              color="info"
+              size="lg"
+            >
+              Login
+            </LinkButton>
+          )}
         </div>
       </div>
     );
