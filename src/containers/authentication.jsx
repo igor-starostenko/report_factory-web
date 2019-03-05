@@ -5,18 +5,17 @@ import { Loading } from '../components';
 
 export default ComonentRequiresAuthentication => {
   class Authentication extends Component {
-    constructor(props) {
-      super(props);
-      this.validateUser();
+    componentDidMount() {
+      this.validateAuth();
     }
 
     componentDidUpdate() {
-      this.validateUser();
+      this.validateAuth();
     }
 
-    validateUser() {
-      const { error, history } = this.props;
-      if (error) {
+    validateAuth() {
+      const { authError, history } = this.props;
+      if (authError) {
         history.push('/login');
       }
     }
@@ -28,7 +27,7 @@ export default ComonentRequiresAuthentication => {
           {!userId || !xApiKey ? (
             <Loading type="grow" color="info" />
           ) : (
-            <ComonentRequiresAuthentication userId={userId} xApiKey={xApiKey} />
+            <ComonentRequiresAuthentication {...this.props} />
           )}
         </Fragment>
       );
@@ -37,7 +36,7 @@ export default ComonentRequiresAuthentication => {
 
   const mapStateToProps = state => ({
     userId: getValue(state.users.currentUser, 'data.id'),
-    error: state.users.currentUser.error,
+    authError: state.users.currentUser.error,
     xApiKey: state.users.currentUser.xApiKey,
   });
 

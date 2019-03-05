@@ -1,12 +1,3 @@
-@keyframes fadeIn {
-  from { opacity: 0 }
-  to { opacity: 1 }
-}
-
-.fadeIn {
-  animation: fadeIn 1s;
-}
-
 .loading {
   animation: fadeIn 2s;
   margin-top: 20%;

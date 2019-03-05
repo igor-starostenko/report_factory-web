@@ -10,9 +10,18 @@ import {
   authFailure,
   setApiKey,
 } from '../actions/users_actions';
+import styles from './styles/App.css';
 
 class App extends Component {
   componentDidMount() {
+    this.validateAuth();
+  }
+
+  componentDidUpdate() {
+    this.validateAuth();
+  }
+
+  validateAuth() {
     const { xApiKey: storeApiKey, userId } = this.props;
     const xApiKey = storeApiKey || Cookies.get('X-API-KEY');
     if (!xApiKey) {
@@ -37,7 +46,7 @@ class App extends Component {
     return (
       <Fragment>
         <Navbar userId={userId} />
-        <Container>{children}</Container>
+        <Container className={styles.fadeIn}>{children}</Container>
       </Fragment>
     );
   }
