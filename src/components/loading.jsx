@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { Spinner } from 'reactstrap';
 import styles from './styles/Loading.css';
 
@@ -14,3 +15,13 @@ export default class Loading extends Component {
     );
   }
 }
+
+Loading.propTypes = {
+  type: PropTypes.string,
+  color: PropTypes.string,
+};
+
+Loading.defaultProps = {
+  type: 'grow',
+  color: 'info',
+};

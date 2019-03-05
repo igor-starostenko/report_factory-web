@@ -22,23 +22,23 @@ class App extends Component {
   }
 
   validateAuth() {
-    const { xApiKey: storeApiKey, userId } = this.props;
+    const { xApiKey: storeApiKey, userId, loading } = this.props;
     const xApiKey = storeApiKey || Cookies.get('X-API-KEY');
     if (!xApiKey) {
-      this.props.authFailure({ errors: [{ detail: 'Not authorized' }] });
-    } else {
-      if (!storeApiKey) {
-        this.props.setApiKey(xApiKey);
-      }
-      if (!userId) {
-        this.props.authUser(xApiKey).then(({ payload }) => {
-          if (payload.status >= 400) {
-            this.props.authFailure(payload);
-          }
-          return this.props.authSuccess(payload);
-        });
-      }
+      return this.props.authFailure({ errors: [{ detail: 'Not authorized' }] });
     }
+    if (!storeApiKey) {
+      return this.props.setApiKey(xApiKey);
+    }
+    if (!userId && !loading) {
+      this.props.authUser(xApiKey).then(({ payload }) => {
+        if (payload.status >= 400) {
+          return this.props.authFailure(payload);
+        }
+        return this.props.authSuccess(payload);
+      });
+    }
+    return userId;
   }
 
   render() {
@@ -54,6 +54,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   userId: getValue(state.users.currentUser, 'data.id'),
+  loading: state.users.currentUser.loading,
   xApiKey: state.users.currentUser.xApiKey,
 });
 
