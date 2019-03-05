@@ -8,6 +8,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Row,
 } from 'reactstrap';
 import { LinkButton } from '.';
 import styles from './styles/Navigation.css';
@@ -96,14 +97,14 @@ class Navigation extends Component {
           <Link to="/">Report Factory</Link>
         </NavbarBrand>
         <NavbarToggler className={styles.navbarToggle} onClick={this.toggle} />
-        <div className={`row align-items-center ${styles.desktopOnly}`}>
+        <Row className={styles.desktopOnly}>
           <Nav className="mr-auto" navbar>
             <NavbarLinks />
           </Nav>
           <Nav className="ml-auto" navbar>
             <ProfileButton isLoggedIn={isLoggedIn} userId={userId} />
           </Nav>
-        </div>
+        </Row>
         <CSSTransition
           in={this.state.isOpen}
           timeout={500}
