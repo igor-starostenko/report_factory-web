@@ -8,6 +8,7 @@ import FormField from './form_field';
 import FormRadio from './form_radio';
 import LineChart from './line_chart';
 import LinkButton from './link_button';
+import Loading from './loading';
 import Navigation from './navigation';
 import NotFound from './not_found';
 import Pagination from './pagination';
@@ -42,6 +43,7 @@ export {
   FormRadio,
   LineChart,
   LinkButton,
+  Loading,
   NotFound,
   Pagination,
   PaginationConnection,
