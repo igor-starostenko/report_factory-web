@@ -1,8 +1,14 @@
 import React, { Component, Fragment } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import getValue from 'lodash/get';
-import { Button, ConfirmModal, UserReportsLineChart } from '../components';
+import {
+  Button,
+  ConfirmModal,
+  Loading,
+  UserReportsLineChart,
+} from '../components';
 import {
   getUser,
   logOut,
@@ -29,6 +35,10 @@ const LogOutButton = props => (
   <Button color="warning" fill="true" text="Log Out" {...props} />
 );
 
+LogOutButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
+
 const DetailsButtons = props => {
   const { userId, isCurrent, onLogOut } = props;
   return (
@@ -45,6 +55,12 @@ const DetailsButtons = props => {
   );
 };
 
+DetailsButtons.propTypes = {
+  userId: PropTypes.string.isRequired,
+  isCurrent: PropTypes.bool.isRequired,
+  onLogOut: PropTypes.func.isRequired,
+};
+
 const ModalContent = props => (
   <div className={modalStyles.modalBody}>
     <h5>Your X-API-KEY:</h5>
@@ -52,11 +68,19 @@ const ModalContent = props => (
   </div>
 );
 
+ModalContent.propTypes = {
+  xApiKey: PropTypes.string.isRequired,
+};
+
 const ApiKeyModal = props => (
   <ConfirmModal id="viewApiKey" title="Api Key" cancelText="Ok">
     <ModalContent xApiKey={props.xApiKey} />
   </ConfirmModal>
 );
+
+ApiKeyModal.propTypes = {
+  xApiKey: PropTypes.string.isRequired,
+};
 
 class User extends Component {
   constructor() {
@@ -67,22 +91,14 @@ class User extends Component {
 
   componentDidMount() {
     this.requestUser();
-    const { userReports, userId } = this.props;
+    const { filters, userReports, userId } = this.props;
     if (!getValue(userReports, userId)) {
-      this.queryUserReports(this.getFilters());
+      this.queryUserReports(filters);
     }
   }
 
   componentDidUpdate() {
     this.requestUser();
-  }
-
-  getFilters() {
-    const { filters, userId } = this.props;
-    if (!filters[userId]) {
-      return { filterName: 'Week', lastDays: 8 };
-    }
-    return filters[userId];
   }
 
   requestUser() {
@@ -108,13 +124,21 @@ class User extends Component {
   }
 
   render() {
-    const { user, userId, userReports, isAdmin, isCurrent } = this.props;
+    const {
+      user,
+      userId,
+      userReports,
+      filters,
+      isAdmin,
+      isCurrent,
+      xApiKey,
+    } = this.props;
     if (!user.data || getValue(user, 'data.id') !== userId) {
-      return <div />;
+      return <Loading />;
     }
 
     const { name } = user.data.attributes;
-    const { reports, reportsCount } = getValue(userReports, userId) || {};
+    const { reports, reportsCount } = userReports;
     const totalCountText = formatTotalReports(reportsCount);
 
     return (
@@ -135,17 +159,51 @@ class User extends Component {
           <div className={styles.detailsContent}>
             <UserReportsLineChart
               filterAction={this.queryUserReports}
-              filters={this.getFilters()}
+              filters={filters}
               totalCount={reportsCount}
               userReports={reports}
             />
           </div>
         </div>
-        {isCurrent && <ApiKeyModal />}
+        {isCurrent && <ApiKeyModal xApiKey={xApiKey} />}
       </Fragment>
     );
   }
 }
+
+User.propTypes = {
+  user: PropTypes.shape({
+    data: PropTypes.shape({
+      attributes: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
+  }).isRequired,
+  userId: PropTypes.string.isRequired,
+  userReports: PropTypes.shape({
+    reports: PropTypes.arrayOf(PropTypes.object),
+    reportsCount: PropTypes.number,
+  }).isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  isCurrent: PropTypes.bool.isRequired,
+  xApiKey: PropTypes.string.isRequired,
+  logOut: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  getUser: PropTypes.func.isRequired,
+  setUserReportsFilters: PropTypes.func.isRequired,
+  queryUserReports: PropTypes.func.isRequired,
+  filters: PropTypes.shape({
+    filterName: PropTypes.string.isRequired,
+    lastDays: PropTypes.number,
+    lastMonths: PropTypes.number,
+  }),
+};
+
+User.defaultProps = {
+  filters: { filterName: 'Week', lastDays: 8 },
+};
 
 const mapDispatchToProps = {
   getUser,
@@ -154,15 +212,14 @@ const mapDispatchToProps = {
   queryUserReports,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  userId: ownProps.match.params.id,
+const mapStateToProps = (state, { match: { params } }) => ({
+  userId: params.id,
   isAdmin:
     getValue(state.users.currentUser, 'data.attributes.type') === 'Admin',
-  isCurrent:
-    getValue(state.users.currentUser, 'data.id') === ownProps.match.params.id,
+  isCurrent: getValue(state.users.currentUser, 'data.id') === params.id,
   user: state.users.activeUser,
-  userReports: state.users.userReports.data,
-  filters: state.users.filters,
+  userReports: getValue(state.users.userReports.data, params.id, {}),
+  filters: getValue(state.users.filters, params.id),
   xApiKey: state.users.currentUser.xApiKey,
 });
 
