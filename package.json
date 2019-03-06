@@ -22,7 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/igor-starostenko/report_factory-web.git"
   },
-  "keywords": [],
+  "keywords": ["tests", "reports", "rspec", "mocha", "javascript", "react", "redux"],
   "author": "Igor Starostenko",
   "license": "ISC",
   "bugs": {
