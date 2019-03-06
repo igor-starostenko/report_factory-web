@@ -46,7 +46,7 @@ class App extends Component {
     return (
       <Fragment>
         <Navbar userId={userId} />
-        <Container className={styles.fadeIn}>{children}</Container>
+        <Container className={styles.main}>{children}</Container>
       </Fragment>
     );
   }

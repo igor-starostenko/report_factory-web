@@ -55,6 +55,7 @@ export default class ConfirmModal extends React.Component {
   }
 
   render() {
+    const { children, title } = this.props;
     return (
       <div
         className="modal fade in"
@@ -66,9 +67,9 @@ export default class ConfirmModal extends React.Component {
           <div className="modal-content">
             <div className="modal-header">
               {this.renderCloseButton()}
-              <h4 className="modal-title">{this.props.title}</h4>
+              <h4 className="modal-title">{title}</h4>
             </div>
-            <div className="modal-body">{this.props.content}</div>
+            <div className="modal-body">{children}</div>
             <div className="modal-footer">
               {this.renderCancelButton()}
               {this.renderDivider()}

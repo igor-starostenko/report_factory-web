@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
+import getValue from 'lodash/get';
 import { Button, ConfirmModal, UserReportsLineChart } from '../components';
 import {
   getUser,
@@ -13,6 +13,51 @@ import { formatTotalReports } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';
 
+const ViewApiKeyButton = props => (
+  <Button
+    data-toggle="modal"
+    data-target="#viewApiKey"
+    id="viewKey"
+    color="info"
+    fill="true"
+    text="View Api Key"
+    {...props}
+  />
+);
+
+const LogOutButton = props => (
+  <Button color="warning" fill="true" text="Log Out" {...props} />
+);
+
+const DetailsButtons = props => {
+  const { userId, isCurrent, onLogOut } = props;
+  return (
+    <div className={styles.detailsButtons}>
+      <Button
+        to={`/users/${userId}/edit`}
+        color="primary"
+        fill="true"
+        text="Edit User"
+      />
+      {isCurrent && <ViewApiKeyButton />}
+      {isCurrent && <LogOutButton onClick={onLogOut} />}
+    </div>
+  );
+};
+
+const ModalContent = props => (
+  <div className={modalStyles.modalBody}>
+    <h5>Your X-API-KEY:</h5>
+    <h5 className={modalStyles.modalJumbo}>{props.xApiKey}</h5>
+  </div>
+);
+
+const ApiKeyModal = props => (
+  <ConfirmModal id="viewApiKey" title="Api Key" cancelText="Ok">
+    <ModalContent xApiKey={props.xApiKey} />
+  </ConfirmModal>
+);
+
 class User extends Component {
   constructor() {
     super();
@@ -23,7 +68,7 @@ class User extends Component {
   componentDidMount() {
     this.requestUser();
     const { userReports, userId } = this.props;
-    if (!_.get(userReports, userId)) {
+    if (!getValue(userReports, userId)) {
       this.queryUserReports(this.getFilters());
     }
   }
@@ -42,7 +87,7 @@ class User extends Component {
 
   requestUser() {
     const { user, userId } = this.props;
-    if (!user.data || _.get(user, 'data.id') !== userId) {
+    if (!user.data || getValue(user, 'data.id') !== userId) {
       this.props.getUser(userId, this.props.xApiKey);
     }
   }
@@ -62,93 +107,30 @@ class User extends Component {
     return this.props.history.push('/');
   }
 
-  renderLogout() {
-    if (this.props.isCurrent) {
-      return (
-        <Button
-          onClick={this.logOut}
-          color="warning"
-          fill="true"
-          text="Log Out"
-        />
-      );
-    }
-    return <div />;
-  }
-
-  renderApiKeyModal() {
-    const modalContent = (
-      <div className={modalStyles.modalBody}>
-        <h5>Your X-API-KEY:</h5>
-        <h5 className={modalStyles.modalJumbo}>{this.props.xApiKey}</h5>
-      </div>
-    );
-    if (this.props.isCurrent) {
-      return (
-        <ConfirmModal
-          id="viewApiKey"
-          title="Api Key"
-          cancelText="Ok"
-          content={modalContent}
-        />
-      );
-    }
-    return <div />;
-  }
-
-  renderViewApiKey() {
-    if (this.props.isCurrent) {
-      return (
-        <Button
-          data-toggle="modal"
-          data-target="#viewApiKey"
-          id="viewKey"
-          color="info"
-          fill="true"
-          text="View Api Key"
-        />
-      );
-    }
-    return <div />;
-  }
-
-  renderDetailsButtons() {
-    if (this.props.isAdmin || this.props.isCurrent) {
-      const editUserUrl = `/users/${this.props.userId}/edit`;
-      return (
-        <div className={styles.detailsButtons}>
-          <Button
-            to={editUserUrl}
-            color="primary"
-            fill="true"
-            text="Edit User"
-          />
-          {this.renderViewApiKey()}
-          {this.renderLogout()}
-        </div>
-      );
-    }
-    return <div />;
-  }
-
   render() {
-    const { user, userId, userReports } = this.props;
-    if (!user.data || _.get(user, 'data.id') !== userId) {
+    const { user, userId, userReports, isAdmin, isCurrent } = this.props;
+    if (!user.data || getValue(user, 'data.id') !== userId) {
       return <div />;
     }
 
     const { name } = user.data.attributes;
-    const { reports, reportsCount } = _.get(userReports, userId) || {};
+    const { reports, reportsCount } = getValue(userReports, userId) || {};
     const totalCountText = formatTotalReports(reportsCount);
 
     return (
-      <div>
+      <Fragment>
         <Link to="/users">Back to users</Link>
         <div className={styles.detailsContainer}>
           <div className={styles.detailsHeader}>
-            <div className={styles.detailsName}>{name}</div>
+            <h1 className={styles.detailsName}>{name}</h1>
           </div>
-          {this.renderDetailsButtons()}
+          {(isAdmin || isCurrent) && (
+            <DetailsButtons
+              userId={userId}
+              isCurrent={isCurrent}
+              onLogOut={this.logOut}
+            />
+          )}
           <div className={styles.detailsTotal}>{totalCountText}</div>
           <div className={styles.detailsContent}>
             <UserReportsLineChart
@@ -159,8 +141,8 @@ class User extends Component {
             />
           </div>
         </div>
-        {this.renderApiKeyModal()}
-      </div>
+        {isCurrent && <ApiKeyModal />}
+      </Fragment>
     );
   }
 }
@@ -174,9 +156,10 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => ({
   userId: ownProps.match.params.id,
-  isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
+  isAdmin:
+    getValue(state.users.currentUser, 'data.attributes.type') === 'Admin',
   isCurrent:
-    _.get(state.users.currentUser, 'data.id') === ownProps.match.params.id,
+    getValue(state.users.currentUser, 'data.id') === ownProps.match.params.id,
   user: state.users.activeUser,
   userReports: state.users.userReports.data,
   filters: state.users.filters,
