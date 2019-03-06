@@ -19,67 +19,21 @@ import { formatTotalReports } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';
 
-const ViewApiKeyButton = props => (
-  <Button
-    data-toggle="modal"
-    data-target="#viewApiKey"
-    id="viewKey"
-    color="info"
-    fill="true"
-    text="View Api Key"
-    {...props}
-  />
-);
-
-const LogOutButton = props => (
-  <Button color="warning" fill="true" text="Log Out" {...props} />
-);
-
-LogOutButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
-
-const DetailsButtons = props => {
-  const { userId, isCurrent, onLogOut } = props;
-  return (
-    <div className={styles.detailsButtons}>
-      <Button
-        to={`/users/${userId}/edit`}
-        color="primary"
-        fill="true"
-        text="Edit User"
-      />
-      {isCurrent && <ViewApiKeyButton />}
-      {isCurrent && <LogOutButton onClick={onLogOut} />}
-    </div>
-  );
-};
-
-DetailsButtons.propTypes = {
-  userId: PropTypes.string.isRequired,
-  isCurrent: PropTypes.bool.isRequired,
-  onLogOut: PropTypes.func.isRequired,
-};
-
-const ModalContent = props => (
-  <div className={modalStyles.modalBody}>
-    <h5>Your X-API-KEY:</h5>
-    <h5 className={modalStyles.modalJumbo}>{props.xApiKey}</h5>
-  </div>
-);
-
-ModalContent.propTypes = {
-  xApiKey: PropTypes.string.isRequired,
-};
-
 const ApiKeyModal = props => (
   <ConfirmModal id="viewApiKey" title="Api Key" cancelText="Ok">
-    <ModalContent xApiKey={props.xApiKey} />
+    <div className={modalStyles.modalBody}>
+      <h5>Your X-API-KEY:</h5>
+      <h5 className={modalStyles.modalJumbo}>{props.xApiKey}</h5>
+    </div>
   </ConfirmModal>
 );
 
 ApiKeyModal.propTypes = {
   xApiKey: PropTypes.string.isRequired,
+};
+
+const isCurrentUser = (user, userId) => {
+  return !user.data || getValue(user, 'data.id') !== userId;
 };
 
 class User extends Component {
@@ -102,9 +56,9 @@ class User extends Component {
   }
 
   requestUser() {
-    const { user, userId } = this.props;
-    if (!user.data || getValue(user, 'data.id') !== userId) {
-      this.props.getUser(userId, this.props.xApiKey);
+    const { user, userId, xApiKey } = this.props;
+    if (isCurrentUser(user, userId)) {
+      this.props.getUser(userId, xApiKey);
     }
   }
 
@@ -133,7 +87,7 @@ class User extends Component {
       isCurrent,
       xApiKey,
     } = this.props;
-    if (!user.data || getValue(user, 'data.id') !== userId) {
+    if (isCurrentUser(user, userId)) {
       return <Loading />;
     }
 
@@ -149,11 +103,32 @@ class User extends Component {
             <h1 className={styles.detailsName}>{name}</h1>
           </div>
           {(isAdmin || isCurrent) && (
-            <DetailsButtons
-              userId={userId}
-              isCurrent={isCurrent}
-              onLogOut={this.logOut}
-            />
+            <div className={styles.detailsButtons}>
+              <Button
+                to={`/users/${userId}/edit`}
+                color="primary"
+                fill="true"
+                text="Edit User"
+              />
+              {isCurrent && (
+                <Button
+                  data-toggle="modal"
+                  data-target="#viewApiKey"
+                  id="viewKey"
+                  color="info"
+                  fill="true"
+                  text="View Api Key"
+                />
+              )}
+              {isCurrent && (
+                <Button
+                  onClick={this.logOut}
+                  color="warning"
+                  fill="true"
+                  text="Log Out"
+                />
+              )}
+            </div>
           )}
           <div className={styles.detailsTotal}>{totalCountText}</div>
           <div className={styles.detailsContent}>
