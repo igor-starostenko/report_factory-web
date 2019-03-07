@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import get from 'lodash/get';
 import { Button, FormField, FormRadio, FormErrors } from '../components';
 import {
   editUserSuccess,
@@ -11,6 +11,11 @@ import {
 import styles from './styles/Details.css';
 
 class EditUserForm extends Component {
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
   componentWillUnmount() {
     this.props.resetMe();
   }
@@ -25,51 +30,30 @@ class EditUserForm extends Component {
     });
   }
 
-  renderSideButton() {
-    if (this.props.sideButton) {
-      return this.props.sideButton();
-    }
-    return <div />;
-  }
-
-  renderPassword() {
-    if (this.props.hasPassword) {
-      return (
-        <Field
-          label="Password"
-          name="password"
-          placeholder="Enter User password"
-          type="password"
-          component={FormField}
-        />
-      );
-    }
-    return <div />;
-  }
-
-  renderType(value) {
-    if (this.props.isAdmin || !this.props.isCurrent) {
-      return <Field name="type" options={[{ value }]} component={FormRadio} />;
-    }
-    return <div />;
-  }
-
   render() {
-    /* eslint-disable object-curly-newline */
-    const { handleSubmit, title, backPath, editUser } = this.props;
-    /* eslint-enable object-curly-newline */
-    const errors = _.get(editUser, 'error');
+    const {
+      isAdmin,
+      isCurrent,
+      handleSubmit,
+      title,
+      backPath,
+      editUser,
+      hasSideButton,
+      hasPassword,
+      children,
+      submitText,
+    } = this.props;
+    const errors = get(editUser, 'error');
 
-    /* eslint-disable react/jsx-no-bind */
     return (
       <div className={styles.detailsContainer}>
         <div className={styles.detailsHeader}>
           <div className={styles.detailsName}>{title}</div>
         </div>
-        {this.renderSideButton()}
+        {children}
         <form
           className={styles.detailsContent}
-          onSubmit={handleSubmit(this.onSubmit.bind(this))}
+          onSubmit={handleSubmit(this.onSubmit)}
         >
           <Field
             label="User Name"
@@ -83,28 +67,42 @@ class EditUserForm extends Component {
             placeholder="Enter User email"
             component={FormField}
           />
-          {this.renderPassword()}
-          {this.renderType('Tester')}
-          {this.renderType('Admin')}
+          {hasPassword && (
+            <Field
+              label="Password"
+              name="password"
+              placeholder="Enter User password"
+              type="password"
+              component={FormField}
+            />
+          )}
+          {(isAdmin || !isCurrent) && (
+            <Fragment>
+              <Field
+                name="type"
+                options={[{ value: 'Tester' }]}
+                component={FormRadio}
+              />
+              <Field
+                name="type"
+                options={[{ value: 'Admin' }]}
+                component={FormRadio}
+              />
+            </Fragment>
+          )}
           <FormErrors errors={errors} />
           <div className="formButtons">
-            <Button
-              type="submit"
-              color="primary"
-              text={this.props.submitText}
-            />
+            <Button type="submit" color="primary" text={submitText} />
             <Button to={backPath} text="Cancel" />
           </div>
         </form>
       </div>
     );
-    /* eslint-enable react/jsx-no-bind */
   }
 }
 
-/* eslint-disable object-curly-newline */
+/* eslint-disable-next-line object-curly-newline */
 const validate = ({ name, email, password, type }) => {
-  /* eslint-enable object-curly-newline */
   const errors = {};
 
   if (!name) {

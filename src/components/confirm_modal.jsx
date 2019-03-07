@@ -11,7 +11,7 @@ export default class ConfirmModal extends Component {
         <ModalHeader toggle={toggle}>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>
         <ModalFooter>
-          <Button color="link" {...cancel} />
+          <Button color="link" onClick={toggle} {...cancel} />
           {submit.children && (
             <Fragment>
               <div className="divider" />
