@@ -20,7 +20,7 @@ import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';
 
 const ApiKeyModal = props => (
-  <ConfirmModal id="viewApiKey" title="Api Key" cancelText="Ok">
+  <ConfirmModal isOpen={props.isOpen} toggle={props.toggle} title="Api Key">
     <div className={modalStyles.modalBody}>
       <h5>Your X-API-KEY:</h5>
       <h5 className={modalStyles.modalJumbo}>{props.xApiKey}</h5>
@@ -29,6 +29,8 @@ const ApiKeyModal = props => (
 );
 
 ApiKeyModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
   xApiKey: PropTypes.string.isRequired,
 };
 
@@ -39,6 +41,11 @@ const isCurrentUser = (user, userId) => {
 class User extends Component {
   constructor() {
     super();
+    this.state = {
+      isApiKeyModalOpen: false,
+    };
+
+    this.toggleApiKeyModal = this.toggleApiKeyModal.bind(this);
     this.logOut = this.logOut.bind(this);
     this.queryUserReports = this.queryUserReports.bind(this);
   }
@@ -77,6 +84,12 @@ class User extends Component {
     return this.props.history.push('/');
   }
 
+  toggleApiKeyModal() {
+    this.setState(prevState => ({
+      isApiKeyModalOpen: !prevState.isApiKeyModalOpen,
+    }));
+  }
+
   render() {
     const {
       user,
@@ -90,6 +103,8 @@ class User extends Component {
     if (isCurrentUser(user, userId)) {
       return <Loading />;
     }
+
+    const { isApiKeyModalOpen } = this.state;
 
     const { name } = user.data.attributes;
     const { reports, reportsCount } = userReports;
@@ -112,9 +127,7 @@ class User extends Component {
               />
               {isCurrent && (
                 <Button
-                  data-toggle="modal"
-                  data-target="#viewApiKey"
-                  id="viewKey"
+                  onClick={this.toggleApiKeyModal}
                   color="info"
                   fill="true"
                   text="View Api Key"
@@ -140,7 +153,13 @@ class User extends Component {
             />
           </div>
         </div>
-        {isCurrent && <ApiKeyModal xApiKey={xApiKey} />}
+        {isCurrent && (
+          <ApiKeyModal
+            xApiKey={xApiKey}
+            isOpen={isApiKeyModalOpen}
+            toggle={this.toggleApiKeyModal}
+          />
+        )}
       </Fragment>
     );
   }
