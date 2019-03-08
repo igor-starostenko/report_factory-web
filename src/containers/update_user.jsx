@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { submit, reset } from 'redux-form';
 import { Button } from 'reactstrap';
-import get from 'lodash/get';
+import getValue from 'lodash/get';
 import pick from 'lodash/pick';
 import isEmpty from 'lodash/isEmpty';
 import EditUserForm from './edit_user_form';
@@ -24,12 +24,14 @@ const UpdatePasswordModal = props => {
     props.dispatch(reset('editPasswordForm'));
     props.toggle();
   };
+  const { password, confirm } = props.passwordErrors;
   const submitButton = {
     onClick: () => {
+      console.log('SUBMIT');
       props.dispatch(submit('editPasswordForm'));
       props.toggle();
     },
-    disabled: !isEmpty(props.errors),
+    disabled: !(isEmpty(password) && isEmpty(confirm)),
     type: 'submit',
     color: 'warning',
     children: 'Update',
@@ -43,7 +45,11 @@ const UpdatePasswordModal = props => {
       cancel={{ onClick: resetForm, children: 'Cancel' }}
       submit={submitButton}
     >
-      <UpdatePasswordForm userId={props.userId} xApiKey={props.xApiKey} />
+      <UpdatePasswordForm
+        userId={props.userId}
+        xApiKey={props.xApiKey}
+        formErrors={props.passwordErrors}
+      />
     </ConfirmModal>
   );
 };
@@ -52,16 +58,19 @@ UpdatePasswordModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
-  errors: PropTypes.shape({
-    password: PropTypes.string,
-    confirm: PropTypes.string,
+  passwordErrors: PropTypes.shape({
+    password: PropTypes.array.isRequired,
+    confirm: PropTypes.array.isRequired,
   }),
   userId: PropTypes.string.isRequired,
   xApiKey: PropTypes.string.isRequired,
 };
 
 UpdatePasswordModal.defaultProps = {
-  errors: {},
+  passwordErrors: {
+    password: [],
+    confirm: [],
+  },
 };
 
 const DeleteUserModal = props => {
@@ -110,7 +119,7 @@ class UpdateUser extends Component {
 
   componentDidMount() {
     const { user, userId } = this.props;
-    if (!user.data || get(user, 'data.id') !== userId) {
+    if (!user.data || getValue(user, 'data.id') !== userId) {
       this.props.getUser(userId, this.props.xApiKey);
     }
   }
@@ -153,17 +162,17 @@ class UpdateUser extends Component {
       isAdmin,
       xApiKey,
     } = this.props;
-    if (!user.data || get(user, 'data.id') !== userId) {
+    if (!user.data || getValue(user, 'data.id') !== userId) {
       return <Loading />;
     }
 
     const { isUpdatePasswordModalOpen, isDeleteUserModalOpen } = this.state;
 
-    const userName = get(user, 'data.attributes.name');
+    const userName = getValue(user, 'data.attributes.name');
     const title = `Edit ${userName}`;
     const backPath = `/users/${userId}`;
     const initialValues = pick(user.data.attributes, ['name', 'email', 'type']);
-    const errors = get(passwordForm, 'syncErrors');
+    const passwordErrors = getValue(passwordForm, 'syncErrors');
 
     return (
       <Fragment>
@@ -196,7 +205,7 @@ class UpdateUser extends Component {
             isOpen={isUpdatePasswordModalOpen}
             toggle={this.toggleUpdatePasswordModal}
             dispatch={dispatch}
-            errors={errors}
+            passwordErrors={passwordErrors}
             userId={userId}
             xApiKey={xApiKey}
           />
@@ -255,9 +264,10 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state, ownProps) => ({
   userId: ownProps.match.params.id,
-  isAdmin: get(state.users.currentUser, 'data.attributes.type') === 'Admin',
+  isAdmin:
+    getValue(state.users.currentUser, 'data.attributes.type') === 'Admin',
   isCurrent:
-    get(state.users.currentUser, 'data.id') === ownProps.match.params.id,
+    getValue(state.users.currentUser, 'data.id') === ownProps.match.params.id,
   user: state.users.activeUser,
   xApiKey: state.users.currentUser.xApiKey,
   passwordForm: state.form.editPasswordForm,
