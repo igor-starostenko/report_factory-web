@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Form, Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { Form, FormFeedback } from 'reactstrap';
+import { FormFeedback } from 'reactstrap';
 import getValue from 'lodash/get';
 import pick from 'lodash/pick';
 import { FormField } from '../components';
@@ -31,11 +31,11 @@ class UpdatePasswordForm extends Component {
   }
 
   render() {
-    const { editUser } = this.props;
+    const { editUser, handleSubmit } = this.props;
     const errors = getValue(editUser, 'error');
 
     return (
-      <Form onSubmit={this.props.handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Field
           props={{
             placeholder: 'New Password',
@@ -86,35 +86,26 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const validate = ({ password, confirm }) => {
-  const errors = {
-    password: [],
-    confirm: [],
-  };
+  const errors = {};
 
   if (!/(?=.*[A-Z])/.test(password)) {
-    errors.password.push(
-      'Password has to have at least one upper case letter.',
-    );
+    errors.password = 'Password has to have at least one upper case letter.';
   }
 
   if (!/(?=.*[a-z])/.test(password)) {
-    errors.password.push(
-      'Password has to have at least one lower case letter.',
-    );
+    errors.password = 'Password has to have at least one lower case letter.';
   }
 
   if (!/(?=.*\d)/.test(password)) {
-    errors.password.push('Password has to have at least one digit.');
+    errors.password = 'Password has to have at least one digit.';
   }
 
   if (!/[^.]{8,105}$/.test(password)) {
-    errors.password.push(
-      'Password need to be between 8 and 105 characters long.',
-    );
+    errors.password = 'Password need to be between 8 and 105 characters long.';
   }
 
   if (password !== confirm) {
-    errors.confirm.push("Password doesn't match. Please try again.");
+    errors.confirm = "Password doesn't match. Please try again.";
   }
 
   // If errors is empty, the form is fine to submit

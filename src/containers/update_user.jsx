@@ -6,7 +6,6 @@ import { submit, reset } from 'redux-form';
 import { Button } from 'reactstrap';
 import getValue from 'lodash/get';
 import pick from 'lodash/pick';
-import isEmpty from 'lodash/isEmpty';
 import EditUserForm from './edit_user_form';
 import UpdatePasswordForm from './update_password_form';
 import { ConfirmModal, Loading } from '../components';
@@ -24,15 +23,14 @@ const UpdatePasswordModal = props => {
     props.dispatch(reset('editPasswordForm'));
     props.toggle();
   };
-  const { password, confirm } = props.passwordErrors;
+  const { passwordErrors } = props;
   const submitButton = {
     onClick: () => {
-      console.log('SUBMIT');
       props.dispatch(submit('editPasswordForm'));
       props.toggle();
     },
-    disabled: !(isEmpty(password) && isEmpty(confirm)),
-    type: 'submit',
+    disabled: !!(passwordErrors.password || passwordErrors.confirm),
+    type: 'button',
     color: 'warning',
     children: 'Update',
   };
@@ -48,7 +46,7 @@ const UpdatePasswordModal = props => {
       <UpdatePasswordForm
         userId={props.userId}
         xApiKey={props.xApiKey}
-        formErrors={props.passwordErrors}
+        formErrors={passwordErrors}
       />
     </ConfirmModal>
   );
@@ -59,8 +57,8 @@ UpdatePasswordModal.propTypes = {
   toggle: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   passwordErrors: PropTypes.shape({
-    password: PropTypes.array.isRequired,
-    confirm: PropTypes.array.isRequired,
+    password: PropTypes.string,
+    confirm: PropTypes.string,
   }),
   userId: PropTypes.string.isRequired,
   xApiKey: PropTypes.string.isRequired,
@@ -68,8 +66,8 @@ UpdatePasswordModal.propTypes = {
 
 UpdatePasswordModal.defaultProps = {
   passwordErrors: {
-    password: [],
-    confirm: [],
+    password: '',
+    confirm: '',
   },
 };
 

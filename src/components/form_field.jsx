@@ -12,24 +12,18 @@ export default class FormField extends Component {
       ...rest
     } = this.props;
 
-    const invalid = touched && error.length > 0;
-    const valid = touched && error.length === 0;
     return (
       <FormGroup>
         <Label htmlFor={label}>{label}</Label>
         <Input
           id={label}
           placeholder={placeholder}
-          invalid={invalid}
-          valid={valid}
+          invalid={touched && !!error}
+          valid={touched && !error}
           {...input}
           {...rest}
         />
-        {touched &&
-          error.map((err, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <FormFeedback key={`passwordError${index}`}>{err}</FormFeedback>
-          ))}
+        {touched && <FormFeedback>{error}</FormFeedback>}
       </FormGroup>
     );
   }
@@ -45,7 +39,7 @@ FormField.propTypes = {
   }).isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool.isRequired,
-    error: PropTypes.arrayOf(PropTypes.string),
+    error: PropTypes.string,
   }).isRequired,
 };
 
