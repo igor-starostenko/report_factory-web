@@ -1,27 +1,25 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-export default class ConfirmModal extends Component {
-  render() {
-    const { toggle, isOpen, children, title, cancel, submit } = this.props;
+export default function ConfirmModal(props) {
+  const { toggle, isOpen, children, title, cancel, submit } = props;
 
-    return (
-      <Modal toggle={toggle} isOpen={isOpen}>
-        <ModalHeader toggle={toggle}>{title}</ModalHeader>
-        <ModalBody>{children}</ModalBody>
-        <ModalFooter>
-          <Button color="link" onClick={toggle} {...cancel} />
-          {submit.children && (
-            <Fragment>
-              <div className="divider" />
-              <Button type="submit" {...submit} />
-            </Fragment>
-          )}
-        </ModalFooter>
-      </Modal>
-    );
-  }
+  return (
+    <Modal toggle={toggle} isOpen={isOpen}>
+      <ModalHeader toggle={toggle}>{title}</ModalHeader>
+      <ModalBody>{children}</ModalBody>
+      <ModalFooter>
+        <Button color="link" onClick={toggle} {...cancel} />
+        {submit.children && (
+          <Fragment>
+            <div className="divider" />
+            <Button type="submit" {...submit} />
+          </Fragment>
+        )}
+      </ModalFooter>
+    </Modal>
+  );
 }
 
 ConfirmModal.propTypes = {
