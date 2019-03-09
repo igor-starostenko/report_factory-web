@@ -34,30 +34,7 @@ ApiKeyModal.propTypes = {
   xApiKey: PropTypes.string.isRequired,
 };
 
-const checkIfCurrentUser = (user, userId) => {
-  return !user.data || getValue(user, 'data.id') !== userId;
-};
-
-const requestUser = props => props.getUser(props.userId, props.xApiKey);
-
-const setUserReports = props => {
-  const { userId, xApiKey } = props;
-  return ({ filterName, lastDays, lastMonths }) => {
-    props.setUserReportsFilters(userId, {
-      filterName,
-      lastDays,
-      lastMonths,
-    });
-    props.queryUserReports(xApiKey, { userId, lastDays, lastMonths });
-  };
-};
-
-const signOut = props => {
-  props.logOut(props.xApiKey);
-  return props.history.push('/');
-};
-
-const User = props => {
+function User(props) {
   const [isApiKeyModalOpen, setApiKeyModal] = useState(false);
 
   const {
@@ -69,19 +46,40 @@ const User = props => {
     userReports,
     xApiKey,
   } = props;
-  const isCurrentUser = checkIfCurrentUser(user, userId);
-  const fetchUserReports = setUserReports(props);
+  const isCurrentUser = user.data && getValue(user, 'data.id') === userId;
 
-  const toggleApiKeyModal = () => setApiKeyModal(!isApiKeyModalOpen);
+  function requestUser() {
+    props.getUser(userId, xApiKey);
+  }
+
+  function fetchUserReports({ filterName, lastDays, lastMonths }) {
+    props.setUserReportsFilters(userId, {
+      filterName,
+      lastDays,
+      lastMonths,
+    });
+    props.queryUserReports(xApiKey, { userId, lastDays, lastMonths });
+  }
+
+  function signOut() {
+    props.logOut(props.xApiKey);
+    return props.history.push('/');
+  }
+
+  function toggleApiKeyModal() {
+    setApiKeyModal(!isApiKeyModalOpen);
+  }
 
   useEffect(() => {
-    requestUser(props);
+    if (!isCurrentUser) {
+      requestUser(props);
+    }
     if (!getValue(userReports, userId)) {
       fetchUserReports(filters);
     }
   }, [userId]);
 
-  if (isCurrentUser) {
+  if (!isCurrentUser) {
     return <Loading />;
   }
 
@@ -141,7 +139,7 @@ const User = props => {
       )}
     </Fragment>
   );
-};
+}
 
 User.propTypes = {
   user: PropTypes.shape({
