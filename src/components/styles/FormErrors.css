@@ -1,0 +1,7 @@
+.errors {
+  margin-bottom: 2rem;
+}
+
+.error {
+  color: rgba(255, 35, 35, 1);
+}

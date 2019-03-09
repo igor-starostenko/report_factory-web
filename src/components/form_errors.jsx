@@ -1,20 +1,22 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { ListGroup, ListGroupItem } from 'reactstrap';
+import styles from './styles/FormErrors.css';
 
 export default function FormErrors(props) {
   const { errors } = props;
 
   return (
-    <ul>
+    <ListGroup className={styles.errors}>
       {(errors || []).map(({ detail }, index) => {
         return (
           // eslint-disable-next-line react/no-array-index-key
-          <li key={index} className="error">
+          <ListGroupItem key={index} color="danger">
             {detail}
-          </li>
+          </ListGroupItem>
         );
       })}
-    </ul>
+    </ListGroup>
   );
 }
 
