@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -34,136 +34,114 @@ ApiKeyModal.propTypes = {
   xApiKey: PropTypes.string.isRequired,
 };
 
-const isCurrentUser = (user, userId) => {
+const checkIfCurrentUser = (user, userId) => {
   return !user.data || getValue(user, 'data.id') !== userId;
 };
 
-class User extends Component {
-  constructor() {
-    super();
-    this.state = {
-      isApiKeyModalOpen: false,
-    };
+const requestUser = props => props.getUser(props.userId, props.xApiKey);
 
-    this.toggleApiKeyModal = this.toggleApiKeyModal.bind(this);
-    this.logOut = this.logOut.bind(this);
-    this.queryUserReports = this.queryUserReports.bind(this);
-  }
-
-  componentDidMount() {
-    this.requestUser();
-    const { filters, userReports, userId } = this.props;
-    if (!getValue(userReports, userId)) {
-      this.queryUserReports(filters);
-    }
-  }
-
-  componentDidUpdate() {
-    this.requestUser();
-  }
-
-  requestUser() {
-    const { user, userId, xApiKey } = this.props;
-    if (isCurrentUser(user, userId)) {
-      this.props.getUser(userId, xApiKey);
-    }
-  }
-
-  queryUserReports({ filterName, lastDays, lastMonths }) {
-    const { userId, xApiKey } = this.props;
-    this.props.setUserReportsFilters(userId, {
+const setUserReports = props => {
+  const { userId, xApiKey } = props;
+  return ({ filterName, lastDays, lastMonths }) => {
+    props.setUserReportsFilters(userId, {
       filterName,
       lastDays,
       lastMonths,
     });
-    this.props.queryUserReports(xApiKey, { userId, lastDays, lastMonths });
-  }
+    props.queryUserReports(xApiKey, { userId, lastDays, lastMonths });
+  };
+};
 
-  logOut() {
-    this.props.logOut(this.props.xApiKey);
-    return this.props.history.push('/');
-  }
+const signOut = props => {
+  props.logOut(props.xApiKey);
+  return props.history.push('/');
+};
 
-  toggleApiKeyModal() {
-    this.setState(prevState => ({
-      isApiKeyModalOpen: !prevState.isApiKeyModalOpen,
-    }));
-  }
+const User = props => {
+  const [isApiKeyModalOpen, setApiKeyModal] = useState(false);
 
-  render() {
-    const {
-      user,
-      userId,
-      userReports,
-      filters,
-      isAdmin,
-      isCurrent,
-      xApiKey,
-    } = this.props;
-    if (isCurrentUser(user, userId)) {
-      return <Loading />;
+  const {
+    isAdmin,
+    isCurrent,
+    filters,
+    user,
+    userId,
+    userReports,
+    xApiKey,
+  } = props;
+  const isCurrentUser = checkIfCurrentUser(user, userId);
+  const fetchUserReports = setUserReports(props);
+
+  const toggleApiKeyModal = () => setApiKeyModal(!isApiKeyModalOpen);
+
+  useEffect(() => {
+    requestUser(props);
+    if (!getValue(userReports, userId)) {
+      fetchUserReports(filters);
     }
+  }, [userId]);
 
-    const { isApiKeyModalOpen } = this.state;
-
-    const { name } = user.data.attributes;
-    const { reports, reportsCount } = userReports;
-    const totalCountText = formatTotalReports(reportsCount);
-
-    return (
-      <Fragment>
-        <Link to="/users">Back to users</Link>
-        <div className={styles.detailsContainer}>
-          <div className={styles.detailsHeader}>
-            <h1 className={styles.detailsName}>{name}</h1>
-          </div>
-          {(isAdmin || isCurrent) && (
-            <div className={styles.detailsButtons}>
-              <Button
-                to={`/users/${userId}/edit`}
-                color="primary"
-                fill="true"
-                text="Edit User"
-              />
-              {isCurrent && (
-                <Button
-                  onClick={this.toggleApiKeyModal}
-                  color="info"
-                  fill="true"
-                  text="View Api Key"
-                />
-              )}
-              {isCurrent && (
-                <Button
-                  onClick={this.logOut}
-                  color="warning"
-                  fill="true"
-                  text="Log Out"
-                />
-              )}
-            </div>
-          )}
-          <div className={styles.detailsTotal}>{totalCountText}</div>
-          <div className={styles.detailsContent}>
-            <UserReportsLineChart
-              filterAction={this.queryUserReports}
-              filters={filters}
-              totalCount={reportsCount}
-              userReports={reports}
-            />
-          </div>
-        </div>
-        {isCurrent && (
-          <ApiKeyModal
-            xApiKey={xApiKey}
-            isOpen={isApiKeyModalOpen}
-            toggle={this.toggleApiKeyModal}
-          />
-        )}
-      </Fragment>
-    );
+  if (isCurrentUser) {
+    return <Loading />;
   }
-}
+
+  const { name } = user.data.attributes;
+  const { reports, reportsCount } = userReports;
+  const totalCountText = formatTotalReports(reportsCount);
+
+  return (
+    <Fragment>
+      <Link to="/users">Back to users</Link>
+      <div className={styles.detailsContainer}>
+        <div className={styles.detailsHeader}>
+          <h1 className={styles.detailsName}>{name}</h1>
+        </div>
+        {(isAdmin || isCurrent) && (
+          <div className={styles.detailsButtons}>
+            <Button
+              to={`/users/${userId}/edit`}
+              color="primary"
+              fill="true"
+              text="Edit User"
+            />
+            {isCurrent && (
+              <Button
+                onClick={toggleApiKeyModal}
+                color="info"
+                fill="true"
+                text="View Api Key"
+              />
+            )}
+            {isCurrent && (
+              <Button
+                onClick={signOut}
+                color="warning"
+                fill="true"
+                text="Log Out"
+              />
+            )}
+          </div>
+        )}
+        <div className={styles.detailsTotal}>{totalCountText}</div>
+        <div className={styles.detailsContent}>
+          <UserReportsLineChart
+            filterAction={fetchUserReports}
+            filters={filters}
+            totalCount={reportsCount}
+            userReports={reports}
+          />
+        </div>
+      </div>
+      {isCurrent && (
+        <ApiKeyModal
+          xApiKey={xApiKey}
+          isOpen={isApiKeyModalOpen}
+          toggle={toggleApiKeyModal}
+        />
+      )}
+    </Fragment>
+  );
+};
 
 User.propTypes = {
   user: PropTypes.shape({
