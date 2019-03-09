@@ -22,7 +22,15 @@
     "type": "git",
     "url": "git+https://github.com/igor-starostenko/report_factory-web.git"
   },
-  "keywords": ["tests", "reports", "rspec", "mocha", "javascript", "react", "redux"],
+  "keywords": [
+    "tests",
+    "reports",
+    "rspec",
+    "mocha",
+    "javascript",
+    "react",
+    "redux"
+  ],
   "author": "Igor Starostenko",
   "license": "ISC",
   "bugs": {
@@ -75,10 +83,11 @@
     "express": "^4.16.4",
     "express-http-proxy": "^1.2.0",
     "history": "^4.7.2",
+    "jquery": "^1.9.1",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
     "morgan": "^1.9.1",
-    "react": "^16.4.1",
+    "react": "^16.8.4",
     "react-chartjs-2": "^2.7.2",
     "react-dom": "^16.8.1",
     "react-redux": "^5.1.1",
