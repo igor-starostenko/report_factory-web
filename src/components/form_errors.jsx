@@ -1,21 +1,31 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 
-export default class FormErrors extends Component {
-  renderErrors() {
-    let errorIndex = 0;
-    return _.map(this.props.errors, error => {
-      const { detail } = error;
-      errorIndex += 1;
-      return (
-        <li key={errorIndex} className="error">
-          {detail}
-        </li>
-      );
-    });
-  }
+export default function FormErrors(props) {
+  const { errors } = props;
 
-  render() {
-    return <ul>{this.renderErrors()}</ul>;
-  }
+  return (
+    <ul>
+      {(errors || []).map(({ detail }, index) => {
+        return (
+          // eslint-disable-next-line react/no-array-index-key
+          <li key={index} className="error">
+            {detail}
+          </li>
+        );
+      })}
+    </ul>
+  );
 }
+
+FormErrors.propTypes = {
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      detail: PropTypes.string,
+    }).isRequired,
+  ),
+};
+
+FormErrors.defaultProps = {
+  errors: [],
+};
