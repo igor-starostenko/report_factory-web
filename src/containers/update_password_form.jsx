@@ -4,7 +4,7 @@ import { Form, Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import getValue from 'lodash/get';
 import pick from 'lodash/pick';
-import { FormField, FormErrors, } from '../components';
+import { FormField, FormErrors } from '../components';
 import {
   updateUser,
   editUserSuccess,

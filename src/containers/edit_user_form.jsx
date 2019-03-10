@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
+import { PropTypes } from 'prop-types';
 import { Field, Form, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import getValue from 'lodash/get';
@@ -11,93 +12,102 @@ import {
 } from '../actions/users_actions';
 import styles from './styles/Details.css';
 
-class EditUserForm extends Component {
-  constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+function EditUserForm(props) {
+  const {
+    isAdmin,
+    isCurrent,
+    handleSubmit,
+    title,
+    backPath,
+    errors,
+    hasPassword,
+    children,
+    submitText,
+  } = props;
 
-  componentWillUnmount() {
-    this.props.resetMe();
-  }
+  // resets on componentWillUnmount()
+  useEffect(() => () => props.resetMe());
 
-  onSubmit(values, dispatch) {
-    this.props.action(values).then(response => {
+  function onSubmit(values, dispatch) {
+    props.action(values).then(response => {
       if (!response.payload.data) {
         return dispatch(editUserFailure(response.payload));
       }
       dispatch(editUserSuccess(response.payload));
-      return this.props.history.push('/users');
+      return props.history.push('/users');
     });
   }
 
-  render() {
-    const {
-      isAdmin,
-      isCurrent,
-      handleSubmit,
-      title,
-      backPath,
-      editUser,
-      hasSideButton,
-      hasPassword,
-      children,
-      submitText,
-    } = this.props;
-    const errors = getValue(editUser, 'error');
-
-    return (
-      <div className={styles.detailsContainer}>
-        <div className={styles.detailsHeader}>
-          <div className={styles.detailsName}>{title}</div>
-        </div>
-        {children}
-        <Form
-          className={styles.detailsContent}
-          onSubmit={handleSubmit(this.onSubmit)}
-        >
-          <Field
-            label="User Name"
-            name="name"
-            placeholder="Enter User name"
-            component={FormField}
-          />
-          <Field
-            label="Email"
-            name="email"
-            placeholder="Enter User email"
-            component={FormField}
-          />
-          {hasPassword && (
-            <Field
-              label="Password"
-              name="password"
-              placeholder="Enter User password"
-              type="password"
-              component={FormField}
-            />
-          )}
-          {(isAdmin || !isCurrent) && (
-            <Fragment>
-              <Field
-                name="type"
-                options={[{ value: 'Tester' }, { value: 'Admin' }]}
-                component={FormRadio}
-              />
-            </Fragment>
-          )}
-          <FormErrors errors={errors} />
-          <div className="formButtons">
-            <Button type="submit" color="primary">
-              {submitText}
-            </Button>
-            <LinkButton to={backPath}>Cancel</LinkButton>
-          </div>
-        </Form>
+  return (
+    <div className={styles.detailsContainer}>
+      <div className={styles.detailsHeader}>
+        <div className={styles.detailsName}>{title}</div>
       </div>
-    );
-  }
+      {children}
+      <Form className={styles.detailsContent} onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          label="User Name"
+          name="name"
+          placeholder="Enter User name"
+          component={FormField}
+        />
+        <Field
+          label="Email"
+          name="email"
+          placeholder="Enter User email"
+          component={FormField}
+        />
+        {hasPassword && (
+          <Field
+            label="Password"
+            name="password"
+            placeholder="Enter User password"
+            type="password"
+            component={FormField}
+          />
+        )}
+        {(isAdmin || !isCurrent) && (
+          <Fragment>
+            <Field
+              name="type"
+              options={[{ value: 'Tester' }, { value: 'Admin' }]}
+              component={FormRadio}
+            />
+          </Fragment>
+        )}
+        <FormErrors errors={errors} />
+        <div className="formButtons">
+          <Button type="submit" color="primary">
+            {submitText}
+          </Button>
+          <LinkButton to={backPath}>Cancel</LinkButton>
+        </div>
+      </Form>
+    </div>
+  );
 }
+
+EditUserForm.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
+  isCurrent: PropTypes.bool.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  backPath: PropTypes.string.isRequired,
+  errors: PropTypes.arrayOf(PropTypes.string),
+  hasPassword: PropTypes.bool,
+  children: PropTypes.element.isRequired,
+  submitText: PropTypes.string.isRequired,
+  resetMe: PropTypes.func.isRequired,
+  action: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+EditUserForm.defaultProps = {
+  hasPassword: false,
+  errors: [],
+};
 
 /* eslint-disable-next-line object-curly-newline */
 const validate = ({ name, email, password, type }) => {
@@ -152,7 +162,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state, ownProps) => ({
   userId: ownProps.match.params.id,
-  editUser: state.users.editUser,
+  editUser: getValue(state.users.editUser, 'error'),
 });
 
 export default reduxForm({
