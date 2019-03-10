@@ -17,26 +17,9 @@ canvas {
   min-width: 12rem;
 }
 
-/*
-form + div > #delete {
-  display: none;
+.btn-warning {
+  color: #FFFFFF !important;
 }
-
-.line-separator {
-  display: none;
-}
-
-form .radioLabel {
-  position: relative;
-  min-height: 30px;
-  margin-left: 20px;
-}
-
-.radio {
-  position: absolute;
-  margin-left: -20px !important;
-}
-*/
 
 @media only screen and (max-width: 767px) {
   .formButtons {
@@ -48,44 +31,7 @@ form .radioLabel {
     min-width: 45%;
     margin: auto;
   }
-
-  /*
-  .formHeader > div > #delete {
-    display: none;
-  }
-
-  form + div > #delete {
-    display: block;
-    position: fixed;
-    bottom: 3rem;
-    left: 5%;
-    right: 5%;
-    margin: auto;
-    width: 30rem;
-  }
-
-  .line-separator {
-    display: block;
-    height: 1px;
-    background: #ffffff;
-    opacity: .4;
-  }
 }
-
-.formHeader {
-  position: relative;
-}
-
-.formHeader > h1 {
-  display: inline-block;
-}
-
-.formHeader > div > #delete {
-  position: absolute;
-  right: 5%;
-  bottom: 20%;
-}
-*/
 
 @keyframes fadeIn {
   from { opacity: 0 }

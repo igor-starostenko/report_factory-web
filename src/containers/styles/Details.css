@@ -20,12 +20,11 @@
 
 .detailsButtons {
   margin: auto;
-  margin-right: 1.5rem;
   grid-column: 7 / -1;
 }
 
 .detailsButtons > .btn {
-  margin-left: 1em;
+  margin-left: .5em;
 }
 
 .detailsTotal {

@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
+import { PropTypes } from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import { Link } from 'react-router-dom';
 import {
@@ -13,7 +14,7 @@ import {
 import { LinkButton } from '.';
 import styles from './styles/Navigation.css';
 
-const NavbarLinks = () => {
+function NavbarLinks() {
   return (
     <Fragment>
       <NavItem>
@@ -38,9 +39,9 @@ const NavbarLinks = () => {
       </NavItem>
     </Fragment>
   );
-};
+}
 
-const ProfileButton = props => {
+function ProfileButton(props) {
   const { userId, ...rest } = props;
 
   return (
@@ -62,9 +63,13 @@ const ProfileButton = props => {
       </NavLink>
     </NavItem>
   );
+}
+
+ProfileButton.propTypes = {
+  userId: PropTypes.string.isRequired,
 };
 
-const SideNav = props => {
+function SideNav(props) {
   const { userId, className, ...rest } = props;
 
   return (
@@ -74,56 +79,58 @@ const SideNav = props => {
       <ProfileButton userId={userId} block />
     </Nav>
   );
+}
+
+SideNav.propTypes = {
+  userId: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
-class Navigation extends Component {
-  constructor(props) {
-    super(props);
+function Navigation(props) {
+  const [isOpen, setOpen] = useState(false);
 
-    this.toggle = this.toggle.bind(this);
-    this.state = { isOpen: false };
+  function toggle() {
+    setOpen(!isOpen);
   }
 
-  toggle() {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
-  }
+  const { userId } = props;
 
-  render() {
-    const { userId } = this.props;
-
-    return (
-      <Navbar className={styles.yellow} dark expand="md">
-        <NavbarBrand tag="div">
-          <Link to="/">Report Factory</Link>
-        </NavbarBrand>
-        <NavbarToggler className={styles.navbarToggle} onClick={this.toggle} />
-        <Row className={styles.desktopOnly}>
-          <Nav className="mr-auto" navbar>
-            <NavbarLinks />
-          </Nav>
-          <Nav className="ml-auto" navbar>
-            <ProfileButton userId={userId} />
-          </Nav>
-        </Row>
-        <CSSTransition
-          in={this.state.isOpen}
-          timeout={500}
-          classNames="overlay"
-          unmountOnExit
-        >
-          <div className={styles.overlay} />
-        </CSSTransition>
-        <CSSTransition
-          in={this.state.isOpen}
-          timeout={500}
-          classNames="sideNav"
-          unmountOnExit
-        >
-          <SideNav className={styles.yellow} userId={userId} />
-        </CSSTransition>
-      </Navbar>
-    );
-  }
+  return (
+    <Navbar className={styles.yellow} fixed dark expand="md">
+      <NavbarBrand tag="div">
+        <Link to="/">Report Factory</Link>
+      </NavbarBrand>
+      <NavbarToggler className={styles.navbarToggle} onClick={toggle} />
+      <Row className={styles.desktopOnly}>
+        <Nav className="mr-auto" navbar>
+          <NavbarLinks />
+        </Nav>
+        <Nav className="ml-auto" navbar>
+          <ProfileButton userId={userId} />
+        </Nav>
+      </Row>
+      <CSSTransition
+        in={isOpen}
+        timeout={500}
+        classNames="overlay"
+        unmountOnExit
+      >
+        <div className={styles.overlay} />
+      </CSSTransition>
+      <CSSTransition
+        in={isOpen}
+        timeout={500}
+        classNames="sideNav"
+        unmountOnExit
+      >
+        <SideNav className={styles.yellow} userId={userId} />
+      </CSSTransition>
+    </Navbar>
+  );
 }
+
+Navigation.propTypes = {
+  userId: PropTypes.string.isRequired,
+};
 
 export default Navigation;
