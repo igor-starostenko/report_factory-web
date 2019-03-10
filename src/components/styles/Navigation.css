@@ -19,9 +19,9 @@
   background-image:
     linear-gradient(
       to top right,
-      rgba(255, 165, 91, 1),
-      rgba(255, 212, 91, 1)
-  );
+      var(--primary-color),
+      var(--secondary-color)
+    );
   box-shadow: 0 10px 30px -7px rgba(35, 41, 51, 0.2);
 }
 

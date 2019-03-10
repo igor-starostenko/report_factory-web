@@ -25,10 +25,14 @@
 }
 
 .pageActive {
-  background-color: #FF9500;
-  border: 0;
+  background-color: var(--primary-color);
+  border: 1px solid #dddddd;
   color: #FFFFFF;
   padding: 10px 15px;
+}
+
+.pageActive:hover {
+  background-color: var(--secondary-color);
 }
 
 .pageWrapper {
