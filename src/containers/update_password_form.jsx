@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Form, Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { FormFeedback } from 'reactstrap';
 import getValue from 'lodash/get';
 import pick from 'lodash/pick';
-import { FormField } from '../components';
+import { FormField, FormErrors, } from '../components';
 import {
   updateUser,
   editUserSuccess,
@@ -56,7 +55,7 @@ class UpdatePasswordForm extends Component {
           name="confirm"
           component={FormField}
         />
-        <FormFeedback>{errors}</FormFeedback>
+        <FormErrors errors={errors} />
       </Form>
     );
   }

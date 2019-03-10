@@ -6,10 +6,6 @@ canvas {
   max-height: 400px;
 }
 
-form + div > #delete {
-  display: none;
-}
-
 .formButtons {
   margin: 1.5rem;
   margin-left: 0;
@@ -19,6 +15,11 @@ form + div > #delete {
 .formButtons > * {
   margin-right: 3rem;
   min-width: 12rem;
+}
+
+/*
+form + div > #delete {
+  display: none;
 }
 
 .line-separator {
@@ -35,12 +36,9 @@ form .radioLabel {
   position: absolute;
   margin-left: -20px !important;
 }
+*/
 
 @media only screen and (max-width: 767px) {
-  .formHeader > div > #delete {
-    display: none;
-  }
-
   .formButtons {
     margin: 1.5rem;
     display: flex;
@@ -49,6 +47,11 @@ form .radioLabel {
   .formButtons > * {
     min-width: 45%;
     margin: auto;
+  }
+
+  /*
+  .formHeader > div > #delete {
+    display: none;
   }
 
   form + div > #delete {
@@ -82,6 +85,7 @@ form .radioLabel {
   right: 5%;
   bottom: 20%;
 }
+*/
 
 @keyframes fadeIn {
   from { opacity: 0 }
@@ -99,8 +103,4 @@ form .radioLabel {
   font-size: 36px;
   font-weight: 300;
   text-align: center;
-}
-
-.error {
-  color: rgba(255, 35, 35, 1);
 }

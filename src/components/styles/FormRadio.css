@@ -1,0 +1,9 @@
+.formCheckInput {
+  margin-left: 0;
+  margin-right: .5rem;
+  position: relative;
+}
+
+.formCheckInput + label {
+  margin-right: 1rem;
+}

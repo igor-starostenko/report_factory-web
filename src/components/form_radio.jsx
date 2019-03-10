@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 import { Input, FormGroup, Label } from 'reactstrap';
+import styles from './styles/FormRadio.css';
 
 export default function FormRadio(props) {
   const { options, input } = props;
   return (
     <FormGroup>
-      {options.map(o => (
-        <Label key={o.value} htmlFor={o.value}>
+      {options.map(({ value }) => (
+        <Fragment key={value}>
           <Input
-            checked={input.value === o.value}
+            checked={input.value === value}
+            className={styles.formCheckInput}
             {...input}
-            id={o.value}
+            id={value}
             type="radio"
-            value={o.value}
+            value={value}
           />
-          <i />
-          {o.value}
-        </Label>
+          <Label htmlFor={value}>{value}</Label>
+        </Fragment>
       ))}
     </FormGroup>
   );

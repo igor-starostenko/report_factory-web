@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, Form, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import get from 'lodash/get';
-import { Button, FormField, FormRadio, FormErrors } from '../components';
+import getValue from 'lodash/get';
+import { Button } from 'reactstrap';
+import { FormField, FormRadio, FormErrors, LinkButton } from '../components';
 import {
   editUserSuccess,
   editUserFailure,
@@ -43,7 +44,7 @@ class EditUserForm extends Component {
       children,
       submitText,
     } = this.props;
-    const errors = get(editUser, 'error');
+    const errors = getValue(editUser, 'error');
 
     return (
       <div className={styles.detailsContainer}>
@@ -51,7 +52,7 @@ class EditUserForm extends Component {
           <div className={styles.detailsName}>{title}</div>
         </div>
         {children}
-        <form
+        <Form
           className={styles.detailsContent}
           onSubmit={handleSubmit(this.onSubmit)}
         >
@@ -80,22 +81,19 @@ class EditUserForm extends Component {
             <Fragment>
               <Field
                 name="type"
-                options={[{ value: 'Tester' }]}
-                component={FormRadio}
-              />
-              <Field
-                name="type"
-                options={[{ value: 'Admin' }]}
+                options={[{ value: 'Tester' }, { value: 'Admin' }]}
                 component={FormRadio}
               />
             </Fragment>
           )}
           <FormErrors errors={errors} />
           <div className="formButtons">
-            <Button type="submit" color="primary" text={submitText} />
-            <Button to={backPath} text="Cancel" />
+            <Button type="submit" color="primary">
+              {submitText}
+            </Button>
+            <LinkButton to={backPath}>Cancel</LinkButton>
           </div>
-        </form>
+        </Form>
       </div>
     );
   }
