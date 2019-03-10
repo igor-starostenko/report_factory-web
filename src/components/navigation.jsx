@@ -96,7 +96,7 @@ function Navigation(props) {
   const { userId } = props;
 
   return (
-    <Navbar className={styles.yellow} fixed dark expand="md">
+    <Navbar className={styles.yellow} dark expand="md">
       <NavbarBrand tag="div">
         <Link to="/">Report Factory</Link>
       </NavbarBrand>
@@ -130,7 +130,11 @@ function Navigation(props) {
 }
 
 Navigation.propTypes = {
-  userId: PropTypes.string.isRequired,
+  userId: PropTypes.string,
+};
+
+Navigation.defaultProps = {
+  userId: '',
 };
 
 export default Navigation;
