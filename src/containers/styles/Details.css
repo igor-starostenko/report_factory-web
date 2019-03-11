@@ -19,7 +19,10 @@
 }
 
 .detailsButtons {
-  margin: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: 1rem;
   grid-column: 7 / -1;
 }
 
