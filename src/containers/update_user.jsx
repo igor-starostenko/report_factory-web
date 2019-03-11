@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -18,11 +18,11 @@ import {
 } from '../actions/users_actions';
 import styles from './styles/Details.css';
 
-const UpdatePasswordModal = props => {
-  const resetForm = () => {
+function UpdatePasswordModal(props) {
+  function resetForm() {
     props.dispatch(reset('editPasswordForm'));
     props.toggle();
-  };
+  }
   const { passwordErrors } = props;
   const submitButton = {
     onClick: () => {
@@ -50,7 +50,7 @@ const UpdatePasswordModal = props => {
       />
     </ConfirmModal>
   );
-};
+}
 
 UpdatePasswordModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -71,7 +71,7 @@ UpdatePasswordModal.defaultProps = {
   },
 };
 
-const DeleteUserModal = props => {
+function DeleteUserModal(props) {
   const submitButton = {
     onClick: props.handleDelete,
     color: 'danger',
@@ -92,7 +92,7 @@ const DeleteUserModal = props => {
       </div>
     </ConfirmModal>
   );
-};
+}
 
 DeleteUserModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -101,124 +101,105 @@ DeleteUserModal.propTypes = {
   userName: PropTypes.string.isRequired,
 };
 
-class UpdateUser extends Component {
-  constructor(state) {
-    super(state);
-    this.update = this.update.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.toggleUpdatePasswordModal = this.toggleUpdatePasswordModal.bind(this);
-    this.toggleDeleteUserModal = this.toggleDeleteUserModal.bind(this);
+function UpdateUser(props) {
+  const [isUpdatePasswordModalOpen, setUpdatePasswordModal] = useState(false);
+  const [isDeleteUserModalOpen, setDeleteUserModal] = useState(false);
 
-    this.state = {
-      isUpdatePasswordModalOpen: false,
-      isDeleteUserModalOpen: false,
-    };
-  }
+  const {
+    dispatch,
+    user,
+    userId,
+    passwordForm,
+    isCurrent,
+    isAdmin,
+    xApiKey,
+  } = props;
+  const isCurrentUser = user.data && getValue(user, 'data.id') === userId;
 
-  componentDidMount() {
-    const { user, userId } = this.props;
-    if (!user.data || getValue(user, 'data.id') !== userId) {
-      this.props.getUser(userId, this.props.xApiKey);
+  useEffect(() => {
+    if (!isCurrentUser) {
+      props.getUser(userId, xApiKey);
     }
-  }
+  }, [userId]);
 
-  handleDelete() {
-    const { dispatch, userId, xApiKey } = this.props;
-    this.props.deleteUser(userId, xApiKey).then(response => {
+  function handleDelete() {
+    props.deleteUser(userId, xApiKey).then(response => {
       if (response.payload.errors) {
         return dispatch(editUserFailure(response.payload));
       }
       dispatch(editUserSuccess(response.payload));
-      return this.props.history.push('/users');
+      return props.history.push('/users');
     });
   }
 
-  update(attributes) {
-    const { userId, xApiKey } = this.props;
-    return this.props.updateUser(userId, attributes, xApiKey);
+  function update(attributes) {
+    return props.updateUser(userId, attributes, xApiKey);
   }
 
-  toggleUpdatePasswordModal() {
-    this.setState(prevState => ({
-      isUpdatePasswordModalOpen: !prevState.isUpdatePasswordModalOpen,
-    }));
+  function toggleUpdatePasswordModal() {
+    setUpdatePasswordModal(!isUpdatePasswordModalOpen);
   }
 
-  toggleDeleteUserModal() {
-    this.setState(prevState => ({
-      isDeleteUserModalOpen: !prevState.isDeleteUserModalOpen,
-    }));
+  function toggleDeleteUserModal() {
+    setDeleteUserModal(!isDeleteUserModalOpen);
   }
 
-  render() {
-    const {
-      dispatch,
-      user,
-      userId,
-      passwordForm,
-      isCurrent,
-      isAdmin,
-      xApiKey,
-    } = this.props;
-    if (!user.data || getValue(user, 'data.id') !== userId) {
-      return <Loading />;
-    }
-
-    const { isUpdatePasswordModalOpen, isDeleteUserModalOpen } = this.state;
-
-    const userName = getValue(user, 'data.attributes.name');
-    const title = `Edit ${userName}`;
-    const backPath = `/users/${userId}`;
-    const initialValues = pick(user.data.attributes, ['name', 'email', 'type']);
-    const passwordErrors = getValue(passwordForm, 'syncErrors');
-
-    return (
-      <Fragment>
-        <Link to={backPath}>Back to {userName}</Link>
-        <EditUserForm
-          title={title}
-          action={this.update}
-          isCurrent={isCurrent}
-          isAdmin={isAdmin}
-          backPath={backPath}
-          submitText="Update"
-          initialValues={initialValues}
-          {...this.props}
-        >
-          <div className={styles.detailsButtons}>
-            {isCurrent && (
-              <Button onClick={this.toggleUpdatePasswordModal} color="warning">
-                Update Password
-              </Button>
-            )}
-            {!isCurrent && isAdmin && (
-              <Button color="danger" onClick={this.toggleDeleteUserModal}>
-                Delete User
-              </Button>
-            )}
-          </div>
-        </EditUserForm>
-        {isCurrent && (
-          <UpdatePasswordModal
-            isOpen={isUpdatePasswordModalOpen}
-            toggle={this.toggleUpdatePasswordModal}
-            dispatch={dispatch}
-            passwordErrors={passwordErrors}
-            userId={userId}
-            xApiKey={xApiKey}
-          />
-        )}
-        {!isCurrent && isAdmin && (
-          <DeleteUserModal
-            isOpen={isDeleteUserModalOpen}
-            toggle={this.toggleDeleteUserModal}
-            handleDelete={this.handleDelete}
-            userName={userName}
-          />
-        )}
-      </Fragment>
-    );
+  if (!isCurrentUser) {
+    return <Loading />;
   }
+
+  const userName = getValue(user, 'data.attributes.name');
+  const title = `Edit ${userName}`;
+  const backPath = `/users/${userId}`;
+  const initialValues = pick(user.data.attributes, ['name', 'email', 'type']);
+  const passwordErrors = getValue(passwordForm, 'syncErrors');
+
+  return (
+    <Fragment>
+      <Link to={backPath}>Back to {userName}</Link>
+      <EditUserForm
+        title={title}
+        action={update}
+        isCurrent={isCurrent}
+        isAdmin={isAdmin}
+        backPath={backPath}
+        submitText="Update"
+        initialValues={initialValues}
+        {...props}
+      >
+        <div className={styles.detailsButtons}>
+          {isCurrent && (
+            <Button onClick={toggleUpdatePasswordModal} color="warning">
+              Update Password
+            </Button>
+          )}
+          {!isCurrent && isAdmin && (
+            <Button color="danger" onClick={toggleDeleteUserModal}>
+              Delete User
+            </Button>
+          )}
+        </div>
+      </EditUserForm>
+      {isCurrent && (
+        <UpdatePasswordModal
+          isOpen={isUpdatePasswordModalOpen}
+          toggle={toggleUpdatePasswordModal}
+          dispatch={dispatch}
+          passwordErrors={passwordErrors}
+          userId={userId}
+          xApiKey={xApiKey}
+        />
+      )}
+      {!isCurrent && isAdmin && (
+        <DeleteUserModal
+          isOpen={isDeleteUserModalOpen}
+          toggle={toggleDeleteUserModal}
+          handleDelete={handleDelete}
+          userName={userName}
+        />
+      )}
+    </Fragment>
+  );
 }
 
 UpdateUser.propTypes = {
