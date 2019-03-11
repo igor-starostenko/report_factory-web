@@ -94,7 +94,7 @@ EditUserForm.propTypes = {
   backPath: PropTypes.string.isRequired,
   errors: PropTypes.arrayOf(PropTypes.string),
   hasPassword: PropTypes.bool,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element,
   submitText: PropTypes.string.isRequired,
   resetMe: PropTypes.func.isRequired,
   action: PropTypes.func.isRequired,
@@ -106,6 +106,7 @@ EditUserForm.propTypes = {
 EditUserForm.defaultProps = {
   hasPassword: false,
   errors: [],
+  children: <div />,
 };
 
 /* eslint-disable-next-line object-curly-newline */
@@ -162,6 +163,8 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = (state, ownProps) => ({
   userId: ownProps.match.params.id,
   editUser: getValue(state.users.editUser, 'error'),
+  isCurrent:
+    getValue(state.users.currentUser, 'data.id') === ownProps.match.params.id,
 });
 
 export default reduxForm({
