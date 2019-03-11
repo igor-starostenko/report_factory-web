@@ -96,27 +96,23 @@ function User(props) {
         </div>
         {(isAdmin || isCurrent) && (
           <div className={styles.detailsButtons}>
-            <Button
-              to={`/users/${userId}/edit`}
-              color="primary"
-              fill="true"
-              text="Edit User"
-            />
+            <Button to={`/users/${userId}/edit`} color="primary" fill="true">
+              Edit User
+            </Button>
             {isCurrent && (
               <Button
                 onClick={toggleApiKeyModal}
                 color="info"
                 fill="true"
-                text="View Api Key"
-              />
+                text=""
+              >
+                View Api Key
+              </Button>
             )}
             {isCurrent && (
-              <Button
-                onClick={signOut}
-                color="warning"
-                fill="true"
-                text="Log Out"
-              />
+              <Button onClick={signOut} color="warning" fill="true">
+                Log Out
+              </Button>
             )}
           </div>
         )}

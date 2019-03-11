@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Button } from '.';
+import { Button } from 'reactstrap';
 import styles from './styles/SearchBar.css';
 
 const formatWords = string => {
@@ -59,7 +59,9 @@ export default class SearchScenarios extends Component {
           X
         </button>
         <div className={styles.searchButton}>
-          <Button type="submit" color="primary" text="Search" />
+          <Button type="submit" color="primary">
+            Search
+          </Button>
         </div>
       </form>
     );

@@ -154,12 +154,9 @@ class Projects extends Component {
           </div>
           <div className={detailsStyles.detailsButtons}>
             {this.props.isAdmin && (
-              <Button
-                color="primary"
-                fill="true"
-                text="Add a Project"
-                to="/project/new"
-              />
+              <Button color="primary" fill="true" to="/project/new">
+                Add a Project
+              </Button>
             )}
           </div>
           <div className={styles.projectsList}>{this.renderProjects()}</div>

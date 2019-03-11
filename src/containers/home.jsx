@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
 import { Jumbotron } from 'reactstrap';
-import { LinkButton } from '../components';
+import { Button } from '../components';
 import styles from './styles/Home.css';
 
 class Home extends Component {
@@ -30,14 +30,14 @@ class Home extends Component {
             for more info.
           </p>
           {!this.isLoggedIn() && (
-            <LinkButton
+            <Button
               className={styles.homeLogin}
               to="/login"
               color="info"
               size="lg"
             >
               Login
-            </LinkButton>
+            </Button>
           )}
         </Jumbotron>
       </div>

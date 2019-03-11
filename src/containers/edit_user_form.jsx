@@ -3,8 +3,7 @@ import { PropTypes } from 'prop-types';
 import { Field, Form, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import getValue from 'lodash/get';
-import { Button } from 'reactstrap';
-import { FormField, FormRadio, FormErrors, LinkButton } from '../components';
+import { FormField, FormRadio, FormErrors, Button } from '../components';
 import {
   editUserSuccess,
   editUserFailure,
@@ -80,7 +79,7 @@ function EditUserForm(props) {
           <Button type="submit" color="primary">
             {submitText}
           </Button>
-          <LinkButton to={backPath}>Cancel</LinkButton>
+          <Button to={backPath}>Cancel</Button>
         </div>
       </Form>
     </div>

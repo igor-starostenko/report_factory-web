@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm, reset } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Button } from '../components';
+import { Button } from 'reactstrap';
 import styles from '../components/styles/SearchBar.css';
 
 const formatTags = tags => {
@@ -60,7 +60,9 @@ class SearchReports extends Component {
           X
         </button>
         <div className={styles.searchButton}>
-          <Button type="submit" color="primary" text="Search" />
+          <Button type="submit" color="primary">
+            Search
+          </Button>
         </div>
       </form>
     );

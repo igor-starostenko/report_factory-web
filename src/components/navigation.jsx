@@ -11,7 +11,7 @@ import {
   NavLink,
   Row,
 } from 'reactstrap';
-import { LinkButton } from '.';
+import { Button } from '.';
 import styles from './styles/Navigation.css';
 
 function NavbarLinks() {
@@ -48,17 +48,17 @@ function ProfileButton(props) {
     <NavItem>
       <NavLink tag="div">
         {userId ? (
-          <LinkButton
+          <Button
             className={styles.profileButton}
             to={`/users/${userId}`}
             {...rest}
           >
             Profile
-          </LinkButton>
+          </Button>
         ) : (
-          <LinkButton className={styles.profileButton} to="/login" {...rest}>
+          <Button className={styles.profileButton} to="/login" {...rest}>
             Login
-          </LinkButton>
+          </Button>
         )}
       </NavLink>
     </NavItem>
