@@ -19,14 +19,16 @@ import { formatTotalReports } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';
 
-const ApiKeyModal = props => (
-  <ConfirmModal isOpen={props.isOpen} toggle={props.toggle} title="Api Key">
-    <div className={modalStyles.modalBody}>
-      <h5>Your X-API-KEY:</h5>
-      <h5 className={modalStyles.modalJumbo}>{props.xApiKey}</h5>
-    </div>
-  </ConfirmModal>
-);
+function ApiKeyModal(props) {
+  return (
+    <ConfirmModal isOpen={props.isOpen} toggle={props.toggle} title="Api Key">
+      <div className={modalStyles.modalBody}>
+        <h5>Your X-API-KEY:</h5>
+        <h5 className={modalStyles.modalJumbo}>{props.xApiKey}</h5>
+      </div>
+    </ConfirmModal>
+  );
+}
 
 ApiKeyModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
