@@ -13,25 +13,29 @@ import {
 } from '../actions/users_actions';
 import styles from './styles/App.css';
 
+const nonRestrictedPath = ['/', '/login'];
+
 function App(props) {
-  const { xApiKey: storeApiKey, userId, loading, children } = props;
+  const { xApiKey: storeApiKey, history, userId, loading, children } = props;
   const xApiKey = storeApiKey || Cookies.get('X-API-KEY');
 
   useEffect(() => {
-    if (xApiKey) {
-      if (!storeApiKey) {
-        props.setApiKey(xApiKey);
-      } else if (!userId && !loading) {
-        props.authUser(xApiKey).then(({ payload }) => {
-          if (payload.status >= 400) {
-            props.authFailure(payload);
-          } else {
-            props.authSuccess(payload);
-          }
-        });
+    if (!xApiKey) {
+      if (!nonRestrictedPath.includes(history.location.pathname)) {
+        props.authFailure({ errors: [{ detail: 'Not authorized' }] });
       }
+    } else if (!storeApiKey) {
+      props.setApiKey(xApiKey);
+    } else if (!userId && !loading) {
+      props.authUser(xApiKey).then(({ payload }) => {
+        if (payload.status >= 400) {
+          props.authFailure(payload);
+        } else {
+          props.authSuccess(payload);
+        }
+      });
     }
-  }, [storeApiKey, userId]);
+  });
 
   return (
     <Fragment>
@@ -45,11 +49,21 @@ App.propTypes = {
   xApiKey: PropTypes.string,
   userId: PropTypes.string,
   loading: PropTypes.bool.isRequired,
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   children: PropTypes.element.isRequired,
   authUser: PropTypes.func.isRequired,
   authFailure: PropTypes.func.isRequired,
   authSuccess: PropTypes.func.isRequired,
   setApiKey: PropTypes.func.isRequired,
+};
+
+App.defaultProps = {
+  xApiKey: '',
+  userId: '',
 };
 
 const mapStateToProps = state => ({

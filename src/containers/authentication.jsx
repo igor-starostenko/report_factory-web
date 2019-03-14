@@ -10,7 +10,7 @@ export default ComonentRequiresAuthentication => {
     const { authError, history, userId, xApiKey } = props;
 
     useEffect(() => {
-      if (!xApiKey || authError) {
+      if (!xApiKey && authError) {
         props.authFailure({ errors: [{ detail: 'Not authorized' }] });
         history.push('/login');
       }
