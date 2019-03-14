@@ -1,96 +1,106 @@
-import React, { Component } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, ProjectScenarios, ReportsLineChart } from '../components';
+import isEmpty from 'lodash/isEmpty';
+import {
+  Button,
+  Loading,
+  ProjectScenarios,
+  ReportsLineChart,
+} from '../components';
 import { queryProject, setProjectFilters } from '../actions/projects_actions';
 import { queryScenario } from '../actions/scenarios_actions';
 import { formatTotalReports } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 
-class Project extends Component {
-  constructor(props) {
-    super(props);
-    this.queryProject = this.queryProject.bind(this);
-  }
+function Project(props) {
+  const { project, projectName, filters, xApiKey, scenariosDetails } = props;
 
-  componentDidMount() {
-    if (!this.props.project) {
-      this.queryProject(this.getFilters());
-    }
-  }
-
-  getFilters() {
-    const { filters } = this.props;
-    if (!filters) {
-      return { filterName: 'Week', lastDays: 8 };
-    }
-    return this.props.filters;
-  }
-
-  queryProject({ filterName, lastDays, lastMonths }) {
-    const { xApiKey, projectName } = this.props;
-    this.props.setProjectFilters(projectName, {
+  function filterProject({ filterName, lastDays, lastMonths }) {
+    props.setProjectFilters(projectName, {
       filterName,
       lastDays,
       lastMonths,
     });
-    this.props.queryProject(xApiKey, { projectName, lastDays, lastMonths });
+    props.queryProject(xApiKey, { projectName, lastDays, lastMonths });
   }
 
-  render() {
-    const { project, projectName } = this.props;
+  useEffect(() => {
+    filterProject(filters);
+  }, projectName);
 
-    if (!project) {
-      return <div className="loading">Loading...</div>;
-    }
+  if (isEmpty(project)) {
+    return <Loading />;
+  }
 
-    const rspecUrl = `${this.props.match.url}/rspec`;
-    const editUrl = `${this.props.match.url}/edit`;
-    const totalCountText = formatTotalReports(project.reportsCount);
+  const rspecUrl = `${props.match.url}/rspec`;
+  const editUrl = `${props.match.url}/edit`;
+  const totalCountText = formatTotalReports(project.reportsCount);
 
-    return (
-      <div>
-        <Link to="/projects">Back to projects</Link>
-        <div className={styles.detailsContainer}>
-          <div className={styles.detailsHeader}>
-            <div className={styles.detailsName}>{projectName}</div>
-          </div>
-          <div className={styles.detailsButtons}>
-            <Button
-              to={rspecUrl}
-              color="primary"
-              fill="true"
-              text="View Reports"
-            />
-            <Button
-              to={editUrl}
-              color="warning"
-              fill="true"
-              text="Edit Project"
-            />
-          </div>
-          <div className={styles.detailsTotal}>{totalCountText}</div>
-          <div className={styles.detailsContent}>
-            <ReportsLineChart
-              filterAction={this.queryProject}
-              filters={this.getFilters()}
-              reports={project.reports}
-              totalCount={project.reportsCount}
-            />
-          </div>
-          <div className={styles.detailsExtraContent}>
-            <ProjectScenarios
-              scenariosList={project.scenarios}
-              scenariosDetails={this.props.scenariosDetails}
-              xApiKey={this.props.xApiKey}
-              queryScenario={this.props.queryScenario}
-            />
-          </div>
+  return (
+    <Fragment>
+      <Link to="/projects">Back to projects</Link>
+      <div className={styles.detailsContainer}>
+        <div className={styles.detailsHeader}>
+          <div className={styles.detailsName}>{projectName}</div>
+        </div>
+        <div className={styles.detailsButtons}>
+          <Button to={rspecUrl} color="primary" fill="true">
+            View Reports
+          </Button>
+          <Button to={editUrl} color="warning" fill="true">
+            Edit Project
+          </Button>
+        </div>
+        <div className={styles.detailsTotal}>{totalCountText}</div>
+        <div className={styles.detailsContent}>
+          <ReportsLineChart
+            filterAction={filterProject}
+            filters={filters}
+            reports={project.reports}
+            totalCount={project.reportsCount}
+          />
+        </div>
+        <div className={styles.detailsExtraContent}>
+          <ProjectScenarios
+            scenariosList={project.scenarios}
+            scenariosDetails={scenariosDetails}
+            xApiKey={xApiKey}
+            queryScenario={props.queryScenario}
+          />
         </div>
       </div>
-    );
-  }
+    </Fragment>
+  );
 }
+
+Project.propTypes = {
+  project: PropTypes.shape({
+    reports: PropTypes.arrayOf(PropTypes.object),
+    reportsCount: PropTypes.number,
+    scenarios: PropTypes.arrayOf(PropTypes.object),
+  }),
+  scenariosDetails: PropTypes.shape({}).isRequired,
+  projectName: PropTypes.string.isRequired,
+  filters: PropTypes.shape({
+    filterName: PropTypes.string.isRequired,
+    lastDays: PropTypes.number,
+    lastMonths: PropTypes.number,
+  }),
+  xApiKey: PropTypes.string.isRequired,
+  setProjectFilters: PropTypes.func.isRequired,
+  queryProject: PropTypes.func.isRequired,
+  queryScenario: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+Project.defaultProps = {
+  project: {},
+  filters: { filterName: 'Week', lastDays: 8 },
+};
 
 const mapDispatchToProps = {
   queryProject,
