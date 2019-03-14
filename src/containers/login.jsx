@@ -1,58 +1,70 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
+import { PropTypes } from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import getValue from 'lodash/get';
 import { Button, FormField, FormErrors } from '../components';
 import { signIn, signInFailure, signInSuccess } from '../actions/users_actions';
 
-class Login extends Component {
-  onSubmit(values, dispatch) {
+function Login(props) {
+  function onSubmit(values, dispatch) {
     return new Promise((resolve, reject) => {
-      dispatch(this.props.signIn(values)).then(response => {
+      dispatch(props.signIn(values)).then(response => {
         if (!response.payload.data) {
           dispatch(signInFailure(response.payload));
           reject(response.data); // this is for redux-form itself
         } else {
           dispatch(signInSuccess(response.payload));
           resolve(); // this is for redux-form itself
-          this.props.history.push('/projects');
+          props.history.push('/projects');
         }
       });
     });
   }
 
-  render() {
-    const { handleSubmit, currentUser } = this.props;
-    const errors = _.get(currentUser, 'error');
+  const { handleSubmit, currentUser } = props;
+  const errors = getValue(currentUser, 'error');
 
-    return (
-      <div>
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-          <Field
-            label="Email"
-            name="email"
-            placeholder="Enter your email"
-            type="text"
-            component={FormField}
-          />
-          <Field
-            label="Password"
-            name="password"
-            placeholder="Enter your password"
-            type="password"
-            component={FormField}
-          />
-          <FormErrors errors={errors} />
-          <div className="formButtons">
-            <Button type="submit" color="primary" text="Login" />
-            <Button to="/" text="Cancel" />
-          </div>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <Fragment>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          label="Email"
+          name="email"
+          placeholder="Enter your email"
+          type="text"
+          component={FormField}
+        />
+        <Field
+          label="Password"
+          name="password"
+          placeholder="Enter your password"
+          type="password"
+          component={FormField}
+        />
+        <FormErrors errors={errors} />
+        <div className="formButtons">
+          <Button type="submit" color="primary">
+            Login
+          </Button>
+          <Button to="/">Cancel</Button>
+        </div>
+      </form>
+    </Fragment>
+  );
 }
+
+Login.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape({
+    errors: PropTypes.string,
+  }).isRequired,
+  signIn: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 const validate = ({ email, password }) => {
   const errors = {};

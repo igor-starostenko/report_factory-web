@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Container } from 'reactstrap';
 import Cookies from 'js-cookie';
@@ -12,45 +13,44 @@ import {
 } from '../actions/users_actions';
 import styles from './styles/App.css';
 
-class App extends Component {
-  componentDidMount() {
-    this.validateAuth();
-  }
+function App(props) {
+  const { xApiKey: storeApiKey, userId, loading, children } = props;
+  const xApiKey = storeApiKey || Cookies.get('X-API-KEY');
 
-  componentDidUpdate() {
-    this.validateAuth();
-  }
+  useEffect(() => {
+    if (xApiKey) {
+      if (!storeApiKey) {
+        props.setApiKey(xApiKey);
+      } else if (!userId && !loading) {
+        props.authUser(xApiKey).then(({ payload }) => {
+          if (payload.status >= 400) {
+            props.authFailure(payload);
+          } else {
+            props.authSuccess(payload);
+          }
+        });
+      }
+    }
+  }, [storeApiKey, userId]);
 
-  validateAuth() {
-    const { xApiKey: storeApiKey, userId, loading } = this.props;
-    const xApiKey = storeApiKey || Cookies.get('X-API-KEY');
-    if (!xApiKey) {
-      return this.props.authFailure({ errors: [{ detail: 'Not authorized' }] });
-    }
-    if (!storeApiKey) {
-      return this.props.setApiKey(xApiKey);
-    }
-    if (!userId && !loading) {
-      this.props.authUser(xApiKey).then(({ payload }) => {
-        if (payload.status >= 400) {
-          return this.props.authFailure(payload);
-        }
-        return this.props.authSuccess(payload);
-      });
-    }
-    return userId;
-  }
-
-  render() {
-    const { userId, children } = this.props;
-    return (
-      <Fragment>
-        <Navbar userId={userId} />
-        <Container className={styles.main}>{children}</Container>
-      </Fragment>
-    );
-  }
+  return (
+    <Fragment>
+      <Navbar userId={userId} />
+      <Container className={styles.main}>{children}</Container>
+    </Fragment>
+  );
 }
+
+App.propTypes = {
+  xApiKey: PropTypes.string,
+  userId: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
+  children: PropTypes.element.isRequired,
+  authUser: PropTypes.func.isRequired,
+  authFailure: PropTypes.func.isRequired,
+  authSuccess: PropTypes.func.isRequired,
+  setApiKey: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   userId: getValue(state.users.currentUser, 'data.id'),

@@ -1,47 +1,43 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import getValue from 'lodash/get';
 import { Loading } from '../components';
+import { authFailure } from '../actions/users_actions';
 
 export default ComonentRequiresAuthentication => {
-  class Authentication extends Component {
-    componentDidMount() {
-      this.validateAuth();
-    }
+  function Authentication(props) {
+    const { authError, history, userId, xApiKey } = props;
 
-    componentDidUpdate() {
-      this.validateAuth();
-    }
-
-    validateAuth() {
-      const { authError, history } = this.props;
-      if (authError) {
+    useEffect(() => {
+      if (!xApiKey || authError) {
+        props.authFailure({ errors: [{ detail: 'Not authorized' }] });
         history.push('/login');
       }
-    }
+    });
 
-    render() {
-      const { userId, xApiKey } = this.props;
-      return (
-        <Fragment>
-          {!userId || !xApiKey ? (
-            <Loading type="grow" color="info" />
-          ) : (
-            <ComonentRequiresAuthentication {...this.props} />
-          )}
-        </Fragment>
-      );
-    }
+    return (
+      <Fragment>
+        {!userId || !xApiKey ? (
+          <Loading type="grow" color="info" />
+        ) : (
+          <ComonentRequiresAuthentication {...props} />
+        )}
+      </Fragment>
+    );
   }
 
   Authentication.propTypes = {
-    userId: PropTypes.string,
     authError: PropTypes.arrayOf(
       PropTypes.shape({
-        details: PropTypes.string.isRequired,
+        details: PropTypes.string,
       }).isRequired,
     ),
+    authFailure: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+    userId: PropTypes.string,
     xApiKey: PropTypes.string,
   };
 
@@ -59,6 +55,6 @@ export default ComonentRequiresAuthentication => {
 
   return connect(
     mapStateToProps,
-    {},
+    { authFailure },
   )(Authentication);
 };
