@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import getValue from 'lodash/get';
 import { Button, FormField, FormErrors } from '../components';
 import {
   editProjectSuccess,
@@ -10,60 +11,75 @@ import {
 } from '../actions/projects_actions';
 import styles from './styles/Details.css';
 
-class EditProjectForm extends Component {
-  onSubmit(values, dispatch) {
-    this.props.action(values.name).then(response => {
+function EditProjectForm(props) {
+  function onSubmit(values, dispatch) {
+    props.action(values.name).then(response => {
       if (!response.payload.data) {
         return dispatch(editProjectFailure(response.payload));
       }
       dispatch(editProjectSuccess(response.payload));
-      return this.props.history.push('/projects');
+      return props.history.push('/projects');
     });
   }
 
-  renderSideButton() {
-    if (this.props.sideButton) {
-      return this.props.sideButton();
-    }
-    return <div />;
-  }
+  const {
+    backPath,
+    errors,
+    handleSubmit,
+    sideButton: SideButton,
+    submitText,
+    title,
+    projectName,
+  } = props;
 
-  render() {
-    /* eslint-disable object-curly-newline */
-    const { handleSubmit, title, backPath, editProject } = this.props;
-    /* eslint-enable object-curly-newline */
-    const errors = _.get(editProject, 'error');
-
-    return (
-      <div className={styles.detailsContainer}>
-        <div className={styles.detailsHeader}>
-          <div className={styles.detailsName}>{title}</div>
-        </div>
-        {this.renderSideButton()}
-        <form
-          className={styles.detailsContent}
-          onSubmit={handleSubmit(this.onSubmit.bind(this))}
-        >
-          <Field
-            label="Project Name"
-            name="name"
-            placeholder={this.props.projectName}
-            component={FormField}
-          />
-          <FormErrors errors={errors} />
-          <div className="formButtons">
-            <Button
-              type="submit"
-              color="primary"
-              text={this.props.submitText}
-            />
-            <Button to={backPath} text="Cancel" />
-          </div>
-        </form>
+  return (
+    <div className={styles.detailsContainer}>
+      <div className={styles.detailsHeader}>
+        <div className={styles.detailsName}>{title}</div>
       </div>
-    );
-  }
+      <SideButton />
+      <form className={styles.detailsContent} onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          label="Project Name"
+          name="name"
+          placeholder={projectName}
+          component={FormField}
+        />
+        <FormErrors errors={errors} />
+        <div className="formButtons">
+          <Button type="submit" color="primary">
+            {submitText}
+          </Button>
+          <Button to={backPath}>Cancel</Button>
+        </div>
+      </form>
+    </div>
+  );
 }
+
+EditProjectForm.propTypes = {
+  backPath: PropTypes.string.isRequired,
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      detail: PropTypes.string,
+    }),
+  ),
+  handleSubmit: PropTypes.func.isRequired,
+  sideButton: PropTypes.func,
+  submitText: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  projectName: PropTypes.string,
+  action: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+EditProjectForm.defaultProps = {
+  projectName: '',
+  errors: {},
+  sideButton: () => <div />,
+};
 
 const validate = values => {
   const errors = {};
@@ -90,7 +106,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state, ownProps) => ({
   projectName: ownProps.match.params.name,
-  editProject: state.projects.editProject,
+  errors: getValue(state, 'projects.editProject.error', ''),
 });
 
 export default reduxForm({

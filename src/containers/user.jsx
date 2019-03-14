@@ -102,12 +102,7 @@ function User(props) {
               Edit User
             </Button>
             {isCurrent && (
-              <Button
-                onClick={toggleApiKeyModal}
-                color="info"
-                fill="true"
-                text=""
-              >
+              <Button onClick={toggleApiKeyModal} color="info" fill="true">
                 View Api Key
               </Button>
             )}
