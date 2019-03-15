@@ -16,65 +16,15 @@ import {
   setProjectRspecReportsQuery,
   resetProjectRspecReports,
 } from '../actions/project_reports_actions';
+import { prepareVariables } from '../helpers/search_helpers';
 import styles from './styles/ProjectRspecReports.css';
 
 function ProjectRspecReports(props) {
   const { edges, pageInfo, projectName, query, totalCount, xApiKey } = props;
 
-  function prepareVariables({
-    page,
-    perPage,
-    tags,
-    start,
-    next,
-    previous,
-    end,
-  }) {
-    const newPage = page || query.page;
-    const newPerPage = perPage || query.perPage;
-    const newTags = tags || query.tags;
-    if (start || tags || perPage) {
-      return { page: 1, perPage: newPerPage, first: newPerPage, tags: newTags };
-    }
-    if (next) {
-      const { endCursor: after } = pageInfo;
-      return {
-        page: newPage,
-        perPage: newPerPage,
-        first: newPerPage,
-        after,
-        tags: newTags,
-      };
-    }
-    if (previous) {
-      const { startCursor: before } = pageInfo;
-      return {
-        page: newPage,
-        perPage: newPerPage,
-        last: newPerPage,
-        before,
-        tags: newTags,
-      };
-    }
-    if (end) {
-      const remaining = totalCount % newPerPage;
-      return {
-        page: newPage,
-        perPage: newPerPage,
-        last: remaining,
-        tags: newTags,
-      };
-    }
-    return {
-      page: newPage,
-      perPage: newPerPage,
-      first: newPerPage,
-      tags: newTags,
-    };
-  }
-
   function fetchProjectRspecReports(options) {
-    const variables = prepareVariables(options);
+    const opts = { query, pageInfo, totalCount, ...options };
+    const variables = prepareVariables(opts);
     props.setProjectRspecReportsQuery(variables);
     props.queryProjectRspecReports(xApiKey, { ...variables, projectName });
   }
