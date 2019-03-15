@@ -94,8 +94,6 @@ function ProjectRspecReports(props) {
     return <Loading />;
   }
 
-  console.log({ query });
-
   const projectUrl = `/projects/${projectName}`;
   const reports = edges.map(edge => edge.node);
 
