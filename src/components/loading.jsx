@@ -1,27 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Spinner } from 'reactstrap';
 import styles from './styles/Loading.css';
 
-export default class Loading extends Component {
-  render() {
-    return (
-      <div className={styles.loading}>
-        <span>Loading</span>
-        <Spinner {...this.props} />
-        <Spinner {...this.props} />
-        <Spinner {...this.props} />
-      </div>
-    );
-  }
+export default function Loading(props) {
+  const { className, ...rest } = props;
+  return (
+    <div className={`${styles.loading} ${className}`}>
+      <span>Loading</span>
+      <Spinner {...rest} />
+      <Spinner {...rest} />
+      <Spinner {...rest} />
+    </div>
+  );
 }
 
 Loading.propTypes = {
-  type: PropTypes.string,
+  className: PropTypes.string,
   color: PropTypes.string,
+  type: PropTypes.string,
 };
 
 Loading.defaultProps = {
-  type: 'grow',
+  className: '',
   color: 'info',
+  type: 'grow',
 };
