@@ -10,7 +10,7 @@ function ProjectScenarios(props) {
     props.setScenarios();
   }, []);
 
-  const { page, perPage, scenariosList, total } = props;
+  const { page, perPage, scenariosList, search, total } = props;
 
   if (isEmpty(scenariosList)) {
     return <Fragment />;
@@ -23,7 +23,7 @@ function ProjectScenarios(props) {
         Scenarios reported: {total}
       </div>
       <div className={styles.projectScenariosSearch}>
-        <SearchScenarios search={props.search} action={props.setSearch} />
+        <SearchScenarios search={search} setSearch={props.setSearch} />
       </div>
       <div className={styles.projectScenariosList}>
         {props.renderScenarios({ withProjectName: false })}
@@ -34,13 +34,13 @@ function ProjectScenarios(props) {
           page={page}
           perPage={perPage}
           total={total}
-          action={props.setPage}
+          setPage={props.setPage}
         />
         <PerPageFilter
           totalCount={total}
           buttons={[30, 10]}
           perPage={perPage}
-          action={props.setPerPage}
+          setPerPage={props.setPerPage}
         />
       </div>
     </div>

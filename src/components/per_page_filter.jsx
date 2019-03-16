@@ -4,7 +4,7 @@ import { ButtonGroup } from 'reactstrap';
 import { FilterButton } from '.';
 
 export default function PerPageFilter(props) {
-  const { action, perPage, totalCount, buttons } = props;
+  const { setPerPage, perPage, totalCount, buttons } = props;
 
   if (totalCount <= 10) {
     return <Fragment />;
@@ -18,8 +18,8 @@ export default function PerPageFilter(props) {
           <FilterButton
             active={perPage === value}
             key={value}
-            onClick={action}
-            value={{ perPage: value }}
+            onClick={setPerPage}
+            value={value}
           >
             {name}
           </FilterButton>
@@ -30,7 +30,7 @@ export default function PerPageFilter(props) {
 }
 
 PerPageFilter.propTypes = {
-  action: PropTypes.func.isRequired,
+  setPerPage: PropTypes.func.isRequired,
   perPage: PropTypes.number.isRequired,
   totalCount: PropTypes.number.isRequired,
   buttons: PropTypes.arrayOf(PropTypes.any.isRequired).isRequired,

@@ -46,7 +46,7 @@ function Scenarios(props) {
           <div className={styles.scenariosTitle}>Scenarios</div>
         </div>
         <div className={styles.allScenariosSearch}>
-          <SearchScenarios search={props.search} action={props.setSearch} />
+          <SearchScenarios search={props.search} setSearch={props.setSearch} />
         </div>
         <div className={styles.scenariosTotal}>Scenarios reported: {total}</div>
         <div className={styles.allScenarios}>
@@ -58,13 +58,13 @@ function Scenarios(props) {
             page={page}
             perPage={perPage}
             total={total}
-            action={props.setPage}
+            setPage={props.setPage}
           />
           <PerPageFilter
             totalCount={total}
             buttons={[30, 10]}
             perPage={perPage}
-            action={props.setPerPage}
+            setPerPage={props.setPerPage}
           />
         </div>
       </div>

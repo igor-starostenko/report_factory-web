@@ -1,69 +1,70 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React, { useState } from 'react';
+import { PropTypes } from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
+import split from 'lodash/split';
 import { Button } from 'reactstrap';
 import styles from './styles/SearchBar.css';
 
 const formatWords = string => {
-  if (_.isEmpty(string)) {
+  if (isEmpty(string)) {
     return [];
   }
-  const words = _.split(string, ' ');
-  return _.filter(words, word => !_.isEmpty(word));
+  const words = split(string, ' ');
+  return filter(words, word => !isEmpty(word));
 };
 
-export default class SearchScenarios extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { inputValue: '' };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.resetSearch = this.resetSearch.bind(this);
-    this.updateInputValue = this.updateInputValue.bind(this);
-  }
+export default function SearchScenarios(props) {
+  const [inputValue, setInputValue] = useState('');
+  const { search } = props;
 
-  handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    this.props.action({ search: formatWords(this.state.inputValue) });
+    props.setSearch(formatWords(inputValue));
   }
 
-  resetSearch() {
-    this.props.action({ search: [] });
-    this.setState({ inputValue: '' });
+  function resetSearch() {
+    props.setSearch([]);
+    setInputValue('');
   }
 
-  updateInputValue(words) {
-    this.setState({ inputValue: words.target.value });
+  function updateInputValue(words) {
+    setInputValue(words.target.value);
   }
 
-  render() {
-    const hasSearchWords =
-      !_.isEmpty(this.props.search) || this.state.inputValue;
-    const cancelClass = hasSearchWords ? 'cancelEnabled' : 'cancelHidden';
-    return (
-      <form
-        onSubmit={this.handleSubmit}
-        className={`${styles.searchForm} form-control`}
+  const hasSearchWords = !isEmpty(search) || inputValue;
+  const cancelClass = hasSearchWords ? 'cancelEnabled' : 'cancelHidden';
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className={`${styles.searchForm} form-control`}
+    >
+      <input
+        className={styles.searchField}
+        value={inputValue}
+        onChange={updateInputValue}
+        placeholder="Search for scenarios"
+        name="words"
+        type="text"
+      />
+      <button
+        className={styles[cancelClass]}
+        onClick={resetSearch}
+        type="button"
       >
-        <input
-          className={styles.searchField}
-          value={this.state.inputValue}
-          onChange={this.updateInputValue}
-          placeholder="Search for scenarios"
-          name="words"
-          type="text"
-        />
-        <button
-          className={styles[cancelClass]}
-          onClick={this.resetSearch}
-          type="button"
-        >
-          X
-        </button>
-        <div className={styles.searchButton}>
-          <Button type="submit" color="primary">
-            Search
-          </Button>
-        </div>
-      </form>
-    );
-  }
+        X
+      </button>
+      <div className={styles.searchButton}>
+        <Button type="submit" color="primary">
+          Search
+        </Button>
+      </div>
+    </form>
+  );
 }
+
+SearchScenarios.propTypes = {
+  setSearch: PropTypes.func.isRequired,
+  search: PropTypes.arrayOf(PropTypes.string).isRequired,
+};

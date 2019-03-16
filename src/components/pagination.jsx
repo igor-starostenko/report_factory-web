@@ -48,8 +48,8 @@ export default function Pagination(props) {
         {map(pageNumbers, number => (
           <PaginationNumber
             key={number}
-            value={{ page: number }}
-            action={props.action}
+            value={number}
+            setPage={props.setPage}
             page={currentPage}
           />
         ))}
@@ -62,5 +62,5 @@ Pagination.propTypes = {
   page: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
-  action: PropTypes.func.isRequired,
+  setPage: PropTypes.func.isRequired,
 };

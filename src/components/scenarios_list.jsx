@@ -23,7 +23,7 @@ export default ComposedComponent => {
 
     function setFilteredScenarios() {
       const filteredScenarios = filterScenarios(scenariosList, search);
-      const totalPages = ceil(total / perPage);
+      const totalPages = ceil(filteredScenarios.length / perPage);
       setScenarios(filteredScenarios);
       setTotal(filteredScenarios.length);
       if (totalPages > 0 && totalPages < page) {
@@ -33,7 +33,7 @@ export default ComposedComponent => {
 
     useEffect(() => {
       setFilteredScenarios();
-    }, [scenariosList]);
+    }, [scenariosList, page, perPage, search]);
 
     function renderScenarios({ withProjectName }) {
       if (isEmpty(scenarios)) {

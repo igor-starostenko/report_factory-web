@@ -4,10 +4,10 @@ import styles from './styles/Pagination.css';
 
 export default function PaginationNumber(props) {
   function handlePageClick() {
-    props.action(props.value);
+    props.setPage(props.value);
   }
 
-  const isActive = props.page === props.value.page;
+  const isActive = props.page === props.value;
   const pageStyle = isActive ? 'pageActive' : '';
 
   return (
@@ -18,16 +18,14 @@ export default function PaginationNumber(props) {
         role="button"
         tabIndex={0}
       >
-        {props.value.page}
+        {props.value}
       </div>
     </li>
   );
 }
 
 PaginationNumber.propTypes = {
-  action: PropTypes.func.isRequired,
+  setPage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
-  value: PropTypes.shape({
-    page: PropTypes.number.isRequired,
-  }).isRequired,
+  value: PropTypes.number.isRequired,
 };
