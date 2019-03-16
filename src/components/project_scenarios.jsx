@@ -1,52 +1,68 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React, { Fragment, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import ScenariosList from './scenarios_list';
 import { PerPageFilter, Pagination, SearchScenarios } from '.';
 import styles from './styles/ProjectScenarios.css';
 
-class ProjectScenarios extends Component {
-  componentDidMount() {
-    this.props.setScenarios();
+function ProjectScenarios(props) {
+  useEffect(() => {
+    props.setScenarios();
+  }, []);
+
+  const { page, perPage, scenariosList, total } = props;
+
+  if (isEmpty(scenariosList)) {
+    return <Fragment />;
   }
 
-  render() {
-    if (_.isEmpty(this.props.scenariosList)) {
-      return <div />;
-    }
-
-    return (
-      <div className={styles.projectScenarios}>
-        <div className={styles.projectScenariosHeader}>Scenarios</div>
-        <div className={styles.projectScenariosDescription}>
-          Scenarios reported: {this.props.total}
-        </div>
-        <div className={styles.projectScenariosSearch}>
-          <SearchScenarios
-            search={this.props.search}
-            action={this.props.setSearch}
-          />
-        </div>
-        <div className={styles.projectScenariosList}>
-          {this.props.renderScenarios({ withProjectName: false })}
-        </div>
-        <div className={styles.projectScenariosButtons}>
-          <Pagination
-            className={styles.scenarioPagination}
-            page={this.props.page}
-            perPage={this.props.perPage}
-            total={this.props.total}
-            action={this.props.setPage}
-          />
-          <PerPageFilter
-            totalCount={this.props.total}
-            buttons={[30, 10]}
-            perPage={this.props.perPage}
-            action={this.props.setPerPage}
-          />
-        </div>
+  return (
+    <div className={styles.projectScenarios}>
+      <div className={styles.projectScenariosHeader}>Scenarios</div>
+      <div className={styles.projectScenariosDescription}>
+        Scenarios reported: {total}
       </div>
-    );
-  }
+      <div className={styles.projectScenariosSearch}>
+        <SearchScenarios search={props.search} action={props.setSearch} />
+      </div>
+      <div className={styles.projectScenariosList}>
+        {props.renderScenarios({ withProjectName: false })}
+      </div>
+      <div className={styles.projectScenariosButtons}>
+        <Pagination
+          className={styles.scenarioPagination}
+          page={page}
+          perPage={perPage}
+          total={total}
+          action={props.setPage}
+        />
+        <PerPageFilter
+          totalCount={total}
+          buttons={[30, 10]}
+          perPage={perPage}
+          action={props.setPerPage}
+        />
+      </div>
+    </div>
+  );
 }
+
+ProjectScenarios.propTypes = {
+  page: PropTypes.number.isRequired,
+  perPage: PropTypes.number.isRequired,
+  scenariosList: PropTypes.arrayOf(PropTypes.object),
+  total: PropTypes.number.isRequired,
+  search: PropTypes.arrayOf(PropTypes.string),
+  setSearch: PropTypes.func.isRequired,
+  setPage: PropTypes.func.isRequired,
+  setPerPage: PropTypes.func.isRequired,
+  setScenarios: PropTypes.func.isRequired,
+  renderScenarios: PropTypes.func.isRequired,
+};
+
+ProjectScenarios.defaultProps = {
+  scenariosList: [],
+  search: [],
+};
 
 export default ScenariosList(ProjectScenarios);
