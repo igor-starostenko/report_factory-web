@@ -1,30 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import styles from './styles/Pagination.css';
 
-export default class PaginationNumber extends Component {
-  constructor(props) {
-    super(props);
-    this.handlePageClick = this.handlePageClick.bind(this);
+export default function PaginationNumber(props) {
+  function handlePageClick() {
+    props.action(props.value);
   }
 
-  handlePageClick() {
-    this.props.action(this.props.value);
-  }
+  const isActive = props.page === props.value.page;
+  const pageStyle = isActive ? 'pageActive' : '';
 
-  render() {
-    const isActive = this.props.page === this.props.value.page;
-    const pageStyle = isActive ? 'pageActive' : '';
-    return (
-      /* eslint-disable jsx-a11y/click-events-have-key-events */
-      /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-      <li
-        onClick={this.handlePageClick}
+  return (
+    <li className={styles.pageItem}>
+      <div
         className={`${styles.pageNumber} ${pageStyle}`}
+        onClick={handlePageClick}
+        role="button"
+        tabIndex={0}
       >
-        {this.props.value.page}
-      </li>
-      /* eslint-enable jsx-a11y/click-events-have-key-events */
-      /* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
-    );
-  }
+        {props.value.page}
+      </div>
+    </li>
+  );
 }
+
+PaginationNumber.propTypes = {
+  action: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  value: PropTypes.shape({
+    page: PropTypes.number.isRequired,
+  }).isRequired,
+};

@@ -20,6 +20,10 @@
   cursor: pointer;
 }
 
+.pageItem {
+  display: inline-block;
+}
+
 .pageNumber:not(.pageActive):hover {
   background-color: #eeeeee;
 }
