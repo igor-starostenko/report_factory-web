@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import { Form, Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
@@ -24,41 +24,37 @@ const update = (values, dispatch, { userId, xApiKey, reset }) => {
   );
 };
 
-class UpdatePasswordForm extends Component {
-  componentWillUnmount() {
-    this.props.resetMe();
-  }
+function UpdatePasswordForm(props) {
+  useEffect(() => () => props.resetMe(), []);
 
-  render() {
-    const { editUser, handleSubmit } = this.props;
-    const errors = getValue(editUser, 'error');
+  const { editUser, handleSubmit } = props;
+  const errors = getValue(editUser, 'error');
 
-    return (
-      <Form onSubmit={handleSubmit}>
-        <Field
-          props={{
-            placeholder: 'New Password',
-            type: 'password',
-            id: 'password',
-            label: 'Password',
-          }}
-          name="password"
-          component={FormField}
-        />
-        <Field
-          props={{
-            placeholder: 'Confirm Password',
-            type: 'password',
-            id: 'confirm',
-            label: 'Confirm Password',
-          }}
-          name="confirm"
-          component={FormField}
-        />
-        <FormErrors errors={errors} />
-      </Form>
-    );
-  }
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        props={{
+          placeholder: 'New Password',
+          type: 'password',
+          id: 'password',
+          label: 'Password',
+        }}
+        name="password"
+        component={FormField}
+      />
+      <Field
+        props={{
+          placeholder: 'Confirm Password',
+          type: 'password',
+          id: 'confirm',
+          label: 'Confirm Password',
+        }}
+        name="confirm"
+        component={FormField}
+      />
+      <FormErrors errors={errors} />
+    </Form>
+  );
 }
 
 UpdatePasswordForm.propTypes = {
