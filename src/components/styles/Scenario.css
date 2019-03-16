@@ -35,7 +35,8 @@
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 24px 108px;
+  grid-template-rows: 24px 118px;
+  margin-bottom: 5px;
 }
 
 .scenarioExtendedDetails>.scenarioDetailsRow {
@@ -46,7 +47,8 @@
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 108px;
+  grid-template-rows: 118px;
+  margin-bottom: 5px;
 }
 
 .scenarioSuccessChart {
@@ -95,5 +97,10 @@
 
   .scenarioSecondaryDetails>div:not(:nth-child(1)) {
     display: none;
+  }
+
+  .loadingScenario {
+    margin-top: 20%;
+    margin-bottom: 20%;
   }
 }

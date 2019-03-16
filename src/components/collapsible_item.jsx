@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
+import { Collapse } from 'reactstrap';
 import styles from './styles/CollapsibleItem.css';
 
 export default function CollapsibleItem(props) {
@@ -18,18 +19,17 @@ export default function CollapsibleItem(props) {
   }
 
   return (
-    /* eslint-disable jsx-a11y/click-events-have-key-events */
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
-    <div className={props.className} onClick={handleClick}>
+    <div
+      className={props.className}
+      onClick={handleClick}
+      role="menuitem"
+      tabIndex={0}
+    >
       <div className={styles.collapsibleTitle}>{title}</div>
-      {isOpen ? (
+      <Collapse isOpen={isOpen}>
         <div className={styles.expandedDetails}>{children}</div>
-      ) : (
-        <div className={styles.collapsedDetails} />
-      )}
+      </Collapse>
     </div>
-    /* eslint-enable jsx-a11y/click-events-have-key-events */
-    /* eslint-enable jsx-a11y/no-static-element-interactions */
   );
 }
 
