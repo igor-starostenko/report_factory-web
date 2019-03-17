@@ -42,8 +42,6 @@ function Reports(props) {
     return <Loading />;
   }
 
-  const reports = edges.map(edge => edge.node);
-
   return (
     <Fragment>
       <br />
@@ -60,7 +58,7 @@ function Reports(props) {
           />
         </div>
         <div className={styles.reportsContent}>
-          <RspecReportsList reports={reports} />
+          <RspecReportsList edges={edges} />
         </div>
         <div className={styles.reportsButtons}>
           <PaginationConnection

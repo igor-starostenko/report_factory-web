@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
-import { Loading } from '.';
 import { formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import styles from './styles/RspecReportsList.css';
 
@@ -74,12 +73,9 @@ RspecReportRow.propTypes = {
   failureCount: PropTypes.number.isRequired,
 };
 
-export default function RspecReportsList(props) {
-  const { reports } = props;
-
-  if (!reports) {
-    return <Loading />;
-  }
+function RspecReportsList(props) {
+  const { edges } = props;
+  const reports = edges.map(edge => edge.node);
 
   if (isEmpty(reports)) {
     return <div className="loading">No reports found.</div>;
@@ -111,24 +107,24 @@ export default function RspecReportsList(props) {
 }
 
 RspecReportsList.propTypes = {
-  reports: PropTypes.arrayOf(
+  edges: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      report: PropTypes.shape({
-        projectName: PropTypes.string.isRequired,
-        reportableType: PropTypes.string.isRequired,
-        createdAt: PropTypes.string,
-      }).isRequired,
-      summary: PropTypes.shape({
-        duration: PropTypes.number.isRequired,
-        exampleCount: PropTypes.number.isRequired,
-        pendingCount: PropTypes.number.isRequired,
-        failureCount: PropTypes.number.isRequired,
+      node: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        report: PropTypes.shape({
+          projectName: PropTypes.string.isRequired,
+          reportableType: PropTypes.string.isRequired,
+          createdAt: PropTypes.string,
+        }).isRequired,
+        summary: PropTypes.shape({
+          duration: PropTypes.number.isRequired,
+          exampleCount: PropTypes.number.isRequired,
+          pendingCount: PropTypes.number.isRequired,
+          failureCount: PropTypes.number.isRequired,
+        }).isRequired,
       }).isRequired,
     }).isRequired,
-  ),
+  ).isRequired,
 };
 
-RspecReportsList.defaultProps = {
-  reports: null,
-};
+export default React.memo(RspecReportsList);

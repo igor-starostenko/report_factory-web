@@ -36,7 +36,7 @@ function ExampleDetails(props) {
   }
   if (exception) {
     details[exception.classname] = exception.message;
-    details.backtrace = <Backtrace backtraces={exception.backtraces} />;
+    details.backtrace = <Backtrace backtraces={exception.backtrace} />;
   }
 
   return map(details, (value, key) => (

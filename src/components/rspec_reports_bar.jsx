@@ -105,7 +105,9 @@ const options = {
 };
 
 function RspecReportsBar(props) {
-  const { reports, displayCount } = props;
+  const { edges, displayCount } = props;
+  // map edges inside the component to prevent rerender;
+  const reports = edges.map(edge => edge.node);
 
   if (isEmpty(reports)) {
     return <Fragment />;
@@ -122,19 +124,21 @@ function RspecReportsBar(props) {
 }
 
 RspecReportsBar.propTypes = {
-  reports: PropTypes.arrayOf(
+  edges: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      report: PropTypes.shape({
-        createdAt: PropTypes.string.isRequired,
-        projectName: PropTypes.string.isRequired,
-        reportableType: PropTypes.string.isRequired,
-      }).isRequired,
-      summary: PropTypes.shape({
-        duration: PropTypes.number.isRequired,
-        exampleCount: PropTypes.number.isRequired,
-        failureCount: PropTypes.number.isRequired,
-        pendingCount: PropTypes.number.isRequired,
+      node: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        report: PropTypes.shape({
+          createdAt: PropTypes.string.isRequired,
+          projectName: PropTypes.string.isRequired,
+          reportableType: PropTypes.string.isRequired,
+        }).isRequired,
+        summary: PropTypes.shape({
+          duration: PropTypes.number.isRequired,
+          exampleCount: PropTypes.number.isRequired,
+          failureCount: PropTypes.number.isRequired,
+          pendingCount: PropTypes.number.isRequired,
+        }).isRequired,
       }).isRequired,
     }).isRequired,
   ).isRequired,

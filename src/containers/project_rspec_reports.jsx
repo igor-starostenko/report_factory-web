@@ -47,7 +47,6 @@ function ProjectRspecReports(props) {
   }
 
   const projectUrl = `/projects/${projectName}`;
-  const reports = edges.map(edge => edge.node);
 
   return (
     <Fragment>
@@ -68,13 +67,13 @@ function ProjectRspecReports(props) {
           Reports submitted: {totalCount}
         </div>
         <div className={styles.projectReportsChart}>
-          <RspecReportsBar reports={reports} displayCount={query.perPage} />
+          <RspecReportsBar edges={edges} displayCount={query.perPage} />
         </div>
         <div className={styles.projectReportsSuccessChart}>
-          <ReportsSuccessChart reports={reports} />
+          <ReportsSuccessChart edges={edges} />
         </div>
         <div className={styles.projectReportsList}>
-          <RspecReportsList reports={reports} />
+          <RspecReportsList edges={edges} />
         </div>
         <div className={styles.projectReportsListButtons}>
           <PaginationConnection

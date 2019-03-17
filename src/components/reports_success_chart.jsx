@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React, { Fragment } from 'react';
+import { PropTypes } from 'prop-types';
+import filter from 'lodash/filter';
+import round from 'lodash/round';
+import keys from 'lodash/keys';
+import isEmpty from 'lodash/isEmpty';
 import { Pie } from 'react-chartjs-2';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
 // import styles from './styles/RspecReportPieChart.css';
 
 const formatTooltip = ({ datasetIndex, index }, { datasets, labels }) => {
-  const label = labels[index];
   const value = datasets[datasetIndex].data[index];
-  return ` ${label}: ${_.round(value * 100, 1)}%`;
+  return ` ${labels[index]}: ${round(value * 100, 1)}%`;
 };
 
 const options = {
@@ -23,11 +26,11 @@ const options = {
 const colors = getColors(0.7);
 
 const getFailedCount = reports => {
-  return _.filter(reports, report => report.summary.failureCount > 0);
+  return filter(reports, report => report.summary.failureCount > 0);
 };
 
 const getChartData = reports => {
-  const failed = getFailedCount(reports).length / _.keys(reports).length;
+  const failed = getFailedCount(reports).length / keys(reports).length;
   const data = [1 - failed, failed];
   const backgroundColor = [colors.green, colors.red];
   const hoverBackgroundColor = [
@@ -41,23 +44,38 @@ const getChartData = reports => {
   };
 };
 
-export default class ReportsSuccessChart extends Component {
-  shouldComponentUpdate(nextProps) {
-    return !_.isEqual(this.props.reports, nextProps.reports);
+function ReportsSuccessChart(props) {
+  const { edges } = props;
+  const reports = edges.map(edge => edge.node);
+
+  if (isEmpty(reports)) {
+    return <Fragment />;
   }
 
-  render() {
-    if (_.isEmpty(this.props.reports)) {
-      return <div />;
-    }
-
-    return (
-      <Pie
-        data={getChartData(this.props.reports)}
-        options={options}
-        height={320}
-        redraw
-      />
-    );
-  }
+  return (
+    <Pie data={getChartData(reports)} options={options} height={320} redraw />
+  );
 }
+
+ReportsSuccessChart.propTypes = {
+  edges: PropTypes.arrayOf(
+    PropTypes.shape({
+      node: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        report: PropTypes.shape({
+          createdAt: PropTypes.string.isRequired,
+          projectName: PropTypes.string.isRequired,
+          reportableType: PropTypes.string.isRequired,
+        }).isRequired,
+        summary: PropTypes.shape({
+          duration: PropTypes.number.isRequired,
+          exampleCount: PropTypes.number.isRequired,
+          failureCount: PropTypes.number.isRequired,
+          pendingCount: PropTypes.number.isRequired,
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
+  ).isRequired,
+};
+
+export default React.memo(ReportsSuccessChart);
