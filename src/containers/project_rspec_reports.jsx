@@ -68,11 +68,7 @@ function ProjectRspecReports(props) {
           Reports submitted: {totalCount}
         </div>
         <div className={styles.projectReportsChart}>
-          <RspecReportsBar
-            reports={reports}
-            displayCount={query.perPage}
-            filterAction={fetchProjectRspecReports}
-          />
+          <RspecReportsBar reports={reports} displayCount={query.perPage} />
         </div>
         <div className={styles.projectReportsSuccessChart}>
           <ReportsSuccessChart reports={reports} />
