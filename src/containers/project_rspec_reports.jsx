@@ -53,7 +53,7 @@ function ProjectRspecReports(props) {
       <Link to={projectUrl}>Back to project</Link>
       <div className={styles.projectReportsContainer}>
         <div className={styles.projectReportsHeader}>
-          <div className={styles.projectReportsName}>{projectName}</div>
+          <h1 className={styles.projectReportsName}>{projectName}</h1>
         </div>
         <div className={styles.projectReportsSearch}>
           <SearchReports

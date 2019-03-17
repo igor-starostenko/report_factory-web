@@ -121,7 +121,7 @@ function Projects(props) {
       <br />
       <div className={detailsStyles.detailsContainer}>
         <div className={detailsStyles.detailsHeader}>
-          <div className={detailsStyles.detailsName}>Projects</div>
+          <h1 className={detailsStyles.detailsName}>Projects</h1>
         </div>
         <div className={detailsStyles.detailsButtons}>
           {isAdmin && (

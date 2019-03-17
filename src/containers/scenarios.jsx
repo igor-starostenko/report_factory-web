@@ -43,7 +43,7 @@ function Scenarios(props) {
       <br />
       <div className={styles.scenarios}>
         <div className={styles.scenariosHeader}>
-          <div className={styles.scenariosTitle}>Scenarios</div>
+          <h1 className={styles.scenariosTitle}>Scenarios</h1>
         </div>
         <div className={styles.allScenariosSearch}>
           <SearchScenarios search={props.search} setSearch={props.setSearch} />

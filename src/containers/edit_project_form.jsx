@@ -35,7 +35,7 @@ function EditProjectForm(props) {
   return (
     <div className={styles.detailsContainer}>
       <div className={styles.detailsHeader}>
-        <div className={styles.detailsName}>{title}</div>
+        <h1 className={styles.detailsName}>{title}</h1>
       </div>
       <SideButton />
       <form className={styles.detailsContent} onSubmit={handleSubmit(onSubmit)}>

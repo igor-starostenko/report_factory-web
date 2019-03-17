@@ -47,7 +47,7 @@ function Reports(props) {
       <br />
       <div className={styles.reportsContainer}>
         <div className={styles.reportsHeader}>
-          <div className={styles.reportsTitle}>Reports</div>
+          <h1 className={styles.reportsTitle}>Reports</h1>
         </div>
         <div className={styles.reportsSearch}>
           <SearchReports

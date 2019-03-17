@@ -43,7 +43,7 @@ function RspecReport(props) {
       <Link to="/reports">Back to reports</Link>
       <div className={styles.reportContainer}>
         <div className={styles.reportHeader}>
-          <div className={styles.reportId}># {reportId}</div>
+          <h1 className={styles.reportId}># {reportId}</h1>
         </div>
         <div className={styles.reportCreated}>Created on {createdAt}</div>
         <div className={styles.reportDetails}>

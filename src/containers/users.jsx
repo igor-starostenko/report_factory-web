@@ -47,24 +47,29 @@ function Users(props) {
   return (
     <Fragment>
       <br />
-      <h1>Users</h1>
-      <div className={styles.usersContainer}>
-        {map(users.data, ({ id, attributes }) => (
-          <UserListItem
-            name={attributes.name}
-            email={attributes.email}
-            type={attributes.type}
-            id={id}
-            key={id}
-          />
-        ))}
-        {isAdmin && (
-          <Link to="/users/new" className={`${styles.newUser} ${styles.user}`}>
-            <div className={styles.userBody}>
-              <div className={styles.newUserTitle}>Create a user</div>
-            </div>
-          </Link>
-        )}
+      <div className={styles.usersPage}>
+        <h1 className={styles.pageTitle}>Users</h1>
+        <div className={styles.usersContainer}>
+          {map(users.data, ({ id, attributes }) => (
+            <UserListItem
+              name={attributes.name}
+              email={attributes.email}
+              type={attributes.type}
+              id={id}
+              key={id}
+            />
+          ))}
+          {isAdmin && (
+            <Link
+              to="/users/new"
+              className={`${styles.newUser} ${styles.user}`}
+            >
+              <div className={styles.userBody}>
+                <div className={styles.newUserTitle}>Create a user</div>
+              </div>
+            </Link>
+          )}
+        </div>
       </div>
     </Fragment>
   );

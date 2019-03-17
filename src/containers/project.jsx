@@ -43,7 +43,7 @@ function Project(props) {
       <Link to="/projects">Back to projects</Link>
       <div className={styles.detailsContainer}>
         <div className={styles.detailsHeader}>
-          <div className={styles.detailsName}>{projectName}</div>
+          <h1 className={styles.detailsName}>{projectName}</h1>
         </div>
         <div className={styles.detailsButtons}>
           <Button to={rspecUrl} color="primary" fill="true">
