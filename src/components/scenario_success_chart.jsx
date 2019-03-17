@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React, { Fragment } from 'react';
+import { PropTypes } from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
+import round from 'lodash/round';
 import { Pie } from 'react-chartjs-2';
 import { getColors, setOpacity } from '../helpers/chart_helpers';
 
 const formatTooltip = ({ datasetIndex, index }, { datasets, labels }) => {
   const label = labels[index];
   const value = datasets[datasetIndex].data[index];
-  return ` ${label}: ${_.round(value * 100, 1)}%`;
+  return ` ${label}: ${round(value * 100, 1)}%`;
 };
 
 const options = {
@@ -42,18 +44,21 @@ const getChartData = scenario => {
   };
 };
 
-export default class ScenarioSuccessChart extends Component {
-  shouldComponentUpdate(nextProps) {
-    return this.props.scenario !== nextProps.scenario;
+function ScenarioSuccessChart(props) {
+  const { scenario } = props;
+
+  if (isEmpty(scenario)) {
+    return <Fragment />;
   }
 
-  render() {
-    if (_.isEmpty(this.props.scenario)) {
-      return <div />;
-    }
-
-    return (
-      <Pie data={getChartData(this.props.scenario)} options={options} redraw />
-    );
-  }
+  return <Pie data={getChartData(scenario)} options={options} redraw />;
 }
+
+ScenarioSuccessChart.propTypes = {
+  scenario: PropTypes.shape({
+    totalPassed: PropTypes.number,
+    totalFailed: PropTypes.number,
+  }).isRequired,
+};
+
+export default React.memo(ScenarioSuccessChart);
