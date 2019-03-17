@@ -38,7 +38,7 @@ export function prepareVariables({
     };
   }
   if (end) {
-    const remaining = totalCount % newPerPage;
+    const remaining = totalCount % newPerPage || newPerPage;
     return {
       page: newPage,
       perPage: newPerPage,

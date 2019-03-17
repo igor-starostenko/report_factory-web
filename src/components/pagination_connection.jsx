@@ -42,7 +42,8 @@ function getPages(currentPage, lastPage) {
 }
 
 function PageNumber(props) {
-  const { action, currentPage, obj } = props;
+  const { currentPage, obj } = props;
+
   return (
     <Fragment>
       {obj.ellipsis ? (
@@ -51,7 +52,7 @@ function PageNumber(props) {
         <PaginationNumber
           key={obj.page}
           value={obj}
-          action={action}
+          setPage={props.setPage}
           page={currentPage}
         />
       )}
@@ -60,7 +61,6 @@ function PageNumber(props) {
 }
 
 PageNumber.propTypes = {
-  action: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
   obj: PropTypes.shape({
     page: PropTypes.number.isRequired,
@@ -70,10 +70,11 @@ PageNumber.propTypes = {
     previous: PropTypes.bool,
     next: PropTypes.bool,
   }).isRequired,
+  setPage: PropTypes.func.isRequired,
 };
 
 export default function PaginationConnection(props) {
-  const { action, page, perPage, totalCount } = props;
+  const { page, perPage, totalCount } = props;
   const lastPage = ceil(parseInt(totalCount, 10) / parseInt(perPage, 10));
 
   if (lastPage <= 1) {
@@ -88,7 +89,7 @@ export default function PaginationConnection(props) {
       <div className={styles.pageWrapper}>
         {pages.map(obj => (
           <PageNumber
-            action={action}
+            setPage={props.setPage}
             currentPage={currentPage}
             key={obj.page}
             obj={obj}
@@ -100,7 +101,7 @@ export default function PaginationConnection(props) {
 }
 
 PaginationConnection.propTypes = {
-  action: PropTypes.func.isRequired,
+  setPage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
   totalCount: PropTypes.number.isRequired,

@@ -31,9 +31,7 @@ const projectReportsDatasets = (reports, dates, reportsPerDate) => {
     const projectReports = reports[projectName];
     const reportsDates = reportsCreatedDates(projectReports, parseDate);
     const color = colors[colorNames[colorIndex]];
-    /* eslint-disable no-unused-expressions */
-    colorIndex === colorNames.length - 1 ? (colorIndex = 0) : (colorIndex += 1);
-    /* eslint-enable no-unused-expressions */
+    colorIndex = colorIndex === colorNames.length - 1 ? 0 : colorIndex + 1;
     return {
       label: projectName,
       backgroundColor: setOpacity(color, 0.4),

@@ -19,10 +19,12 @@ function Reports(props) {
   const { edges, pageInfo, query, totalCount, xApiKey } = props;
 
   function fetchRspecReports(options) {
-    const opts = { query, pageInfo, totalCount, ...options };
-    const variables = prepareVariables(opts);
-    props.setRspecReportsQuery(variables);
-    props.queryRspecReports(xApiKey, variables);
+    if (query.page !== options.page) {
+      const opts = { query, pageInfo, totalCount, ...options };
+      const variables = prepareVariables(opts);
+      props.setRspecReportsQuery(variables);
+      props.queryRspecReports(xApiKey, variables);
+    }
   }
 
   function resetSearchTags(tags) {
@@ -66,13 +68,13 @@ function Reports(props) {
             page={query.page}
             perPage={query.perPage}
             totalCount={totalCount}
-            action={fetchRspecReports}
+            setPage={fetchRspecReports}
           />
           <PerPageFilter
             totalCount={totalCount}
             buttons={[30, 10]}
             perPage={query.perPage}
-            action={fetchRspecReports}
+            setPerPage={fetchRspecReports}
           />
         </div>
       </div>

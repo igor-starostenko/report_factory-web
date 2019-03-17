@@ -21,6 +21,14 @@ export default ComposedComponent => {
 
     const { scenariosDetails, scenariosList, xApiKey } = props;
 
+    function clickPage(obj) {
+      setPage(obj.page);
+    }
+
+    function clickPerPage(obj) {
+      setPerPage(obj.perPage);
+    }
+
     function setFilteredScenarios() {
       const filteredScenarios = filterScenarios(scenariosList, search);
       const totalPages = ceil(filteredScenarios.length / perPage);
@@ -68,8 +76,8 @@ export default ComposedComponent => {
         perPage={perPage}
         renderScenarios={renderScenarios}
         setScenarios={setFilteredScenarios}
-        setPage={setPage}
-        setPerPage={setPerPage}
+        setPage={clickPage}
+        setPerPage={clickPerPage}
         setSearch={setSearch}
         search={search}
         scenarios={scenarios}

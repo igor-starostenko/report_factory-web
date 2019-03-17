@@ -19,7 +19,7 @@ export default function PerPageFilter(props) {
             active={perPage === value}
             key={value}
             onClick={setPerPage}
-            value={value}
+            value={{ perPage: value }}
           >
             {name}
           </FilterButton>

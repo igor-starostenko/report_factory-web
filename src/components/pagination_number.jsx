@@ -7,7 +7,7 @@ export default function PaginationNumber(props) {
     props.setPage(props.value);
   }
 
-  const isActive = props.page === props.value;
+  const isActive = props.page === props.value.page;
   const pageStyle = isActive ? 'pageActive' : '';
 
   return (
@@ -18,7 +18,7 @@ export default function PaginationNumber(props) {
         role="button"
         tabIndex={0}
       >
-        {props.value}
+        {props.value.page}
       </div>
     </li>
   );
@@ -27,5 +27,7 @@ export default function PaginationNumber(props) {
 PaginationNumber.propTypes = {
   setPage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.shape({
+    page: PropTypes.number.isRequired,
+  }).isRequired,
 };

@@ -29,14 +29,14 @@ export default function Scenario(props) {
     }
   }
 
-  const statusName = statusClassNames[status];
+  const statusName = statusClassNames[status] || statusClassNames.default;
   const extendedDetailsStyle = withProjectName
     ? 'scenarioExtendedDetails'
     : 'projectScenariosExtendedDetails';
 
   return (
     <CollapsibleItem
-      className={`${styles.scenario} ${styles[statusName] || styles.default}`}
+      className={`${styles.scenario} ${styles[statusName]}`}
       onExpand={onExpand}
       {...props}
     >

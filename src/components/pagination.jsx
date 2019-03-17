@@ -48,7 +48,7 @@ export default function Pagination(props) {
         {map(pageNumbers, number => (
           <PaginationNumber
             key={number}
-            value={number}
+            value={{ page: number }}
             setPage={props.setPage}
             page={currentPage}
           />

@@ -1,22 +1,40 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
+import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import { Loading } from '.';
 import { formatDuration, formatDateAgo } from '../helpers/format_helpers';
 import styles from './styles/RspecReportsList.css';
 
 const statusName = failureCount => {
-  if (failureCount > 0) {
-    return 'failedTest';
-  }
-  return 'passedTest';
+  return failureCount > 0 ? 'failedTest' : 'passedTest';
 };
 
-const fetchDetailsFromReport = rspecReport => {
+const headerItems = [
+  'Number',
+  'Project',
+  'Type',
+  'Ran',
+  'Duration',
+  'Tests',
+  'Pending',
+  'Failed',
+];
+function RspecReportsHeader() {
+  return (
+    <div className={styles.headerRow}>
+      {headerItems.map(name => (
+        <div className={styles[`list${name}`]} key={name}>
+          {name}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function RspecReportRow(props) {
   const {
-    report: { projectName, reportableType, createdAt },
-    summary: { duration, exampleCount, pendingCount, failureCount },
-  } = rspecReport;
-  return {
+    id,
     projectName,
     reportableType,
     createdAt,
@@ -24,87 +42,93 @@ const fetchDetailsFromReport = rspecReport => {
     exampleCount,
     pendingCount,
     failureCount,
-  };
+  } = props;
+  const timeAgo = `${formatDateAgo(new Date(createdAt))} ago`;
+  const status = statusName(failureCount);
+
+  return (
+    <Link
+      to={`/reports/${id}`}
+      className={`${styles.listRow} ${styles[status]}`}
+    >
+      <div className={styles.listNumber}># {id}</div>
+      <div className={styles.listProject}>{projectName}</div>
+      <div className={styles.listType}>{reportableType}</div>
+      <div className={styles.listRan}>{timeAgo}</div>
+      <div className={styles.listDuration}>{formatDuration(duration)}</div>
+      <div className={styles.listTests}>{exampleCount}</div>
+      <div className={styles.listPending}>{pendingCount}</div>
+      <div className={styles.listFailed}>{failureCount}</div>
+    </Link>
+  );
+}
+
+RspecReportRow.propTypes = {
+  id: PropTypes.number.isRequired,
+  projectName: PropTypes.string.isRequired,
+  reportableType: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  duration: PropTypes.number.isRequired,
+  exampleCount: PropTypes.number.isRequired,
+  pendingCount: PropTypes.number.isRequired,
+  failureCount: PropTypes.number.isRequired,
 };
 
-export default class RspecReportsList extends Component {
-  /* eslint-disable arrow-body-style */
-  static renderHeaderItems(names) {
-    return names.map(name => {
-      return (
-        <div className={styles[`list${name}`]} key={name}>
-          {name}
-        </div>
-      );
-    });
-  }
-  /* eslint-enable arrow-body-style */
+export default function RspecReportsList(props) {
+  const { reports } = props;
 
-  static renderHeader() {
-    const items = [
-      'Number',
-      'Project',
-      'Type',
-      'Ran',
-      'Duration',
-      'Tests',
-      'Pending',
-      'Failed',
-    ];
-    return (
-      <div className={styles.headerRow}>{this.renderHeaderItems(items)}</div>
-    );
+  if (!reports) {
+    return <Loading />;
   }
 
-  renderReports() {
-    return this.props.reports.map(report => {
-      const {
-        projectName,
-        reportableType,
-        createdAt,
-        duration,
-        exampleCount,
-        pendingCount,
-        failureCount,
-      } = fetchDetailsFromReport(report);
-      const timeAgo = `${formatDateAgo(new Date(createdAt))} ago`;
-      const status = statusName(failureCount);
-      return (
-        <Link
-          to={`/reports/${report.id}`}
-          className={`${styles.listRow} ${styles[status]}`}
-          key={report.id}
-        >
-          <div className={styles.listNumber}># {report.id}</div>
-          <div className={styles.listProject}>{projectName}</div>
-          <div className={styles.listType}>{reportableType}</div>
-          <div className={styles.listRan}>{timeAgo}</div>
-          <div className={styles.listDuration}>{formatDuration(duration)}</div>
-          <div className={styles.listTests}>{exampleCount}</div>
-          <div className={styles.listPending}>{pendingCount}</div>
-          <div className={styles.listFailed}>{failureCount}</div>
-        </Link>
-      );
-    });
+  if (isEmpty(reports)) {
+    return <div className="loading">No reports found.</div>;
   }
 
-  render() {
-    if (!this.props.reports) {
-      return <div className="loading">Loading...</div>;
-    }
-
-    if (_.isEmpty(this.props.reports)) {
-      return <div className="loading">No reports found.</div>;
-    }
-
-    return (
-      <div>
-        <br />
-        <div className={styles.reportsList}>
-          {this.constructor.renderHeader()}
-          <div className={styles.listGroup}>{this.renderReports()}</div>
+  return (
+    <Fragment>
+      <br />
+      <div className={styles.reportsList}>
+        <RspecReportsHeader />
+        <div className={styles.listGroup}>
+          {reports.map(({ id, report, summary }) => (
+            <RspecReportRow
+              id={id}
+              key={id}
+              projectName={report.projectName}
+              reportableType={report.reportableType}
+              createdAt={report.createdAt}
+              duration={summary.duration}
+              exampleCount={summary.exampleCount}
+              pendingCount={summary.pendingCount}
+              failureCount={summary.failureCount}
+            />
+          ))}
         </div>
       </div>
-    );
-  }
+    </Fragment>
+  );
 }
+
+RspecReportsList.propTypes = {
+  reports: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      report: PropTypes.shape({
+        projectName: PropTypes.string.isRequired,
+        reportableType: PropTypes.string.isRequired,
+        createdAt: PropTypes.string,
+      }).isRequired,
+      summary: PropTypes.shape({
+        duration: PropTypes.number.isRequired,
+        exampleCount: PropTypes.number.isRequired,
+        pendingCount: PropTypes.number.isRequired,
+        failureCount: PropTypes.number.isRequired,
+      }).isRequired,
+    }).isRequired,
+  ),
+};
+
+RspecReportsList.defaultProps = {
+  reports: null,
+};
