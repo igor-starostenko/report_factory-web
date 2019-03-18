@@ -36,7 +36,7 @@ function Reports(props) {
       fetchRspecReports({ perPage: query.perPage, tags: query.tags });
     }
     return () => resetSearchTags();
-  }, [...query]);
+  }, []);
 
   if (!edges) {
     return <Loading />;

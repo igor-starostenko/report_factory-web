@@ -40,7 +40,7 @@ function ProjectRspecReports(props) {
       fetchProjectRspecReports({ perPage: query.perPage, tags: query.tags });
     }
     return () => props.resetProjectRspecReports();
-  }, [...query]);
+  }, []);
 
   if (!edges) {
     return <Loading />;
