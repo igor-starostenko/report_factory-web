@@ -11,6 +11,10 @@ canvas {
   max-height: 400px;
 }
 
+.modal-dialog {
+  top: 16%;
+}
+
 .formButtons {
   margin: 1.5rem;
   margin-left: 0;

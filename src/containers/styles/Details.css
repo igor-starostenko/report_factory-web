@@ -107,7 +107,7 @@
 
   .detailsButtons > .btn {
     margin: auto;
-    width: 30rem;
+    width: 84%;
   }
 
   .detailsTotal {
@@ -119,7 +119,7 @@
   }
 
   #chart-pills {
-    width: 30rem;
+    width: 84%;
     margin: auto;
     display: inline-flex;
   }

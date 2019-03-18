@@ -67,13 +67,9 @@
   margin: 0;
   cursor: pointer;
 }
+
 .chart > div {
   height: 80%;
-}
-
-.filters {
-  margin: 1.5rem;
-  min-height: 40px;
 }
 
 #chart-pills {
@@ -134,17 +130,12 @@
     grid-gap: 1.5rem;
   }
 
-  .detailsButtons > .btn {
-    margin: auto;
-    width: 30rem;
-  }
-
   .projectReportsListButtons > .filters {
     display: flex;
   }
 
   #chart-pills {
-    width: 30rem;
+    width: 84%;
     margin: auto;
     display: inline-flex;
   }
