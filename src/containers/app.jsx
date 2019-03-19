@@ -29,13 +29,14 @@ function App(props) {
     } else if (!userId && !loading) {
       props.authUser(xApiKey).then(({ payload }) => {
         if (payload.status >= 400) {
+          Cookies.remove('X-API-KEY');
           props.authFailure(payload);
         } else {
           props.authSuccess(payload);
         }
       });
     }
-  });
+  }, [xApiKey, storeApiKey]);
 
   return (
     <Fragment>
