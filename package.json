@@ -75,8 +75,6 @@
     "webpack-dev-server": "^3.2.1"
   },
   "dependencies": {
-    "babel-core": "^6.26.3",
-    "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
     "express": "^4.16.4",

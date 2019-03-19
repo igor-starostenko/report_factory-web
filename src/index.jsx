@@ -28,9 +28,6 @@ import User from './containers/user';
 import Users from './containers/users';
 import Scenarios from './containers/scenarios';
 
-require('babel-core/register');
-require('babel-polyfill');
-
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable no-underscore-dangle */
