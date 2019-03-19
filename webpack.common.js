@@ -50,14 +50,5 @@ module.exports = {
         API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
-    new webpack.SourceMapDevToolPlugin({
-      filename: 'report_factory.js.map',
-    }),
   ],
-  devServer: {
-    port: 3001,
-    historyApiFallback: true,
-    contentBase: './public',
-    inline: true,
-  },
 };
