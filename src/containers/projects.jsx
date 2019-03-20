@@ -111,6 +111,8 @@ function Projects(props) {
     };
   }
 
+  const projectsList = Object.entries(projects);
+
   if (!loaded) {
     return <Loading />;
   }
@@ -130,30 +132,33 @@ function Projects(props) {
             </Button>
           )}
         </div>
-        <div className={styles.projectsList}>
-          {Object.keys(projects).map(projectName => {
-            const projectPath = `/projects/${projectName}`;
-            const reportsCount = props.projects[projectName].reports.length;
-            const description = `${reportsCount} reports for the last ${days} days`;
-            const color = colors[colorNames[colorIndex]];
-            /* eslint-disable no-unused-expressions */
-            colorIndex === colorNames.length - 2
-              ? (colorIndex = 0)
-              : (colorIndex += 1);
-            /* eslint-enable no-unused-expressions */
-            return (
-              <ProjectSelection
-                chartOptions={chartOptions}
-                description={description}
-                getChartData={getChartData(projectName, color)}
-                key={projectName}
-                name={projectName}
-                path={projectPath}
-                style={{ backgroundColor: setOpacity(color, 0.05) }}
-              />
-            );
-          })}
-        </div>
+        {projectsList.length > 0 ? (
+          <div className={styles.projectsList}>
+            {projectsList.map(([projectName, project]) => {
+              const projectPath = `/projects/${projectName}`;
+              const reportsCount = project.reports.length;
+              const description = `${reportsCount} reports for the last ${days} days`;
+              const color = colors[colorNames[colorIndex]];
+              colorIndex =
+                colorIndex === colorIndex.length - 2 ? 0 : colorIndex + 1;
+              return (
+                <ProjectSelection
+                  chartOptions={chartOptions}
+                  description={description}
+                  getChartData={getChartData(projectName, color)}
+                  key={projectName}
+                  name={projectName}
+                  path={projectPath}
+                  style={{ backgroundColor: setOpacity(color, 0.05) }}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div className={`${styles.emptyList} loading`}>
+            You haven&#39;t created any projects yet.
+          </div>
+        )}
       </div>
     </Fragment>
   );

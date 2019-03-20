@@ -50,12 +50,3 @@ canvas {
 .fadeIn {
   animation: fadeIn 1s;
 }
-
-.loading {
-  animation: fadeIn 2s;
-  margin-top: 20%;
-  margin-bottom: 20%;
-  font-size: 36px;
-  font-weight: 300;
-  text-align: center;
-}

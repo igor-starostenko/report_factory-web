@@ -36,7 +36,7 @@ function App(props) {
         }
       });
     }
-  }, [xApiKey, storeApiKey]);
+  });
 
   return (
     <Fragment>
