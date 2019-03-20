@@ -43,7 +43,7 @@ function ProjectRspecReports(props) {
   }, []);
 
   if (!edges) {
-    return <Loading />;
+    return <Loading page />;
   }
 
   const projectUrl = `/projects/${projectName}`;

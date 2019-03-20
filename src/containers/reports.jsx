@@ -39,7 +39,7 @@ function Reports(props) {
   }, []);
 
   if (!edges) {
-    return <Loading />;
+    return <Loading page />;
   }
 
   return (

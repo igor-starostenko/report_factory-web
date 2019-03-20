@@ -31,7 +31,7 @@ function Project(props) {
   }, projectName);
 
   if (isEmpty(project)) {
-    return <Loading />;
+    return <Loading page />;
   }
 
   const rspecUrl = `${props.match.url}/rspec`;

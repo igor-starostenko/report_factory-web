@@ -32,7 +32,7 @@ function RspecReport(props) {
   }, [reportId]);
 
   if (!report) {
-    return <Loading />;
+    return <Loading page />;
   }
 
   const { date, examples } = report.attributes;

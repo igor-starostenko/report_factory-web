@@ -82,7 +82,7 @@ function User(props) {
   }, [userId]);
 
   if (!isCurrentUser) {
-    return <Loading />;
+    return <Loading page />;
   }
 
   const { name } = user.data.attributes;

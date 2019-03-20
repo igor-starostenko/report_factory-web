@@ -69,7 +69,7 @@ function UpdateProject(props) {
   }, [projectName]);
 
   if (!hasSameProject) {
-    return <Loading />;
+    return <Loading page />;
   }
 
   function toggleDeleteProjectModal() {

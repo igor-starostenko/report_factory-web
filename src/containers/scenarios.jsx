@@ -31,11 +31,15 @@ function Scenarios(props) {
   }, []);
 
   if (loading) {
-    return <Loading />;
+    return <Loading page />;
   }
 
   if (isEmpty(scenariosList)) {
-    return <div className="loading">Have not submitted any scenarios yet.</div>;
+    return (
+      <div className="loading pageLoading">
+        Have not submitted any scenarios yet.
+      </div>
+    );
   }
 
   return (

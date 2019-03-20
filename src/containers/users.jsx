@@ -41,7 +41,7 @@ function Users(props) {
   }, []);
 
   if (!users.data) {
-    return <Loading />;
+    return <Loading page />;
   }
 
   return (

@@ -13,6 +13,7 @@ import {
   setOpacity,
   validatePositive,
 } from '../helpers/chart_helpers';
+import { pluralize } from '../helpers/format_helpers';
 import detailsStyles from './styles/Details.css';
 import styles from './styles/Projects.css';
 
@@ -23,7 +24,18 @@ function dataForDays(reports, dates) {
 
 const colors = getColors();
 const colorNames = Object.keys(colors);
+let colorIndex = 0;
 const days = 7;
+
+function getColor() {
+  const color = colors[colorNames[colorIndex]];
+  colorIndex = colorIndex === colorNames.length - 2 ? 0 : colorIndex + 1;
+  return color;
+}
+
+function getDescription(count) {
+  return `${pluralize(count, 'report')} for the last ${pluralize(days, 'day')}`;
+}
 
 function formatLabels(daysArray) {
   const weekdays = formatDates(daysArray, { weekday: 'short' });
@@ -111,13 +123,13 @@ function Projects(props) {
     };
   }
 
-  const projectsList = Object.entries(projects);
-
   if (!loaded) {
-    return <Loading />;
+    return <Loading page />;
   }
 
-  let colorIndex = 0;
+  colorIndex = 0;
+  const projectsList = Object.entries(projects);
+
   return (
     <Fragment>
       <br />
@@ -135,20 +147,15 @@ function Projects(props) {
         {projectsList.length > 0 ? (
           <div className={styles.projectsList}>
             {projectsList.map(([projectName, project]) => {
-              const projectPath = `/projects/${projectName}`;
-              const reportsCount = project.reports.length;
-              const description = `${reportsCount} reports for the last ${days} days`;
-              const color = colors[colorNames[colorIndex]];
-              colorIndex =
-                colorIndex === colorIndex.length - 2 ? 0 : colorIndex + 1;
+              const color = getColor();
               return (
                 <ProjectSelection
                   chartOptions={chartOptions}
-                  description={description}
+                  description={getDescription(project.reports.length)}
                   getChartData={getChartData(projectName, color)}
                   key={projectName}
                   name={projectName}
-                  path={projectPath}
+                  path={`/projects/${projectName}`}
                   style={{ backgroundColor: setOpacity(color, 0.05) }}
                 />
               );

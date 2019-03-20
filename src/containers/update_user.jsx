@@ -145,7 +145,7 @@ function UpdateUser(props) {
   }
 
   if (!isCurrentUser) {
-    return <Loading />;
+    return <Loading page />;
   }
 
   const userName = getValue(user, 'data.attributes.name');

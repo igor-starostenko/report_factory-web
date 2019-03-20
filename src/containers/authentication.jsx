@@ -19,7 +19,7 @@ export default ComonentRequiresAuthentication => {
     return (
       <Fragment>
         {!userId || !xApiKey ? (
-          <Loading type="grow" color="info" />
+          <Loading page type="grow" color="info" />
         ) : (
           <ComonentRequiresAuthentication {...props} />
         )}
