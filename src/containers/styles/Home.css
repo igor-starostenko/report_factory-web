@@ -1,5 +1,5 @@
 .homeContainer {
-  margin-top: 2em;
+  margin-top: 4em;
   min-height: 500px;
   display: flex;
   align-items: center;
@@ -12,5 +12,5 @@
 }
 
 .homeLogin {
-  margin-top: 2em;
+  margin-top: 1em;
 }

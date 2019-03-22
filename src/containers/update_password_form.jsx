@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React, { useEffect } from 'react';
+import { PropTypes } from 'prop-types';
+import { Form, Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import getValue from 'lodash/get';
+import pick from 'lodash/pick';
 import { FormField, FormErrors } from '../components';
 import {
   updateUser,
@@ -11,7 +13,7 @@ import {
 } from '../actions/users_actions';
 
 const update = (values, dispatch, { userId, xApiKey, reset }) => {
-  dispatch(updateUser(userId, _.pick(values, 'password'), xApiKey)).then(
+  dispatch(updateUser(userId, pick(values, 'password'), xApiKey)).then(
     response => {
       reset();
       if (!response.payload.data) {
@@ -22,51 +24,79 @@ const update = (values, dispatch, { userId, xApiKey, reset }) => {
   );
 };
 
-class UpdatePasswordForm extends Component {
-  componentWillUnmount() {
-    this.props.resetMe();
-  }
+function UpdatePasswordForm(props) {
+  useEffect(() => () => props.resetMe(), []);
 
-  render() {
-    const errors = _.get(this.props.editUser, 'error');
+  const { editUser, handleSubmit } = props;
+  const errors = getValue(editUser, 'error');
 
-    return (
-      <form onSubmit={this.props.handleSubmit}>
-        <Field
-          label="New Password"
-          name="password"
-          type="password"
-          component={FormField}
-        />
-        <Field
-          label="Confirm Password"
-          name="confirm"
-          type="password"
-          component={FormField}
-        />
-        <FormErrors errors={errors} />
-      </form>
-    );
-  }
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field
+        props={{
+          placeholder: 'New Password',
+          type: 'password',
+          id: 'password',
+          label: 'Password',
+        }}
+        name="password"
+        component={FormField}
+      />
+      <Field
+        props={{
+          placeholder: 'Confirm Password',
+          type: 'password',
+          id: 'confirm',
+          label: 'Confirm Password',
+        }}
+        name="confirm"
+        component={FormField}
+      />
+      <FormErrors errors={errors} />
+    </Form>
+  );
 }
+
+UpdatePasswordForm.propTypes = {
+  resetMe: PropTypes.func.isRequired,
+  editUser: PropTypes.shape({
+    data: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      attributes: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
+    error: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+  resetMe: () => dispatch(resetEditUser()),
+  dispatch,
+});
 
 const validate = ({ password, confirm }) => {
   const errors = {};
 
   if (!/(?=.*[A-Z])/.test(password)) {
-    errors.password = 'Password needs to have at least one upper case letter.';
+    errors.password = 'Password has to have at least one upper case letter.';
   }
 
   if (!/(?=.*[a-z])/.test(password)) {
-    errors.password = 'Password needs to have at least one lower case letter.';
+    errors.password = 'Password has to have at least one lower case letter.';
   }
 
   if (!/(?=.*\d)/.test(password)) {
-    errors.password = 'Password needs to have at least one digit.';
+    errors.password = 'Password has to have at least one digit.';
   }
 
   if (!/[^.]{8,105}$/.test(password)) {
-    errors.password = 'Password must be between 8 and 105 characters long.';
+    errors.password = 'Password need to be between 8 and 105 characters long.';
   }
 
   if (password !== confirm) {
@@ -77,11 +107,6 @@ const validate = ({ password, confirm }) => {
   // If errors has *any* properties, redux form assumes form is invalid
   return errors;
 };
-
-const mapDispatchToProps = dispatch => ({
-  resetMe: () => dispatch(resetEditUser()),
-  dispatch,
-});
 
 const mapStateToProps = state => ({
   editUser: state.users.editUser,

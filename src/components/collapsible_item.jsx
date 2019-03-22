@@ -1,50 +1,46 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { PropTypes } from 'prop-types';
+import { Collapse } from 'reactstrap';
 import styles from './styles/CollapsibleItem.css';
 
-export default class CollapsibleItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { expanded: false };
-    this.handleClick = this.handleClick.bind(this);
-  }
+export default function CollapsibleItem(props) {
+  const [isOpen, setOpen] = useState(false);
+  const { children, title } = props;
 
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(this.props.title, nextProps.title)) {
-      if (this.state.expanded) {
-        this.setState({ expanded: false });
-      }
+  useEffect(() => {
+    setOpen(false);
+  }, [title]);
+
+  function handleClick() {
+    if (!isOpen) {
+      props.onExpand();
     }
+    setOpen(!isOpen);
   }
 
-  expandedDetails() {
-    if (this.state.expanded) {
-      return (
-        <div className={styles.expandedDetails}>
-          {this.props.details || this.props.renderDetails()}
-        </div>
-      );
-    }
-    return <div className={styles.collapsedDetails} />;
-  }
-
-  handleClick() {
-    if (this.props.onExpand && !this.state.expanded) {
-      this.props.onExpand();
-    }
-    this.setState(prevState => ({ expanded: !prevState.expanded }));
-  }
-
-  render() {
-    return (
-      /* eslint-disable jsx-a11y/click-events-have-key-events */
-      /* eslint-disable jsx-a11y/no-static-element-interactions */
-      <div className={this.props.className} onClick={this.handleClick}>
-        <div className={styles.collapsibleTitle}>{this.props.title}</div>
-        {this.expandedDetails()}
-      </div>
-      /* eslint-enable jsx-a11y/click-events-have-key-events */
-      /* eslint-enable jsx-a11y/no-static-element-interactions */
-    );
-  }
+  return (
+    <div
+      className={props.className}
+      onClick={handleClick}
+      role="menuitem"
+      tabIndex={0}
+    >
+      <div className={styles.collapsibleTitle}>{title}</div>
+      <Collapse isOpen={isOpen}>
+        <div className={styles.expandedDetails}>{children}</div>
+      </Collapse>
+    </div>
+  );
 }
+
+CollapsibleItem.propTypes = {
+  className: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.element,
+  onExpand: PropTypes.func,
+};
+
+CollapsibleItem.defaultProps = {
+  children: <div />,
+  onExpand: () => {},
+};

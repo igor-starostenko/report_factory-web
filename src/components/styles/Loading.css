@@ -1,0 +1,25 @@
+.loading {
+  animation: fadeIn 2s;
+  margin-top: 20%;
+  margin-bottom: 20%;
+  font-size: 36px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.loading>div {
+  margin-left: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  vertical-align: middle;
+}
+
+.pageLoading {
+  margin-top: 40%;
+}
+
+@media only screen and (max-width: 767px) {
+  .pageLoading {
+    margin-top: 80%;
+  }
+}

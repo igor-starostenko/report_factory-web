@@ -1,82 +1,47 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { PropTypes } from 'prop-types';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-export default class ConfirmModal extends React.Component {
-  buttonColor() {
-    return this.props.confirm === 'Delete' ? 'btn-danger' : 'btn-info';
-  }
+export default function ConfirmModal(props) {
+  const { toggle, isOpen, children, title, cancel, submit } = props;
 
-  renderCloseButton() {
-    return (
-      <button
-        className="close"
-        type="button"
-        data-dismiss="modal"
-        {...this.props.close}
-      >
-        ×
-      </button>
-    );
-  }
-
-  renderDivider() {
-    if (this.props.submit) {
-      return <div className="divider" />;
-    }
-    return <div />;
-  }
-
-  renderCancelButton() {
-    return (
-      <button
-        className="btn btn-default btn-simple"
-        data-dismiss="modal"
-        type="button"
-        {...this.props.cancel}
-      >
-        {this.props.cancelText}
-      </button>
-    );
-  }
-
-  renderSubmitButton() {
-    if (this.props.submit) {
-      return (
-        <button
-          className={`btn ${this.buttonColor()} btn-simple`}
-          type="submit"
-          data-dismiss="modal"
-          {...this.props.submit}
-        >
-          {this.props.submitText}
-        </button>
-      );
-    }
-    return <div />;
-  }
-
-  render() {
-    return (
-      <div
-        className="modal fade in"
-        id={this.props.id}
-        tabIndex="-1"
-        role="dialog"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              {this.renderCloseButton()}
-              <h4 className="modal-title">{this.props.title}</h4>
-            </div>
-            <div className="modal-body">{this.props.content}</div>
-            <div className="modal-footer">
-              {this.renderCancelButton()}
-              {this.renderDivider()}
-              {this.renderSubmitButton()}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  return (
+    <Modal toggle={toggle} isOpen={isOpen}>
+      <ModalHeader toggle={toggle}>{title}</ModalHeader>
+      <ModalBody>{children}</ModalBody>
+      <ModalFooter>
+        <Button color="link" onClick={toggle} {...cancel} />
+        {submit.children && (
+          <Fragment>
+            <div className="divider" />
+            <Button type="submit" {...submit} />
+          </Fragment>
+        )}
+      </ModalFooter>
+    </Modal>
+  );
 }
+
+ConfirmModal.propTypes = {
+  toggle: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  children: PropTypes.element.isRequired,
+  title: PropTypes.string.isRequired,
+  submit: PropTypes.shape({
+    onClick: PropTypes.func.isRequired,
+    children: PropTypes.string.isRequired,
+  }),
+  cancel: PropTypes.shape({
+    children: PropTypes.string.isRequired,
+  }),
+};
+
+ConfirmModal.defaultProps = {
+  submit: {
+    onClick: () => {},
+    children: '',
+  },
+  cancel: {
+    children: 'Ok',
+  },
+};

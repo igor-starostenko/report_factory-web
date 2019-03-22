@@ -1,5 +1,9 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React, { useState, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
+import ceil from 'lodash/ceil';
+import getValue from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import map from 'lodash/map';
 import { Scenario } from '.';
 import { removeSpecialCharacters } from '../helpers/format_helpers';
 import {
@@ -8,72 +12,49 @@ import {
 } from '../helpers/scenarios_helpers';
 
 export default ComposedComponent => {
-  class ScenariosList extends Component {
-    constructor(state) {
-      super(state);
-      this.state = {
-        scenarios: [],
-        page: 1,
-        perPage: 10,
-        total: 0,
-        search: [],
-      };
-      this.setPage = this.setPage.bind(this);
-      this.setPerPage = this.setPerPage.bind(this);
-      this.setSearch = this.setSearch.bind(this);
-      this.setScenarios = this.setScenarios.bind(this);
-      this.renderScenarios = this.renderScenarios.bind(this);
+  function ScenariosList(props) {
+    const [scenarios, setScenarios] = useState([]);
+    const [page, setPage] = useState(1);
+    const [perPage, setPerPage] = useState(10);
+    const [total, setTotal] = useState(0);
+    const [search, setSearch] = useState([]);
+
+    const { scenariosDetails, scenariosList, xApiKey } = props;
+
+    function clickPage(obj) {
+      setPage(obj.page);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-      return (
-        !_.isEqual(nextState, this.state) || !_.isEqual(nextProps, this.props)
-      );
+    function clickPerPage(obj) {
+      setPerPage(obj.perPage);
     }
 
-    componentDidUpdate() {
-      this.setScenarios();
-    }
-
-    setScenarios() {
-      const scenarios = this.props.scenariosList;
-      const filteredScenarios = filterScenarios(scenarios, this.state.search);
-      const totalPages = _.ceil(this.state.total / this.state.perPage);
-      const newState = {
-        scenarios: filteredScenarios,
-        total: filteredScenarios.length,
-      };
-      if (totalPages > 0 && totalPages < this.state.page) {
-        return this.setState(_.merge(newState, { page: totalPages }));
+    function setFilteredScenarios() {
+      const filteredScenarios = filterScenarios(scenariosList, search);
+      const totalPages = ceil(filteredScenarios.length / perPage);
+      setScenarios(filteredScenarios);
+      setTotal(filteredScenarios.length);
+      if (totalPages > 0 && totalPages < page) {
+        setPage(totalPages);
       }
-      return this.setState(newState);
     }
 
-    setPage({ page }) {
-      this.setState({ page });
-    }
+    useEffect(() => {
+      setFilteredScenarios();
+    }, [scenariosList, page, perPage, search]);
 
-    setPerPage({ perPage }) {
-      this.setState({ perPage });
-    }
-
-    setSearch({ search }) {
-      this.setState({ search });
-    }
-
-    renderScenarios({ withProjectName }) {
-      const { scenarios, page, perPage } = this.state;
-      if (_.isEmpty(scenarios)) {
-        return <div className="loading">No scenarios found</div>;
+    function renderScenarios({ withProjectName }) {
+      if (isEmpty(scenarios)) {
+        return <div className="loading">No scenarios found.</div>;
       }
       let childKey = 0;
-      return _.map(slicePageScenarios(scenarios, page, perPage), scenario => {
+      return map(slicePageScenarios(scenarios, page, perPage), scenario => {
         childKey += 1;
         const formattedScenarioName = removeSpecialCharacters(
           scenario.fullDescription,
         );
         const path = `${scenario.projectName}.${formattedScenarioName}`;
-        const scenarioDetails = _.get(this.props.scenariosDetails, path);
+        const scenarioDetails = getValue(scenariosDetails, path);
         return (
           <Scenario
             title={scenario.fullDescription}
@@ -81,28 +62,44 @@ export default ComposedComponent => {
             withProjectName={withProjectName}
             status={scenario.status}
             scenarioDetails={scenarioDetails}
-            queryScenario={this.props.queryScenario}
-            xApiKey={this.props.xApiKey}
+            queryScenario={props.queryScenario}
+            xApiKey={xApiKey}
             key={childKey}
           />
         );
       });
     }
 
-    render() {
-      return (
-        <ComposedComponent
-          setScenarios={this.setScenarios}
-          setPage={this.setPage}
-          setPerPage={this.setPerPage}
-          setSearch={this.setSearch}
-          renderScenarios={this.renderScenarios}
-          {...this.props}
-          {...this.state}
-        />
-      );
-    }
+    return (
+      <ComposedComponent
+        page={page}
+        perPage={perPage}
+        renderScenarios={renderScenarios}
+        setScenarios={setFilteredScenarios}
+        setPage={clickPage}
+        setPerPage={clickPerPage}
+        setSearch={setSearch}
+        search={search}
+        scenarios={scenarios}
+        total={total}
+        {...props}
+      />
+    );
   }
+
+  ScenariosList.propTypes = {
+    scenariosDetails: PropTypes.shape({
+      [PropTypes.string]: PropTypes.object,
+    }),
+    scenariosList: PropTypes.arrayOf(PropTypes.object),
+    xApiKey: PropTypes.string.isRequired,
+    queryScenario: PropTypes.func.isRequired,
+  };
+
+  ScenariosList.defaultProps = {
+    scenariosDetails: {},
+    scenariosList: [],
+  };
 
   return ScenariosList;
 };

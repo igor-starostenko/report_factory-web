@@ -15,17 +15,18 @@
 
 .detailsName {
   font-size: 52px;
-  font-weight: 400;
 }
 
 .detailsButtons {
-  margin: auto;
-  margin-right: 1.5rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: 1rem;
   grid-column: 7 / -1;
 }
 
 .detailsButtons > .btn {
-  margin-left: 1em;
+  margin-left: .5em;
 }
 
 .detailsTotal {
@@ -106,7 +107,7 @@
 
   .detailsButtons > .btn {
     margin: auto;
-    width: 30rem;
+    width: 84%;
   }
 
   .detailsTotal {
@@ -118,7 +119,7 @@
   }
 
   #chart-pills {
-    width: 30rem;
+    width: 84%;
     margin: auto;
     display: inline-flex;
   }

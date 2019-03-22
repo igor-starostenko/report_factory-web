@@ -8,8 +8,18 @@
   margin-bottom: 4em;
 }
 
+.emptyList {
+  grid-column: 1 / -1;
+  margin-bottom: 4em;
+}
+
 @media only screen and (max-width: 767px) {
   .projectsList {
+    grid-area: c;
+    margin-bottom: 4em;
+  }
+
+  .emptyList {
     grid-area: c;
     margin-bottom: 4em;
   }

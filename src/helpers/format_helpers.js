@@ -1,10 +1,13 @@
-import _ from 'lodash';
+import round from 'lodash/round';
 
 export const capitalizeFirstLetter = string =>
   string.charAt(0).toUpperCase() + string.slice(1);
 
 export const removeSpecialCharacters = string =>
   string.replace(/[^\w\s]/gi, '');
+
+export const pluralize = (count, noun, suffix = 's') =>
+  `${count} ${noun}${count !== 1 ? suffix : ''}`;
 
 export const formatTotalReports = count => {
   if (!count || count < 1) {
@@ -14,7 +17,7 @@ export const formatTotalReports = count => {
 };
 
 export const formatTotalString = reports => {
-  const totalReportsCount = _.keys(reports).length;
+  const totalReportsCount = Object.keys(reports).length;
   return formatTotalReports(totalReportsCount);
 };
 
@@ -57,7 +60,6 @@ export const formatDateAgo = date => {
   return formatTime(seconds);
 };
 
-/* eslint-disable arrow-body-style */
 export const formatDuration = seconds => {
   const date = new Date(parseInt(seconds * 1000, 10));
   const hours = date.toISOString().substr(11, 2);
@@ -66,7 +68,6 @@ export const formatDuration = seconds => {
   }
   return date.toISOString().substr(14, 5);
 };
-/* eslint-enable arrow-body-style */
 
 const formatSeconds = (seconds, rounded = true) => {
   if (seconds === 1) {
@@ -91,7 +92,7 @@ const formatHours = hours => {
 };
 
 export const formatDurationString = seconds => {
-  const roundedSeconds = _.round(seconds, 3);
+  const roundedSeconds = round(seconds, 3);
   if (seconds < 1) {
     return 'Less than a second';
   }

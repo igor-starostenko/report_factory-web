@@ -1,18 +1,21 @@
 # In your Dockerfile.
 FROM node:8.9.4
 
-# The base node image sets a very verbose log level.
-ENV NPM_CONFIG_LOGLEVEL warn
+# Set default project directory
+WORKDIR project
+
+# Set node environment
+ENV NPM_CONFIG_LOGLEVEL=warn NODE_ENV=production
 
 # Install dependencies
-COPY package.json package.json
+COPY package.json package-lock.json ./
 RUN CI=true npm install
 
 # Copy all local files into the image.
 COPY . .
 
 # Build for production.
-RUN npm run build --production
+RUN npm run build
 
 # Set the command to start the node server.
 CMD node server

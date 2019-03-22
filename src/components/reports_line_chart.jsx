@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { LineChart } from '.';
 import {
   getColors,
@@ -65,7 +66,7 @@ const chartData = {
   },
 };
 
-const getChartData = (reports, activeFilter) => {
+const fetchChartData = (reports, activeFilter) => {
   const { units, labels, dataForDate } = chartData[activeFilter]();
   const failedReports = filterByStatus(reports, 'failed');
   const passedReports = filterByStatus(reports, 'passed');
@@ -137,37 +138,44 @@ const chartOptions = {
   },
 };
 
-export default class ReportsLineChart extends Component {
-  constructor(state) {
-    super(state);
-    this.getChartData = this.getChartData.bind(this);
+export default function ReportsLineChart(props) {
+  const {
+    reports,
+    filters: { filterName },
+    totalCount,
+  } = props;
+
+  function getChartData() {
+    return fetchChartData(reports, filterName);
   }
 
-  getChartData() {
-    const {
-      reports,
-      filters: { filterName },
-    } = this.props;
-    return getChartData(reports, filterName);
-  }
-
-  render() {
-    if (!this.props.totalCount || this.props.totalCount === 0) {
-      return (
-        <div className="loading">
-          No reports submitted for this project yet.
-        </div>
-      );
-    }
-
+  if (!totalCount || totalCount === 0) {
     return (
-      <LineChart
-        activeFilter={this.props.filters.filterName}
-        filterAction={this.props.filterAction}
-        filterMapping={filterMapping}
-        getChartData={this.getChartData}
-        options={chartOptions}
-      />
+      <div className="loading">No reports submitted for this project yet.</div>
     );
   }
+
+  return (
+    <LineChart
+      activeFilter={filterName}
+      filterAction={props.filterAction}
+      filterMapping={filterMapping}
+      getChartData={getChartData}
+      options={chartOptions}
+    />
+  );
 }
+
+ReportsLineChart.propTypes = {
+  reports: PropTypes.arrayOf(PropTypes.object),
+  filters: PropTypes.shape({
+    filterName: PropTypes.string.isRequired,
+  }).isRequired,
+  filterAction: PropTypes.func.isRequired,
+  totalCount: PropTypes.number,
+};
+
+ReportsLineChart.defaultProps = {
+  reports: [],
+  totalCount: 0,
+};

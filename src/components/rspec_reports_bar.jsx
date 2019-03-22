@@ -1,5 +1,11 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React, { Fragment } from 'react';
+import { PropTypes } from 'prop-types';
+import constant from 'lodash/constant';
+import isEmpty from 'lodash/isEmpty';
+import map from 'lodash/map';
+import reverse from 'lodash/reverse';
+import takeRight from 'lodash/takeRight';
+import times from 'lodash/times';
 import { Bar } from 'react-chartjs-2';
 import { formatDurationString } from '../helpers/format_helpers';
 import {
@@ -8,24 +14,22 @@ import {
   validateInteger,
 } from '../helpers/chart_helpers';
 
-/* eslint-disable arrow-body-style */
 const lastReports = (reports, number) => {
-  return _.reverse(_.takeRight(reports, number));
+  return reverse(takeRight(reports, number));
 };
-/* eslint-enable arrow-body-style */
 
 const colors = getColors();
 
 const getDuration = (reports, number = 10) => {
-  if (_.isEmpty(reports)) {
-    return _.times(number, _.constant(0));
+  if (isEmpty(reports)) {
+    return times(number, constant(0));
   }
   return reports.map(report => report.summary.duration);
 };
 
 const getStatus = (reports, number = 10) => {
-  if (_.isEmpty(reports)) {
-    return _.times(number, _.constant(colors.grey));
+  if (isEmpty(reports)) {
+    return times(number, constant(colors.grey));
   }
   return reports.map(report => {
     const { failureCount } = report.summary;
@@ -36,11 +40,9 @@ const getStatus = (reports, number = 10) => {
   });
 };
 
-/* eslint-disable arrow-body-style */
 const setAllOpacity = (barColors, opacity = 1) => {
-  return _.map(barColors, c => setOpacity(c, opacity));
+  return map(barColors, c => setOpacity(c, opacity));
 };
-/* eslint-enable arrow-body-style */
 
 const getChartData = (reports, displayedNumber) => {
   if (typeof displayedNumber !== 'number') {
@@ -51,7 +53,7 @@ const getChartData = (reports, displayedNumber) => {
   const barColors = getStatus(last, displayedNumber);
 
   return {
-    labels: _.times(displayedNumber, _.constant('')),
+    labels: times(displayedNumber, constant('')),
     datasets: [
       {
         backgroundColor: setAllOpacity(barColors, 0.4),
@@ -102,23 +104,45 @@ const options = {
   },
 };
 
-export default class RspecReportsBar extends Component {
-  shouldComponentUpdate(nextProps) {
-    return !_.isEqual(this.props.reports, nextProps.reports);
+function RspecReportsBar(props) {
+  const { edges, displayCount } = props;
+  // map edges inside the component to prevent rerender;
+  const reports = edges.map(edge => edge.node);
+
+  if (isEmpty(reports)) {
+    return <Fragment />;
   }
 
-  render() {
-    if (_.isEmpty(this.props.reports)) {
-      return <div />;
-    }
-
-    return (
-      <Bar
-        data={getChartData(this.props.reports, this.props.displayCount)}
-        options={options}
-        height={350}
-        redraw
-      />
-    );
-  }
+  return (
+    <Bar
+      data={getChartData(reports, displayCount)}
+      options={options}
+      height={350}
+      redraw
+    />
+  );
 }
+
+RspecReportsBar.propTypes = {
+  edges: PropTypes.arrayOf(
+    PropTypes.shape({
+      node: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        report: PropTypes.shape({
+          createdAt: PropTypes.string.isRequired,
+          projectName: PropTypes.string.isRequired,
+          reportableType: PropTypes.string.isRequired,
+        }).isRequired,
+        summary: PropTypes.shape({
+          duration: PropTypes.number.isRequired,
+          exampleCount: PropTypes.number.isRequired,
+          failureCount: PropTypes.number.isRequired,
+          pendingCount: PropTypes.number.isRequired,
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
+  ).isRequired,
+  displayCount: PropTypes.number.isRequired,
+};
+
+export default React.memo(RspecReportsBar);

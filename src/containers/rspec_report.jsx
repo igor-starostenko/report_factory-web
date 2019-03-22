@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-// import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import {
+  Loading,
   RspecReportDetails,
   RspecReportPieChart,
   RspecFeatureChart,
@@ -20,53 +21,67 @@ const formatDateOptions = {
   minute: 'numeric',
 };
 
-class RspecReport extends Component {
-  componentDidMount() {
-    const { report, reportId } = this.props;
+function RspecReport(props) {
+  const { report, reportId, xApiKey } = props;
+
+  useEffect(() => {
     if (!report || report.id !== reportId) {
-      this.props.getRspecReport(reportId, this.props.xApiKey);
+      props.getRspecReport(reportId, xApiKey);
     }
+    return () => props.resetRspecReport();
+  }, [reportId]);
+
+  if (!report) {
+    return <Loading page />;
   }
 
-  componentWillUnmount() {
-    this.props.resetRspecReport();
-  }
+  const { date, examples } = report.attributes;
+  const createdAt = formatDate(new Date(date.created_at), formatDateOptions);
 
-  render() {
-    const { reportId, report } = this.props;
-
-    if (!report) {
-      return <div className="loading">Loading...</div>;
-    }
-
-    const { date, examples } = report.attributes;
-    const createdAt = formatDate(new Date(date.created_at), formatDateOptions);
-
-    return (
-      <div>
-        <Link to="/reports">Back to reports</Link>
-        <div className={styles.reportContainer}>
-          <div className={styles.reportHeader}>
-            <div className={styles.reportId}># {reportId}</div>
-          </div>
-          <div className={styles.reportCreated}>Created on {createdAt}</div>
-          <div className={styles.reportDetails}>
-            <RspecReportDetails report={report} />
-          </div>
-          <div className={styles.reportFeatureChart}>
-            <RspecFeatureChart examples={examples} />
-          </div>
-          <div className={styles.reportChart}>
-            <RspecReportPieChart examples={examples} />
-          </div>
-          <div className={styles.reportExamples}>
-            <RspecReportExamplesList examples={examples} />
-          </div>
+  return (
+    <Fragment>
+      <Link to="/reports">Back to reports</Link>
+      <div className={styles.reportContainer}>
+        <div className={styles.reportHeader}>
+          <h1 className={styles.reportId}># {reportId}</h1>
+        </div>
+        <div className={styles.reportCreated}>Created on {createdAt}</div>
+        <div className={styles.reportDetails}>
+          <RspecReportDetails report={report} />
+        </div>
+        <div className={styles.reportFeatureChart}>
+          <RspecFeatureChart examples={examples} />
+        </div>
+        <div className={styles.reportChart}>
+          <RspecReportPieChart examples={examples} />
+        </div>
+        <div className={styles.reportExamples}>
+          <RspecReportExamplesList examples={examples} />
         </div>
       </div>
-    );
-  }
+    </Fragment>
+  );
 }
+
+RspecReport.propTypes = {
+  report: PropTypes.shape({
+    attributes: PropTypes.shape({
+      date: PropTypes.shape({
+        created_at: PropTypes.string.isRequired,
+      }).isRequired,
+      examples: PropTypes.arrayOf(PropTypes.object),
+    }).isRequired,
+    id: PropTypes.string.isRequired,
+  }),
+  reportId: PropTypes.string.isRequired,
+  xApiKey: PropTypes.string.isRequired,
+  getRspecReport: PropTypes.func.isRequired,
+  resetRspecReport: PropTypes.func.isRequired,
+};
+
+RspecReport.defaultProps = {
+  report: null,
+};
 
 const mapStateToProps = (state, ownProps) => ({
   reportId: ownProps.match.params.id,

@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React, { useEffect, Fragment } from 'react';
+import { PropTypes } from 'prop-types';
+import { Field, Form, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { Button, FormField, FormRadio, FormErrors } from '../components';
+import getValue from 'lodash/get';
+import { FormField, FormRadio, FormErrors, Button } from '../components';
 import {
   editUserSuccess,
   editUserFailure,
@@ -10,101 +11,106 @@ import {
 } from '../actions/users_actions';
 import styles from './styles/Details.css';
 
-class EditUserForm extends Component {
-  componentWillUnmount() {
-    this.props.resetMe();
-  }
+function EditUserForm(props) {
+  const {
+    isAdmin,
+    isCurrent,
+    handleSubmit,
+    title,
+    backPath,
+    errors,
+    hasPassword,
+    children,
+    submitText,
+  } = props;
 
-  onSubmit(values, dispatch) {
-    this.props.action(values).then(response => {
+  // resets on componentWillUnmount()
+  useEffect(() => () => props.resetMe());
+
+  function onSubmit(values, dispatch) {
+    props.action(values).then(response => {
       if (!response.payload.data) {
         return dispatch(editUserFailure(response.payload));
       }
       dispatch(editUserSuccess(response.payload));
-      return this.props.history.push('/users');
+      return props.history.push('/users');
     });
   }
 
-  renderSideButton() {
-    if (this.props.sideButton) {
-      return this.props.sideButton();
-    }
-    return <div />;
-  }
-
-  renderPassword() {
-    if (this.props.hasPassword) {
-      return (
+  return (
+    <div className={styles.detailsContainer}>
+      <div className={styles.detailsHeader}>
+        <h1 className={styles.detailsName}>{title}</h1>
+      </div>
+      {children}
+      <Form className={styles.detailsContent} onSubmit={handleSubmit(onSubmit)}>
         <Field
-          label="Password"
-          name="password"
-          placeholder="Enter User password"
-          type="password"
+          label="User Name"
+          name="name"
+          placeholder="Enter User name"
           component={FormField}
         />
-      );
-    }
-    return <div />;
-  }
-
-  renderType(value) {
-    if (this.props.isAdmin || !this.props.isCurrent) {
-      return <Field name="type" options={[{ value }]} component={FormRadio} />;
-    }
-    return <div />;
-  }
-
-  render() {
-    /* eslint-disable object-curly-newline */
-    const { handleSubmit, title, backPath, editUser } = this.props;
-    /* eslint-enable object-curly-newline */
-    const errors = _.get(editUser, 'error');
-
-    /* eslint-disable react/jsx-no-bind */
-    return (
-      <div className={styles.detailsContainer}>
-        <div className={styles.detailsHeader}>
-          <div className={styles.detailsName}>{title}</div>
-        </div>
-        {this.renderSideButton()}
-        <form
-          className={styles.detailsContent}
-          onSubmit={handleSubmit(this.onSubmit.bind(this))}
-        >
+        <Field
+          label="Email"
+          name="email"
+          placeholder="Enter User email"
+          component={FormField}
+        />
+        {hasPassword && (
           <Field
-            label="User Name"
-            name="name"
-            placeholder="Enter User name"
+            label="Password"
+            name="password"
+            placeholder="Enter User password"
+            type="password"
             component={FormField}
           />
-          <Field
-            label="Email"
-            name="email"
-            placeholder="Enter User email"
-            component={FormField}
-          />
-          {this.renderPassword()}
-          {this.renderType('Tester')}
-          {this.renderType('Admin')}
-          <FormErrors errors={errors} />
-          <div className="formButtons">
-            <Button
-              type="submit"
-              color="primary"
-              text={this.props.submitText}
+        )}
+        {(isAdmin || !isCurrent) && (
+          <Fragment>
+            <Field
+              name="type"
+              options={[{ value: 'Tester' }, { value: 'Admin' }]}
+              component={FormRadio}
             />
-            <Button to={backPath} text="Cancel" />
-          </div>
-        </form>
-      </div>
-    );
-    /* eslint-enable react/jsx-no-bind */
-  }
+          </Fragment>
+        )}
+        <FormErrors errors={errors} />
+        <div className="formButtons">
+          <Button type="submit" color="primary">
+            {submitText}
+          </Button>
+          <Button to={backPath}>Cancel</Button>
+        </div>
+      </Form>
+    </div>
+  );
 }
 
-/* eslint-disable object-curly-newline */
+EditUserForm.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
+  isCurrent: PropTypes.bool.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  backPath: PropTypes.string.isRequired,
+  errors: PropTypes.arrayOf(PropTypes.string),
+  hasPassword: PropTypes.bool,
+  children: PropTypes.element,
+  submitText: PropTypes.string.isRequired,
+  resetMe: PropTypes.func.isRequired,
+  action: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+EditUserForm.defaultProps = {
+  hasPassword: false,
+  errors: [],
+  children: <div />,
+};
+
+/* eslint-disable-next-line object-curly-newline */
 const validate = ({ name, email, password, type }) => {
-  /* eslint-enable object-curly-newline */
   const errors = {};
 
   if (!name) {
@@ -156,7 +162,9 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state, ownProps) => ({
   userId: ownProps.match.params.id,
-  editUser: state.users.editUser,
+  editUser: getValue(state.users.editUser, 'error'),
+  isCurrent:
+    getValue(state.users.currentUser, 'data.id') === ownProps.match.params.id,
 });
 
 export default reduxForm({

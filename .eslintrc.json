@@ -66,7 +66,6 @@
     "react/destructuring-assignment": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": "off",
-    "react/prop-types": "off",
     "semi": "off"
   }
 }

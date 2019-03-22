@@ -15,7 +15,6 @@
 
 .reportsTitle {
   font-size: 52px;
-  font-weight: 400;
 }
 
 .reportsSearch {
@@ -100,7 +99,7 @@
   }
 
   #chart-pills {
-    width: 30rem;
+    width: 84%;
     margin: auto;
     display: inline-flex;
   }

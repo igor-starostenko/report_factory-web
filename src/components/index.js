@@ -1,4 +1,3 @@
-import App from './app';
 import Button from './button';
 import CollapsibleItem from './collapsible_item';
 import ConfirmModal from './confirm_modal';
@@ -8,6 +7,8 @@ import FormErrors from './form_errors';
 import FormField from './form_field';
 import FormRadio from './form_radio';
 import LineChart from './line_chart';
+import Loading from './loading';
+import Navigation from './navigation';
 import NotFound from './not_found';
 import Pagination from './pagination';
 import PaginationConnection from './pagination_connection';
@@ -29,7 +30,7 @@ import ScenarioSuccessChart from './scenario_success_chart';
 import UserReportsLineChart from './user_reports_line_chart';
 
 export {
-  App,
+  Navigation,
   Button,
   CollapsibleItem,
   ConfirmModal,
@@ -40,6 +41,7 @@ export {
   FormField,
   FormRadio,
   LineChart,
+  Loading,
   NotFound,
   Pagination,
   PaginationConnection,

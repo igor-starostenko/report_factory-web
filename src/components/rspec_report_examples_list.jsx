@@ -1,78 +1,117 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React, { Fragment } from 'react';
+import { PropTypes } from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
+import map from 'lodash/map';
 import { formatDurationString } from '../helpers/format_helpers';
-import { CollapsibleItem } from '.';
+import { CollapsibleItem, Loading } from '.';
 import styles from './styles/RspecReportExamplesList.css';
 
-const statusName = status => {
-  if (status === 'failed') {
-    return 'failedExample';
-  }
-  if (status === 'passed') {
-    return 'passedExample';
-  }
-  return 'pendingExample';
+const statusClassNames = {
+  failed: 'failedExample',
+  passed: 'passedExample',
+  default: 'pendingExample',
 };
 
-export default class RspecReportExamplesList extends Component {
-  static renderBacktrace(backtraces) {
-    let i = 0;
-    return _.map(backtraces, backtrace => {
-      i += 1;
-      return <p key={i}>{backtrace}</p>;
-    });
+function Backtrace(props) {
+  let i = 0;
+  return map(props.backtraces, backtrace => {
+    i += 1;
+    return <p key={i}>{backtrace}</p>;
+  });
+}
+
+Backtrace.propTypes = {
+  backtraces: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+function ExampleDetails(props) {
+  const { exception, filePath, lineNumber, pendingMessage, runTime } = props;
+
+  const details = {
+    'Line Number': `${filePath}:${lineNumber}`,
+    'Run Time': formatDurationString(runTime),
+  };
+  if (pendingMessage) {
+    details['Pending Message'] = pendingMessage;
+  }
+  if (exception) {
+    details[exception.classname] = exception.message;
+    details.backtrace = <Backtrace backtraces={exception.backtrace} />;
   }
 
-  static renderExampleDetails(example) {
-    const details = {
-      'Line Number': `${example.file_path}:${example.line_number}`,
-      'Run Time': formatDurationString(example.run_time),
-    };
-    if (example.pending_message) {
-      details['Pending Message'] = example.pending_message;
-    }
-    if (example.exception) {
-      details[example.exception.classname] = example.exception.message;
-      details.Backtrace = this.renderBacktrace(example.exception.backtrace);
-    }
-    return _.map(details, (value, key) => (
-      <div className={styles.exampleDetailsRow} key={key}>
-        <div className={styles.exampleDetailsParam}>{key}:</div>
-        <div className={styles.exampleDetailsValue}>{value}</div>
-      </div>
-    ));
+  return map(details, (value, key) => (
+    <div className={styles.exampleDetailsRow} key={key}>
+      <div className={styles.exampleDetailsParam}>{key}:</div>
+      <div className={styles.exampleDetailsValue}>{value}</div>
+    </div>
+  ));
+}
+
+ExampleDetails.propTypes = {
+  filePath: PropTypes.string.isRequired,
+  lineNumber: PropTypes.number.isRequired,
+  pendingMessage: PropTypes.string,
+  exception: PropTypes.shape({
+    classname: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    backtrace: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }),
+  runTime: PropTypes.number,
+};
+
+export default function RspecReportExamplesList(props) {
+  const { examples } = props;
+
+  if (!examples) {
+    return <Loading />;
   }
 
-  renderExamples() {
-    return _.map(this.props.examples, example => {
-      const status = statusName(example.status);
-      return (
-        <CollapsibleItem
-          className={`${styles.example} ${styles[status]}`}
-          title={example.full_description}
-          details={this.constructor.renderExampleDetails(example)}
-          key={example.id}
-        />
-      );
-    });
-  }
-
-  render() {
-    if (!this.props.examples) {
-      return <div className="loading">Loading...</div>;
-    }
-
-    if (_.isEmpty(this.props.examples)) {
-      return (
-        <div className="loading">This report does not have any examples</div>
-      );
-    }
-
+  if (isEmpty(examples)) {
     return (
-      <div>
-        <div className={styles.examplesHeader}>Examples:</div>
-        <div className={styles.reportExamplesList}>{this.renderExamples()}</div>
-      </div>
+      <div className="loading">This report does not have any examples</div>
     );
   }
+
+  return (
+    <Fragment>
+      <div className={styles.examplesHeader}>Examples:</div>
+      <div className={styles.reportExamplesList}>
+        {map(examples, example => {
+          const status =
+            statusClassNames[example.status] || statusClassNames.default;
+          return (
+            <CollapsibleItem
+              className={`${styles.example} ${styles[status]}`}
+              title={example.full_description}
+              key={example.id}
+            >
+              <ExampleDetails
+                filePath={example.file_path}
+                exception={example.exception}
+                lineNumber={example.line_number}
+                pendingMessage={example.pending_message}
+                runTime={example.run_time}
+              />
+            </CollapsibleItem>
+          );
+        })}
+      </div>
+    </Fragment>
+  );
 }
+
+RspecReportExamplesList.propTypes = {
+  examples: PropTypes.arrayOf(
+    PropTypes.shape({
+      file_path: PropTypes.string,
+      exception: PropTypes.object,
+      line_number: PropTypes.number,
+      pending_message: PropTypes.string,
+      run_time: PropTypes.number,
+    }),
+  ),
+};
+
+RspecReportExamplesList.defaultProps = {
+  examples: [],
+};

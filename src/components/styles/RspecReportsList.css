@@ -93,7 +93,15 @@
     font-size: 0.5em;
   }
 
+  .headerRow > div {
+    padding: 0 0.3rem;
+  }
+
   .listRow {
     font-size: 0.6em;
+  }
+
+  .listRow > div {
+    padding: 0 0.3rem;
   }
 }

@@ -42,7 +42,7 @@ export const authSuccess = request => ({
 
 export const authFailure = request => ({
   type: LOGIN_FAILURE,
-  payload: request.json(),
+  payload: request.json ? request.json() : request,
 });
 
 export const signIn = ({ email, password }) => {

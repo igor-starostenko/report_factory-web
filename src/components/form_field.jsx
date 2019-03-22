@@ -1,28 +1,47 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
+import { Input, FormGroup, FormFeedback, Label } from 'reactstrap';
 
-export default class FormField extends Component {
-  render() {
-    const {
-      meta: { touched, error },
-      label,
-      type,
-      placeholder,
-      input,
-    } = this.props;
-    const className = `form-group ${touched && error ? 'has-danger' : ''}`;
+export default function FormField(props) {
+  const {
+    meta: { touched, error },
+    label,
+    placeholder,
+    input,
+    ...rest
+  } = props;
 
-    return (
-      <div className={className}>
-        <label htmlFor={label}>{label}</label>
-        <input
-          className={`${this.props.className} form-control`}
-          id={label}
-          type={type}
-          placeholder={placeholder}
-          {...input}
-        />
-        <div className="text-help error">{touched ? error : ''}</div>
-      </div>
-    );
-  }
+  return (
+    <FormGroup>
+      <Label htmlFor={label}>{label}</Label>
+      <Input
+        id={label}
+        placeholder={placeholder}
+        invalid={touched && !!error}
+        valid={touched && !error}
+        {...input}
+        {...rest}
+      />
+      {touched && <FormFeedback>{error}</FormFeedback>}
+    </FormGroup>
+  );
 }
+
+FormField.propTypes = {
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  errors: PropTypes.arrayOf(PropTypes.string),
+  input: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  }).isRequired,
+  meta: PropTypes.shape({
+    touched: PropTypes.bool.isRequired,
+    error: PropTypes.string,
+  }).isRequired,
+};
+
+FormField.defaultProps = {
+  placeholder: '',
+  errors: [],
+};

@@ -1,8 +1,14 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
-import { Button, ConfirmModal, UserReportsLineChart } from '../components';
+import getValue from 'lodash/get';
+import {
+  Button,
+  ConfirmModal,
+  Loading,
+  UserReportsLineChart,
+} from '../components';
 import {
   getUser,
   logOut,
@@ -13,157 +19,154 @@ import { formatTotalReports } from '../helpers/format_helpers';
 import styles from './styles/Details.css';
 import modalStyles from './styles/Modal.css';
 
-class User extends Component {
-  constructor() {
-    super();
-    this.logOut = this.logOut.bind(this);
-    this.queryUserReports = this.queryUserReports.bind(this);
+function ApiKeyModal(props) {
+  return (
+    <ConfirmModal isOpen={props.isOpen} toggle={props.toggle} title="Api Key">
+      <div className={modalStyles.modalBody}>
+        <h5>Your X-API-KEY:</h5>
+        <h5 className={modalStyles.modalJumbo}>{props.xApiKey}</h5>
+      </div>
+    </ConfirmModal>
+  );
+}
+
+ApiKeyModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
+  xApiKey: PropTypes.string.isRequired,
+};
+
+function User(props) {
+  const [isApiKeyModalOpen, setApiKeyModal] = useState(false);
+
+  const {
+    isAdmin,
+    isCurrent,
+    filters,
+    user,
+    userId,
+    userReports,
+    xApiKey,
+  } = props;
+  const isCurrentUser = user.data && getValue(user, 'data.id') === userId;
+
+  function requestUser() {
+    props.getUser(userId, xApiKey);
   }
 
-  componentDidMount() {
-    this.requestUser();
-    const { userReports, userId } = this.props;
-    if (!_.get(userReports, userId)) {
-      this.queryUserReports(this.getFilters());
-    }
-  }
-
-  componentDidUpdate() {
-    this.requestUser();
-  }
-
-  getFilters() {
-    const { filters, userId } = this.props;
-    if (!filters[userId]) {
-      return { filterName: 'Week', lastDays: 8 };
-    }
-    return filters[userId];
-  }
-
-  requestUser() {
-    const { user, userId } = this.props;
-    if (!user.data || _.get(user, 'data.id') !== userId) {
-      this.props.getUser(userId, this.props.xApiKey);
-    }
-  }
-
-  queryUserReports({ filterName, lastDays, lastMonths }) {
-    const { userId, xApiKey } = this.props;
-    this.props.setUserReportsFilters(userId, {
+  function fetchUserReports({ filterName, lastDays, lastMonths }) {
+    props.setUserReportsFilters(userId, {
       filterName,
       lastDays,
       lastMonths,
     });
-    this.props.queryUserReports(xApiKey, { userId, lastDays, lastMonths });
+    props.queryUserReports(xApiKey, { userId, lastDays, lastMonths });
   }
 
-  logOut() {
-    this.props.logOut(this.props.xApiKey);
-    return this.props.history.push('/');
+  function signOut() {
+    props.logOut(props.xApiKey);
+    return props.history.push('/');
   }
 
-  renderLogout() {
-    if (this.props.isCurrent) {
-      return (
-        <Button
-          onClick={this.logOut}
-          color="warning"
-          fill="true"
-          text="Log Out"
-        />
-      );
+  function toggleApiKeyModal() {
+    setApiKeyModal(!isApiKeyModalOpen);
+  }
+
+  useEffect(() => {
+    if (!isCurrentUser) {
+      requestUser(props);
     }
-    return <div />;
-  }
-
-  renderApiKeyModal() {
-    const modalContent = (
-      <div className={modalStyles.modalBody}>
-        <h5>Your X-API-KEY:</h5>
-        <h5 className={modalStyles.modalJumbo}>{this.props.xApiKey}</h5>
-      </div>
-    );
-    if (this.props.isCurrent) {
-      return (
-        <ConfirmModal
-          id="viewApiKey"
-          title="Api Key"
-          cancelText="Ok"
-          content={modalContent}
-        />
-      );
+    if (!getValue(userReports, userId)) {
+      fetchUserReports(filters);
     }
-    return <div />;
+  }, [userId]);
+
+  if (!isCurrentUser) {
+    return <Loading page />;
   }
 
-  renderViewApiKey() {
-    if (this.props.isCurrent) {
-      return (
-        <Button
-          data-toggle="modal"
-          data-target="#viewApiKey"
-          id="viewKey"
-          color="info"
-          fill="true"
-          text="View Api Key"
-        />
-      );
-    }
-    return <div />;
-  }
+  const { name } = user.data.attributes;
+  const { reports, reportsCount } = userReports;
+  const totalCountText = formatTotalReports(reportsCount);
 
-  renderDetailsButtons() {
-    if (this.props.isAdmin || this.props.isCurrent) {
-      const editUserUrl = `/users/${this.props.userId}/edit`;
-      return (
-        <div className={styles.detailsButtons}>
-          <Button
-            to={editUserUrl}
-            color="primary"
-            fill="true"
-            text="Edit User"
+  return (
+    <Fragment>
+      <Link to="/users">Back to users</Link>
+      <div className={styles.detailsContainer}>
+        <div className={styles.detailsHeader}>
+          <h1 className={styles.detailsName}>{name}</h1>
+        </div>
+        {(isAdmin || isCurrent) && (
+          <div className={styles.detailsButtons}>
+            <Button to={`/users/${userId}/edit`} color="primary" fill="true">
+              Edit User
+            </Button>
+            {isCurrent && (
+              <Button onClick={toggleApiKeyModal} color="info" fill="true">
+                View Api Key
+              </Button>
+            )}
+            {isCurrent && (
+              <Button onClick={signOut} color="warning" fill="true">
+                Log Out
+              </Button>
+            )}
+          </div>
+        )}
+        <div className={styles.detailsTotal}>{totalCountText}</div>
+        <div className={styles.detailsContent}>
+          <UserReportsLineChart
+            filterAction={fetchUserReports}
+            filters={filters}
+            totalCount={reportsCount}
+            userReports={reports}
           />
-          {this.renderViewApiKey()}
-          {this.renderLogout()}
         </div>
-      );
-    }
-    return <div />;
-  }
-
-  render() {
-    const { user, userId, userReports } = this.props;
-    if (!user.data || _.get(user, 'data.id') !== userId) {
-      return <div />;
-    }
-
-    const { name } = user.data.attributes;
-    const { reports, reportsCount } = _.get(userReports, userId) || {};
-    const totalCountText = formatTotalReports(reportsCount);
-
-    return (
-      <div>
-        <Link to="/users">Back to users</Link>
-        <div className={styles.detailsContainer}>
-          <div className={styles.detailsHeader}>
-            <div className={styles.detailsName}>{name}</div>
-          </div>
-          {this.renderDetailsButtons()}
-          <div className={styles.detailsTotal}>{totalCountText}</div>
-          <div className={styles.detailsContent}>
-            <UserReportsLineChart
-              filterAction={this.queryUserReports}
-              filters={this.getFilters()}
-              totalCount={reportsCount}
-              userReports={reports}
-            />
-          </div>
-        </div>
-        {this.renderApiKeyModal()}
       </div>
-    );
-  }
+      {isCurrent && (
+        <ApiKeyModal
+          xApiKey={xApiKey}
+          isOpen={isApiKeyModalOpen}
+          toggle={toggleApiKeyModal}
+        />
+      )}
+    </Fragment>
+  );
 }
+
+User.propTypes = {
+  user: PropTypes.shape({
+    data: PropTypes.shape({
+      attributes: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
+  }).isRequired,
+  userId: PropTypes.string.isRequired,
+  userReports: PropTypes.shape({
+    reports: PropTypes.arrayOf(PropTypes.object),
+    reportsCount: PropTypes.number,
+  }).isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  isCurrent: PropTypes.bool.isRequired,
+  xApiKey: PropTypes.string.isRequired,
+  logOut: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  getUser: PropTypes.func.isRequired,
+  setUserReportsFilters: PropTypes.func.isRequired,
+  queryUserReports: PropTypes.func.isRequired,
+  filters: PropTypes.shape({
+    filterName: PropTypes.string.isRequired,
+    lastDays: PropTypes.number,
+    lastMonths: PropTypes.number,
+  }),
+};
+
+User.defaultProps = {
+  filters: { filterName: 'Week', lastDays: 8 },
+};
 
 const mapDispatchToProps = {
   getUser,
@@ -172,14 +175,14 @@ const mapDispatchToProps = {
   queryUserReports,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  userId: ownProps.match.params.id,
-  isAdmin: _.get(state.users.currentUser, 'data.attributes.type') === 'Admin',
-  isCurrent:
-    _.get(state.users.currentUser, 'data.id') === ownProps.match.params.id,
+const mapStateToProps = (state, { match: { params } }) => ({
+  userId: params.id,
+  isAdmin:
+    getValue(state.users.currentUser, 'data.attributes.type') === 'Admin',
+  isCurrent: getValue(state.users.currentUser, 'data.id') === params.id,
   user: state.users.activeUser,
-  userReports: state.users.userReports.data,
-  filters: state.users.filters,
+  userReports: getValue(state.users.userReports.data, params.id, {}),
+  filters: getValue(state.users.filters, params.id),
   xApiKey: state.users.currentUser.xApiKey,
 });
 

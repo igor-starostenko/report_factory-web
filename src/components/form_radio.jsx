@@ -1,24 +1,36 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
+import { PropTypes } from 'prop-types';
+import { Input, FormGroup, Label } from 'reactstrap';
+import styles from './styles/FormRadio.css';
 
-export default class FormRadio extends Component {
-  render() {
-    return (
-      <div>
-        {this.props.options.map(o => (
-          <label key={o.value} htmlFor={o.value} className="radioLabel">
-            <input
-              className="radio"
-              checked={this.props.input.value === o.value}
-              {...this.props.input}
-              id={o.value}
-              type="radio"
-              value={o.value}
-            />
-            <i />
-            {o.value}
-          </label>
-        ))}
-      </div>
-    );
-  }
+export default function FormRadio(props) {
+  const { options, input } = props;
+  return (
+    <FormGroup>
+      {options.map(({ value }) => (
+        <Fragment key={value}>
+          <Input
+            checked={input.value === value}
+            className={styles.formCheckInput}
+            {...input}
+            id={value}
+            type="radio"
+            value={value}
+          />
+          <Label htmlFor={value}>{value}</Label>
+        </Fragment>
+      ))}
+    </FormGroup>
+  );
 }
+
+FormRadio.propTypes = {
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  input: PropTypes.shape({
+    value: PropTypes.string.isRequired,
+  }).isRequired,
+};

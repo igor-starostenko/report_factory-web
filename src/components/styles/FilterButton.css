@@ -1,0 +1,22 @@
+.activeFilter {
+  background-color: var(--primary-color);
+  border: 1px solid #dddddd;
+  color: #FFFFFF;
+}
+
+.activeFilter:hover {
+  background-color: var(--secondary-color);
+  border-color: #dddddd;
+}
+
+.inactiveFilter {
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  color: #777777;
+}
+
+.inactiveFilter:hover {
+  color: #777777;
+  background-color: #eeeeee;
+  border-color: #dddddd;
+}

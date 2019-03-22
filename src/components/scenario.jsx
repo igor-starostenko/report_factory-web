@@ -1,82 +1,86 @@
-import React, { Component } from 'react';
-import { CollapsibleItem, Details, ScenarioSuccessChart } from '.';
+import React from 'react';
+import { PropTypes } from 'prop-types';
+import { CollapsibleItem, Details, Loading, ScenarioSuccessChart } from '.';
 import {
   firstScenarioColumn,
   secondScenarioColumn,
 } from '../helpers/scenarios_helpers';
 import styles from './styles/Scenario.css';
 
-export default class Scenario extends Component {
-  constructor(props) {
-    super(props);
-    this.renderDetails = this.renderDetails.bind(this);
-    this.onExpand = this.onExpand.bind(this);
-  }
+const statusClassNames = {
+  failed: 'failedScenario',
+  passed: 'passedScenario',
+  default: 'pendingScenario',
+};
 
-  onExpand() {
-    const { projectName, title, xApiKey } = this.props;
-    if (!this.props.scenarioDetails) {
-      this.props.queryScenario(projectName, title, xApiKey);
+export default function Scenario(props) {
+  const {
+    projectName,
+    scenarioDetails,
+    status,
+    title,
+    withProjectName,
+    xApiKey,
+  } = props;
+
+  function onExpand() {
+    if (!scenarioDetails) {
+      props.queryScenario(projectName, title, xApiKey);
     }
   }
 
-  statusName() {
-    if (this.props.status === 'failed') {
-      return 'failedScenario';
-    }
-    if (this.props.status === 'passed') {
-      return 'passedScenario';
-    }
-    return 'pendingScenario';
-  }
+  const statusName = statusClassNames[status] || statusClassNames.default;
+  const extendedDetailsStyle = withProjectName
+    ? 'scenarioExtendedDetails'
+    : 'projectScenariosExtendedDetails';
 
-  extendedDetailsStyle() {
-    if (this.props.withProjectName) {
-      return 'scenarioExtendedDetails';
-    }
-    return 'projectScenariosExtendedDetails';
-  }
-
-  renderProjectName() {
-    if (this.props.withProjectName) {
-      return <Details rows={{ Project: this.props.projectName }} />;
-    }
-    return <div style={{ display: 'none' }} />;
-  }
-
-  renderDetails() {
-    if (!this.props.scenarioDetails) {
-      const loadingStyle = { marginTop: '4%', marginBottom: '4%' };
-      return (
-        <div className="loading" style={loadingStyle}>
-          Loading...
+  return (
+    <CollapsibleItem
+      className={`${styles.scenario} ${styles[statusName]}`}
+      onExpand={onExpand}
+      {...props}
+    >
+      {scenarioDetails ? (
+        <div className={styles[extendedDetailsStyle]}>
+          {withProjectName && <Details rows={{ Project: projectName }} />}
+          <div className={styles.scenarioSuccessChart}>
+            <ScenarioSuccessChart scenario={scenarioDetails} />
+          </div>
+          <div className={styles.scenarioPrimaryDetails}>
+            <Details rows={firstScenarioColumn(scenarioDetails)} />
+          </div>
+          <div className={styles.scenarioSecondaryDetails}>
+            <Details rows={secondScenarioColumn(scenarioDetails)} />
+          </div>
         </div>
-      );
-    }
-    return (
-      <div className={styles[this.extendedDetailsStyle()]}>
-        {this.renderProjectName()}
-        <div className={styles.scenarioSuccessChart}>
-          <ScenarioSuccessChart scenario={this.props.scenarioDetails} />
-        </div>
-        <div className={styles.scenarioPrimaryDetails}>
-          <Details rows={firstScenarioColumn(this.props.scenarioDetails)} />
-        </div>
-        <div className={styles.scenarioSecondaryDetails}>
-          <Details rows={secondScenarioColumn(this.props.scenarioDetails)} />
-        </div>
-      </div>
-    );
-  }
-
-  render() {
-    return (
-      <CollapsibleItem
-        className={`${styles.scenario} ${styles[this.statusName()]}`}
-        renderDetails={this.renderDetails}
-        onExpand={this.onExpand}
-        {...this.props}
-      />
-    );
-  }
+      ) : (
+        <Loading className={styles.loadingScenario} />
+      )}
+    </CollapsibleItem>
+  );
 }
+
+Scenario.propTypes = {
+  projectName: PropTypes.string.isRequired,
+  scenarioDetails: PropTypes.shape({
+    lastFailed: PropTypes.string,
+    lastPassed: PropTypes.string,
+    lastRun: PropTypes.string,
+    lastStatus: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    projectName: PropTypes.string.isRequired,
+    totalFailed: PropTypes.number,
+    totalPassed: PropTypes.number,
+    totalPending: PropTypes.number,
+    totalRuns: PropTypes.number,
+  }),
+  status: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  withProjectName: PropTypes.bool.isRequired,
+  xApiKey: PropTypes.string.isRequired,
+  queryScenario: PropTypes.func.isRequired,
+};
+
+Scenario.defaultProps = {
+  scenarioDetails: null,
+};

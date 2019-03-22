@@ -7,6 +7,14 @@ const url = require('url');
 
 const app = express();
 
+function getApiUrl() {
+  const apiUrl = process.env.API_URL;
+  if (apiUrl) {
+    return apiUrl;
+  }
+  throw new Error('API_URL is not set');
+}
+
 // Setup logger
 app.use(
   morgan(
@@ -20,13 +28,13 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 // Use proxy to redirect to API_URL in PROD
 app.use(
   '/api',
-  proxy(process.env.API_URL, {
+  proxy(getApiUrl(), {
     proxyReqPathResolver: req => `/api${url.parse(req.url).path}`,
   }),
 );
 app.use(
   '/graphql',
-  proxy(process.env.API_URL, {
+  proxy(getApiUrl(), {
     proxyReqPathResolver: () => '/graphql',
   }),
 );

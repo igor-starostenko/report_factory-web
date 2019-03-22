@@ -1,21 +1,33 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React from 'react';
+import { PropTypes } from 'prop-types';
+import { ListGroup, ListGroupItem } from 'reactstrap';
+import styles from './styles/FormErrors.css';
 
-export default class FormErrors extends Component {
-  renderErrors() {
-    let errorIndex = 0;
-    return _.map(this.props.errors, error => {
-      const { detail } = error;
-      errorIndex += 1;
-      return (
-        <li key={errorIndex} className="error">
-          {detail}
-        </li>
-      );
-    });
-  }
+export default function FormErrors(props) {
+  const { errors } = props;
 
-  render() {
-    return <ul>{this.renderErrors()}</ul>;
-  }
+  return (
+    <ListGroup className={styles.errors}>
+      {(errors || []).map(({ detail }, index) => {
+        return (
+          // eslint-disable-next-line react/no-array-index-key
+          <ListGroupItem key={index} color="danger">
+            {detail}
+          </ListGroupItem>
+        );
+      })}
+    </ListGroup>
+  );
 }
+
+FormErrors.propTypes = {
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      detail: PropTypes.string,
+    }).isRequired,
+  ),
+};
+
+FormErrors.defaultProps = {
+  errors: [],
+};

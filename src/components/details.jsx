@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React from 'react';
+import map from 'lodash/map';
 import styles from './styles/Details.css';
 
-export default class Details extends Component {
-  render() {
-    return _.map(this.props.rows, (value, key) => (
-      <div className={styles.scenarioDetailsRow} key={key}>
-        <div className={styles.scenarioDetailsParam}>{key}:</div>
-        <div className={styles.scenarioDetailsValue}>{value}</div>
-      </div>
-    ));
-  }
+export default function Details(props) {
+  return map(props.rows, (value, key) => (
+    <div className={styles.scenarioDetailsRow} key={key}>
+      <div className={styles.scenarioDetailsParam}>{key}:</div>
+      <div className={styles.scenarioDetailsValue}>{value}</div>
+    </div>
+  ));
 }

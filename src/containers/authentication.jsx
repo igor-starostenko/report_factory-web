@@ -1,66 +1,60 @@
-import React, { Component } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
-import _ from 'lodash';
-import {
-  authUser,
-  authSuccess,
-  authFailure,
-  setApiKey,
-} from '../actions/users_actions';
+import getValue from 'lodash/get';
+import { Loading } from '../components';
+import { authFailure } from '../actions/users_actions';
 
-export default ComposedComponent => {
-  class Authentication extends Component {
-    constructor(props) {
-      super(props);
-      this.ensureApiKeyAvailable();
-    }
+export default ComonentRequiresAuthentication => {
+  function Authentication(props) {
+    const { authError, history, userId, xApiKey } = props;
 
-    componentDidUpdate() {
-      this.ensureApiKeyAvailable();
-    }
-
-    /* eslint-disable consistent-return */
-    ensureApiKeyAvailable() {
-      if (!_.get(this.props.user, 'data.id')) {
-        let { xApiKey } = this.props;
-        if (!xApiKey) {
-          xApiKey = Cookies.get('X-API-KEY');
-          if (!xApiKey) {
-            return this.props.history.push('/login');
-          }
-          return this.props.setApiKey(xApiKey);
-        }
-        return this.props.authUser(xApiKey).then(({ payload }) => {
-          if (payload.status >= 400) {
-            this.props.authFailure(payload);
-            return this.props.history.push('/login');
-          }
-          return this.props.authSuccess(payload);
-        });
+    useEffect(() => {
+      if (!xApiKey && authError) {
+        props.authFailure({ errors: [{ detail: 'Not authorized' }] });
+        history.push('/login');
       }
-    }
-    /* eslint-enable consistent-return */
+    });
 
-    render() {
-      return <ComposedComponent {...this.props} />;
-    }
+    return (
+      <Fragment>
+        {!userId || !xApiKey ? (
+          <Loading page type="grow" color="info" />
+        ) : (
+          <ComonentRequiresAuthentication {...props} />
+        )}
+      </Fragment>
+    );
   }
 
-  const mapDispatchToProps = dispatch => ({
-    authUser: (...args) => dispatch(authUser(...args)),
-    authSuccess: (...args) => dispatch(authSuccess(...args)),
-    authFailure: (...args) => dispatch(authFailure(...args)),
-    setApiKey: (...args) => dispatch(setApiKey(...args)),
-  });
+  Authentication.propTypes = {
+    authError: PropTypes.arrayOf(
+      PropTypes.shape({
+        details: PropTypes.string,
+      }).isRequired,
+    ),
+    authFailure: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+    userId: PropTypes.string,
+    xApiKey: PropTypes.string,
+  };
+
+  Authentication.defaultProps = {
+    userId: null,
+    authError: null,
+    xApiKey: null,
+  };
 
   const mapStateToProps = state => ({
-    user: state.users.currentUser,
+    userId: getValue(state.users.currentUser, 'data.id'),
+    authError: state.users.currentUser.error,
     xApiKey: state.users.currentUser.xApiKey,
   });
 
   return connect(
     mapStateToProps,
-    mapDispatchToProps,
+    { authFailure },
   )(Authentication);
 };

@@ -1,0 +1,155 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.desktopOnly {
+  display: contents;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  margin-right: 2rem;
+}
+
+.yellow {
+  background-image:
+    linear-gradient(
+      to top right,
+      var(--primary-color),
+      var(--secondary-color)
+    );
+  box-shadow: 0 10px 30px -7px rgba(35, 41, 51, 0.2);
+}
+
+.navbarToggle {
+  border: none;
+  padding: 0px;
+}
+
+.navbarToggle>.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.navbar a {
+  opacity: 1;
+  color: #FFFFFF;
+}
+
+.navbar a:hover {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.profileButton {
+  background-color: unset;
+  border-color: #FFFFFF;
+  border-radius: 30px;
+  border-width: 1px;
+  opacity: 1;
+  color: #FFFFFF;
+}
+
+.profileButton:hover {
+  background-color: unset;
+  border-color: #FFFFFF;
+  opacity: 0.8;
+}
+
+.profileButton:active {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: rgb(255, 165, 91) !important;
+  border-color: rgb(255, 212, 91) !important;
+}
+
+.profileButton:focus {
+  background-color: #FFFFFF;
+  color: rgb(255, 165, 91);
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .navbar a {
+    font-size: 1.3rem;
+  }
+
+  .profileButton {
+    font-size: 1.3rem;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .lineSeparator {
+    border-top: 1px solid rgba(255,255,255,.6);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .sideNav {
+    position: fixed;
+    top: 56px;
+    right: -1px;
+    width: 50%;
+    height: 100%;
+    padding: 1.25rem;
+    z-index: 25;
+    overflow: auto;
+  }
+
+  .sideNav-enter {
+    opacity: 0;
+    width: 0px;
+  }
+
+  .sideNav-enter-active {
+    opacity: 1;
+    width: 50%;
+    transition: 250ms;
+  }
+
+  .sideNav-exit {
+    opacity: 1;
+    width: 200px;
+  }
+
+  .sideNav-exit-active {
+    width: 0%;
+    opacity: 0;
+    transition: 250ms;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 56px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .overlay-enter {
+    opacity: 0;
+  }
+
+  .overlay-enter-active {
+    opacity: 1;
+    transition: 400ms;
+  }
+
+  .overlay-exit {
+    opacity: 1;
+  }
+
+  .overlay-exit-active {
+    opacity: 0;
+    transition: 400ms;
+  }
+}

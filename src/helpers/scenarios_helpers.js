@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import filter from 'lodash/filter';
+import every from 'lodash/every';
 import { capitalizeFirstLetter, formatDateAgo } from './format_helpers';
 
 const dateAgoString = dateString => {
@@ -20,8 +21,8 @@ const numberOfExamples = number => {
 
 /* eslint-disable arrow-body-style */
 export const filterScenarios = (examples, search) => {
-  return _.filter(examples, scenario => {
-    return _.every(search, word => {
+  return filter(examples, scenario => {
+    return every(search, word => {
       const scenarioName = scenario.fullDescription.toLowerCase();
       return scenarioName.indexOf(word.toLowerCase()) !== -1;
     });

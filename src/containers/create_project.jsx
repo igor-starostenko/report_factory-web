@@ -1,36 +1,33 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import EditProjectForm from './edit_project_form';
 import { createProject } from '../actions/projects_actions';
 
-class CreateProject extends Component {
-  constructor(state) {
-    super(state);
-    this.create = this.create.bind(this);
+function CreateProject(props) {
+  function create(name) {
+    return props.createProject(name, props.xApiKey);
   }
 
-  create(name) {
-    return this.props.createProject(name, this.props.xApiKey);
-  }
-
-  render() {
-    const title = 'Create a Project';
-
-    return (
-      <div>
-        <Link to="/projects">Back to projects</Link>
-        <EditProjectForm
-          title={title}
-          action={this.create}
-          backPath="/projects"
-          submitText="Create"
-          {...this.props}
-        />
-      </div>
-    );
-  }
+  return (
+    <Fragment>
+      <Link to="/projects">Back to projects</Link>
+      <EditProjectForm
+        title="Create a Project"
+        action={create}
+        backPath="/projects"
+        submitText="Create"
+        {...props}
+      />
+    </Fragment>
+  );
 }
+
+CreateProject.propTypes = {
+  createProject: PropTypes.func.isRequired,
+  xApiKey: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = state => ({
   xApiKey: state.users.currentUser.xApiKey,

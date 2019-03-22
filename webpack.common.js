@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: ['babel-polyfill', './src/index.jsx'],
+  entry: ['./src/index.jsx'],
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
@@ -19,14 +19,13 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['babel-preset-env', 'babel-preset-react'],
-            plugins: ['transform-object-rest-spread'],
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: [],
           },
         },
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
         use: [
           {
             loader: 'style-loader',
@@ -51,14 +50,5 @@ module.exports = {
         API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
-    new webpack.SourceMapDevToolPlugin({
-      filename: 'report_factory.js.map',
-    }),
   ],
-  devServer: {
-    port: 3001,
-    historyApiFallback: true,
-    contentBase: './public',
-    inline: true,
-  },
 };

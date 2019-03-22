@@ -1,22 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
+import { Button } from 'reactstrap';
+import styles from './styles/FilterButton.css';
 
-export default class FilterButton extends Component {
-  constructor(props) {
-    super(props);
-    this.handleFilterClick = this.handleFilterClick.bind(this);
+export default function FilterButton(props) {
+  const { onClick, value, active, className, children } = props;
+  function handleFilterClick() {
+    onClick(value);
   }
 
-  handleFilterClick() {
-    this.props.action(this.props.value);
-  }
-
-  render() {
-    const className = this.props.active ? 'active' : '';
-    /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
-    return (
-      <li className={className} onClick={this.handleFilterClick} role="button">
-        <a>{this.props.name}</a>
-      </li>
-    );
-  }
+  const styleName = active ? 'activeFilter' : 'inactiveFilter';
+  return (
+    <Button
+      className={`${styles[styleName]} ${className}`}
+      onClick={handleFilterClick}
+    >
+      {children}
+    </Button>
+  );
 }
+
+FilterButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
+  active: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.string.isRequired,
+};
+
+FilterButton.defaultProps = {
+  active: false,
+  className: '',
+};
