@@ -76,7 +76,6 @@
     "express": "^4.16.4",
     "express-http-proxy": "^1.5.1",
     "history": "^4.9.0",
-    "jquery": "^1.12.4",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
     "morgan": "^1.9.1",
