@@ -81,7 +81,7 @@
     "morgan": "^1.9.1",
     "react": "^16.8.4",
     "react-chartjs-2": "^2.7.4",
-    "react-dom": "^16.8.4",
+    "react-dom": "^16.10.1",
     "react-redux": "^5.1.1",
     "react-router-dom": "^5.0.0",
     "react-transition-group": "^2.6.1",
