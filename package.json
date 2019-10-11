@@ -41,7 +41,7 @@
     "bundle.js"
   ],
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
+    "@babel/cli": "^7.6.4",
     "acorn": "^6.1.1",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.5.0",
